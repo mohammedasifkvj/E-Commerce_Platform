@@ -1,0 +1,128 @@
+<%- include("../user_partials/header") %>
+<div class="body" data-currency-code="USD">
+     
+    <main class="page contact-us">
+    <div class="themevale_map">
+            <div id="google-map">
+   <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11085.871606224418!2d106.68750553845251!3d10.77699783543257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f3a0157f08d%3A0x3c898bd0c23bfff5!2sIndochine+Park+Tower!5e0!3m2!1sen!2s!4v1533791386633" width="100%" height="278" frameborder="0" style="border:0" allowfullscreen></iframe> -->
+</div>
+    </div>
+    <div class="container container-smaller">
+        <div class="page-content themevale_contact-us">
+            <div class="themevale-heading">
+                    <h1 class="page-heading">Contact Us</h1>
+                    <p class="desc">Get in touch! We’re here to quickly provide you with the info and services you need &amp; answer any question you may have.</p>
+
+                <span class="line"></span>
+            </div>
+            <div id="contact-us-page">
+                <div class="themevale_form">
+                        <p class="form-desc"><p>We're happy to answer questions or help you with returns.<br />Please fill out the form below if you need assistance.</p></p>
+                        <form data-contact-form class="form" action="https://luxwatches-demo-02.mybigcommerce.com/pages.php?action=sendContactForm" method="post">
+    
+    
+    <input type="hidden" name="page_id" id="page_id" value="4">
+    <div class="form-row form-row--half">
+            <div class="form-field">
+                <label class="form-label" for="contact_fullname">Full Name</label>
+                <input class="form-input" type="text" id="contact_fullname" name="contact_fullname" value="">
+            </div>
+
+            <div class="form-field">
+                <label class="form-label" for="contact_phone">Phone Number</label>
+                <input class="form-input" type="text" id="contact_phone" name="contact_phone" value="">
+            </div>
+
+        <div class="form-field">
+            <label class="form-label" for="contact_email">Email Address
+                <small>required</small>
+            </label>
+            <input class="form-input" type="text" id="contact_email" name="contact_email" value="">
+        </div>
+
+            <div class="form-field">
+                <label class="form-label" for="contact_orderno">Order Number</label>
+                <input class="form-input" type="text" id="contact_orderno" name="contact_orderno">
+            </div>
+
+            <!-- <div class="form-field">
+                <label class="form-label" for="contact_companyname">Company Name</label>
+                <input class="form-input" type="text" id="contact_companyname" name="contact_companyname">
+            </div>
+
+            <div class="form-field">
+                <label class="form-label" for="contact_rma">RMA Number</label>
+                <input class="form-input" type="text" id="contact_rma" name="contact_rma">
+            </div> -->
+    </div>
+
+    <div class="form-field">
+        <label class="form-label" for="contact_question">Comments/Questions
+            <small>required</small>
+        </label>
+        <textarea name="contact_question" id="contact_question" rows="5" cols="50" class="form-input"></textarea>
+    </div>
+
+    <div class="g-recaptcha" data-sitekey="6LcjX0sbAAAAACp92-MNpx66FT4pbIWh-FTDmkkz"></div><br/>
+
+    <div class="form-actions">
+        <input class="button button--primary" type="submit" value="Submit Form">
+    </div>
+</form>
+                </div>
+
+                <!-- start themevale_location -->
+                <div class="themevale_location">
+                        <h3 class="title">Please do get in touch!</h3>
+                    <div class="content">
+                            <div class="description">We&#x27;d love to hear from you - please use the form to send us your message or ideas. Or simply pop in for a cup of fresh tea and a cookie.</div>
+                            <a href="#" class="button">Chat With Us</a>
+                        <br>
+                        <div class="store-address">8808 Ave Dermentum, Onsec Adipiscing<br>
+Tortor Sagittis, CA 880986,<br>
+United States</div>
+                        <br>
+                            <div class="store-email">Email: <a href="mailto:email@domain.com">email@domain.com</a></div>
+                        <div class="store-phone">Toll-free: +0123 456 7890</div>
+                    </div>
+                    <!-- <div class="content hour-text">
+                            <p class="sub-title">Opening Hours:</p>
+                            <div class="item1">Monday to Saturday: 9am - 10pm</div>
+                            <div class="item2">Sundays: 10am - 6pm</div>
+                    </div> -->
+                </div> 
+                <!-- end themevale_location -->
+
+            </div>    
+        </div>
+    </div>
+    <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
+        <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+            <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
+        <meta itemprop="position" content="1" />
+    </li>
+    <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+            <meta itemprop="item" content="https://luxwatches-demo-02.mybigcommerce.com/new-releases/">
+            <span class="breadcrumb-label" itemprop="name">Contact US</span>
+        <meta itemprop="position" content="2" />
+    </li>
+</ul>
+</main>
+
+
+    <div id="modal" class="modal" data-reveal data-prevent-quick-search-close>
+    <a href="#" class="modal-close" aria-label="Close" role="button">
+        <span aria-hidden="true">&#215;</span>
+    </a>
+    <div class="modal-content"></div>
+    <div class="loadingOverlay"></div>
+</div>
+    <div id="alert-modal" class="modal modal--alert modal--small" data-reveal data-prevent-quick-search-close>
+    <div class="swal2-icon swal2-error swal2-animate-error-icon"><span class="swal2-x-mark swal2-animate-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span></div>
+
+    <div class="modal-content"></div>
+
+    <div class="button-container"><button type="button" class="confirm button" data-reveal-close>OK</button></div>
+</div>
+</div>
+<%- include("../user_partials/footer") %>

@@ -1,0 +1,648 @@
+<%- include("../user_partials/header") %>
+        <div class="body" data-currency-code="USD">
+     
+    <main class="page contact-us">
+    <div class="themevale_map">
+            <div id="google-map">
+   <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11085.871606224418!2d106.68750553845251!3d10.77699783543257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f3a0157f08d%3A0x3c898bd0c23bfff5!2sIndochine+Park+Tower!5e0!3m2!1sen!2s!4v1533791386633" width="100%" height="278" frameborder="0" style="border:0" allowfullscreen></iframe>
+</div>
+    </div>
+    <div class="container container-smaller">
+        <div class="page-content themevale_contact-us">
+            <div class="themevale-heading">
+                    <h1 class="page-heading">Contact Us</h1>
+                    <p class="desc">Get in touch! We’re here to quickly provide you with the info and services you need &amp; answer any question you may have.</p>
+
+                <span class="line"></span>
+            </div>
+            <div id="contact-us-page">
+                <div class="themevale_form">
+                        <p class="form-desc"><p>We're happy to answer questions or help you with returns.<br />Please fill out the form below if you need assistance.</p></p>
+                        <form data-contact-form class="form" action="https://luxwatches-demo-02.mybigcommerce.com/pages.php?action=sendContactForm" method="post">
+    
+    
+    <input type="hidden" name="page_id" id="page_id" value="4">
+    <div class="form-row form-row--half">
+            <div class="form-field">
+                <label class="form-label" for="contact_fullname">Full Name</label>
+                <input class="form-input" type="text" id="contact_fullname" name="contact_fullname" value="">
+            </div>
+
+            <div class="form-field">
+                <label class="form-label" for="contact_phone">Phone Number</label>
+                <input class="form-input" type="text" id="contact_phone" name="contact_phone" value="">
+            </div>
+
+        <div class="form-field">
+            <label class="form-label" for="contact_email">Email Address
+                <small>required</small>
+            </label>
+            <input class="form-input" type="text" id="contact_email" name="contact_email" value="">
+        </div>
+
+            <div class="form-field">
+                <label class="form-label" for="contact_orderno">Order Number</label>
+                <input class="form-input" type="text" id="contact_orderno" name="contact_orderno">
+            </div>
+
+            <div class="form-field">
+                <label class="form-label" for="contact_companyname">Company Name</label>
+                <input class="form-input" type="text" id="contact_companyname" name="contact_companyname">
+            </div>
+
+            <div class="form-field">
+                <label class="form-label" for="contact_rma">RMA Number</label>
+                <input class="form-input" type="text" id="contact_rma" name="contact_rma">
+            </div>
+    </div>
+
+    <div class="form-field">
+        <label class="form-label" for="contact_question">Comments/Questions
+            <small>required</small>
+        </label>
+        <textarea name="contact_question" id="contact_question" rows="5" cols="50" class="form-input"></textarea>
+    </div>
+
+    <div class="g-recaptcha" data-sitekey="6LcjX0sbAAAAACp92-MNpx66FT4pbIWh-FTDmkkz"></div><br/>
+
+    <div class="form-actions">
+        <input class="button button--primary" type="submit" value="Submit Form">
+    </div>
+</form>
+                </div>
+
+                <!-- start themevale_location -->
+                <div class="themevale_location">
+                        <h3 class="title">Please do get in touch!</h3>
+                    <div class="content">
+                            <div class="description">We&#x27;d love to hear from you - please use the form to send us your message or ideas. Or simply pop in for a cup of fresh tea and a cookie.</div>
+                            <a href="#" class="button">Chat With Us</a>
+                        <br>
+                        <div class="store-address">8808 Ave Dermentum, Onsec Adipiscing<br>
+Tortor Sagittis, CA 880986,<br>
+United States</div>
+                        <br>
+                            <div class="store-email">Email: <a href="mailto:email@domain.com">email@domain.com</a></div>
+                        <div class="store-phone">Toll-free: +0123 456 7890</div>
+                    </div>
+                    <div class="content hour-text">
+                            <p class="sub-title">Opening Hours:</p>
+                            <div class="item1">Monday to Saturday: 9am - 10pm</div>
+                            <div class="item2">Sundays: 10am - 6pm</div>
+                    </div>
+                </div> 
+                <!-- end themevale_location -->
+
+            </div>    
+        </div>
+    </div>
+    <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
+            <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <meta itemprop="item" content="../index.html">
+                    <span class="breadcrumb-label" itemprop="name">Home</span>
+                <meta itemprop="position" content="1" />
+            </li>
+</ul>
+</main>
+
+
+    <div id="modal" class="modal" data-reveal data-prevent-quick-search-close>
+    <a href="#" class="modal-close" aria-label="Close" role="button">
+        <span aria-hidden="true">&#215;</span>
+    </a>
+    <div class="modal-content"></div>
+    <div class="loadingOverlay"></div>
+</div>
+    <div id="alert-modal" class="modal modal--alert modal--small" data-reveal data-prevent-quick-search-close>
+    <div class="swal2-icon swal2-error swal2-animate-error-icon"><span class="swal2-x-mark swal2-animate-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span></div>
+
+    <div class="modal-content"></div>
+
+    <div class="button-container"><button type="button" class="confirm button" data-reveal-close>OK</button></div>
+</div>
+</div>
+
+
+            <footer class="footer footer-layout-2" role="contentinfo">
+	<div class="footer-top">
+		<article class="footer-info-col text-center" data-section-type="newsletterSubscription">
+			<img src="../product_images/uploaded_images/footer-parallax.jpg" alt="banner-parallax-1" data-parallax="{&quot;y&quot;: 200 , &quot;smoothness&quot;: 50}">
+
+			<div class="footer-parallax-content" >
+	                    <h5 class="footer-info-heading">Be The First</h5>
+    <p class="desc">Get the latest news, invites and offers straight to your mail.</p>
+<form class="form" action="https://luxwatches-demo-02.mybigcommerce.com/subscribe.php" method="post">
+    <fieldset class="form-fieldset">
+        <input type="hidden" name="action" value="subscribe">
+        <input type="hidden" name="nl_first_name" value="bc">
+        <input type="hidden" name="check" value="1">
+        <div class="form-field">
+            <label class="form-label is-srOnly" for="nl_email">Email Address</label>
+            <div class="form-prefixPostfix wrap">
+                <input class="form-input" id="nl_email" name="nl_email" type="email" value="" placeholder="Email address">
+                <input class="button button--primary form-prefixPostfix-button--postfix" type="submit" value="Submit">
+            </div>
+        </div>
+    </fieldset>
+</form>
+    <p class="message"><a href="#" title="">Click here to read information on how LUXWatches processes your personal data</a></p>
+	                <ul class="socialLinks socialLinks--alt">
+                <li class="socialLinks-item">
+                    <a class="icon icon--facebook" href="https://www.halothemes.com/" target="_blank">
+                        <svg><use xlink:href="#icon-facebook" /></svg>
+                    </a>
+                </li>
+                <li class="socialLinks-item">
+                    <a class="icon icon--twitter" href="https://www.halothemes.com/" target="_blank">
+                        <svg><use xlink:href="#icon-twitter" /></svg>
+                    </a>
+                </li>
+                <li class="socialLinks-item">
+                    <a class="icon icon--pinterest" href="https://www.halothemes.com/" target="_blank">
+                        <svg><use xlink:href="#icon-pinterest" /></svg>
+                    </a>
+                </li>
+                <li class="socialLinks-item">
+                    <a class="icon icon--instagram" href="https://www.halothemes.com/" target="_blank">
+                        <svg><use xlink:href="#icon-instagram" /></svg>
+                    </a>
+                </li>
+            <li class="socialLinks-item">
+                <a class="icon icon--google-plus" href="https://www.themevale.com/" target="_blank">
+                        <svg><use xlink:href="#icon-google-plus" /></svg>
+                </a>
+            </li>
+
+            <li class="socialLinks-item">
+                <a class="icon icon--whatsapp" href="https://www.themevale.com/" target="_blank">
+                        <svg><use xlink:href="#icon-whatsapp" /></svg>
+                </a>
+            </li>
+    </ul>
+	        </div>
+        </article>
+	</div>
+    <div class="footer-midle">
+        <div class="container container-small">
+             <section class="footer-info">
+                <div class="footer-column">
+                    <article class="footer-info-col footer-dropdownmobile three-column" data-section-type="footer-categories">
+                        <h5 class="footer-info-heading">
+                            <span>Categories</span>
+                            <span class="icon icon-dropdown">&#10095;</span>
+                        </h5>
+
+                        <ul class="footer-info-list">
+                                <li>
+                                    <a href="../new-releases/index.html"><span>New Releases</span></a>
+                                </li>
+                                <li>
+                                    <a href="../mens/index.html"><span>Mens</span></a>
+                                </li>
+                                <li>
+                                    <a href="../womens/index.html"><span>Womens</span></a>
+                                </li>
+                                <li>
+                                    <a href="../jewelry/index.html"><span>Jewelry</span></a>
+                                </li>
+                                <li>
+                                    <a href="../accessories/index.html"><span>Accessories</span></a>
+                                </li>
+                        </ul>
+                    </article>
+
+                    <article class="footer-info-col footer-dropdownmobile three-column" data-section-type="footer-webPages">
+                        <h5 class="footer-info-heading">
+                            <span>Information</span>
+                            <span class="icon icon-dropdown">&#10095;</span>
+                        </h5>
+                        <ul class="footer-info-list">
+                                <li>
+                                    <a href="../about-us/index.html"><span>About</span></a>
+                                </li>
+                                <li>
+                                    <a href="../brands.html"><span>Brands</span></a>
+                                </li>
+                                <li>
+                                    <a href="../lookbook/index.html"><span>Lookbook</span></a>
+                                </li>
+                                <li>
+                                    <a href="../image-gallery/index.html"><span>Image Gallery</span></a>
+                                </li>
+                                <li>
+                                    <a href="../blog/index.html"><span>Blog</span></a>
+                                </li>
+                                <li>
+                                    <a href="../faqs/index.html"><span>Faqs</span></a>
+                                </li>
+                                <li>
+                                    <a href="../sitemap.html"><span>Sitemap</span></a>
+                                </li>
+                        </ul>
+                    </article>
+
+                    <article class="footer-info-col footer-dropdownmobile three-column" data-section-type="footer-customLinks">
+                            <h5 class="footer-info-heading">
+                                <span>Customer Service</span>
+                                <span class="icon icon-dropdown">&#10095;</span>
+                            </h5>
+
+                        <ul class="footer-info-list">
+                                <li>
+                                    <a href="#"><span>Search Terms</span></a>
+                                </li>
+                                <li>
+                                    <a href="#"><span>Advanced Search</span></a>
+                                </li>
+                                <li>
+                                    <a href="#"><span>Orders and Returns</span></a>
+                                </li>
+                                <li>
+                                    <a href="index.html"><span>Contact Us</span></a>
+                                </li>
+                                <li>
+                                    <a href="../index.html"><span>Gift Certificates</span></a>
+                                </li>
+                                <li>
+                                    <a href="#"><span>Consultant</span></a>
+                                </li>
+                                <li>
+                                    <a href="#"><span>Store Locations</span></a>
+                                </li>
+                        </ul>
+                    </article>                      
+                    <article class="footer-info-col footer-dropdownmobile three-column" data-section-type="storeInfo">
+                            <h5 class="footer-info-heading">
+                                <span>Store Info</span>
+                                <span class="icon icon-dropdown">&#10095;</span>
+                            </h5>
+                        <ul class="footer-info-list">
+                                <address>8808 Ave Dermentum, Onsec Adipiscing<br>
+Tortor Sagittis, CA 880986,<br>
+United States</address>
+                                <span class="phone-number info"><a href="tel:+0123 456 7890">+0123 456 7890</a></span>
+                            <span class="email info"><a href="mailto:email@domain.com">email@domain.com</a></span>
+                            <span class="hour info">M-T 8:30-2:00 pm</span>
+                            <span class="hour info">F-S 9:00-1:00 pm GMT+7</span>
+                            <ul class="navUser-section currencies">
+    <li class="navUser-item">
+        <a class="navUser-action navUser-action--currencySelector has-dropdown" href="#" data-dropdown="currencySelection" aria-controls="currencySelection" aria-expanded="false">
+            <span class="image-flag"><img src="../../cdn11.bigcommerce.com/s-2nfdiyehvz/lib/flags/us.gif" border="0" alt="" role="presentation" /></span>
+            <span class="text-flag">USD </span>
+            <i class="icon" aria-hidden="true"><svg><use xlink:href="#icon-chevron-down" /></svg></i></a>
+        <ul class="dropdown-menu" id="currencySelection" data-dropdown-content aria-hidden="true" tabindex="-1">
+            <li class="dropdown-menu-item">
+                <a href="index612c.html?setCurrencyId=2">
+                    <img src="../../cdn11.bigcommerce.com/s-2nfdiyehvz/lib/flags/au.gif" border="0" alt="" role="presentation" /> Australian Dollar
+                </a>
+            </li>
+            <li class="dropdown-menu-item">
+                <a href="index66d1.html?setCurrencyId=3">
+                    <img src="../../cdn11.bigcommerce.com/s-2nfdiyehvz/lib/flags/us.gif" border="0" alt="" role="presentation" /> <strong>US Dollar</strong>
+                </a>
+            </li>
+        </ul>
+    </li>
+</ul>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+       
+    <div class="footer-bottom">
+        <div class="container container-small">
+            <div class="column-left footer2-bottom-column">
+                    <div class="footer-payment-icons">
+            <img src="../../cdn11.bigcommerce.com/s-2nfdiyehvz/stencil/558781b0-6ef6-013b-f567-4afeb0a3a797/e/960150f0-c5aa-0139-ef11-066281ecf407/img/payment-methods/visa-payment.png" alt="Visa"/>                
+            <img src="../../cdn11.bigcommerce.com/s-2nfdiyehvz/stencil/558781b0-6ef6-013b-f567-4afeb0a3a797/e/960150f0-c5aa-0139-ef11-066281ecf407/img/payment-methods/mastercard.png" alt="Mastercard"/>
+
+            <img src="../../cdn11.bigcommerce.com/s-2nfdiyehvz/stencil/558781b0-6ef6-013b-f567-4afeb0a3a797/e/960150f0-c5aa-0139-ef11-066281ecf407/img/payment-methods/american-express.png" alt="American Express"/>
+            <img src="../../cdn11.bigcommerce.com/s-2nfdiyehvz/stencil/558781b0-6ef6-013b-f567-4afeb0a3a797/e/960150f0-c5aa-0139-ef11-066281ecf407/img/payment-methods/discover.png" alt="Discover"/>
+            <img src="../../cdn11.bigcommerce.com/s-2nfdiyehvz/stencil/558781b0-6ef6-013b-f567-4afeb0a3a797/e/960150f0-c5aa-0139-ef11-066281ecf407/img/payment-methods/cirrus.png" alt="Circus"/>
+            <img src="../../cdn11.bigcommerce.com/s-2nfdiyehvz/stencil/558781b0-6ef6-013b-f567-4afeb0a3a797/e/960150f0-c5aa-0139-ef11-066281ecf407/img/payment-methods/paypal.png" alt="Paypal"/>
+            <img src="../../cdn11.bigcommerce.com/s-2nfdiyehvz/stencil/558781b0-6ef6-013b-f567-4afeb0a3a797/e/960150f0-c5aa-0139-ef11-066281ecf407/img/payment-methods/western-union.png" alt="Western Union"/>
+    </div>
+            </div>
+            <div class="column-center footer2-bottom-column">
+            	<div class="header-logo">
+                    <a href="../index.html">
+                        <div class="header-logo-image-container">
+                            <img class="header-logo-image lazyload" data-src="/product_images/uploaded_images/footer-logo-2.png" alt="Luxwatches Demo 02" title="Luxwatches Demo 02">
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="column-right footer2-bottom-column">
+                    <div class="footer-copyright">
+                        <p class="powered-by">&copy; 2024 Luxwatches Demo 02. All Rights Reserved. Powered by BigCommerce. </p>
+                    </div>
+                    <div class="footer-copyright">
+                        <p class="powered-by">BigCommerce Themes by <a href="https://www.themevale.com/" rel="nofollow">ThemeVale.com</a></p>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+    <div id="back-to-top">
+        <a href="javascript:void(0)">Back To Top<svg class="icon"><use xlink:href="#icon-keyboard-arrow-down"></use></svg></a>
+    </div>
+
+
+        <div class="themevale_background"></div>
+
+        <script>window.__webpack_public_path__ = "https://cdn11.bigcommerce.com/s-2nfdiyehvz/stencil/558781b0-6ef6-013b-f567-4afeb0a3a797/e/960150f0-c5aa-0139-ef11-066281ecf407/dist/";</script>
+        <script src="../../cdn11.bigcommerce.com/s-2nfdiyehvz/stencil/558781b0-6ef6-013b-f567-4afeb0a3a797/e/960150f0-c5aa-0139-ef11-066281ecf407/dist/theme-bundle.main.js"></script>
+        <script>
+            window.stencilBootstrap("page_contact_form", "{\"themeSettings\":{\"recently_bought_text_name\":\"Someone recently bought a\",\"optimizedCheckout-formChecklist-color\":\"#333333\",\"homepage-banner-image-size\":\"370x420\",\"button-checkout-border-color\":\"#b20000\",\"social_icon\":\"#000000\",\"footer-newsletter-btn-border-color-hover\":\"#0f0f0f\",\"homepage_new_products_column_count\":4,\"card-brand-color\":\"#5f5f5f\",\"card--alternate-color--hover\":\"#ffffff\",\"optimizedCheckout-colorFocus\":\"#4496f6\",\"fontSize-root\":12,\"show_accept_amex\":true,\"optimizedCheckout-buttonPrimary-borderColorDisabled\":\"transparent\",\"homepage_top_products_count\":4,\"custom-product-description-bgColor\":\"#f8f8f8\",\"paymentbuttons-paypal-size\":\"responsive\",\"optimizedCheckout-buttonPrimary-backgroundColorActive\":\"#ffffff\",\"card-sale-price-color\":\"#b20000\",\"brandpage_products_per_page\":12,\"color-secondaryDarker\":\"#cccccc\",\"footer-webpages-text-3\":\"Lookbook\",\"navUser-color\":\"#ffffff\",\"hero-carousel-button-border-color-hover\":\"#000000\",\"enable_instagram_product\":true,\"footer-newsletter-btn-color\":\"#ffffff\",\"navPages-hot-label-background\":\"#f79900\",\"homepage_banner_2\":true,\"show_powered_by\":true,\"show_accept_amazonpay\":false,\"card-icon-color-hover\":\"#ffffff\",\"social_icon_whatsapp_icon\":\"\",\"recently_bought_location4\":\"from Newcastle, United Kingdom\",\"color-textBase--active\":\"#0f0f0f\",\"product-customer-review-header-heading-color\":\"#0f0f0f\",\"themevale_heading_desc_2\":\" and services you need & answer any question you may have.\",\"button--default-backgroundColorActive\":\"#0f0f0f\",\"faqs-need-help-messager-link\":\"#\",\"social_icon_placement_bottom\":\"bottom_none\",\"faqs-need-help-contact-link\":\"/contact-us\",\"fontSize-h4\":20,\"checkRadio-borderColor\":\"#595959\",\"color-primaryDarker\":\"#333333\",\"optimizedCheckout-buttonPrimary-colorHover\":\"#0f0f0f\",\"brand_size\":\"272x136\",\"optimizedCheckout-logo-position\":\"left\",\"optimizedCheckout-discountBanner-backgroundColor\":\"#e5e5e5\",\"color-textLink--hover\":\"#000000\",\"enable_policy_block\":true,\"homepage_show_carousel_dots\":true,\"policys-block-bgColor\":\"#000000\",\"color-textLinkSecondary\":\"#003087\",\"themevale_NewsletterPopup\":true,\"footer_custom_link_url_7\":\"#\",\"footer-layout\":\"footer-layout-2\",\"footer-newsletter-btn-border-color\":\"#0f0f0f\",\"optimizedCheckout-formField-backgroundColor\":\"#ffffff\",\"recently_bought_changeSlides\":10,\"top-promotion-text-4\":\"on selected items\",\"pdp-sale-price-label\":\"Now:\",\"image-gallery-content-bgColor\":\"#000000\",\"optimizedCheckout-buttonSecondary-backgroundColorHover\":\"#0f0f0f\",\"homepage-banner-no-image-bgColor\":\"#f5f5f5\",\"sticky_add_to_cart_text_select\":\"Selected:\",\"footer-backgroundColor\":\"#ffffff\",\"navPages-color\":\"#0f0f0f\",\"productpage_reviews_count\":3,\"optimizedCheckout-step-borderColor\":\"#0f0f0f\",\"navPages-level-2-color-hover\":\"#005599\",\"optimizedCheckout-headingPrimary-font\":\"Google_Poppins_500\",\"logo_size\":\"509x81\",\"footer_custom_link_text_3\":\"Orders and Returns\",\"homepage_banner_6\":true,\"show_accept_paypal\":true,\"close-button-color\":\"#ffffff\",\"paymentbuttons-paypal-label\":\"checkout\",\"right-menu-webpage-name-1\":\"Shipping and Return\",\"navUser-dropdown-backgroundColor-1\":\"#f9f9f9\",\"paymentbuttons-paypal-shape\":\"pill\",\"homepage_banner_link_4\":\"#\",\"newsletter-popup-button-border-color-hover\":\"#000000\",\"optimizedCheckout-discountBanner-textColor\":\"#333333\",\"optimizedCheckout-backgroundImage-size\":\"1860x140\",\"optimizedCheckout-buttonPrimary-font\":\"Google_Poppins_500\",\"homepage_banner_desc_3_2\":\"\",\"homepage_banner_desc_1_2\":\" deumanto sollicitudin delos felis pellentesque an milancelos...\",\"enable_banner_product_custom\":true,\"faqs_need_help\":true,\"pro_custom_block_text_2\":\"Free in-Store Returns\",\"card-icon-color\":\"#232323\",\"homepage_banner_link_5\":\"#\",\"homepage_banner_image_6\":\"\",\"pdp-retail-price-label\":\"MSRP:\",\"enable_extra_option\":true,\"carousel-arrow-bgColor-disable\":\"#b4b4b4\",\"homepage_banner_desc_6_2\":\" deumanto sollicitudin delos felis pellentesque an milancelos...\",\"button--disabled-backgroundColor\":\"#787878\",\"navPages-sale-label-color\":\"#ffffff\",\"top-promotion-alignment\":\"center\",\"alert-success-color\":\"#31708f\",\"blockquote-cite-font-color\":\"#999999\",\"themevale_sticky_add_to_cart\":true,\"hero_carousel_button_2\":\"Shop Womens\",\"new-badge-bgColor\":\"#0073bd\",\"show_custom_badges\":true,\"themevale_megamenu\":true,\"lookbook-slide-img-size\":\"1570x670\",\"newsletter-popup-heading-color\":\"#34313a\",\"footer-info-title\":\"Store Info\",\"card-icon-bgColor-hover\":\"#0f0f0f\",\"newsletter-popup-checkbox-text-color\":\"#969696\",\"optimizedCheckout-formField-shadowColor\":\"transparent\",\"categorypage_products_per_page\":12,\"container-fill-base\":\"#ffffff\",\"homepage_featured_products_column_count\":4,\"button--default-color\":\"#0f0f0f\",\"homepage_banner_position_3\":\"bottom\",\"pace-progress-backgroundColor\":\"#999999\",\"hero-carousel-arrow-color\":\"#bcbdbf\",\"recently_bought_location5\":\"from Cessnock, Australia\",\"hero-carousel-button-bgColor-hover\":\"#000000\",\"search-trending-text-6\":\"sunglasses\",\"banner-product-custom-img-large-size\":\"1890x800\",\"homepage_banner_image_1\":\"\",\"hero-carousel-content-bgColor\":\"transparent\",\"instagram_product_app_code\":\"b172e0d5-5822-42ef-a544-89fd615b40cb/carousel.js\",\"optimizedCheckout-loadingToaster-backgroundColor\":\"#333333\",\"color-textHeading\":\"#0f0f0f\",\"show_sale_badges\":true,\"show_accept_discover\":true,\"paymentbuttons-paypal-layout\":\"vertical\",\"faqs-need-help-messager\":\"Message Us\",\"hero-carousel-arrow-bgColor\":\"transparent\",\"color-textLink--active\":\"#000000\",\"new-badge-color\":\"#ffffff\",\"sale-badge-color\":\"#ffffff\",\"optimizedCheckout-formField-errorColor\":\"#d14343\",\"spinner-borderColor-dark\":\"#999999\",\"restrict_to_login\":false,\"themevale_brandlayout\":\"aztable\",\"input-font-color\":\"#5f5f5f\",\"pro_custom_block_icon_1\":\"\",\"select-bg-color\":\"#ffffff\",\"show_accept_mastercard\":true,\"homepage_banner_link_text_4\":\"\",\"homepage_banner_desc_5_1\":\"\",\"homepage_banner_position_5\":\"middle\",\"optimizedCheckout-link-font\":\"Google_Poppins_500\",\"homepage_show_carousel_arrows\":true,\"footer-newsletter-desc\":\"Get the latest news, invites and offers straight to your mail.\",\"homepage_banner_link_1\":\"#\",\"custom-product-description-btn-active-color\":\"#ffffff\",\"recently_bought_bgColor\":\"#ffffff\",\"carousel-arrow-bgColor\":\"#000000\",\"lazyload_mode\":\"lazyload+lqip\",\"custom-product-description-color-text\":\"#5f5f5f\",\"image-gallery-btn-text-color\":\"#000000\",\"image-gallery-content-text-color\":\"#ffffff\",\"carousel-arrow-megamenu-color\":\"#34313a\",\"instagram_product_title\":\"See It Styed\",\"show_custom_fields_tabs\":true,\"custom-product-description_img\":\"\",\"newsletter_popup_image\":\"newsletter-bg.jpg\",\"footer-info-hour-2\":\"F-S 9:00-1:00 pm GMT+7\",\"sticky_add_to_cart_btn_color\":\"#0f0f0f\",\"lookbook-btn-text\":\"Shop Lookbook\",\"navPages-new-label-background\":\"#0073bd\",\"brandpage_brands_per_page\":1000,\"homepage_banner_1\":true,\"homepage_new_products_count\":8,\"top-promotion-text\":\"Free Shipping on All Orders\",\"button--disabled-color\":\"#ffffff\",\"search-trending-text-2\":\"watch\",\"enbale_cart_secure\":true,\"color-primaryDark\":\"#666666\",\"optimizedCheckout-buttonPrimary-borderColorActive\":\"#0f0f0f\",\"back-to-top-border\":\"#000000\",\"homepage_banner_3\":true,\"recently_bought_productID\":\"104,122,121,120,111,115,114,107\",\"card-retail-price-color\":\"#969696\",\"body-font\":\"Google_Poppins_400\",\"navPages-subMenu-promotion-bottom-bgColor\":\"#b49976\",\"optimizedCheckout-step-textColor\":\"#ffffff\",\"recently_bought_location8\":\"from Tamworth, Australia\",\"show_accept_googlepay\":false,\"ask_an_expert_subject\":\"Ask An Expert\",\"themevale_viewingProduct_viewer\":\"6,9,11,19,30,49,94,97,186\",\"card--alternate-borderColor\":\"#ffffff\",\"lookbook-slide-icon-color\":\"#ffffff\",\"color-grey\":\"#999999\",\"newsletter-popup-input-bgColor\":\"#f3f3f3\",\"button--primary-backgroundColor\":\"#0f0f0f\",\"search-trending-text-1\":\"luxury watches\",\"video-icon-color\":\"#8d8b8c\",\"show_product_dimensions\":false,\"optimizedCheckout-link-color\":\"#003087\",\"card-figcaption-button-background\":\"#000000\",\"icon-color-hover\":\"#999999\",\"sidebar_position\":\"left\",\"instagram_product_layout\":\"gallery\",\"optimizedCheckout-headingSecondary-font\":\"Google_Poppins_500\",\"headings-font\":\"Google_Poppins_500\",\"footer-webpages-text-2\":\"Brands\",\"label-backgroundColor\":\"#999999\",\"show_seal_logos_cart\":true,\"homepage_banner_link_text_1\":\"Learn More\",\"button--primary-backgroundColorHover\":\"#ffffff\",\"optimizedCheckout-formField-borderColor\":\"#cccccc\",\"footer-newsletter-message-link\":\"#\",\"checkRadio-color\":\"#333333\",\"homepage_banner_link_6\":\"#\",\"show_product_reviews\":true,\"button--default-borderColor\":\"#232323\",\"themevale_BackTop\":true,\"enable_search_product_block\":true,\"pdp-non-sale-price-label\":\"Was:\",\"optimizedCheckout-headingSecondary-color\":\"#0f0f0f\",\"footer_custom_link_url_3\":\"#\",\"footer-logo\":\"footer-logo-2.png\",\"logo_fontSize\":28,\"alert-backgroundColor\":\"#ffffff\",\"optimizedCheckout-logo-size\":\"160x25\",\"navPages-sale-label-background\":\"#b20000\",\"default_image_brand\":\"img/BrandDefault.gif\",\"enable_sold_product\":true,\"button--disabled-borderColor\":\"transparent\",\"sticky_add_to_cart_btn_border_color\":\"#000000\",\"show_the_spec_tab\":true,\"label-color\":\"#ffffff\",\"select-arrow-color\":\"#6e6e6e\",\"location_phone_text\":\"Toll-free:\",\"right-menu-webpage-name-2\":\"Rewards Program\",\"carousel-dot-border-color-active\":\"#a3a4a6\",\"themevale_stickyHeader\":true,\"size-chart-text\":\"Size Chart\",\"card-title-color\":\"#0f0f0f\",\"homepage_banner_desc_3_1\":\"\",\"navPages-home-bgColor\":\"#000000\",\"sticky-menu-color-hover\":\"#0f0f0f\",\"close-button-color-hover\":\"#ffffff\",\"location_open_hour\":\"Opening Hours:\",\"product_list_display_mode\":\"grid\",\"quick_search_count\":5,\"homepage_banner_link_2\":\"#\",\"recently_bought_border_color\":\"#e6e6e6\",\"enable_footer_custom_link\":true,\"homepage_banner_heading_2\":\"New Releases\",\"homepage_banner_desc_4_2\":\"\",\"optimizedCheckout-link-hoverColor\":\"#003087\",\"top-promotion-text-3\":\"20% discount\",\"custom-product-description-btn-border-color\":\"#eaeaea\",\"footer-webpages-text-6\":\"Faqs\",\"sidebar_image_size\":\"420x370\",\"fontSize-h5\":14,\"product_size\":\"710x910\",\"paymentbuttons-paypal-color\":\"gold\",\"homepage_show_carousel\":true,\"optimizedCheckout-body-backgroundColor\":\"#ffffff\",\"carousel-arrow-borderColor\":\"#000000\",\"button--default-borderColorActive\":\"#0f0f0f\",\"homepage_banner_image_5\":\"home-banner-4.jpg\",\"carousel-dot-border-color\":\"#a3a4a6\",\"paymentbuttons-paypal-tagline\":false,\"navUser-indicator-color\":\"#ffffff\",\"footer-newsletter-title\":\"Be The First\",\"color-greyDarkest\":\"#000000\",\"price_ranges\":true,\"pro_custom_block_text_1\":\"Free Shipping Worldwide\",\"custom-product-description_img_size\":\"624x800\",\"color-greyDark\":\"#666666\",\"sticky_add_to_cart_btn_bgColor\":\"#ffffff\",\"custom-product-description-btn-color\":\"#5f5f5f\",\"header-backgroundColor\":\"#141119\",\"sticky-menu-bgColor\":\"#ffffff\",\"footer-heading-fontColor\":\"#232323\",\"productpage_videos_count\":8,\"countDown-bgColor\":\"#000000\",\"newsletter-popup-bgColor\":\"#ffffff\",\"optimizedCheckout-buttonSecondary-borderColorHover\":\"#0f0f0f\",\"optimizedCheckout-discountBanner-iconColor\":\"#333333\",\"footer-top-bgcolor\":\"#ffffff\",\"card-price-color\":\"#0f0f0f\",\"footer_custom_link_text_2\":\"Advanced Search\",\"homepage_banner_heading_3\":\"Best Sellers\",\"sticky_add_to_cart_btn_border_color_hover\":\"#000000\",\"themevale_map\":true,\"default_image_gift_certificate\":\"img/GiftCertificate.png\",\"recently_bought_location6\":\"from Goulburn, Australia\",\"optimizedCheckout-buttonSecondary-borderColor\":\"#b20000\",\"number_hours\":\"10,15,16,17,18,20,25,35\",\"shop_by_brand_visibility\":true,\"hero_carousel_countdown_position\":\"3\",\"soldout-badge-color\":\"#ffffff\",\"optimizedCheckout-loadingToaster-textColor\":\"#ffffff\",\"newsletter-popup-social-icon-bgColor-hover\":\"#232323\",\"color-textBase--hover\":\"#0f0f0f\",\"color-errorLight\":\"#ffdddd\",\"recently_bought_location9\":\"from New York, United States\",\"optimizedCheckout-buttonPrimary-colorDisabled\":\"#ffffff\",\"home_custom_block_image_size\":\"570x370\",\"optimizedCheckout-formField-placeholderColor\":\"#999999\",\"homepage_banner_heading_6\":\"Loremous\",\"show_seal_logos_product\":true,\"navUser-color-hover\":\"#ffffff\",\"card-figcaption-button-border-color\":\"#000000\",\"icon-ratingFull\":\"#e66b00\",\"location_desc_3\":\" Or simply pop in for a cup of fresh tea and a cookie.\",\"carousel-arrow-megamenu-borderColor\":\"transparent\",\"category_image_size\":\"1890x230\",\"navPages-level-1-color-hover\":\"#0f0f0f\",\"social_icon_placement_top\":true,\"themevale_header_layout\":\"header-layout-2\",\"blog_size\":\"870x584\",\"card-icon-color-active\":\"#b20000\",\"hero-carousel-button-bgColor\":\"transparent\",\"navPages-level-1-color\":\"#0f0f0f\",\"product-customer-review-header-text-color\":\"#5f5f5f\",\"shop_by_price_visibility\":true,\"optimizedCheckout-buttonSecondary-colorActive\":\"#ffffff\",\"social_icon-hover\":\"#000000\",\"color-warningLight\":\"#fffdea\",\"show_product_weight\":true,\"button-checkout-color-hover\":\"#ffffff\",\"optimizedCheckout-orderSummary-backgroundColor\":\"#ffffff\",\"search-trending-text-5\":\"diamond watches\",\"button-checkout-color\":\"#ffffff\",\"homepage_two_banner_image_size\":\"770x800\",\"navPages-home-color-hover\":\"#ffffff\",\"homepage_banner_4\":true,\"color-info\":\"#666666\",\"footer_custom_link_text_6\":\"Consultant\",\"footer-newsletter-social-icon-bgColor\":\"#ffffff\",\"sidebar_image_1\":\"left-sidebar-layout-2-banner-1.jpg\",\"homepage_banner_position_2\":\"bottom\",\"optimizedCheckout-formChecklist-backgroundColorSelected\":\"#fafafa\",\"footer-newsletter-input-text-color\":\"#5f5f5f\",\"newsletter-popup-button-bgColor-hover\":\"#ffffff\",\"button--default-borderColorHover\":\"#0f0f0f\",\"homepage_banner_link_text_5\":\"\",\"hide_content_navigation\":false,\"button-checkout-bgColor-hover\":\"#0f0f0f\",\"footer-newsletter-input-bgcolor\":\"#ffffff\",\"button--default-colorActive\":\"#ffffff\",\"custom_engraving_subject\":\"Add Custom Engraving\",\"home_custom_tab_url\":\"/new-releases/accessorius/gravidas/\",\"image-gallery-img-size\":\"710x910\",\"show_description_tabs_custom\":true,\"recently_bought_link_color\":\"#323232\",\"show_product_quick_view\":true,\"card--alternate-backgroundColor\":\"#ffffff\",\"themevale_viewingProduct_text\":\"customers are viewing this product\",\"homepage_banner_position_6\":\"middle\",\"swatch_option_size\":\"38x38\",\"footer-webpages-link-4\":\"/image-gallery\",\"footer_custom_link_url_4\":\"/contact-us\",\"optimizedCheckout-show-logo\":\"none\",\"recently_bought_location2\":\"from Sydney, Australia\",\"footer-webpages-link-1\":\"/about-us\",\"show_product_reviews_tab\":true,\"button--primary-border-colorHover\":\"#0f0f0f\",\"pdp-price-label\":\"\",\"homepage_banner_desc_5_2\":\"\",\"show_copyright_footer\":true,\"social_icon_google_plus_link\":\"https://www.themevale.com/\",\"faqs-need-help-contact\":\"Contact Us\",\"optimizedCheckout-orderSummary-borderColor\":\"#dddddd\",\"fontSize-h2\":24,\"optimizedCheckout-step-backgroundColor\":\"#0f0f0f\",\"homepage_banner_position_1\":\"middle\",\"optimizedCheckout-formChecklist-backgroundColor\":\"#ffffff\",\"footer-text-fontColor\":\"#5f5f5f\",\"countDown-color\":\"#ffffff\",\"sold_product_text_color\":\"#b20000\",\"navPages-home-color\":\"#ffffff\",\"color-textLinkSecondary--hover\":\"#003087\",\"color-warning\":\"#f1a500\",\"homepage_banner_image_4\":\"home-banner-3.jpg\",\"location_desc_2\":\" please use the form to send us your message or ideas.\",\"newsletter_popup_heading\":\"Join Our Mailing List\",\"sidebar_image_link_1\":\"#\",\"newsletter_popup_image_size\":\"887x460\",\"product-customer-review-header-bgColor\":\"#f8f8f8\",\"optimizedCheckout-headingPrimary-color\":\"#0f0f0f\",\"sticky_add_to_cart_color\":\"#ffffff\",\"color-textBase\":\"#5f5f5f\",\"navPages-hot-label-color\":\"#ffffff\",\"newsletter-popup-desc-color\":\"#3c3c3c\",\"footer_custom_link_url_2\":\"#\",\"productgallery_size\":\"500x641\",\"back-to-top-borderHover\":\"#000000\",\"newsletter-popup-button-text-color\":\"#ffffff\",\"card-figcaption-button-color\":\"#ffffff\",\"homepage_banner_desc_4_1\":\"\",\"optimizedCheckout-formField-inputControlColor\":\"#ffffff\",\"location_button_link\":\"#\",\"optimizedCheckout-contentPrimary-color\":\"#0f0f0f\",\"optimizedCheckout-buttonSecondary-font\":\"Google_Poppins_500\",\"back-to-top-color\":\"#000000\",\"alert-color\":\"#333333\",\"custom_engraving_img_size\":\"370x370\",\"homepage_banner_heading_1\":\"Milancelos\",\"searchpage_products_per_page\":12,\"footer-newsletter-btn-bgcolor-hover\":\"#ffffff\",\"color-textSecondary--active\":\"#000000\",\"themevale_color_variant_2\":\"Size\",\"storeName-color\":\"#333333\",\"footer-webpages-link-5\":\"/blog\",\"optimizedCheckout-backgroundImage\":\"../../cdn11.bigcommerce.com/s-ol6dayxf7q/images/stencil/%7b_size%7d/header-checkout_1580965511__52539.jpg\",\"footer_custom_link_url_5\":\"/giftcertificates.php\",\"footer-text-fontColor-hover\":\"#005599\",\"form-label-font-color\":\"#0f0f0f\",\"footer-webpages-text-5\":\"Blog\",\"color-greyLightest\":\"#e5e5e5\",\"hero-carousel-button-border-color\":\"#ffffff\",\"newsletter-popup-button-bgColor\":\"#000000\",\"optimizedCheckout-header-backgroundColor\":\"#f5f5f5\",\"home_custom_tab_title\":\"Editor’s Pick\",\"optimizedCheckout-buttonSecondary-backgroundColorActive\":\"#0f0f0f\",\"color-textLink\":\"#34313a\",\"recently_bought_location7\":\"from Grafton, Australia\",\"color-greyLighter\":\"#cccccc\",\"custom_engraving_img\":\"custom-engraving.jpg\",\"color-textLinkSecondary--active\":\"#003087\",\"top-promotion-backgoundColor\":\"#f5f2e5\",\"shipping_tab_link\":\"/shipping-returns/\",\"footer-newsletter-message-2\":\" your personal data\",\"productpage_related_products_count\":5,\"color-secondaryDark\":\"#e5e5e5\",\"fontSize-h6\":13,\"homepage_carousel_products_count\":8,\"card-saving-price-color\":\"#969696\",\"show_shipping_tabs\":true,\"paymentbuttons-paypal-fundingicons\":false,\"carousel-arrow-color\":\"#ffffff\",\"productpage_similar_by_views_count\":5,\"policys-block-color\":\"#ffffff\",\"top-promotion-text-2\":\"on all Orders. No Minimum Purchases Required*\",\"footer-webpages-text-7\":\"Sitemap\",\"loadingOverlay-backgroundColor\":\"#ffffff\",\"homepage_banner_link_text_2\":\"\",\"new-badge-border-color\":\"#0073bd\",\"optimizedCheckout-buttonPrimary-color\":\"#ffffff\",\"button--primary-border-colorActive\":\"#0f0f0f\",\"homepage_banner_desc_2_2\":\"\",\"home_customer_review_image_size\":\"90x115\",\"card-figcaption-button-border-color-hover\":\"#232323\",\"input-bg-color\":\"#ffffff\",\"pdp-custom-fields-tab-label\":\"Size\",\"newsletter_popup_sub-heading_2\":\" exclusive discounts and more!\",\"lookbook-btn-link\":\"#\",\"footer_custom_link_title\":\"Customer Service\",\"navPages-subMenu-separatorColor\":\"#eaeaea\",\"soldout-badge-border-color\":\"#787878\",\"navPages-color-hover\":\"#0f0f0f\",\"color-infoLight\":\"#31708f\",\"homepage_banner_link_3\":\"#\",\"ask_an_expert_name\":\"Themevale\",\"newsletter-popup-button-text-color-hover\":\"#000000\",\"default_image_product\":\"img/ProductDefault.gif\",\"search-trending-text-4\":\"gold straps\",\"enable_custom_block_product\":true,\"color-greyMedium\":\"#757575\",\"home_custom_block_text_color\":\"#ffffff\",\"enable_home_custom_tab\":true,\"optimizedCheckout-formChecklist-borderColor\":\"#cccccc\",\"back-to-top-bgHover\":\"#000000\",\"enable_homepage_banner\":false,\"footer-webpages-text-1\":\"About\",\"fontSize-h1\":28,\"homepage_featured_products_count\":8,\"navPages-bgColor\":\"#f5f5f5\",\"navUser-dropdown-borderColor\":\"#e6e6e6\",\"homepage_banner_desc_2_1\":\"\",\"optimizedCheckout-buttonPrimary-colorActive\":\"#0f0f0f\",\"location_email_text\":\"Email:\",\"newsletter-popup-input-border-color\":\"#f3f3f3\",\"extra_option_title\":\"Add An Extra Option\",\"color-greyLight\":\"#999999\",\"optimizedCheckout-logo\":\"\",\"themevale_category_layout\":\"category-layout-2\",\"show_product_details_tabs\":true,\"custom-badge-bgColor\":\"#232323\",\"homepage_banner_link_text_6\":\"Learn More\",\"banner-product-custom-color\":\"#ffffff\",\"button--default-backgroundColorHover\":\"#0f0f0f\",\"location_open_hour_2\":\"Sundays: 10am - 6pm\",\"overlay-backgroundColor\":\"#333333\",\"faqs-banner-link\":\"#\",\"footer_custom_link_text_5\":\"Gift Certificates\",\"navPages-subMenu-promotion-bottom-color\":\"#ffffff\",\"homepage-banner-no-image-heading-color\":\"#0f0f0f\",\"hide_contact_us_page_heading\":false,\"container-fill-dark\":\"#e5e5e5\",\"hero-carousel-aligment\":\"center\",\"icon-ratingEmpty\":\"#e3e3e3\",\"icon-color\":\"#757575\",\"right-menu-webpage-link-2\":\"/rewards-program/\",\"homepage_carousel_products_column\":4,\"input-border-color-active\":\"#999999\",\"footer-parallax-image\":\"footer-parallax.jpg\",\"sticky_add_to_cart_btn_bgColor_hover\":\"#000000\",\"optimizedCheckout-buttonPrimary-backgroundColorDisabled\":\"#cccccc\",\"pro_custom_block_text_4\":\"24 Month Warranty\",\"optimizedCheckout-buttonPrimary-borderColorHover\":\"#0f0f0f\",\"shipping_block_color\":\"#0f0f0f\",\"color-successLight\":\"#d5ffd8\",\"newsletter-popup-button-border-color\":\"#000000\",\"productpage_products_count\":5,\"homepage_banner_image_3\":\"home-banner-2.jpg\",\"sticky_add_to_cart_btn_color_hover\":\"#ffffff\",\"footer-webpages-link-6\":\"/faqs\",\"recently_bought_location1\":\"from Melbourne, Australia\",\"button--primary-color\":\"#ffffff\",\"homepage_two_banner_color\":\"#ffffff\",\"social_icon_google_plus_icon\":\"\",\"faqs-banner-img-size\":\"1890x137\",\"pro_custom_block_icon_4\":\"\",\"show_accept_western_union\":true,\"home2_custom_block_color\":\"#ffffff\",\"color-greyDarker\":\"#333333\",\"show_product_quantity_box\":true,\"themevale_homepage_layout_2\":true,\"button--default-backgroundColor\":\"#ffffff\",\"social_icon_whatsapp_link\":\"https://www.themevale.com/\",\"alert-error-color\":\"#b20000\",\"homepage_banner_heading_5\":\"Womens\",\"color-success\":\"#31708f\",\"home2_custom_block_image_size\":\"1570x670\",\"enable_top_promotion\":true,\"optimizedCheckout-header-borderColor\":\"#dddddd\",\"hero_carousel_countdown\":\"Oct 11, 2020 18:04:00\",\"soldout-badge-bgColor\":\"#787878\",\"sale-badge-border-color\":\"#b20000\",\"card-figcaption-style\":\"show\",\"color-white\":\"#ffffff\",\"themevale_product_layout\":\"product-layout-2\",\"enable_ask_an_expert\":true,\"productview_thumb_size\":\"100x128\",\"fontSize-h3\":22,\"spinner-borderColor-light\":\"#ffffff\",\"hero-carousel-button-color\":\"#ffffff\",\"geotrust_ssl_common_name\":\"\",\"show_custom_tabs\":true,\"footer_custom_link_text_1\":\"Search Terms\",\"zoom_size\":\"1280x1280\",\"optimizedCheckout-buttonSecondary-backgroundColor\":\"#b20000\",\"custom-product-description-btn-bgColor\":\"#ffffff\",\"sidebar_image_2\":\"left-sidebar-layout-2-banner-2.jpg\",\"footer_custom_link_url_1\":\"#\",\"faqs-banner-img\":\"faqs-banner.jpg\",\"sticky-menu-color\":\"#0f0f0f\",\"category_image_color\":\"#ffffff\",\"input-border-color\":\"#cbcbcb\",\"optimizedCheckout-buttonPrimary-backgroundColor\":\"#0f0f0f\",\"custom-product-description-btn-active-border-color\":\"#0f0f0f\",\"navPages-subMenu-backgroundColor1\":\"#f9f9f9\",\"footer-webpages-link-3\":\"/lookbook\",\"card-figcaption-button-color-hover\":\"#0f0f0f\",\"pro_custom_block_text_3\":\"Secure Shopping Guarantee\",\"custom-product-description-btn-active-bgColor\":\"#0f0f0f\",\"footer-newsletter-btn-bgcolor\":\"#0f0f0f\",\"show_accept_circus\":true,\"homepage_collection_image_size\":\"270x320\",\"blog_posts_summary\":\"200\",\"carousel-arrow-megamenu-bgColor\":\"transparent\",\"card-figcaption-button-background-hover\":\"#ffffff\",\"footer-top-color\":\"#ffffff\",\"button--primary-backgroundColorActive\":\"#ffffff\",\"color-textSecondary--hover\":\"#000000\",\"card-icon-bgColor\":\"#ffffff\",\"homepage-banner-no-image-desc-color\":\"#5f5f5f\",\"instagram_product_img_size\":\"342x342\",\"close-button-background\":\"#000000\",\"color-secondary\":\"#005599\",\"homepage_banner_desc_6_1\":\"Nam tempus turpis at metus scelerisque de placerat nullano\",\"button-checkout-border-color-hover\":\"#0f0f0f\",\"instagram_product_desc\":\"Nam tempus turpis at metus scelerisque placerat nulla deumantos.\",\"home_brand_img_size\":\"210x75\",\"back-to-top-colorHover\":\"#ffffff\",\"newsletter_popup_sub-heading_1\":\"Enter your email below to receive special offers,\",\"sidebar_products_count\":3,\"dropdown--quickSearch-backgroundColor\":\"#e5e5e5\",\"top-promotion-textColor\":\"#766c42\",\"enable_search_trending\":true,\"sticky_add_to_cart_bgColor\":\"#000000\",\"homepage_banner_link_text_3\":\"\",\"ask_an_expert_email\":\"test@gmail.com\",\"show_sidebar_image\":true,\"custom-product-description-color-heading\":\"#0f0f0f\",\"footer-info-hour-1\":\"M-T 8:30-2:00 pm\",\"sidebar_image_link_2\":\"#\",\"color-whitesBase\":\"#e5e5e5\",\"body-bg\":\"#ffffff\",\"themevale_color_variant\":true,\"location_button_text\":\"Chat With Us\",\"optimizedCheckout-contentSecondary-font\":\"Google_Poppins_400\",\"faqs-banner-color\":\"#ffffff\",\"lookbook-slide-icon-bgColor\":\"#0f0f0f\",\"back-to-top-bg\":\"#ffffff\",\"color-primary\":\"#727272\",\"optimizedCheckout-contentPrimary-font\":\"Google_Poppins_500\",\"product-customer-review-desc\":\"Nam tempus turpis at metus scelerisque placerat nulla deumantos.\",\"enable_custom_engraving\":true,\"footer_custom_link_url_6\":\"#\",\"recently_bought\":true,\"footer-newsletter-btn-color-hover\":\"#0f0f0f\",\"optimizedCheckout-formField-textColor\":\"#5f5f5f\",\"navPages-level-2-color\":\"#5f5f5f\",\"banner-product-custom-img-small-size\":\"770x700\",\"homepage_top_products_column_count\":4,\"hide_page_heading\":false,\"number_products_text\":\"sold in last\",\"custom-badge-border-color\":\"#232323\",\"supported_card_type_icons\":[\"american_express\",\"diners\",\"discover\",\"mastercard\",\"visa\"],\"number_hours_text\":\"hours\",\"newsletter-popup-social-icon-bgColor\":\"#232323\",\"newsletter-popup-input-text-color\":\"#3c3c3c\",\"hero-carousel-button-color-hover\":\"#ffffff\",\"themevale_heading_desc_1\":\"Get in touch! We’re here to quickly provide you with the info\",\"navigation_design\":\"alternate\",\"homepage_banner_5\":true,\"enable_social_icon\":true,\"show_new_badges\":true,\"color-black\":\"#ffffff\",\"button--primary-border-color\":\"#0f0f0f\",\"optimizedCheckout-buttonSecondary-colorHover\":\"#ffffff\",\"hide_breadcrumbs\":false,\"location_title\":\"Please do get in touch!\",\"button--primary-colorActive\":\"#0f0f0f\",\"optimizedCheckout-contentSecondary-color\":\"#5f5f5f\",\"footer-webpages-text-4\":\"Image Gallery\",\"right-menu-webpage-link-1\":\"/shipping-and-return/\",\"applePay-button\":\"black\",\"thumb_size\":\"272x136\",\"hero-carousel-dots-color\":\"#a3a4a6\",\"homepage_stretch_carousel_images\":false,\"pro_custom_block_icon_2\":\"\",\"sale-badge-bgColor\":\"#b20000\",\"card-title-color-hover\":\"#005599\",\"faqs-banner-heading\":\"Frequently Asked Questions\",\"footer-newsletter-message-1\":\"Click here to read information on how LUXWatches processes\",\"recently_bought_hours\":\"10,15,16,17,18,20,25,35\",\"faqs-need-help-title\":\"Need Help?\",\"footer-webpages-link-2\":\"/brands\",\"footer-border-color\":\"#e8e8e8\",\"cartthumb_size\":\"120x154\",\"optimizedCheckout-buttonSecondary-borderColorActive\":\"#0f0f0f\",\"countDown-border-color\":\"#000000\",\"navPages-subMenu-backgroundColor2\":\"#ffffff\",\"hide_blog_page_heading\":false,\"recently_bought_location3\":\"from Bauru, Brazil\",\"footer-newsletter-input-border-color\":\"#ffffff\",\"optimizedCheckout-header-textColor\":\"#333333\",\"hide_category_page_heading\":false,\"optimizedCheckout-show-backgroundImage\":true,\"custom_engraving_price\":\"$39.00\",\"shipping_block_bgColor\":\"#f4f4f4\",\"optimizedCheckout-buttonPrimary-borderColor\":\"#0f0f0f\",\"navUser-indicator-backgroundColor\":\"#b20000\",\"show_sidebar_custom_block\":true,\"navUser-dropdown-backgroundColor-2\":\"#ffffff\",\"color-primaryLight\":\"#999999\",\"homepage-banner-has-image-color\":\"#ffffff\",\"button-checkout-bgColor\":\"#b20000\",\"footer_custom_link_text_7\":\"Store Locations\",\"homepage_banner_image_2\":\"home-banner-1.jpg\",\"share_custom\":true,\"show_recently_bought_mobile\":true,\"homepage_banner_desc_1_1\":\"Nam tempus turpis at metus scelerisque de placerat nullano\",\"optimizedCheckout-buttonSecondary-color\":\"#ffffff\",\"geotrust_ssl_seal_size\":\"M\",\"top_promotion_style\":\"style-2\",\"footer_custom_link_text_4\":\"Contact Us\",\"shopper_email\":\"email@domain.com\",\"show_accept_visa\":true,\"top-promotion-text-1\":\"Free Shipping\",\"webpage_gallerys_per_page\":12,\"alert-success-bgColor\":\"#e8f4fa\",\"carousel-dot-bgColor\":\"#a3a4a6\",\"blog_posts_per_page\":\"3\",\"footer-newsletter-social-icon-bgColor-hover\":\"#ffffff\",\"recently_bought_text_info\":\"minutes ago,\",\"lookbook-slide-color\":\"#ffffff\",\"optimizedCheckout-form-textColor\":\"#0f0f0f\",\"button--icon-svg-color\":\"#757575\",\"location_open_hour_1\":\"Monday to Saturday: 9am - 10pm\",\"show_sidebar\":true,\"show_soldout_badges\":true,\"checkRadio-backgroundColor\":\"#ffffff\",\"search-trending-text-3\":\"chrono\",\"location_desc_1\":\"We'd love to hear from you -\",\"alert-color-alt\":\"#ffffff\",\"the-spec-tab-label\":\"The Specs\",\"number_products\":\"3,5,6,7,8,10,12,15\",\"themevale_homepage_layout_1\":false,\"footer-webpages-link-7\":\"/sitemap.php\",\"home_category_tab_title\":\"New Arrival\",\"button--default-colorHover\":\"#ffffff\",\"hero-carousel-color\":\"#ffffff\",\"home_instagram_img_size\":\"570x570\",\"image-gallery-btn-bgColor\":\"#ffffff\",\"optimizedCheckout-buttonPrimary-backgroundColorHover\":\"#ffffff\",\"input-disabled-bg\":\"#ffffff\",\"custom-badge-color\":\"#ffffff\",\"pro_custom_block_icon_3\":\"\",\"productthumb_size\":\"100x128\",\"button--primary-colorHover\":\"#0f0f0f\",\"color-error\":\"#cc4749\",\"themevale_viewingProduct\":true,\"homepage_banner_heading_4\":\"Gift Packages\",\"homepage_banner_position_4\":\"bottom\",\"search_product_block_id\":\"107,117,120,122\",\"color-textSecondary\":\"#232323\",\"close-button-background-hover\":\"#e95144\",\"carousel-dot-bgColor-active\":\"transparent\",\"dropdown--wishList-backgroundColor\":\"#ffffff\",\"navPages-new-label-color\":\"#ffffff\",\"container-border-global-color-base\":\"#e5e5e5\",\"recently_bought_text_color\":\"#969696\",\"homepage_blog_posts_count\":3,\"enable_home_category\":true,\"blog_posts_pages\":\"3\",\"lookbook-best-sellers-desc\":\"Nam tempus turpis at metus scelerisque placerat nulla deumantos\",\"gallery_size\":\"300x300\",\"recently_bought_location10\":\"from Los Angeles, United States\"},\"genericError\":\"Oops! Something went wrong.\",\"maintenanceMode\":[],\"urls\":{\"home\":\"../index.html\",\"account\":{\"index\":\"/account.php\",\"orders\":{\"all\":\"../logind1fa.html?action=order_status\",\"completed\":\"../login91d7.html?action=view_orders\",\"save_new_return\":\"/account.php?action=save_new_return\"},\"update_action\":\"../login83b1.html?action=update_account\",\"returns\":\"../logine921.html?action=view_returns\",\"addresses\":\"../login479d.html?action=address_book\",\"inbox\":\"../login5df3.html?action=inbox\",\"send_message\":\"../login1273.html?action=send_message\",\"add_address\":\"../logindda8.html?action=add_shipping_address\",\"wishlists\":{\"all\":\"/wishlist.php\",\"add\":\"../login5946.html?action=addwishlist\",\"edit\":\"../login1c39.html?action=editwishlist\",\"delete\":\"/wishlist.php?action=deletewishlist\"},\"details\":\"../login8e0b.html?action=account_details\",\"recent_items\":\"/account.php?action=recent_items\"},\"brands\":\"../brands/index.html\",\"gift_certificate\":{\"purchase\":\"/giftcertificates.php\",\"redeem\":\"../index.html?action=redeem\",\"balance\":\"/giftcertificates.php?action=balance\"},\"auth\":{\"login\":\"/login.php\",\"check_login\":\"../loginb320.html?action=check_login\",\"create_account\":\"../logind85d.html?action=create_account\",\"save_new_account\":\"../login5485.html?action=save_new_account\",\"forgot_password\":\"../login8311.html?action=reset_password\",\"send_password_email\":\"../login4104.html?action=send_password_email\",\"save_new_password\":\"../logina61b.html?action=save_new_password\",\"logout\":\"/login.php?action=logout\"},\"product\":{\"post_review\":\"/postreview.php\"},\"cart\":\"/cart.php\",\"checkout\":{\"single_address\":\"/checkout\",\"multiple_address\":\"/checkout.php?action=multiple\"},\"rss\":{\"products\":[]},\"contact_us_submit\":\"../pages187d.html?action=sendContactForm\",\"search\":\"/search.php\",\"compare\":\"/compare\",\"sitemap\":\"/sitemap.php\",\"subscribe\":{\"action\":\"/subscribe.php\"}},\"secureBaseUrl\":\"../index.html\",\"cartId\":null,\"template\":\"pages/contact-us\",\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly9sdXh3YXRjaGVzLWRlbW8tMDIubXliaWdjb21tZXJjZS5jb20iXSwiZWF0IjoxNzE1MDg1NDUyLCJpYXQiOjE3MTQ5MTI2NTIsImlzcyI6IkJDIiwic2lkIjoxMDAwNjQ0NTQyLCJzdWIiOiJCQyIsInN1Yl90eXBlIjowLCJ0b2tlbl90eXBlIjoxfQ.DqFGkDuuPCz04mP0m4mu97uG2lCFv1dAFRVRO58zOMT7VQ6Qc2vxm9MpQVrbF_ARVzpUzV19vN71l6K2YGxl5A\",\"useValidEmail\":\"Please use a valid email address, such as user@example.com.\",\"enterPass\":\"You must enter a password.\",\"contactEmail\":\"Please use a valid email address, such as user@example.com.\",\"contactQuestion\":\"You must enter your question.\"}").load();
+        </script>
+
+        <!-- MegaMenu -->
+            <script>
+
+var themevaleMenu = new window.themevaleMenu();
+
+$(document).ready(function() {
+
+    /* Megamenu Settings */
+
+    // Megamenu Style 1
+    themevaleMenu.menuItem(1).themevaleMegaMenu({
+        dropAlign: 'fullWidth',   // Dropdown MegaMenu Alignment: left, right, center, fullWidth
+        dropWidth: '800px',       // Width of Dropdown MegaMenu (if dropAlign: fullWidth => dropWidth auto set 100%)
+        dropType: 'imageRight',   // Type of Dropdown MegaMenu content: imageLeft, imageRight, noImage
+        imageAreaWidth: '40%',    // width of images area
+        cateAreaWidth: '60%',     // width of categories area
+        cateColumns: 3,           // columns of categories area - max 5 columns
+        // contents for images column (HTML supported)
+        images: '<div class="imgList style-2">\
+                    <div class="imgItem imgLeft">\
+                        <div class="featured-product">\
+                        <h2 class="imgHeading">Featured Product</h2>\
+                        <div class="featuredProductCarousel">\
+                            <div class="product">\
+                                <article class="card" data-product-id="119">\
+                                    <figure class="card-figure" data-product-id="119">\
+                                                <div class="product-badge new-badge">\
+                                                    <span class="text">New</span>\
+                                                </div>\
+                                        <a href="/gempus-cosmo-de-milancelos-scelerisque-placerat/">\
+                                            <div class="card-img-container">\
+                                                <img class="lazyload" src="" data-src="https://cdn11.bigcommerce.com/s-ol6dayxf7q/images/stencil/270x346/products/119/483/1619209__90710.1576205217.1280.1280__76376.1576211613.jpg?c=2" alt="">\
+                                            </div>\
+                                        </a>\
+                                    </figure>\
+                                    <div class="card-body">\
+                                            <p class="card-brand" data-test-info-type="brandName">Benjamin Button</p>\
+                                        <h4 class="card-title">\
+                                            <a href="/gempus-cosmo-de-milancelos-scelerisque-placerat/">Gempus Cosmo De Milancelos Scelerisque Placerat</a>\
+                                        </h4>\
+                                        <div class="card-price" data-test-info-type="price">\
+                                            <div class="price-section price-section--withoutTax non-sale-price--withoutTax">\
+                                                <span class="non-sale-price-label">Was:</span>\
+                                                <span data-product-non-sale-price-without-tax="" class="price price--non-sale">\
+                                                    $899.00\
+                                                </span>\
+                                            </div>\
+                                            <div class="price-section price-section--withoutTax">\
+                                                <span data-product-price-without-tax="" class="price price--withoutTax">$699.00</span>\
+                                            </div>\
+                                        </div>\
+                                        <figcaption class="card-figcaption">\
+                                            <div class="card-figcaption-body">\
+                                               <a href="/gempus-cosmo-de-milancelos-scelerisque-placerat/" data-event-type="product-click" class="button card-figcaption-button" data-product-id="119">Choose Option</a>\
+                                            </div>\
+                                        </figcaption>\
+                                    </div>\
+                                </article>\
+                            </div>\
+                            <div class="product">\
+                                <article class="card" data-product-id="86">\
+                                    <figure class="card-figure" data-product-id="86">\
+                                            <div class="product-badge new-badge">\
+                                                <span class="text">New</span>\
+                                            </div>\
+                                        <a href="/gempus-milancelos-de-cosmo/">\
+                                            <div class="card-img-container">\
+                                                <img class="lazyload" src="" data-src="https://cdn11.bigcommerce.com/s-ol6dayxf7q/images/stencil/270x346/products/86/427/2050986__03546.1576206570.jpg?c=2" alt="">\
+                                            </div>\
+                                        </a>\
+                                    </figure>\
+                                    <div class="card-body">\
+                                            <p class="card-brand" data-test-info-type="brandName">Donatello</p>\
+                                        <h4 class="card-title">\
+                                            <a href="/gempus-milancelos-de-cosmo/">Gempus Milancelos De Cosmo</a>\
+                                        </h4>\
+                                        <div class="card-price" data-test-info-type="price">\
+                                            <div class="price-section price-section--withoutTax non-sale-price--withoutTax">\
+                                                <span class="non-sale-price-label">Was:</span>\
+                                                <span data-product-non-sale-price-without-tax="" class="price price--non-sale">\
+                                                    \
+                                                </span>\
+                                            </div>\
+                                            <div class="price-section price-section--withoutTax">\
+                                                <span data-product-price-without-tax="" class="price price--withoutTax">$489.00</span>\
+                                            </div>\
+                                        </div>\
+                                        <figcaption class="card-figcaption">\
+                                            <div class="card-figcaption-body">\
+                                               <a href="/gempus-milancelos-de-cosmo/" data-event-type="product-click" class="button card-figcaption-button" data-product-id="86">Choose Option</a>\
+                                            </div>\
+                                        </figcaption>\
+                                    </div>\
+                                </article>\
+                            </div>\
+                            <div class="product">\
+                                <article class="card" data-product-id="120">\
+                                    <figure class="card-figure" data-product-id="120">\
+                                                <div class="product-badge new-badge">\
+                                                    <span class="text">New</span>\
+                                                </div>\
+                                                <div class="product-badge sale-badge">\
+                                                    <span class="text">Sale</span>\
+                                                </div>\
+                                        <a href="/diverra-dulla-minterdum-andacony-maliduet/">\
+                                            <div class="card-img-container">\
+                                                <img class="lazyload" src="" data-src="https://cdn11.bigcommerce.com/s-ol6dayxf7q/images/stencil/270x346/products/120/485/2332744__19213.1576211902.jpg?c=2" alt="">\
+                                            </div>\
+                                        </a>\
+                                    </figure>\
+                                    <div class="card-body">\
+                                            <p class="card-brand" data-test-info-type="brandName">Tomorrow</p>\
+                                        <h4 class="card-title">\
+                                            <a href="/diverra-dulla-minterdum-andacony-maliduet/">Diverra Dulla Minterdum AnDacony Maliduet</a>\
+                                        </h4>\
+                                        <div class="card-price" data-test-info-type="price">\
+                                            <div class="price-section price-section--withoutTax non-sale-price--withoutTax">\
+                                                <span class="non-sale-price-label">Was:</span>\
+                                                <span data-product-non-sale-price-without-tax="" class="price price--non-sale">\
+                                                    $899.00\
+                                                </span>\
+                                            </div>\
+                                            <div class="price-section price-section--withoutTax">\
+                                                <span data-product-price-without-tax="" class="price price--withoutTax">$869.99</span>\
+                                            </div>\
+                                        </div>\
+                                        <figcaption class="card-figcaption">\
+                                            <div class="card-figcaption-body">\
+                                               <a href="/diverra-dulla-minterdum-andacony-maliduet/" data-event-type="product-click" class="button card-figcaption-button" data-product-id="120">Choose Option</a>\
+                                            </div>\
+                                        </figcaption>\
+                                    </div>\
+                                </article>\
+                            </div>\
+                        </div>\
+                    </div>\
+                </div>\
+                <div class="imgItem imgRight">\
+                   <a href="#"><img class="lazyload" src="" data-src="https://cdn11.bigcommerce.com/s-ol6dayxf7q/product_images/uploaded_images/mega-menu-style1.jpg"/></a>\
+               </div>\
+               </div>'
+    });
+
+    // Megamenu Style 2
+    themevaleMenu.menuItem(2).themevaleMegaMenu({
+        dropAlign: 'fullWidth',   // Dropdown MegaMenu Alignment: left, right, center, fullWidth
+        dropWidth: '800px',       // Width of Dropdown MegaMenu (if dropAlign: fullWidth => dropWidth auto set 100%)
+        dropType: 'imageLeft',    // Type of Dropdown MegaMenu content: imageLeft, imageRight, noImage
+        imageAreaWidth: '41%',    // width of images area
+        cateAreaWidth: '59%',     // width of categories area
+        cateColumns: 3,           // columns of categories area - max 5 columns
+        // contents for images column (HTML supported)
+        images: '<div class="imgList"><div class="imgItem--full"><a href="#"><img class="lazyload" data-src="https://cdn11.bigcommerce.com/s-ol6dayxf7q/product_images/uploaded_images/mega-menu-style2.jpg" alt=""/></a></div></div>',
+        bottomMegamenu: '<div class="own-text"><span>Free Shipping On All Orders. No Minimum Purchases*</span></div>'
+    });
+
+    // Megamenu Style 3
+    themevaleMenu.menuItem(4).themevaleMegaMenu({
+        dropAlign: 'fullWidth',     // Dropdown MegaMenu Alignment: left, right, center, fullWidth
+        dropWidth: '800px',         // Width of Dropdown MegaMenu (if dropAlign: fullWidth => dropWidth auto set 100%)
+        dropType: 'imageTop',       // Type of Dropdown MegaMenu content: imageLeft, imageRight, noImage
+        imageAreaWidth: '0%',       // width of images area
+        cateAreaWidth: '100%',      // width of categories area
+        cateColumns: 5,             // columns of categories area - max 5 columns
+        // contents for images column (HTML supported)
+        imagesTop: [
+            '<a class="imageTop-item" href="#"><img class="lazyload" data-src="https://cdn11.bigcommerce.com/s-ol6dayxf7q/product_images/uploaded_images/mega-menu-style3-1.jpg" alt=""/></a>',
+            '<a class="imageTop-item" href="#"><img class="lazyload" data-src="https://cdn11.bigcommerce.com/s-ol6dayxf7q/product_images/uploaded_images/mega-menu-style3-2.jpg" alt=""/></a>',
+            '<a class="imageTop-item" href="#"><img class="lazyload" data-src="https://cdn11.bigcommerce.com/s-ol6dayxf7q/product_images/uploaded_images/mega-menu-style3-3.jpg" alt=""/></a>',
+            '<a class="imageTop-item" href="#"><img class="lazyload" data-src="https://cdn11.bigcommerce.com/s-ol6dayxf7q/product_images/uploaded_images/mega-menu-style3-4.jpg" alt=""/></a>',
+            '<a class="imageTop-item" href="#"><img class="lazyload" data-src="https://cdn11.bigcommerce.com/s-ol6dayxf7q/product_images/uploaded_images/mega-menu-style3-5.jpg" alt=""/></a>'
+        ]
+    });
+
+    // Megamenu Style 4
+    themevaleMenu.menuItem(5).themevaleMegaMenu({
+        dropAlign: 'fullWidth',   // Dropdown MegaMenu Alignment: left, right, center, fullWidth
+        dropWidth: '800px',       // Width of Dropdown MegaMenu (if dropAlign: fullWidth => dropWidth auto set 100%)
+        dropType: 'imageRight',   // Type of Dropdown MegaMenu content: imageLeft, imageRight, noImage
+        imageAreaWidth: '40%',    // width of images area
+        cateAreaWidth: '60%',     // width of categories area
+        cateColumns: 3,           // columns of categories area - max 5 columns
+        // contents for images column (HTML supported)
+        images: '<div class="imgList">\
+                    <div class="imgItem imgLeft">\
+                        <a href="#"><img class="lazyload" data-src="https://cdn11.bigcommerce.com/s-ol6dayxf7q/product_images/uploaded_images/mega-menu-style4-1.jpg" alt=""/></a>\
+                    </div>\
+                    <div class="imgItem imgRight">\
+                        <a href="#"><img class="lazyload" data-src="https://cdn11.bigcommerce.com/s-ol6dayxf7q/product_images/uploaded_images/mega-menu-style4-2.jpg" alt=""/></a>\
+                    </div>\
+                </div>'
+    });
+
+});
+</script>
+        
+        <!-- Newsletter Popup -->
+            <div id="themevale_newsletter" class="hide">
+    <div class="popup-overlay"></div>
+    <div class="newsletter-popup-container">
+        <div class="newsletter-popup-inner">
+            <a href="#" class="modal-close" aria-label="Close" role="button" data-close-newsletter-popup>
+                <svg class="icon"><use xlink:href="#icon-close"></use></svg>
+            </a>
+            <div class="newsletter-popup-wrap ">
+                    <div class="newsletter-image">
+                        <div class="card-img-container">
+                            <img data-src="/product_images/uploaded_images/newsletter-bg.jpg" alt="newsletter-bg.jpg" title="newsletter-bg.jpg" data-sizes="auto" srcset="/product_images/uploaded_images/newsletter-bg.jpg 80w, /product_images/uploaded_images/newsletter-bg.jpg 160w, /product_images/uploaded_images/newsletter-bg.jpg 320w, /product_images/uploaded_images/newsletter-bg.jpg 640w, /product_images/uploaded_images/newsletter-bg.jpg 960w, /product_images/uploaded_images/newsletter-bg.jpg 1280w, /product_images/uploaded_images/newsletter-bg.jpg 1920w, /product_images/uploaded_images/newsletter-bg.jpg 2560w" data-srcset="/product_images/uploaded_images/newsletter-bg.jpg 80w, /product_images/uploaded_images/newsletter-bg.jpg 160w, /product_images/uploaded_images/newsletter-bg.jpg 320w, /product_images/uploaded_images/newsletter-bg.jpg 640w, /product_images/uploaded_images/newsletter-bg.jpg 960w, /product_images/uploaded_images/newsletter-bg.jpg 1280w, /product_images/uploaded_images/newsletter-bg.jpg 1920w, /product_images/uploaded_images/newsletter-bg.jpg 2560w" class="card-image lazyload" sizes="80px">
+                        </div>
+                    </div>
+                <div class="newsletter-content modal-content">
+                    <div class="newsletter-content-inner">
+                            <h2 class="newsletter-heading">Join Our Mailing List</h2>
+                            <p class="newsletter-sub-heading">Enter your email below to receive special offers, exclusive discounts and more!</p>
+                        <div id="popupSubcribeForm">
+                            <form class="form" action="https://luxwatches-demo-02.mybigcommerce.com/subscribe.php" method="post" id="popupSubcribeFormSubmit">
+                                <fieldset class="form-fieldset">
+                                    <input type="hidden" name="action" value="subscribe">
+                                    <input type="hidden" name="nl_first_name" value="bc">
+                                    <input type="hidden" name="check" value="1">
+                                    <div class="form-field">
+                                        <div class="form-wrap">
+                                            <input class="form-input" id="nl_email" name="nl_email" type="email" placeholder="Email address">
+                                            <input class="button button-transparent" type="submit" value="Submit">
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                       
+                        <div class="black-icons">
+                                <ul class="socialLinks socialLinks--alt">
+                <li class="socialLinks-item">
+                    <a class="icon icon--facebook" href="https://www.halothemes.com/" target="_blank">
+                        <svg><use xlink:href="#icon-facebook" /></svg>
+                    </a>
+                </li>
+                <li class="socialLinks-item">
+                    <a class="icon icon--twitter" href="https://www.halothemes.com/" target="_blank">
+                        <svg><use xlink:href="#icon-twitter" /></svg>
+                    </a>
+                </li>
+                <li class="socialLinks-item">
+                    <a class="icon icon--pinterest" href="https://www.halothemes.com/" target="_blank">
+                        <svg><use xlink:href="#icon-pinterest" /></svg>
+                    </a>
+                </li>
+                <li class="socialLinks-item">
+                    <a class="icon icon--instagram" href="https://www.halothemes.com/" target="_blank">
+                        <svg><use xlink:href="#icon-instagram" /></svg>
+                    </a>
+                </li>
+            <li class="socialLinks-item">
+                <a class="icon icon--google-plus" href="https://www.themevale.com/" target="_blank">
+                        <svg><use xlink:href="#icon-google-plus" /></svg>
+                </a>
+            </li>
+
+            <li class="socialLinks-item">
+                <a class="icon icon--whatsapp" href="https://www.themevale.com/" target="_blank">
+                        <svg><use xlink:href="#icon-whatsapp" /></svg>
+                </a>
+            </li>
+    </ul>
+                        </div>
+                        <div class="form-check newsletter-show-again">
+                            <input id="do-not-show-again" class="do-not-show-again" type="checkbox" name="don't show again">
+                            <label for="do-not-show-again">Don't show again</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <script>
+                window.themevaleNewsletterPopup(1, true);
+            </script>
+
+        <script type="text/javascript" src="../../cdn11.bigcommerce.com/shared/js/csrf-protection-header-5eeddd5de78d98d146ef4fd71b2aedce4161903e.js"></script>
+
+    </body>
+
+<!-- Mirrored from luxwatches-demo-02.mybigcommerce.com/contact-us/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 06 May 2024 04:42:39 GMT -->
+</html>

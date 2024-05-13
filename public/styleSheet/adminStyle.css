@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+body{
+    min-height: 100vh;
+    font-family: 'Poppins',sans-serif!important;
+}
+
+.tank{
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.font-regular{
+    font-weight: 400!important;
+    font-size: 13px;
+}
+.font-regular-bigger{
+    font-weight: 400!important;
+    font-size: 15px;
+}
+
+.shadow{
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+input[type="text"],[type="password"],[type="number"],[type="email"]{
+    padding-left: 3px;
+    height: 37px!important;
+    font-size: 13px!important;
+}

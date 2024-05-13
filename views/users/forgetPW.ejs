@@ -1,0 +1,51 @@
+<%- include("../user_partials/header") %>
+        <div class="body" data-currency-code="USD">
+     
+    <main class="page forgot-password">
+    <div class="container container-smaller">
+        <div class="page-content">
+            <div class="themevale-heading">
+                <h1 class="page-heading">Reset Password</h1>
+            </div>
+            <div class="account">
+                <p>Fill in your email below to request a new password. An email will be sent to the address below containing a link to verify your email address.</p>
+                <form action="https://luxwatches-demo-02.mybigcommerce.com/login.php?action=send_password_email" class="form forgot-password-form" method="post">
+                    
+                    <label class="form-label">Email Address:</label>
+                      <div class="form-prefixPostfix wrap">
+                        <input class="form-input" name="email" id="email" type="email" formnovalidate>
+                        <input type="submit" class="button button--small button--primary form-prefixPostfix-button--postfix" value="Reset Password">
+                    </div>
+                </form>
+            </div>
+            <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
+            <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
+                <meta itemprop="position" content="1" />
+            </li>
+            <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <meta itemprop="item" content="login8311.html?action=reset_password">
+                    <span class="breadcrumb-label" itemprop="name">Forgot Password</span>
+                <meta itemprop="position" content="2" />
+            </li>
+</ul>
+        </div>
+    </div>
+</main>
+
+    <div id="modal" class="modal" data-reveal data-prevent-quick-search-close>
+    <a href="#" class="modal-close" aria-label="Close" role="button">
+        <span aria-hidden="true">&#215;</span>
+    </a>
+    <div class="modal-content"></div>
+    <div class="loadingOverlay"></div>
+</div>
+    <div id="alert-modal" class="modal modal--alert modal--small" data-reveal data-prevent-quick-search-close>
+    <div class="swal2-icon swal2-error swal2-animate-error-icon"><span class="swal2-x-mark swal2-animate-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span></div>
+
+    <div class="modal-content"></div>
+
+    <div class="button-container"><button type="button" class="confirm button" data-reveal-close>OK</button></div>
+</div>
+</div>
+<%- include("../user_partials/footer") %>

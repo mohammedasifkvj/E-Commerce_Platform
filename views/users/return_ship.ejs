@@ -1,0 +1,57 @@
+<%- include("../user_partials/header") %>
+        <div class="body" data-currency-code="USD">
+     
+    
+<main class="page">
+	<div class="container container-small">
+	    <section class="page-content page-content--centered">
+	    	<div class="themevale-heading">
+		        <h1 class="page-heading">404 Error - Page not found</h1>
+		    </div>
+	        <p class="u-textAlignCenter">
+	            Uh oh, looks like the page you are looking for has moved or no longer exists.
+	        </p>
+
+	        <form class="form"  action="/search.php">
+    <fieldset class="form-fieldset">
+        <div class="form-field">
+            <label class="form-label is-srOnly" for="search_query_adv">Search Keyword:</label>
+            <div class="form-prefixPostfix wrap center">
+                <input class="form-input" id="search_query_adv" name="search_query_adv" value="">
+                <input class="button button--primary form-prefixPostfix-button--postfix" type="submit" value="Search">
+            </div>
+        </div>
+    </fieldset>
+</form>
+	    </section>
+	    <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
+            <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
+                <meta itemprop="position" content="1" />
+            </li>
+            <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <meta itemprop="item" content="https://luxwatches-demo-02.mybigcommerce.com/shipping-and-return/">
+                    <span class="breadcrumb-label" itemprop="name">Error</span>
+                <meta itemprop="position" content="2" />
+            </li>
+</ul>
+	</div>
+</main>
+
+
+    <div id="modal" class="modal" data-reveal data-prevent-quick-search-close>
+    <a href="#" class="modal-close" aria-label="Close" role="button">
+        <span aria-hidden="true">&#215;</span>
+    </a>
+    <div class="modal-content"></div>
+    <div class="loadingOverlay"></div>
+</div>
+    <div id="alert-modal" class="modal modal--alert modal--small" data-reveal data-prevent-quick-search-close>
+    <div class="swal2-icon swal2-error swal2-animate-error-icon"><span class="swal2-x-mark swal2-animate-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span></div>
+
+    <div class="modal-content"></div>
+
+    <div class="button-container"><button type="button" class="confirm button" data-reveal-close>OK</button></div>
+</div>
+</div>
+<%- include("../user_partials/footer") %>

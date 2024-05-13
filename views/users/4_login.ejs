@@ -1,0 +1,77 @@
+<%- include("../user_partials/header") %>
+<!-- Body starts -->
+        <div class="body" data-currency-code="USD">
+     
+    <main class="page login">
+    <div class="container container-smaller">
+        <div class="page-content">
+            <div class="themevale-heading"> 
+                <h1 class="page-heading">Sign in</h1>
+            </div>
+            <div class="login-row">
+                <form class="login-form form" action="https://luxwatches-demo-02.mybigcommerce.com/login.php?action=check_login" method="post">
+                    
+                    
+                    <div class="form-field">
+                        <label class="form-label" for="login_email">Email Address<small>*</small></label>
+                         <input class="form-input" name="login_email" id="login_email" type="email">
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="login_pass">Password <small>*</small></label>
+                        <input class="form-input" id="login_pass" type="password" name="login_pass" autocomplete="off">
+                    </div>
+                    <div class="form-actions">
+                        <input type="submit" class="button button--small button--primary" value="Sign in">
+                        <a class="forgot-password" href="/forgetPW">Forgot your password?</a>
+                    </div>
+                </form>
+                    <div class="new-customer">
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h2 class="panel-title">New Customer?</h2>
+                            </div>
+                            <div class="panel-body">
+                                <p class="new-customer-intro">Create an account with us and you&#x27;ll be able to:</p>
+                                <ul class="new-customer-fact-list">
+                                    <li class="new-customer-fact">Check out faster</li>
+                                    <li class="new-customer-fact">Save multiple shipping addresses</li>
+                                    <li class="new-customer-fact">Access your order history</li>
+                                    <li class="new-customer-fact">Track new orders</li>
+                                    <li class="new-customer-fact">Save items to your Wish List</li>
+                                </ul>
+                                <a class="create_account" href="/signup"><button class="button button--small button--primary">Create Account</button></a>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
+            <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
+                <meta itemprop="position" content="1" />
+            </li>
+            <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <meta itemprop="item" content="login.html">
+                    <span class="breadcrumb-label" itemprop="name">Login</span>
+                <meta itemprop="position" content="2" />
+            </li>
+</ul>
+        </div>
+    </div>
+</main>
+
+    <div id="modal" class="modal" data-reveal data-prevent-quick-search-close>
+    <a href="#" class="modal-close" aria-label="Close" role="button">
+        <span aria-hidden="true">&#215;</span>
+    </a>
+    <div class="modal-content"></div>
+    <div class="loadingOverlay"></div>
+</div>
+    <div id="alert-modal" class="modal modal--alert modal--small" data-reveal data-prevent-quick-search-close>
+    <div class="swal2-icon swal2-error swal2-animate-error-icon"><span class="swal2-x-mark swal2-animate-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span></div>
+
+    <div class="modal-content"></div>
+
+    <div class="button-container"><button type="button" class="confirm button" data-reveal-close>OK</button></div>
+</div>
+</div>
+<%- include('../user_partials/footer') %>
