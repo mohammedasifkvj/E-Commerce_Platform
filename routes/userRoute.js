@@ -2,6 +2,7 @@ const express=require("express");
 const user_route=express();
 const userController=require("../controllers/userController");
 const User=require("../models/signup")
+const valid=require('../middlewares/validate')
 //const session=require("express-session")
 //const config=require("../configurarions/config")
 
@@ -41,6 +42,8 @@ user_route.set('views','./views/users');
 user_route.get('/',userController.loadHome)
 user_route.get('/home',userController.loadHome)
 user_route.get('/signup',userController.loadSignUp)
+user_route.post('/signup',valid.signUpValidation,userController.SignUp)
+
 //user_route.post('/register',upload.single('image'),userController.insertUser);
 user_route.get('/otp',userController.loadOTP)
 user_route.get('/signin',userController.loadSignIn)
@@ -49,6 +52,7 @@ user_route.get('/newRelease',userController.newRel)
 user_route.get('/mens',userController.mensPage)
 user_route.get('/womens',userController.womensPage)
 user_route.get('/cart',userController.loadCart)
+user_route.get('/product',userController.product)
 user_route.get('/return',userController.retAndShip)
 user_route.get('/contact',userController.contactUs)
 user_route.get('/brands',userController.brands)

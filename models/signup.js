@@ -1,5 +1,5 @@
 const mongoose=require("mongoose");
-const signupSchema= new mongoose.Schema({
+const signUpSchema= new mongoose.Schema({
 
     name:{
         type:String,
@@ -21,10 +21,10 @@ const signupSchema= new mongoose.Schema({
         min:6,
         max:1024
      },
-     confirm_password:{
-        type:String,
-        required:true
-     },
+    //  confirm_password:{
+    //     type:String,
+    //     required:true
+    //  },
     isAdmin:{
         type:Boolean,
         default: false
@@ -35,5 +35,5 @@ const signupSchema= new mongoose.Schema({
     }
 });
 
-module.exports=mongoose.model('User',signupSchema)
+module.exports=mongoose.model('User',signUpSchema)
 

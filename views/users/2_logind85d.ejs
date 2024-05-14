@@ -35,12 +35,12 @@
     <input type="password"  class="form-input" id="FormField_2_input" data-label="Password" name="FormField[1][2]" value="" autocomplete="off" aria-required="true" data-field-type="Password">
 </div>
 
-                                    <div class="form-field" id="FormField_3" data-validation="{&quot;type&quot;:&quot;password&quot;,&quot;label&quot;:&quot;Confirm Password&quot;,&quot;required&quot;:true,&quot;maxlength&quot;:0}" data-type="ConfirmPassword">
+                                    <!-- <div class="form-field" id="FormField_3" data-validation="{&quot;type&quot;:&quot;password&quot;,&quot;label&quot;:&quot;Confirm Password&quot;,&quot;required&quot;:true,&quot;maxlength&quot;:0}" data-type="ConfirmPassword">
     <label class="form-label" for="FormField_3_input">Confirm Password
             <small>required</small>
     </label>
     <input type="password"  class="form-input" id="FormField_3_input" data-label="Confirm Password" name="FormField[1][3]" value="" autocomplete="off" aria-required="true" data-field-type="ConfirmPassword">
-</div>
+</div> -->
 
                                     <!-- <div class="form-field" id="FormField_5" data-validation="{&quot;type&quot;:&quot;singleline&quot;,&quot;label&quot;:&quot;Last Name&quot;,&quot;required&quot;:true,&quot;maxlength&quot;:0}" data-type="LastName">
     <label class="form-label" for="FormField_5_input">Last Name
@@ -353,19 +353,20 @@
                             </div>
                             <div class="g-recaptcha" data-sitekey="6LcjX0sbAAAAACp92-MNpx66FT4pbIWh-FTDmkkz"></div><br/>
                             <div class="form-actions">
-                                <input type="submit" href="/otp" class="button button--small button--primary" value="Create Account" >
-                                <!-- Google -->
+                                <input type="submit"  class="button button--small button--primary" value="Create Account" >
+                               
+                            </div>  <br>
+                             </form>
+                            <h4>  Or Login With</h4>
+                             <!-- Google -->
                                 <input type="submit" class="button button--small button--primary" value="Google" >
                                 <!-- facebook -->
-                                <input type="submit" class="button button--small button--primary" value="facebook" >
-                            </div>
-                            
-                        </form>
+                                <input type="submit" class="button button--small button--primary" value="facebook" >   
                 </div>
             </div>
             <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
             <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                    <a href="home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
+                    <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
                 <meta itemprop="position" content="1" />
             </li>
             <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
@@ -394,5 +395,5 @@
     <script type="text/javascript"  src="/embedded/validate.js"></script>
 </div>
 </div>
-<!-- Boody ends --> 
+<!-- Body ends --> 
 <%- include("../user_partials/footer") %>       

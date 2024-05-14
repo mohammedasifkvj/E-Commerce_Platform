@@ -2,7 +2,7 @@ const express=require("express");
 const app=express();
 const path=require("path");
 
- // Load static assets
+// Load static assets
 app.use(express.static('public'));
 // app.use('/static',express.static(path.join(__dirname,'public')))
 
@@ -18,7 +18,7 @@ app.use('/',userRoute);
 const adminRoute=require('./routes/adminRoute');
 app.use('/admin',adminRoute);
 
-const port=process.env.PORT ||8004;
+const port=process.env.PORT ||8004;  
 app.listen(port, ()=> {
    console.log("Listening to the server on http://127.0.0.1:8004"); 
-});
+}); 
