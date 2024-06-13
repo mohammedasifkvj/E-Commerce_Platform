@@ -1,24 +1,54 @@
 <%- include("../user_partials/header") %>
 <!-- Body starts -->
         <div class="body" data-currency-code="USD">
-     
+            <!-- breadcrumbs -->
+            <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
+                <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <meta itemprop="item" content="login.html">
+                        <span class="breadcrumb-label" itemprop="name">Login</span>
+                    <meta itemprop="position" content="2" />
+                </li>
+    </ul>
+    
     <main class="page login">
     <div class="container container-smaller">
         <div class="page-content">
             <div class="themevale-heading"> 
                 <h1 class="page-heading">Sign in</h1>
+                <% if (error) { %>
+                    <div class=" text-center font-regular p-2 alert alert-danger "id="popup" style=" border-radius: 10px; font-size: 18px; width: 50% ; background-color: rgb(248, 151, 151); color: darkred;display: flex; display: flex; align-items: center; justify-content: center;"><%= error %></div>  
+                  <% } %>
+                  <% if (success) { %>
+                    <div class=" text-center font-regular p-2 alert alert-danger "id="popup" style=" border-radius: 10px; font-size: 18px; width: 50% ; background-color: rgb(248, 151, 151); color: darkgreen;display: flex; display: flex; align-items: center; justify-content: center;" ><%= success %></div>  
+                  <% } %>
             </div>
+            <!-- hide after  5 seconnds -->
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+    const errorMessage = document.getElementById("popup");
+
+    // Set a timeout to hide the error message after 5 seconds
+    setTimeout(() => {
+        errorMessage.classList.add("hidden");
+    }, 5000); // 5000 milliseconds = 5 seconds
+});
+            </script>
             <div class="login-row">
-                <form class="login-form form" action="https://luxwatches-demo-02.mybigcommerce.com/login.php?action=check_login" method="post">
+                <!-- https://luxwatches-demo-02.mybigcommerce.com/login.php?action=check_login -->
+                <form class="login-form form" action="/signIn"  method="post" novalidate>
                     
                     
                     <div class="form-field">
                         <label class="form-label" for="login_email">Email Address<small>*</small></label>
-                         <input class="form-input" name="login_email" id="login_email" type="email">
+                         <input class="form-input" name="email" id="login_email" type="email">
                     </div>
                     <div class="form-field">
                         <label class="form-label" for="login_pass">Password <small>*</small></label>
-                        <input class="form-input" id="login_pass" type="password" name="login_pass" autocomplete="off">
+                        <input class="form-input" id="login_pass" type="password" name="password" autocomplete="off">
                     </div>
                     <div class="form-actions">
                         <input type="submit" class="button button--small button--primary" value="Sign in">
@@ -44,17 +74,7 @@
                         </div>
                     </div>
             </div>
-            <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
-            <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                    <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
-                <meta itemprop="position" content="1" />
-            </li>
-            <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                    <meta itemprop="item" content="login.html">
-                    <span class="breadcrumb-label" itemprop="name">Login</span>
-                <meta itemprop="position" content="2" />
-            </li>
-</ul>
+            <!-- breadcrumbs -->
         </div>
     </div>
 </main>

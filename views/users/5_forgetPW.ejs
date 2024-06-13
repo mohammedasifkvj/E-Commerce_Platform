@@ -1,6 +1,20 @@
 <%- include("../user_partials/header") %>
         <div class="body" data-currency-code="USD">
-     
+            <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
+                <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <a href="/signIp" class="breadcrumb-label" itemprop="item"><span itemprop="name">Login</span></a>
+                <meta itemprop="position" content="2" />
+            </li>
+                <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <meta itemprop="item" content="login8311.html?action=reset_password">
+                        <span class="breadcrumb-label" itemprop="name">Forgot Password</span>
+                    <meta itemprop="position" content="3" />
+                </li>
+    </ul>
     <main class="page forgot-password">
     <div class="container container-smaller">
         <div class="page-content">
@@ -18,17 +32,7 @@
                     </div>
                 </form>
             </div>
-            <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
-            <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                    <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
-                <meta itemprop="position" content="1" />
-            </li>
-            <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                    <meta itemprop="item" content="login8311.html?action=reset_password">
-                    <span class="breadcrumb-label" itemprop="name">Forgot Password</span>
-                <meta itemprop="position" content="2" />
-            </li>
-</ul>
+            <!-- breadcrumbs -->
         </div>
     </div>
 </main>

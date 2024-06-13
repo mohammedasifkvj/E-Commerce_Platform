@@ -23,16 +23,17 @@
         </script>
         <script async src="/embedded/theme-bundle.head_async.js"></script>
 
-        <link href="/styleSheet/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="user/styleSheet/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Poppins:500,400&amp;display=swap" rel="stylesheet">
-        <link data-stencil-stylesheet href="/styleSheet/theme-835bc9f0-6ef7-013b-b98c-32bb98ae51d5.css" rel="stylesheet">
+        <link data-stencil-stylesheet href="user/styleSheet/theme-835bc9f0-6ef7-013b-b98c-32bb98ae51d5.css" rel="stylesheet">
 
         
 <script type="text/javascript" src="/embedded/loader.js" defer></script>
 <script type="text/javascript">
 var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c09e37ca9d3a9"};
 </script>
-
+<!-- google SSO-->
+<meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
     </head>
     <body class="page-type-cart homepage-layout-2">
         <svg data-src="https://cdn11.bigcommerce.com/s-2nfdiyehvz/stencil/558781b0-6ef6-013b-f567-4afeb0a3a797/e/960150f0-c5aa-0139-ef11-066281ecf407/img/icon-sprite.svg" class="icons-svg-sprite"></svg>
@@ -59,16 +60,16 @@ var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c
                     <span class="text">Customer Login:</span>
                 </p>
                 <div class="login-content">
-                    <form class="login-form form" action="https://luxwatches-demo-02.mybigcommerce.com/login.php?action=check_login" method="post">
+                    <form class="login-form form" action="/signIn" method="post">
                         
                         
                         <div class="form-field">
                             <label class="form-label" for="login_email3">Email Address</label>
-                            <input class="form-input" name="login_email" id="login_email3" type="email">
+                            <input class="form-input" name="email" id="login_email3" type="email">
                         </div>
                         <div class="form-field">
                             <label class="form-label" for="login_pass3">Password</label>
-                            <input class="form-input" id="login_pass3" type="password" name="login_pass">
+                            <input class="form-input" id="login_pass3" type="password" name="password">
                         </div>
                         <div class="form-actions">
                             <input type="submit" class="button button--border" value="Login">
@@ -77,7 +78,7 @@ var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c
                     </form>
                 </div>
                 <div class="new-customer"> <!--   logind85d.html?action=create_account -->
-                        <a class="button button--primary" href="/signup">Create Account</a>
+                        <a class="button button--primary" href="/signUp">Create Account</a>
                 </div>
             </li>
     </ul>
@@ -234,10 +235,10 @@ var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c
     <ul class="navUser-section navUser-section--alt no-currency">
 
         <li class="navUser-item navUser-item--account login">
-                <a class="navUser-action" href="/signin">Log in</a>
+                <a class="navUser-action" href="/signIn">Log in</a>
         </li>
                 <li class="navUser-item navUser-item--account create_account">
-                    <a class="navUser-action" href="/signup">Create Account</a>
+                    <a class="navUser-action" href="/signUp">Create Account</a>
                 </li>
         <li class="navUser-item navUser-item--wishlist">
             <a class="navUser-action" href="#">My Wish Lists</a>
@@ -247,6 +248,9 @@ var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c
             </li>
             <li class="navUser-item">
                 <a class="navUser-action" href="/contact">Contact Us</a>
+            </li>
+            <li class="navUser-item">
+                <a class="navUser-action" href="/logout">Log-out</a>
             </li>
     </ul>
 
@@ -349,12 +353,18 @@ var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c
         </div> 
         <nav class="navPages">
     <ul class="navPages-list navPages-list-depth-max">
-            <li class="navPages-item">
+        <li class="navPages-item">
+            <p class="navPages-action navPages-action-depth-max has-subMenu is-root">
+    <a class="text" href="/home">Home</a> 
+     <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
+    </p>
+         </li>
+          <!--  <li class="navPages-item">
                     <p class="navPages-action navPages-action-depth-max has-subMenu is-root">
         <a class="text" href="/newRelease">New Releases</a> 
         <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
     </p>
-    <!-- <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-36" aria-hidden="true" tabindex="-1">
+     <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-36" aria-hidden="true" tabindex="-1">
     <ul class="navPage-subMenu-list">
         <li class="navPage-subMenu-item-child navPage-subMenu-title">
             <p class="navPage-subMenu-action navPages-action">
@@ -537,8 +547,8 @@ var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c
 </div>
                 </li>
     </ul>
-</div> -->
-            </li>
+</div>
+            </li> -->
             <li class="navPages-item">
                     <p class="navPages-action navPages-action-depth-max has-subMenu is-root">
         <a class="text" href="/mens">Mens</a> 

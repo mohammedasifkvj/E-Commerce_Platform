@@ -1,0 +1,243 @@
+<%- include('../layouts/adminHeader') %>
+
+
+<link rel="stylesheet" href="/css/adminStyle.css">
+<link rel="stylesheet" href="/css/style2.css">
+
+<body>
+    <div class="container-scroller">
+      <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+          <a class="navbar-brand brand-logo mr-5" href=""><img src="/assets/img/logoZephyr.png" class="mr-2" alt="logo"/></a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+            <span class="icon-menu"><i class="fa-solid fa-bars"></i></i></span>
+          </button>
+          <ul class="navbar-nav mr-lg-2">
+            <li class="nav-item nav-search d-none d-lg-block">
+              <div class="input-group">
+                <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
+                  <span class="input-group-text" id="search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search">
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      
+      <!-- sidebar -->
+      <div class="container-fluid page-body-wrapper">
+
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/dashboard">
+                <i class="fa-solid menu-icon fa-house"></i>
+                <span class="menu-title">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item" style="background-color:  #5050b2; border-radius: 8px;">
+              <a class="nav-link" href="/admin/userManagement">
+                <i class="fa-solid menu-icon fa-user" style="color: #ffffff;"></i>
+                <span class="menu-title" style="color: #ffffff;">User Management</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/productManagement">
+                <i class="fa-brands menu-icon fa-shopify"></i>
+                <span class="menu-title">Product Management</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/categoryManagement">
+                <i class="fa-solid menu-icon fa-layer-group"></i>
+                <span class="menu-title">Category Management</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/orderManagement">
+                <i class="fa-solid menu-icon fa-cart-plus"></i>
+                <span class="menu-title">Order Management</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/coupenManagement">
+                <i class="fa-solid menu-icon fa-tags"></i>
+                <span class="menu-title">Coupon Management</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/offerManagement">
+                <i class="fa-solid menu-icon fa-tag"></i>
+                <span class="menu-title">Offer Management</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/bannerManagement">
+                <i class="fa-solid menu-icon fa-images"></i>
+                <span class="menu-title">Banner Management</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/logout">
+                <i class="fa-solid menu-icon fa-arrow-right-from-bracket"></i>
+                <span class="menu-title">Logout</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <!-- sidebar -->
+        
+        
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="row">
+                <div class="col-12 col-xl-8 mb-4 mb-xl-10">
+                  <h3 class="font-weight-bold">USER MANAGEMENT</h3>
+                </div>
+              </div>
+            <div class="row">
+              <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                <form action="/admin/searchUser" method="get">
+                    <input type="text" name="search" placeholder="Search by name">
+                    <button>Search</button>
+                </form>
+                <a href="/admin/userManagement"><button>Show All Users</button></a>
+            </div>
+
+            <!-- pagination -->
+         <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-end">
+              <% if (currentPage > 1) { %>
+                  <li class="page-item">
+                      <a class="page-link" href="/admin/userManagement?page=<%= currentPage - 1 %>" tabindex="-1">Previous</a>
+                  </li>
+              <% } else { %>
+                  <li class="page-item disabled">
+                      <a class="page-link" href=" " tabindex="-1">Previous</a>
+                  </li>
+              <% } %>
+      
+              <% for (let i = 1; i <= totalPages; i++) { %>
+                  <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                      <a class="page-link" href="/admin/userManagement?page=<%= i %>"><%= i %></a>
+                  </li>
+              <% } %>
+      
+              <% if (currentPage < totalPages) { %>
+                  <li class="page-item">
+                      <a class="page-link" href="/admin/userManagement?page=<%= currentPage + 1 %>">Next</a>
+                  </li>
+              <% } else { %>
+                  <li class="page-item disabled">
+                      <a class="page-link" href="#" tabindex="-1">Next</a>
+                  </li>
+              <% } %>
+          </ul>
+      </nav>
+
+
+              <div class="col-md-12 grid-margin stretch-card">
+                <div class="container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Create Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if(users.length > 0) {
+                                for(let i=0; i < users.length; i++) { %>
+                                    <tr>
+                                        <td><%= users[i].Fname + ' ' + users[i].Lname %></td>
+                                        <td><%= users[i].email %></td>
+                                        <td><%= users[i].phone %></td>
+                                        <td><%= new Date(users[i].createdAt).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) %></td>
+                                        <td>
+                                          <% if(users[i].is_block==false) { %>
+                                            <button class="edit-btn btn-info block-btn" onclick="blockAndUnblockUser('<%= users[i]._id %>',false)">Block</button>
+                                          <%}else{ %>
+                                            <button class="edit-btn btn-danger" onclick="blockAndUnblockUser('<%= users[i]._id %>',true)">Unblock</button> 
+                                          <% } %>
+                                            
+                                        </td>
+                                    </tr>
+                            <%  } 
+                                } else { %>
+                                    <tr>
+                                        <td colspan="4">Users not found</td>
+                                    </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+              </div>
+            </div> 
+          </div>
+          
+
+          <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2024.<a href="" target="_blank">Zephyr</a></span>
+            </div>
+          </footer> 
+        </div>
+      </div>   
+    </div>
+
+    <script>
+      function blockAndUnblockUser(userId,status) {
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: status ? "Yes, unblock user!" : "Yes, block user!",
+          cancelButtonText: "No, cancel!",
+          reverseButtons: true
+        }).then((result) => {
+          if (result.isConfirmed) {
+            fetch(`/admin/blockAndUnblockUser?id=${userId}`, {
+              method: 'GET' 
+            })
+            .then(response => {
+              if (response.ok) {
+                Swal.fire({
+                  title: status ? "User Unblocked!" : "User Blocked!",
+                  text: status ? "The user has been unblocked." : "The user has been blocked.",
+                  icon: "success"
+                }).then(() => {
+                  window.location.reload();
+                });
+              } else {
+                Swal.fire({
+                  title: "Error",
+                  text: "An error occurred while blocking the user.",
+                  icon: "error"
+                });
+              }
+            })
+            .catch(error => {
+              
+              console.error("Error:", error);
+              Swal.fire({
+                title: "Error",
+                text: "An error occurred while blocking the user.",
+                icon: "error"
+              });
+            });
+          }
+        });
+      }
+
+    </script>
+
+    <%- include('../layouts/adminFooter') %>

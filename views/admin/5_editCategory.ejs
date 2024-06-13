@@ -1,0 +1,43 @@
+<%- include("../adminPartials/header") %>
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">EDIT <%= category.name %> CATEGORY
+                    </div>
+                    <!-- <div>
+                        <input type="text" placeholder="Search Categories" class="form-control bg-white" />
+                    </div> -->
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                                <% if (error) { %>
+                                    <div class=" text-center font-regular p-2 alert alert-danger "id="popup" style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkred;"><%= error %></div>  
+                                  <% } %>
+                                  <% if (success) { %>
+                                    <div class=" text-center font-regular p-2 alert alert-danger "id="popup" style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkgreen;" ><%= success %></div>  
+                                  <% } %>
+                                <form action="/admin/category" method="post" >
+                                    <br>
+                                    <div class="mb-4">
+                                        <label for="product_name" class="form-label" >Category Name</label>
+                                        <input type="text" value="<%= category.name %>" style="width: 50%;" name="name"  placeholder="Type category name here" class="form-control" id="category_name" />
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label">Description</label>
+                                        <textarea name="description" value="<%= category.description %>" placeholder="Type here" class="form-control" style="height: 20vh;"></textarea>
+                                    </div>
+                                    <div class="d-grid " >
+                                        <button type="submit" class="btn btn-primary">Update category</button>
+                                        <br>
+                                        <a href="/admin/ShowCategory" class="btn btn-outline-secondary">Back to Category Page</a>
+                                    </div>
+                                </form>
+                        </div>
+                        <!-- .row // -->
+                    </div>
+                    <!-- card body .// -->
+                </div>
+                <!-- card .// -->
+            </section>
+  <%- include("../adminPartials/footer") %>

@@ -1,0 +1,187 @@
+<%- include("../adminPartials/header") %>
+            <section class="content-main">
+                <div class="row">
+                    <div class="col-9">
+                        <div class="content-header">
+                            <h2 class="content-title">Edit New Product</h2>
+                            <div>
+                                <!-- <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button> -->
+                                <!-- <button class="btn btn-md rounded font-sm hover-up">Publish</button> -->
+                            </div>
+                        </div>
+                    </div>
+                    <% if (error) { %>
+                        <div class=" text-center font-regular p-2 alert alert-danger "id="popup" style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkred;"><%= error %></div>  
+                      <% } %>
+                      <% if (success) { %>
+                        <div class=" text-center font-regular p-2 alert alert-danger "id="popup" style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkgreen;" ><%= success %></div>  
+                      <% } %>
+                    <div class="col-lg-6">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4>Product Details</h4>
+                            </div>
+                            <div class="card-body">
+                                <form action="/admin/editPro" method="post">
+                                    <div class="mb-4">
+                                        <label for="product_name" class="form-label">Product Name</label>
+                                        <input name="productName" value="<%= product.productName %>" type="text" placeholder="Type here" class="form-control" id="product_name" />
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="product_name" class="form-label">Category</label>
+                                        <input name="category" value="<%= product.category %>" type="text" placeholder="Type here" class="form-control" id="product_name" />
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="product_name" class="form-label">Brand</label>
+                                        <input name="brand" value="<%= product.brand %>" type="text" placeholder="Type here" class="form-control" id="product_name" />
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label">Full description</label>
+                                        <textarea name="description" value="<%= product.description %>" placeholder="Type here" class="form-control"  rows="4" style="height: 20vh;"></textarea>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="mb-4">
+                                                <label class="form-label">Regular price</label>
+                                                <div class="row gx-2">
+                                                    <input name="price" value="<%= product.price %>" placeholder="$" type="text" class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="mb-4">
+                                                <label class="form-label">Discount price</label>
+                                                <input name="discountPrice" value="<%= product.discountPrice %>" placeholder="$" type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="mb-4">
+                                                <label class="form-label">Stock</label>
+                                                <input name="Stock" value="<%= product.stock %>"  placeholder="$"  type="text" class="form-control" />
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="col-lg-4">
+                                            <label class="form-label">Currency</label>
+                                            <select class="form-select">
+                                                <option>USD</option>
+                                                <option>EUR</option>
+                                                <option>RUBL</option>
+                                            </select>
+                                        </div> -->
+                                    </div>
+                                    <!-- <div class="mb-4">
+                                        <label class="form-label">Tax rate</label>
+                                        <input type="text" placeholder="%" class="form-control" id="product_name" />
+                                    </div> -->
+                                    <!-- <label class="form-check mb-4">
+                                        <input class="form-check-input" type="checkbox" value="" />
+                                        <span class="form-check-label"> Make a template </span>
+                                    </label> 
+                                </form>-->
+                            </div>
+                        </div>
+                        <!-- card end// -->
+                        <!--  <div class="card mb-4">
+                            <div class="card-header">
+                                <h4>Shipping</h4>
+                            </div>
+                            <div class="card-body">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="mb-4">
+                                                <label for="product_name" class="form-label">Width</label>
+                                                <input type="text" placeholder="inch" class="form-control" id="product_name" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-4">
+                                                <label for="product_name" class="form-label">Height</label>
+                                                <input type="text" placeholder="inch" class="form-control" id="product_name" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="product_name" class="form-label">Weight</label>
+                                        <input type="text" placeholder="gam" class="form-control" id="product_name" />
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="product_name" class="form-label">Shipping fees</label>
+                                        <input type="text" placeholder="$" class="form-control" id="product_name" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div> -->
+                        <!-- card end// -->
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4>Product Images</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="input-upload">
+                                    <img src="assets/imgs/theme/upload.svg" alt="" />
+                                    <input class="form-control" type="file" />
+                                </div>
+                                <div class="input-upload">
+                                    <img src="assets/imgs/theme/upload.svg" alt="" />
+                                    <input class="form-control" type="file" />
+                                </div>
+                                <div class="input-upload">
+                                    <img src="assets/imgs/theme/upload.svg" alt="" />
+                                    <input class="form-control" type="file" />
+                                </div>
+                                <div class="input-upload">
+                                    <img src="assets/imgs/theme/upload.svg" alt="" />
+                                    <input class="form-control" type="file" />
+                                </div>
+                            </div>
+                        </div> 
+                        <!-- card end// -->
+                        <!-- <div class="card mb-4">
+                            <div class="card-header">
+                                <h4>Organization</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row gx-2">
+                                    <div class="col-sm-6 mb-3">
+                                        <label class="form-label">Category</label>
+                                        <select class="form-select">
+                                            <option>Automobiles</option>
+                                            <option>Home items</option>
+                                            <option>Electronics</option>
+                                            <option>Smartphones</option>
+                                            <option>Sport items</option>
+                                            <option>Baby and Tous</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6 mb-3">
+                                        <label class="form-label">Sub-category</label>
+                                        <select class="form-select">
+                                            <option>Nissan</option>
+                                            <option>Honda</option>
+                                            <option>Mercedes</option>
+                                            <option>Chevrolet</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="product_name" class="form-label">Tags</label>
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div> 
+                                  row.// 
+                            </div>
+                        </div> -->
+                        <!-- card end// -->
+                        <button type="submit" class="btn btn-md rounded font-sm hover-up">Update Product Data</button>
+                        <br>
+                        <br>
+                        <a href="/admin/product" class="btn btn-outline-secondary">Back to Product Page</a>
+                    </form>
+                    </div>
+                </div>
+            </section>
+            <!-- content-main end// -->
+            <%- include("../adminPartials/footer") %>

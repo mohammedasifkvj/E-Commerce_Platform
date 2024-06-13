@@ -2,38 +2,90 @@
 <!-- Header Ends -->
 <!-- Body Starts -->
         <div class="body" data-currency-code="USD">
-     
+            <!-- breadcrumbs -->
+            <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
+                <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <meta itemprop="item" content="logind85d.html?action=create_account">
+                        <span class="breadcrumb-label" itemprop="name">Create Account</span>
+                    <meta itemprop="position" content="2" />
+                </li>
+        </ul>
+        
     <main class="page create-account account">
     <div class="container container-smaller">
         <div class="page-content">
             <div class="themevale-heading">
                 <h1 class="page-heading">New Account</h1>
+                <% if (error) { %>
+                    <div class=" text-center font-regular p-2 alert alert-danger "id="popup" style=" border-radius: 10px; font-size: 18px; width: 50% ; background-color: rgb(248, 151, 151); color: darkred;display: flex; display: flex; align-items: center; justify-content: center;"><%= error %></div>  
+                  <% } %>
+                  <% if (success) { %>
+                    <div class=" text-center font-regular p-2 alert alert-danger "id="popup" style=" border-radius: 10px; font-size: 18px; width: 50% ; background-color: rgb(248, 151, 151); color: darkgreen;display: flex; display: flex; align-items: center; justify-content: center;" ><%= success %></div>  
+                  <% } %>
             </div>
+
+                <script>
+                document.addEventListener("DOMContentLoaded", () => {
+    const errorMessage = document.getElementById("popup");
+
+    // Set a timeout to hide the error message after 5 seconds
+    setTimeout(() => {
+        errorMessage.classList.add("hidden");
+    }, 5000); // 5000 milliseconds = 5 seconds
+});
+            </script>
+            
             <div class="account">
                 <div class="account-body">
                     <!-- https://luxwatches-demo-02.mybigcommerce.com/login.php?action=save_new_account -->
-                        <form action="/signup" data-create-account-form method="post" class="form">
+                        <form action="/send-otp" data-create-account-form method="post" class="login-form form">
                             <div class="form-row form-row--half">
 
-                                <div class="form-field" id="FormField_4" data-validation="{&quot;type&quot;:&quot;singleline&quot;,&quot;label&quot;:&quot;First Name&quot;,&quot;required&quot;:true,&quot;maxlength&quot;:0}" data-type="FirstName">
+                                <div class="form-field">
+                                    <label class="form-label" for="login_email">Name<small>*</small></label>
+                                     <input class="form-input" name="name" id="login_email" type="text">
+                                </div>
+                                <div class="form-field">
+                                    <label class="form-label" for="login_email">Email Address<small>*</small></label>
+                                     <input class="form-input" name="email" id="email" type="email">
+                                </div>
+                                <div class="form-field">
+                                    <label class="form-label" for="login_pass">Mobile Number<small>*</small></label>
+                                    <input class="form-input" id="login_mobile" type="text" name="mobile" maxlength="10"   autocomplete="off">
+                                </div>
+                                <div class="form-field">
+                                    <label class="form-label" for="login_pass">Password <small>*</small></label>
+                                    <input class="form-input" id="login_pass" type="password" name="password" autocomplete="off">
+                                </div>
+
+                                <!-- <div class="form-field" id="FormField_4" data-validation="{&quot;type&quot;:&quot;singleline&quot;,&quot;label&quot;:&quot;First Name&quot;,&quot;required&quot;:true,&quot;maxlength&quot;:0}" data-type="FirstName">
     <label class="form-label" for="FormField_4_input"> Name
         <small>required</small>
     </label>
-    <input type="text" id="FormField_4_input" data-label="First Name" name="FormField[2][4]"   class="form-input" aria-required="true" data-field-type="FirstName" >
+    <input type="text" id="FormField_4_input" data-label="First Name" name="name"   class="form-input" aria-required="true" data-field-type="FirstName" >
 </div>
 
                                     <div class="form-field" id="FormField_1" data-validation="{&quot;type&quot;:&quot;singleline&quot;,&quot;label&quot;:&quot;Email Address&quot;,&quot;required&quot;:true,&quot;maxlength&quot;:0}" data-type="EmailAddress">
-    <label class="form-label" for="FormField_1_input">Email Address
-        <small>required</small>
-    </label>
-    <input type="text" id="FormField_1_input" data-label="Email Address" name="FormField[1][1]"   class="form-input" aria-required="true" data-field-type="EmailAddress" >
+    <label class="form-label" for="FormField_1_input">Email Address <small>*</small></label>
+
+    <input type="text" id="FormField_1_input" data-label="Email Address" name="email"   class="form-input" aria-required="true" data-field-type="EmailAddress" >
 </div>
 
-                                    <div class="form-field" id="FormField_2" data-validation="{&quot;type&quot;:&quot;password&quot;,&quot;label&quot;:&quot;Password&quot;,&quot;required&quot;:true,&quot;maxlength&quot;:0}" data-type="Password">
-    <label class="form-label" for="FormField_2_input">Password<small>required</small>
-    </label>
-    <input type="password"  class="form-input" id="FormField_2_input" data-label="Password" name="FormField[1][2]" value="" autocomplete="off" aria-required="true" data-field-type="Password">
+<div class="form-field" id="FormField_7" data-validation="{&quot;type&quot;:&quot;singleline&quot;,&quot;label&quot;:&quot;Phone Number&quot;,&quot;required&quot;:false,&quot;maxlength&quot;:0}" data-type="Phone">
+    <label class="form-label" for="FormField_7_input">Mobile Number<small>*</small> </label>
+    <input type="text" id="FormField_7_input" data-label="Phone Number" name="mobile"   class="form-input" aria-required="false" data-field-type="Phone" minlength="10" maxlength="10" >
 </div>
+
+
+                                    <div class="form-field" id="FormField_2" data-validation="{&quot;type&quot;:&quot;password&quot;,&quot;label&quot;:&quot;Password&quot;,&quot;required&quot;:true,&quot;maxlength&quot;:0}" data-type="Password">
+    <label class="form-label" for="FormField_2_input">Password<small>*</small>
+    </label>
+    <input type="password"  class="form-input" id="FormField_2_input" data-label="Password" name="password" value="" autocomplete="off" aria-required="true" data-field-type="Password">
+</div> -->
 
                                     <!-- <div class="form-field" id="FormField_3" data-validation="{&quot;type&quot;:&quot;password&quot;,&quot;label&quot;:&quot;Confirm Password&quot;,&quot;required&quot;:true,&quot;maxlength&quot;:0}" data-type="ConfirmPassword">
     <label class="form-label" for="FormField_3_input">Confirm Password
@@ -48,12 +100,7 @@
     </label>
     <input type="text" id="FormField_5_input" data-label="Last Name" name="FormField[2][5]"   class="form-input" aria-required="true" data-field-type="LastName" >
 </div> -->
-<div class="form-field" id="FormField_7" data-validation="{&quot;type&quot;:&quot;singleline&quot;,&quot;label&quot;:&quot;Phone Number&quot;,&quot;required&quot;:false,&quot;maxlength&quot;:0}" data-type="Phone">
-    <label class="form-label" for="FormField_7_input">Phone Number
-        
-    </label>
-    <input type="text" id="FormField_7_input" data-label="Phone Number" name="FormField[2][7]"   class="form-input" aria-required="false" data-field-type="Phone" >
-</div>
+
                                     <!-- <div class="form-field" id="FormField_6" data-validation="{&quot;type&quot;:&quot;singleline&quot;,&quot;label&quot;:&quot;Company Name&quot;,&quot;required&quot;:false,&quot;maxlength&quot;:0}" data-type="CompanyName">
     <label class="form-label" for="FormField_6_input">Company Name
         
@@ -351,30 +398,61 @@
 </div> -->
                             
                             </div>
+                            <br>
+                            <p>* indicates required fields </p>
                             <div class="g-recaptcha" data-sitekey="6LcjX0sbAAAAACp92-MNpx66FT4pbIWh-FTDmkkz"></div><br/>
                             <div class="form-actions">
-                                <input type="submit"  class="button button--small button--primary" value="Create Account" >
+                                <input type="submit"  class="button button--small button--primary" value="Request OTP" >
                                
                             </div>  <br>
                              </form>
-                            <h4>  Or Login With</h4>
-                             <!-- Google -->
-                                <input type="submit" class="button button--small button--primary" value="Google" >
-                                <!-- facebook -->
-                                <input type="submit" class="button button--small button--primary" value="facebook" >   
+                               
                 </div>
+                
+                             <!-- Google 
+                                <input type="submit" class="button button--small button--primary" value="Google" >
+                                 facebook 
+                                <input type="submit" class="button button--small button--primary" value="facebook" >
+-->
+                   
+
+                        <div class=" d-grid gap-3 mb-4 " style=" align-items: center;">
+                            <div >
+                          <button class="button button--small " >  <a href="/googleVerify" class="btn w-100 btn-light font-sm">
+                                <svg aria-hidden="true" class="icon-svg" width="20" height="20" viewBox="0 0 20 20">
+                                    <path d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 002.38-5.88c0-.57-.05-.66-.15-1.18z" fill="#4285F4"></path>
+                                    <path d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 01-7.18-2.54H1.83v2.07A8 8 0 008.98 17z" fill="#34A853"></path>
+                                    <path d="M4.5 10.52a4.8 4.8 0 010-3.04V5.41H1.83a8 8 0 000 7.18l2.67-2.07z" fill="#FBBC05"></path>
+                                    <path d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 001.83 5.4L4.5 7.49a4.77 4.77 0 014.48-3.3z" fill="#EA4335"></path></svg>
+                                Sign in using Google  
+                                </a></button></div>
+                                <script>
+                                    function onSignIn(googleUser) {
+                                      // Useful data for your client-side scripts:
+                                      var profile = googleUser.getBasicProfile();
+                                      console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
+                                      console.log('Full Name: ' + profile.getName());
+                                      console.log('Given Name: ' + profile.getGivenName());
+                                      console.log('Family Name: ' + profile.getFamilyName());
+                                      console.log("Image URL: " + profile.getImageUrl());
+                                      console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
+                               
+                                      // The ID token you need to pass to your backend:
+                                      var id_token = googleUser.getAuthResponse().id_token;
+                                      console.log("ID Token: " + id_token);
+                                    }
+                                  </script>
+
+                            <div>
+                            <button class="button button--small " >
+                            <a href="#" class="btn w-100 btn-light font-sm">
+                                <svg aria-hidden="true" class="icon-svg" width="20" height="20" viewBox="0 0 20 20">
+                                    <path d="M3 1a2 2 0 00-2 2v12c0 1.1.9 2 2 2h12a2 2 0 002-2V3a2 2 0 00-2-2H3zm6.55 16v-6.2H7.46V8.4h2.09V6.61c0-2.07 1.26-3.2 3.1-3.2.88 0 1.64.07 1.87.1v2.16h-1.29c-1 0-1.19.48-1.19 1.18V8.4h2.39l-.31 2.42h-2.08V17h-2.5z" fill="#4167B2"></path> </svg>
+                                Sign in using Facebook
+                            </a></button></div>
+                        </div> 
             </div>
-            <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
-            <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                    <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
-                <meta itemprop="position" content="1" />
-            </li>
-            <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                    <meta itemprop="item" content="logind85d.html?action=create_account">
-                    <span class="breadcrumb-label" itemprop="name">Create Account</span>
-                <meta itemprop="position" content="2" />
-            </li>
-</ul>
+    <!-- Breadcrumbs -->
         </div>
     </div>
 </main>
@@ -396,4 +474,5 @@
 </div>
 </div>
 <!-- Body ends --> 
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 <%- include("../user_partials/footer") %>       

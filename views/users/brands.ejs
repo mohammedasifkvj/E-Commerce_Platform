@@ -1,6 +1,17 @@
 <%- include("../user_partials/header") %>
         <div class="body" data-currency-code="USD">
-     
+            <!-- breadcrumbs -->
+            <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
+                <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <meta itemprop="item" content="brands.html">
+                        <span class="breadcrumb-label" itemprop="name">All Brands</span>
+                    <meta itemprop="position" content="2" />
+                </li>
+    </ul>
     
 <div class="page">
     <div class="container">
@@ -714,17 +725,8 @@
                             </article>
                         </li>
                 </ul>
-            <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
-            <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                    <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
-                <meta itemprop="position" content="1" />
-            </li>
-            <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                    <meta itemprop="item" content="brands.html">
-                    <span class="breadcrumb-label" itemprop="name">All Brands</span>
-                <meta itemprop="position" content="2" />
-            </li>
-</ul>
+                <!-- breadcrumbs -->
+            
         </div>
 
         <div data-content-region="brands_below_content"></div>

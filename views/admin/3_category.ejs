@@ -1,0 +1,112 @@
+<%- include("../adminPartials/header") %>
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">Categories</h2>
+                        <p>Add, edit or delete a category</p>
+                    </div>
+                    <div>
+                        <input type="text" placeholder="Search Categories" class="form-control bg-white" />
+                        <br>
+                        <a href="/admin/createCat" class="btn btn-success">Create new Category</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                          
+                                <% if (error) { %>
+                                    <div class=" text-center font-regular p-2 alert alert-danger "id="popup" style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkred;"><%= error %></div>  
+                                  <% } %>
+                                  <% if (success) { %>
+                                    <div class=" text-center font-regular p-2 alert alert-danger "id="popup" style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkgreen;" ><%= success %></div>  
+                                  <% } %>
+                            
+                            <!-- <div class="col-md-9"> -->
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" />
+                                                    </div>
+                                                </th>
+                                                <th>Category Name</th>
+                                                <th>Description</th>
+                                             <!-- <th> Status </th> -->
+                                                <th >Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if(category.length > 0) {
+                                                for(let i=0; i < category.length; i++) { %>
+                                            <tr>
+                                                <td class="text-center">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" />
+                                                    </div>
+                                                </td>
+                                                <td><b><%= category[i].name %></b></td>
+                                                <td><%= category[i].description %></td>
+                                                <!--<td><%= category[i].status %></td> -->
+                                                <td >
+                                                    <div class="row">
+                                                        <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
+                                                            <a href="/admin/category" class="btn btn-sm font-sm rounded btn-brand">
+                                                                <i class="bi bi-pencil-square"></i></i> Edit
+                                                            </a>
+                                                        </div>
+                                                        <div class="col">
+                                                            <% if(category[i].listed==false) { %>
+                                                                <button class="edit-btn btn-info block-btn" onclick="blockAndUnblockUser('<%= category[i]._id %>',true)">List</button>
+                                                            <%}else{ %>
+                                                                <button class="edit-btn btn-danger" onclick="blockAndUnblockUser('<%= category[i]._id %>',false)">UnList</button> 
+                                                            <% } %> 
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    </div>
+                                                </td>
+                                            </tr> 
+                                            <!-- <tr>
+                                                <td class="text-center">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" />
+                                                    </div>
+                                                </td>
+                                                <td>8</td>
+                                                <td><b>Black plum</b></td>
+                                                <td>Black plum</td>
+                                                <td>/plum</td>
+                                                <td>8</td>
+                                                <td class="text-end">
+                                                    <div class="dropdown">
+                                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="#">View detail</a>
+                                                            <a class="dropdown-item" href="#">Edit info</a>
+                                                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>-->  
+                                            <%  } 
+                                        } else { %>
+                                            <tr>
+                                                <td  colspan="5" class="text-center"> No categories found </td>
+                                            </tr>
+                                    <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <!-- </div> -->
+                            <!-- .col// -->
+                        </div>
+                        <!-- .row // -->
+                    </div>
+                    <!-- card body .// -->
+                </div>
+                <!-- card .// -->
+            </section>
+            <%- include("../adminPartials/footer") %>

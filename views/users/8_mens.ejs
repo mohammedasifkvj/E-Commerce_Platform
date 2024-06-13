@@ -1,6 +1,16 @@
 <%- include("../user_partials/header") %>
         <div class="body" data-currency-code="USD">
-     
+     <!-- breadcrumbs --><ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
+            <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
+            <meta itemprop="position" content="1" />
+        </li>
+        <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                <meta itemprop="item" content="https://luxwatches-demo-02.mybigcommerce.com/mens/">
+                <span class="breadcrumb-label" itemprop="name">Mens</span>
+            <meta itemprop="position" content="2" />
+        </li>
+</ul>
     
     <div class="page category-layout-2">
     <div class="category-description">
@@ -9,9 +19,7 @@
     srcset="../../cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/80w/c/category-image-layout-2__10577.original.jpg"
 data-srcset="https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/80w/c/category-image-layout-2__10577.original.jpg 80w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/160w/c/category-image-layout-2__10577.original.jpg 160w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/320w/c/category-image-layout-2__10577.original.jpg 320w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/640w/c/category-image-layout-2__10577.original.jpg 640w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/960w/c/category-image-layout-2__10577.original.jpg 960w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/1280w/c/category-image-layout-2__10577.original.jpg 1280w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/1920w/c/category-image-layout-2__10577.original.jpg 1920w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/2560w/c/category-image-layout-2__10577.original.jpg 2560w"
 
-class="lazyload card-image"
-
- />
+class="lazyload card-image"/>
             </div>
         <div class="content has-img">
                 <h1 class="page-heading">Mens</h1>
@@ -82,13 +90,8 @@ class="lazyload card-image"
             <option value="8">8 Items per page</option>
             <!-- <option value="9">9 Items per page</option> -->
             <option value="12">12 Items per page</option>
-            <!-- <option value="15">15 Items per page</option> -->
             <option value="16">16 Items per page</option>
             <option value="18">18 Items per page</option>
-           <!--  <option value="20">20 Items per page</option>
-            <option value="21">21 Items per page</option>
-            <option value="24">24 Items per page</option>
-            <option value="28">28 Items per page</option> -->
         </select>
     </div>
 </fieldset>
@@ -150,500 +153,27 @@ function getUrlVars() {
             <a class="navPages-action has-subMenu" href="/newRelease">
                 <span>New Releases</span>
             </a>
-            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-            <ul class="dropdown-category-list navPages-level-2">
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="../new-releases/accessorius/index.html">
-                                <span>Accéssorius</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/accessorius/comodianos/index.html"><span>Comodianos</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/accessorius/dincidunteros/index.html"><span>Dincidunteros</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/accessorius/gravidas/index.html"><span>Gravidas</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/accessorius/loremous/index.html"><span>Loremous</span></a>
-                                </li>
-                            </ul>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="../new-releases/comos-de-milano/index.html">
-                                <span>Comos De Milano</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/comos-de-milano/dincidunteros/index.html"><span>Dincidunteros</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/comos-de-milano/loremous-comodous/index.html"><span>Loremous Comodous</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/comos-de-milano/namdos-hempus/index.html"><span>Namdos Hempus</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/comos-de-milano/nectellus/index.html"><span>Nectellus</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/comos-de-milano/pellentes-habitanto/index.html"><span>Pellentes Habitanto</span></a>
-                                </li>
-                            </ul>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="../new-releases/lorem-dorus/index.html">
-                                <span>Lorem Dorus</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/lorem-dorus/comodianos/index.html"><span>Comodianos</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/lorem-dorus/dincidunteros/index.html"><span>Dincidunteros</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/lorem-dorus/gravidas/index.html"><span>Gravidas</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/lorem-dorus/loremous/index.html"><span>Loremous</span></a>
-                                </li>
-                            </ul>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="../new-releases/lynn-cosmopolis/index.html">
-                                <span>Lynn Cosmopolis</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/lynn-cosmopolis/dincidunteros/index.html"><span>Dincidunteros</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/lynn-cosmopolis/loremous-comodous/index.html"><span>Loremous Comodous</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/lynn-cosmopolis/namdos-hempus/index.html"><span>Namdos Hempus</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/lynn-cosmopolis/nectellus/index.html"><span>Nectellus</span></a>
-                                </li>
-                            </ul>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="../new-releases/milancelos-lanos/index.html">
-                                <span>Milancelos Lanos</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/milancelos-lanos/bibendumetos/index.html"><span>Bibendumetos</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/milancelos-lanos/consequato/index.html"><span>Consequato</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/milancelos-lanos/loremoutica/index.html"><span>Loremoutica</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/milancelos-lanos/pellentes-habitanto/index.html"><span>Pellentes Habitanto</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/milancelos-lanos/scelerisque-yurna/index.html"><span>Scelerisque Yurna</span></a>
-                                </li>
-                            </ul>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="../new-releases/nor-loremirus/index.html">
-                                <span>Nor Loremirus</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/nor-loremirus/bibendumetos/index.html"><span>Bibendumetos</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/nor-loremirus/consequato/index.html"><span>Consequato</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../new-releases/nor-loremirus/pellentes-habitanto/index.html"><span>Pellentes Habitanto</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../scelerisque-yurna/index.html"><span>Scelerisque Yurna</span></a>
-                                </li>
-                            </ul>
-                    </li>
-            </ul>
         </li>
         <li class="navPages-item">
             <a class="navPages-action has-subMenu" href="/mens">
                 <span>Mens</span>
             </a>
-            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-            <ul class="dropdown-category-list navPages-level-2">
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="accessorius/index.html">
-                                <span>Accéssorius</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="accessorius/comodianos/index.html"><span>Comodianos</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="accessorius/dincidunteros/index.html"><span>Dincidunteros</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="accessorius/gravidas/index.html"><span>Gravidas</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="accessorius/loremous/index.html"><span>Loremous</span></a>
-                                </li>
-                            </ul>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="comos-de-milano/index.html">
-                                <span>Comos De Milano</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="comos-de-milano/dincidunteros/index.html"><span>Dincidunteros</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="comos-de-milano/loremous-comodous/index.html"><span>Loremous Comodous</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="comos-de-milano/namdos-hempus/index.html"><span>Namdos Hempus</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="comos-de-milano/nectellus/index.html"><span>Nectellus</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="comos-de-milano/solutmades/index.html"><span>Solutmades</span></a>
-                                </li>
-                            </ul>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="lorem-dorus/index.html">
-                                <span>Lorem Dorus</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="lorem-dorus/comodianos/index.html"><span>Comodianos</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="lorem-dorus/dincidunteros/index.html"><span>Dincidunteros</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="lorem-dorus/gravidas/index.html"><span>Gravidas</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="lorem-dorus/loremous/index.html"><span>Loremous</span></a>
-                                </li>
-                            </ul>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="lynn-cosmopolis/index.html">
-                                <span>Lynn Cosmopolis</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="lynn-cosmopolis/dincidunteros/index.html"><span>Dincidunteros</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="lynn-cosmopolis/loremous-comodous/index.html"><span>Loremous Comodous</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="lynn-cosmopolis/namdos-hempus/index.html"><span>Namdos Hempus</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="lynn-cosmopolis/nectellus/index.html"><span>Nectellus</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="lynn-cosmopolis/solutmades/index.html"><span>Solutmades</span></a>
-                                </li>
-                            </ul>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="milancelos-lanos/index.html">
-                                <span>Milancelos Lanos</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="milancelos-lanos/bibendumetos/index.html"><span>Bibendumetos</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="milancelos-lanos/consequato/index.html"><span>Consequato</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="milancelos-lanos/loremoutica/index.html"><span>Loremoutica</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="milancelos-lanos/pellentes-habitanto/index.html"><span>Pellentes Habitanto</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="milancelos-lanos/scelerisque-yurna/index.html"><span>Scelerisque Yurna</span></a>
-                                </li>
-                            </ul>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="nor-loremirus/index.html">
-                                <span>Nor Loremirus</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="nor-loremirus/bibendumetos/index.html"><span>Bibendumetos</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="nor-loremirus/consequato/index.html"><span>Consequato</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="nor-loremirus/pellentes-habitanto/index.html"><span>Pellentes Habitanto</span></a>
-                                </li>
-                            </ul>
-                    </li>
-            </ul>
         </li>
         <li class="navPages-item">
             <a class="navPages-action has-subMenu" href="/womens">
                 <span>Womens</span>
             </a>
-            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-            <ul class="dropdown-category-list navPages-level-2">
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action" href="../womens/consequato/index.html"><span>Consequato</span></a>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action" href="../womens/loremoutica/index.html"><span>Loremoutica</span></a>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="../womens/pellentes-habitanto/index.html">
-                                <span>Pellentes Habitanto</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../womens/pellentes-habitanto/dincidunteros/index.html"><span>Dincidunteros</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../womens/pellentes-habitanto/loremous-comodous/index.html"><span>Loremous Comodous</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../womens/pellentes-habitanto/solutmades/index.html"><span>Solutmades</span></a>
-                                </li>
-                            </ul>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action" href="../womens/senectus/index.html"><span>Senectus</span></a>
-                    </li>
-            </ul>
         </li>
         <li class="navPages-item">
-            <a class="navPages-action has-subMenu" href="../jewelry/index.html">
+            <a class="navPages-action has-subMenu" href="#">
                 <span>Jewelry</span>
             </a>
-            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-            <ul class="dropdown-category-list navPages-level-2">
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="../jewelry/cosmopolitan/index.html">
-                                <span>Cosmopolitan</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/cosmopolitan/comodianos/index.html"><span>Comodianos</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/cosmopolitan/dincidunteros/index.html"><span>Dincidunteros</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/cosmopolitan/gravidas/index.html"><span>Gravidas</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/cosmopolitan/loremous/index.html"><span>Loremous</span></a>
-                                </li>
-                            </ul>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="../jewelry/lorem-dorus/index.html">
-                                <span>Lorem Dorus</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/lorem-dorus/loremous/index.html"><span> Loremous</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/lorem-dorus/comodianos/index.html"><span>Comodianos</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/lorem-dorus/dincidunteros/index.html"><span>Dincidunteros</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/lorem-dorus/gravidas/index.html"><span>Gravidas</span></a>
-                                </li>
-                            </ul>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="../jewelry/lynn-cosmopolis/index.html">
-                                <span>Lynn Cosmopolis</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/lynn-cosmopolis/dincidunteros/index.html"><span>Dincidunteros</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/lynn-cosmopolis/loremous-comodous/index.html"><span>Loremous Comodous</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/lynn-cosmopolis/namdos-hempus/index.html"><span>Namdos Hempus</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/lynn-cosmopolis/nectellus/index.html"><span>Nectellus</span></a>
-                                </li>
-                            </ul>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="../jewelry/milancelos-a-lanos/index.html">
-                                <span>Milancelos A Lanos</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/milancelos-a-lanos/bibendumetos/index.html"><span>Bibendumetos</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/milancelos-a-lanos/consequato/index.html"><span>Consequato</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/milancelos-a-lanos/loremoutica/index.html"><span>Loremoutica</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/milancelos-a-lanos/pellentes-habitanto/index.html"><span>Pellentes Habitanto</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/milancelos-a-lanos/scelerisque-yurna/index.html"><span>Scelerisque Yurna</span></a>
-                                </li>
-                            </ul>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="../jewelry/nor-loremirus/index.html">
-                                <span>Nor Loremirus</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/nor-loremirus/bibendumetos/index.html"><span>Bibendumetos</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/nor-loremirus/consequato/index.html"><span>Consequato</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/nor-loremirus/pellentes-habitanto/index.html"><span>Pellentes Habitanto</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../jewelry/nor-loremirus/scelerisque-yurna/index.html"><span>Scelerisque Yurna</span></a>
-                                </li>
-                            </ul>
-                    </li>
-            </ul>
-        </li>
-        <li class="navPages-item">
-            <a class="navPages-action has-subMenu" href="../accessories/index.html">
-                <span>Accessories</span>
-            </a>
-            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-            <ul class="dropdown-category-list navPages-level-2">
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="../accessories/lorem-dorus/index.html">
-                                <span>Lorem Dorus</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../accessories/lorem-dorus/comodianos/index.html"><span>Comodianos</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../accessories/lorem-dorus/dincidunteros/index.html"><span>Dincidunteros</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../accessories/lorem-dorus/gravidas/index.html"><span>Gravidas</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../accessories/lorem-dorus/loremous/index.html"><span>Loremous</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../accessories/lorem-dorus/montemous/index.html"><span>Montemous</span></a>
-                                </li>
-                            </ul>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="../accessories/lynn-cosmopolis/index.html">
-                                <span>Lynn Cosmopolis</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../accessories/lynn-cosmopolis/dincidunteros/index.html"><span>Dincidunteros</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../accessories/lynn-cosmopolis/loremous-comodous/index.html"><span>Loremous Comodous</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../accessories/lynn-cosmopolis/namdos-hempus/index.html"><span>Namdos Hempus</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../accessories/lynn-cosmopolis/nectellus/index.html"><span>Nectellus</span></a>
-                                </li>
-                            </ul>
-                    </li>
-                    <li class="navPage-subMenu-item">
-                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="../accessories/milancelos-lanos/index.html">
-                                <span>Milancelos Lanos</span>
-                            </a>
-                            <i class="icon-dropdown" aria-hidden="true"><svg><use xlink:href="#icon-chevron-right" /></svg></i>
-                            <ul class="dropdown-category-list navPages-level-3">
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../accessories/milancelos-lanos/bibendumetos/index.html"><span>Bibendumetos</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../accessories/milancelos-lanos/consequato/index.html"><span>Consequato</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../accessories/milancelos-lanos/loremoutica/index.html"><span>Loremoutica</span></a>
-                                </li>
-                                <li class="navPage-childList-item">
-                                    <a class="navPage-childList-action navPages-action " href="../accessories/milancelos-lanos/pellentes-habitanto/index.html"><span>Pellentes Habitanto</span></a>
-                                </li>
-                            </ul>
-                    </li>
-            </ul>
         </li>
     </ul>
 </div>
 
         <div class="navFacetedSearch">
     <div id="facetedSearch" class="facetedSearch sidebarBlock">
-        <div class="facetedSearch-refineFilters sidebarBlock">
-    <h5 class="sidebarBlock-heading">
-        Refine by
-    </h5>
-
-        No filters applied
-
-</div>
-
         <a href="#facetedSearch-navList" role="button" class="facetedSearch-toggle toggleLink" data-collapsible>
             <span class="facetedSearch-toggle-text">
                     Browse by Brand, Color &amp; more
@@ -671,129 +201,88 @@ function getUrlVars() {
                 id="facetedSearch-navList"
                 class="facetedSearch-navList blocker-container">
                 <div class="accordion accordion--navList">
-                            <div class="accordion-block">
-    <div
-        class="accordion-navigation toggleLink  is-open "
-        role="button"
-        data-collapsible="#facetedSearch-content--brand">
-        <h5 class="accordion-title">
-            Brand
-        </h5>
+                    <div class="accordion accordion--navList">
+                        <div class="accordion-block">
+<div
+    class="accordion-navigation toggleLink  is-open "
+    role="button"
+    data-collapsible="#facetedSearch-content--brand">
+    <h5 class="accordion-title">
+        Brand
+    </h5>
 
-        <div class="accordion-navigation-actions">
-            <svg class="icon accordion-indicator toggleLink-text toggleLink-text--off">
-                <use xlink:href="#icon-add" />
-            </svg>
-            <svg class="icon accordion-indicator toggleLink-text toggleLink-text--on">
-                <use xlink:href="#icon-remove" />
-            </svg>
-        </div>
-    </div>
-
-    <div id="facetedSearch-content--brand" class="accordion-content  is-open ">
-        <ul id="facetedSearch-navList--brand" data-facet="brand" class="navList" data-has-more-results="false">
-                <li class="navList-item">
-                    <a
-                        href="index4a9e.html?_bc_fsnf=1&amp;brand=40"
-                        class="navList-action navList-action--checkbox "
-                        rel="nofollow"
-                        data-faceted-search-facet>
-                        Benjamin Button
-                            <span>(3)</span>
-
-                        <span class="navList-action-close" aria-hidden="true">
-                            <svg class="icon">
-                                <use xlink:href="#icon-close"/>
-                            </svg>
-                        </span>
-                    </a>
-                </li>
-                <li class="navList-item">
-                    <a
-                        href="index4ce0.html?_bc_fsnf=1&amp;brand=43"
-                        class="navList-action navList-action--checkbox "
-                        rel="nofollow"
-                        data-faceted-search-facet>
-                        Donatello
-                            <span>(1)</span>
-
-                        <span class="navList-action-close" aria-hidden="true">
-                            <svg class="icon">
-                                <use xlink:href="#icon-close"/>
-                            </svg>
-                        </span>
-                    </a>
-                </li>
-                <li class="navList-item">
-                    <a
-                        href="index05b3.html?_bc_fsnf=1&amp;brand=45"
-                        class="navList-action navList-action--checkbox "
-                        rel="nofollow"
-                        data-faceted-search-facet>
-                        Mango
-                            <span>(1)</span>
-
-                        <span class="navList-action-close" aria-hidden="true">
-                            <svg class="icon">
-                                <use xlink:href="#icon-close"/>
-                            </svg>
-                        </span>
-                    </a>
-                </li>
-                <li class="navList-item">
-                    <a
-                        href="index1275.html?_bc_fsnf=1&amp;brand=41"
-                        class="navList-action navList-action--checkbox "
-                        rel="nofollow"
-                        data-faceted-search-facet>
-                        Paul Smith
-                            <span>(1)</span>
-
-                        <span class="navList-action-close" aria-hidden="true">
-                            <svg class="icon">
-                                <use xlink:href="#icon-close"/>
-                            </svg>
-                        </span>
-                    </a>
-                </li>
-                <li class="navList-item">
-                    <a
-                        href="index66e6.html?_bc_fsnf=1&amp;brand=38"
-                        class="navList-action navList-action--checkbox "
-                        rel="nofollow"
-                        data-faceted-search-facet>
-                        Sodling
-                            <span>(3)</span>
-
-                        <span class="navList-action-close" aria-hidden="true">
-                            <svg class="icon">
-                                <use xlink:href="#icon-close"/>
-                            </svg>
-                        </span>
-                    </a>
-                </li>
-                <li class="navList-item">
-                    <a
-                        href="index33d1.html?_bc_fsnf=1&amp;brand=39"
-                        class="navList-action navList-action--checkbox "
-                        rel="nofollow"
-                        data-faceted-search-facet>
-                        Tomorrow
-                            <span>(1)</span>
-
-                        <span class="navList-action-close" aria-hidden="true">
-                            <svg class="icon">
-                                <use xlink:href="#icon-close"/>
-                            </svg>
-                        </span>
-                    </a>
-                </li>
-        </ul>
-
+    <div class="accordion-navigation-actions">
+        <svg class="icon accordion-indicator toggleLink-text toggleLink-text--off">
+            <use xlink:href="#icon-add" />
+        </svg>
+        <svg class="icon accordion-indicator toggleLink-text toggleLink-text--on">
+            <use xlink:href="#icon-remove" />
+        </svg>
     </div>
 </div>
 
-                            <div class="accordion-block">
+<div id="facetedSearch-content--brand" class="accordion-content  is-open ">
+    <ul id="facetedSearch-navList--brand" data-facet="brand" class="navList" data-has-more-results="false">
+            <li class="navList-item">
+                <a
+                    href="index4a9e.html?_bc_fsnf=1&amp;brand=40"
+                    class="navList-action navList-action--checkbox "
+                    rel="nofollow"
+                    data-faceted-search-facet>
+                    RADO
+                        <!-- <span>(5)</span> -->
+
+                    <span class="navList-action-close" aria-hidden="true">
+                        <svg class="icon">
+                            <use xlink:href="#icon-close"/>
+                        </svg>
+                    </span>
+                </a>
+            </li>
+            <li class="navList-item">
+                <a href="indexfe7e.html?_bc_fsnf=1&amp;brand=44" class="navList-action navList-action--checkbox " rel="nofollow" data-faceted-search-facet>TISSOT
+                        <!-- <span>(1)</span> -->
+                    <span class="navList-action-close" aria-hidden="true"> <svg class="icon">
+<use xlink:href="#icon-close"/></svg></span></a>
+            </li>
+            <li class="navList-item">
+                <a href="index4ce0.html?_bc_fsnf=1&amp;brand=43"class="navList-action navList-action--checkbox "
+                    rel="nofollow" data-faceted-search-facet>BOSS
+                    <!-- <span>(1)</span> -->
+        <span class="navList-action-close" aria-hidden="true"> <svg class="icon"><use xlink:href="#icon-close"/>
+        </svg></span></a>
+            </li>
+            <li class="navList-item">
+                <a href="indexe44c.html?_bc_fsnf=1&amp;brand=42"class="navList-action navList-action--checkbox "
+                    rel="nofollow"
+                    data-faceted-search-facet>FOSSIL
+                        <!-- <span>(1)</span> -->
+                    <span class="navList-action-close" aria-hidden="true">
+                        <svg class="icon">
+                            <use xlink:href="#icon-close"/>
+                        </svg>
+                    </span>
+                </a>
+            </li>
+            <li class="navList-item">
+                <a
+                    href="index66e6.html?_bc_fsnf=1&amp;brand=38"
+                    class="navList-action navList-action--checkbox "
+                    rel="nofollow"
+                    data-faceted-search-facet> Sodling
+                        <!-- <span>(1)</span> -->
+                    <span class="navList-action-close" aria-hidden="true">
+                        <svg class="icon">
+                            <use xlink:href="#icon-close"/>
+                        </svg>
+                    </span>
+                </a>
+            </li>
+    </ul>
+</div>
+</div>
+ <!-- COLOUR BLOCK
+        <div class="accordion-block">
     <div
         class="accordion-navigation toggleLink  is-open "
         role="button"
@@ -945,9 +434,9 @@ function getUrlVars() {
         </ul>
 
     </div>
-</div>
-
-                            <div class="accordion-block">
+</div> -->
+<!-- SIZE
+<div class="accordion-block">
     <div
         class="accordion-navigation toggleLink  is-open "
         role="button"
@@ -1065,11 +554,10 @@ function getUrlVars() {
                     </a>
                 </li>
         </ul>
-
     </div>
-</div>
+</div> -->
 
-                            <div class="accordion-block">
+ <div class="accordion-block">
     <div
         class="accordion-navigation toggleLink  is-open "
         role="button"
@@ -1130,7 +618,7 @@ function getUrlVars() {
     </div>
 </div>
 
-                            <div class="accordion-block">
+<div class="accordion-block">
     <div
         class="accordion-navigation toggleLink "
         role="button"
@@ -1303,7 +791,7 @@ function getUrlVars() {
     </div>
 </div>
 
-                            <div class="accordion-block">
+<div class="accordion-block">
     <div
         class="accordion-navigation toggleLink "
         role="button"
@@ -1361,7 +849,7 @@ function getUrlVars() {
     </div>
 </div>
 
-                </div>
+</div>
 
                 <div class="blocker" style="display: none;"></div>
             </div>
@@ -1396,7 +884,9 @@ function getUrlVars() {
 
         <main class="page-content" id="product-listing-container">
                 <form action="https://luxwatches-demo-02.mybigcommerce.com/compare" method='POST'  data-product-compare>
-        <ul class="productListing productGrid">
+<ul class="productListing productGrid">
+    <% if(product.length > 0) {
+        for(let i=0; i < product.length; i++) { %>
     <li class="product">
             <article class="card" data-product-id="161" >
     <figure class="card-figure" data-product-id="161">
@@ -1406,10 +896,10 @@ function getUrlVars() {
                     <span class="text">Add to Wish List</span>
                 </a>
 
-                        <a class="quickview icon" data-product-id="161">
-                            <svg class="icon"><use xlink:href="#icon-quickview"></use></svg>
-                            <span class="text">Quick view</span>
-                        </a>
+               <a class="quickview icon" data-product-id="161">
+                    <svg class="icon"><use xlink:href="#icon-quickview"></use></svg>
+                    <span class="text">Quick view</span>
+               </a>
                 <label class="compare icon" for="compare-161">
                     <input type="checkbox" name="products[]" value="161" id="compare-161" data-compare-id="161">
                     <svg class="icon"><use xlink:href="#icon-compare"></use></svg>
@@ -1419,6 +909,9 @@ function getUrlVars() {
 
                     <div class="product-badge new-badge">
                         <span class="text">New</span>
+                    </div>
+                    <div class="product-badge sale-badge">
+                        <span class="text">Sale</span>
                     </div>
 
         <a href="../turpis-at-metus-scelerisque-placerat/index.html" >
@@ -1455,19 +948,19 @@ class="lazyload card-image replace-2x img-responsive"
         
     </figure>
     <div class="card-body">
-            <p class="card-brand" data-test-info-type="brandName">Sodling</p>
+            <p class="card-brand" data-test-info-type="brandName"><b><%= product[i].brand %></b></p>
         <h4 class="card-title">
-            <a href="../turpis-at-metus-scelerisque-placerat/index.html" >Turpis At Metus Scelerisque Placerat</a>
+            <a href="../turpis-at-metus-scelerisque-placerat/index.html" ><%= product[i].productName %></a>
         </h4>
         
         <div class="card-price" data-test-info-type="price">
                 
-        <div class="price-section price-section--withoutTax rrp-price--withoutTax" style="display: none;">
-            MSRP:
-            <span data-product-rrp-price-without-tax class="price price--rrp"> 
-                
-            </span>
-        </div>
+            <div class="price-section price-section--withoutTax rrp-price--withoutTax" >
+                MSRP:
+                <span data-product-rrp-price-without-tax class="price price--rrp"> 
+                    <%= product[i].price %>
+                </span>
+            </div>
         <div class="price-section price-section--withoutTax non-sale-price--withoutTax price-none no-retail-price" style="display: none;">
             <span class="non-sale-price-label">Was:</span>
             <span data-product-non-sale-price-without-tax class="price price--non-sale">
@@ -1481,7 +974,7 @@ class="lazyload card-image replace-2x img-responsive"
             <span class="price-now-label" style="display: none;">
                 Now:
             </span>
-            <span data-product-price-without-tax class="price price--withoutTax">$469.00</span>
+            <span data-product-price-without-tax class="price price--withoutTax"><%= product[i].discountPrice %></span>
         </div>
         </div>
         
@@ -1530,8 +1023,9 @@ class="lazyload card-image replace-2x img-responsive"
         </div>
     </div>
 </article>
-    </li>
-    <li class="product">
+    </li><%  }} else { %><li  colspan="5" class="text-center"> No products To Show </li>  <% } %>
+
+    <!-- <li class="product">
             <article class="card" data-product-id="160" >
     <figure class="card-figure" data-product-id="160">
         <div class="card-figcaption-top" data-product-id="160">
@@ -1657,7 +1151,7 @@ class="lazyload card-image replace-2x img-responsive"
                 <use xlink:href="#icon-star" />
             </svg>
         </span>
-<!-- snippet location product_rating -->
+ snippet location product_rating 
                 </span>
             </p>
                 <div class="card-figcaption2"></div>
@@ -1791,7 +1285,7 @@ class="lazyload card-image replace-2x img-responsive"
                 <use xlink:href="#icon-star" />
             </svg>
         </span>
-<!-- snippet location product_rating -->
+    snippet location product_rating 
                 </span>
             </p>
                 <div class="card-figcaption2"></div>
@@ -1925,7 +1419,7 @@ class="lazyload card-image replace-2x img-responsive"
                 <use xlink:href="#icon-star" />
             </svg>
         </span>
-<!-- snippet location product_rating -->
+ snippet location product_rating 
                 </span>
             </p>
                 <div class="card-figcaption2"></div>
@@ -2056,7 +1550,7 @@ class="lazyload card-image replace-2x img-responsive"
                 <use xlink:href="#icon-star" />
             </svg>
         </span>
-<!-- snippet location product_rating -->
+   snippet location product_rating 
                 </span>
             </p>
                 <div class="card-figcaption2"></div>
@@ -2187,7 +1681,7 @@ class="lazyload card-image replace-2x img-responsive"
                 <use xlink:href="#icon-star" />
             </svg>
         </span>
-<!-- snippet location product_rating -->
+snippet location product_rating 
                 </span>
             </p>
                 <div class="card-figcaption2"></div>
@@ -2318,7 +1812,7 @@ class="lazyload card-image replace-2x img-responsive"
                 <use xlink:href="#icon-star" />
             </svg>
         </span>
-<!-- snippet location product_rating -->
+ snippet location product_rating 
                 </span>
             </p>
                 <div class="card-figcaption2"></div>
@@ -2449,7 +1943,7 @@ class="lazyload card-image replace-2x img-responsive"
                 <use xlink:href="#icon-star" />
             </svg>
         </span>
-<!-- snippet location product_rating -->
+ snippet location product_rating
                 </span>
             </p>
                 <div class="card-figcaption2"></div>
@@ -2584,7 +2078,7 @@ class="lazyload card-image replace-2x img-responsive"
                 <use xlink:href="#icon-star" />
             </svg>
         </span>
-<!-- snippet location product_rating -->
+ snippet location product_rating
                 </span>
             </p>
                 <div class="card-figcaption2"></div>
@@ -2715,7 +2209,7 @@ class="lazyload card-image replace-2x img-responsive"
                 <use xlink:href="#icon-star" />
             </svg>
         </span>
-<!-- snippet location product_rating -->
+  snippet location product_rating 
                 </span>
             </p>
                 <div class="card-figcaption2"></div>
@@ -2729,7 +2223,7 @@ class="lazyload card-image replace-2x img-responsive"
         </div>
     </div>
 </article>
-    </li>
+    </li> -->
 </ul>
 
 <div class="pagination-wrapper" style="display: none;">
@@ -2818,18 +2312,7 @@ class="lazyload card-image replace-2x img-responsive"
 </div>
   </div>
 </div></div></div>
-        
-    <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
-            <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                    <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
-                <meta itemprop="position" content="1" />
-            </li>
-            <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                    <meta itemprop="item" content="https://luxwatches-demo-02.mybigcommerce.com/mens/">
-                    <span class="breadcrumb-label" itemprop="name">Mens</span>
-                <meta itemprop="position" content="2" />
-            </li>
-</ul>
+        <!-- breadcrumbs -->
     </div>
 
 </div>

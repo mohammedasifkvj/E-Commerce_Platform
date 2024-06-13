@@ -1,72 +1,228 @@
-<%- include("../user_partials/header") %>
-<!-- Header Ends -->
-<!-- Body Starts -->
-        <div class="body" data-currency-code="USD">
-     
-    <main class="page create-account account">
-    <div class="container container-smaller">
-        <div class="page-content">
-            <div class="themevale-heading">
-                <h1 class="page-heading">OTP Validation</h1>
-            </div>
-            <div class="account">
-                <div class="account-body">
-                    <!-- https://luxwatches-demo-02.mybigcommerce.com/login.php?action=save_new_account -->
-                        <form action="validate" data-create-account-form method="post" class="form">
-                            <div class="form-row form-row--half">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .breadcrumbs {
+    margin: 20px 0;
+    font-size: 16px;
+    }
 
-                                <div class="form-field" id="FormField_4" data-validation="{&quot;type&quot;:&quot;singleline&quot;,&quot;label&quot;:&quot;First Name&quot;,&quot;required&quot;:true,&quot;maxlength&quot;:0}" data-type="FirstName">
-    <label class="form-label text-center" for="FormField_4_input"> Enter OTP
-        <!-- <small>required</small> -->
-    </label>
-    <input type="text" id="FormField_4_input" data-label="First Name" name="FormField[2][4]"   class="form-input " aria-required="true" data-field-type="FirstName" >
-</div>
+    .breadcrumbs a {
+    text-decoration: none;
+    color: #040d16;
+     }
 
-                                   
-                            
-                            </div>
-                            <!-- <div class="g-recaptcha" data-sitekey="6LcjX0sbAAAAACp92-MNpx66FT4pbIWh-FTDmkkz"></div><br/> -->
-                            <div class="form-actions">
-                                <input type="submit" class="button button--small button--primary" value="Validate" />
-                            </div>
-                        </form>
-                </div>
+    .breadcrumbs a:hover {
+    text-decoration: underline;
+    }
+
+    .breadcrumbs span {
+    color: #6c757d;
+    }
+        .otp-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .otp-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .otp-inputs {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .otp-inputs input {
+            width: 140px;
+            height: 40px;
+            text-align: center;
+            font-size: 20px;
+            margin: 0 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .otp-inputs input:focus {
+            border-color: #050505e3;
+        }
+        .timer {
+            margin-bottom: 20px;
+            color: #555;
+        }
+        button {
+            background-color: #00c3ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        button + button {
+            margin-top: 10px;
+            background-color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+
+    
+    <div class="otp-container">
+        <nav class="breadcrumbs">
+            <a href="/home">Home</a><meta itemprop="position" content="1" /> &gt;
+            <a href="/signUp">Create Account</a> <meta itemprop="position" content="2" /> &gt;
+            <span>OTP</span><meta itemprop="position" content="3" />
+        </nav>
+
+        <h2>OTP Confirmation</h2>
+        <% if (error) { %>
+            <div class=" text-center font-regular p-2 alert alert-danger "id="popup" style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkred;display: flex; display: flex; align-items: center; justify-content: center;"><%= error %></div>  
+          <% } %>
+          <% if (success) { %>
+            <div class=" text-center font-regular p-2 alert alert-danger" id="popup" style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(247, 244, 244); color: darkgreen;display: flex; display: flex; align-items: center; justify-content: center;" ><%= success %></div>  
+          <% } %>
+        <form action="/verifyOTP" method="post" id="otp-form">
+            <div class="otp-inputs">
+                <input type="text" name="otp" maxlength="6" id="otp1" name="otp1" required >
+                
             </div>
-        <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
-            <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                    <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
-                <meta itemprop="position" content="1" />
-            </li>
-            <li class="breadcrumb" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                     <meta itemprop="item" content="logind85d.html?action=create_account">
-                    <a href="/signup"  class="breadcrumb-label"itemprop="item"><span  itemprop="name">Create Account</span></a>
-                <meta itemprop="position" content="2" />
-            </li>
-            <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                <meta itemprop="item" content="logind85d.html?action=create_account">
-                <span class="breadcrumb-label" itemprop="name">Enter OTP</span>
-            <meta itemprop="position" content="3" />
-        </li>
-        </ul>
-        </div>
+            <div class="timer" id="timer">Time Remaining: 03:00</div>
+            <button type="submit" id="verify-button">Verify OTP</button>
+        </form>
+        <br>
+        <button id="resend-otp" disabled>Resend OTP</button>
     </div>
-</main>
 
-    <div id="modal" class="modal" data-reveal data-prevent-quick-search-close>
-    <a href="#" class="modal-close" aria-label="Close" role="button">
-        <span aria-hidden="true">&#215;</span>
-    </a>
-    <div class="modal-content"></div>
-    <div class="loadingOverlay"></div>
-</div>
-    <div id="alert-modal" class="modal modal--alert modal--small" data-reveal data-prevent-quick-search-close>
-    <div class="swal2-icon swal2-error swal2-animate-error-icon"><span class="swal2-x-mark swal2-animate-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span></div>
+    <script>
 
-    <div class="modal-content"></div>
+        document.addEventListener("DOMContentLoaded", () => {
+    const errorMessage = document.getElementById("popup");
 
-    <div class="button-container"><button type="button" class="confirm button" data-reveal-close>OK</button></div>
-    <script type="text/javascript"  src="/embedded/validate.js"></script>
-</div>
-</div>
-<!-- Boody ends --> 
-<%- include("../user_partials/footer") %>       
+    // Set a timeout to hide the error message after 5 seconds
+    setTimeout(() => {
+        errorMessage.classList.add("hidden");
+    }, 5000); // 5000 milliseconds = 5 seconds
+    });
+           
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const inputs = document.querySelectorAll('.otp-inputs input');
+            const timerElement = document.getElementById('timer');
+            const resendButton = document.getElementById('resend-otp');
+            const verifyButton = document.getElementById('verify-button');
+
+            // Move to next input on input
+            inputs.forEach((input, index) => {
+                input.addEventListener('input', (e) => {
+                    if (e.inputType === 'insertText' && /\d/.test(e.data)) {
+                        if (index < inputs.length - 1) {
+                            inputs[index + 1].focus();
+                        }
+                    }
+                });
+
+                // Move to previous input on backspace
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && input.value === '' && index > 0) {
+                        inputs[index - 1].focus();
+                    }
+                });
+
+                // Paste handling
+                input.addEventListener('paste', (e) => {
+                    e.preventDefault();
+                    const paste = (e.clipboardData || window.clipboardData).getData('text');
+                    const pasteArray = paste.split('').filter((char) => /\d/.test(char)).slice(0, inputs.length);
+                    pasteArray.forEach((char, i) => {
+                        inputs[i].value = char;
+                    });
+                    inputs[pasteArray.length - 1].focus();
+                });
+            });
+
+            // Timer, time in seconds
+            let timeLeft = 180;
+            const timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerElement.textContent = "OTP is expired!";
+                    resendButton.disabled = false;
+                    verifyButton.disabled = true;
+                } else {
+                    let minutes = Math.floor(timeLeft / 60);
+                    let seconds = timeLeft % 60;
+                    timerElement.textContent = `Time Remaining: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    timeLeft--;
+                }
+            }, 1000);
+
+            // Resend OTP
+            resendButton.addEventListener('click', () => {
+                //alert('OTP Resent');
+                timeLeft = 180;
+                resendButton.disabled = true;
+                verifyButton.disabled = false;
+                clearInterval(timerInterval);
+                const newTimerInterval = setInterval(() => {
+                    if (timeLeft <= 0) {
+                        clearInterval(newTimerInterval);
+                        timerElement.textContent = "OTP is expired!";
+                        resendButton.disabled = false;
+                        verifyButton.disabled = true;
+
+                    } else {
+                        let minutes = Math.floor(timeLeft / 60);
+                        let seconds = timeLeft % 60;
+                        timerElement.textContent = `Time Remaining: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                        timeLeft--;
+                    }
+                }, 1000);
+            });
+
+            // Form submission validation
+            verifyButton.addEventListener('click', (e) => {
+                const otp = Array.from(inputs).map(input => input.value).join('');
+                if (otp.length !== 6 || !/^\d{6}$/.test(otp)) {
+                    e.preventDefault();
+                    // alert('Please enter a valid 6-digit OTP.');
+                }
+            });
+        });
+
+        // Prevent non-numeric input
+        inputs.forEach(input => {
+                input.addEventListener('keydown', (e) => {
+                    if ((e.key < '0' || e.key > '9') && e.key !== 'Backspace') {
+                        e.preventDefault();
+                    }
+                });
+            });
+
+    //     // Prevent non-numeric input
+    // inputs.forEach(input => {
+    //   input.addEventListener('keydown', (e) => {
+    //     if ((e.key < '0' || e.key > '9') && e.key !== 'Backspace') {
+    //       e.preventDefault();
+    //     }
+    //   });
+    // });
+    </script>
+</body>
+</html>
