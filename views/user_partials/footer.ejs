@@ -288,7 +288,7 @@
                                                 </div>\
                                         <a href="/gempus-cosmo-de-milancelos-scelerisque-placerat/">\
                                             <div class="card-img-container">\
-                                                <img class="lazyload" src="" data-src="https://cdn11.bigcommerce.com/s-ol6dayxf7q/images/stencil/270x346/products/119/483/1619209__90710.1576205217.1280.1280__76376.1576211613.jpg?c=2" alt="">\
+                                                <img class="lazyload" src="" data-src="" alt="">\
                                             </div>\
                                         </a>\
                                     </figure>\
@@ -531,9 +531,46 @@
         </div>
     </div>
 </div> -->
+
+
 <script>
-    window.themevaleNewsletterPopup(1, true);
+    document.addEventListener("DOMContentLoaded", () => {
+const errorMessage = document.getElementById("error-message");
+
+// Set a timeout to hide the error message after 5 seconds
+setTimeout(() => {
+errorMessage.classList.add("hidden");
+}, 4000); // 4000 milliseconds = 4 seconds
+});
+
 </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const originInput = document.getElementById('origin');
+      const path = window.location.pathname;
+  
+      if (path.includes('/8_mens')) {
+        originInput.value = 'mens';
+      } else if (path.includes('/9_womens')) {
+        originInput.value = 'womens';
+      } else if (path.includes('/7_newRelease')) {
+        originInput.value = 'newRel';
+      } 
+      else {
+        originInput.value = 'home';
+      }
+    });
+  </script>
+  
+
+<script type="text/javascript" src="/embedded/loader.js" defer></script>
+
+<script type="text/javascript" src="/embedded/jquery.min.js" defer></script>
+
+<script type="text/javascript" src="/embedded/csrf-protection-header.js" defer></script>
+
+<script type="text/javascript" src="/embedded/bundle.js" defer></script>
 
 <script type="text/javascript"
     src="/embedded/csrf-protection-header-95f3d9ac8c049e3ed132c83a168cf1d6a8ed0237.js"></script>

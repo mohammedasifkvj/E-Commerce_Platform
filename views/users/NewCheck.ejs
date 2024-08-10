@@ -1,0 +1,294 @@
+<%- include("../user_partials/header") %>
+<style>
+   .error-message{
+       color: red;
+       font-size: 12px;
+    }
+</style>
+<div class="body" data-currency-code="USD">
+  <main class="page account-order-details account">
+    <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
+      <li class="breadcrumb" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+        <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
+        <meta itemprop="position" content="1" />
+      </li>
+      <li class="breadcrumb" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+        <a href="/cart" class="breadcrumb-label" itemprop="item"><span itemprop="name">Cart</span></a>
+        <meta itemprop="position" content="2" />
+      </li>
+      <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+        <meta itemprop="item" content="https://luxwatches-demo-02.mybigcommerce.com/account.php?action=view_order&amp;order_id=107">
+        <span class="breadcrumb-label" itemprop="name">Checkout</span>
+        <meta itemprop="position" content="3" />
+      </li>
+    </ul>
+    <div class="container container-smaller">
+      <div class="page-content">
+        <div class="themevale-heading">
+          <h1 class="page-heading title">CheckOut</h1>
+        </div>
+
+        <div class="account">
+          <div class="account-body">
+            <div class="account-content account-content--fixedSmall">
+              <h3 class="account-heading">Cart Contents</h3>
+              <div class="row">
+                <div>
+                  <h3>Item</h3>
+                </div>
+              </div>
+
+              <form id="makeOrder" action="/makeOrder" method="post">
+                <% if (cartItems.length != 0) { %>
+                <ul class="account-list">
+                  <% cartItems.forEach(item => { %>
+                  <li class="account-listItem">
+                    <div class="account-product account-product--alignMiddle">
+                      <div class="account-product-checkItem">
+                        <label for="account-product-id-15" class="form-label">
+                          <span class="is-srOnly">Checkbox 15 label</span>
+                        </label>
+                      </div>
+
+                      <figure class="account-product-figure">
+                        <img src="<%= item.productId.productImage[0] %>" alt="" title="<%=item.productId.productName %>" data-sizes="auto" />
+
+                        <input id="id" type="hidden" name="productId[]" value="<%= item.productId._id %>">
+                        <input id="quantity" type="hidden" name="quantity[]" value="<%= item.quantity %>">
+                      </figure>
+                      <div class="account-product-body">
+                        <span class="account-product-price"><%= item.quantity * item.productId.discountPrice %></span>
+                        <h5 class="account-product-title"><%= item.quantity %> &#215; <%= item.productId.productName %></h5>
+                        <dl class="definitionList">
+
+                        </dl>
+                      </div>
+                    </div>
+                  </li>
+                  <% }) } %>
+                </ul>
+
+                <dl class="account-orderTotal">
+                  <dt class="account-orderTotal-key">Subtotal:</dt>
+                  <dd class="account-orderTotal-value">
+                    <%= cartItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %>
+                  </dd>
+                  <dt class="account-orderTotal-key">Grand total:</dt>
+                  <dd class="account-orderTotal-value">
+                    <%= cartItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %>
+                  </dd>
+                </dl>
+               </div>
+
+            <aside class="account-sidebar">
+              <section class="account-sidebar-block">
+                <% if(address.length==0){ %> 
+                  <h3 class="account-heading">Add An Address To Place Order </h3>
+                  <div class="error-message" id="addressError1"></div>
+                  <a class="button button--primary button--small" href="/addAddress">
+                    Add Address
+                </a>
+                <% } else { %>
+                <h3 class="account-heading">Select An Address To Ship </h3>
+                <div class="error-message" id="addressError"></div>
+                <ul class="account-order-address">
+                  <% address.forEach((addr, index) => { %>
+                    <input id="address" type="radio" name="addressId" value="<%= addr._id %>" > <!--<%=index===0 ?'checked':'' %> -->
+                       <!-- <li><%= addr.name %></li> -->
+                       <li><%= addr.houseName %></li>
+                       <li><%= addr.landmark %></li>
+                       <li><%= addr.city %></li>
+                       <li><%= addr.state %></li>
+                       <li><%= addr.country %></li>
+                       <li><%= addr.pin %></li>
+                  <% }) %>
+                </ul>
+                <!-- <button type="button" onclick="addNewAddress()">Add New Address</button> -->
+                
+                    <a class="button button--primary button--small" href="/addAddress">
+                        Ship to New Address
+                    </a>
+               
+              </section>
+
+
+              <section class="account-sidebar-block">
+                <h3 class="account-heading">Select Payment Method</h3>
+                <div class="error-message" id="paymentError"></div>
+                       <input type="radio" name="paymentMethod" value="COD" > <!-- checked   -->
+                      Cash on Delivery
+                               <br>
+                               <br>
+                      <input type="radio" name="paymentMethod" value="Online">
+                      Online Payment
+                  <!-- Add more payment methods as needed -->
+              </section>
+
+              <section class="account-sidebar-block">
+                <h3 class="account-heading">Actions</h3>
+                <div class="order-details-info">
+                  <input type="hidden" name="orderTotal" id="orderTotal" value="<%= cartItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %>">
+                  <input type="submit" class="button button--small" value="Place Order">
+              </form>
+              <% } %>
+            </div>
+            </section>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  document.getElementById('makeOrder').addEventListener('submit', async function (event) {
+    event.preventDefault(); // Prevent the form from submitting the traditional way
+
+    // Gather form data
+    const productIds = Array.from(document.getElementsByName('productId[]')).map(input => input.value);
+    const quantities = Array.from(document.getElementsByName('quantity[]')).map(input => input.value);
+    const addressId = document.querySelector('input[name="addressId"]:checked');
+    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+    const orderTotal = document.getElementById('orderTotal').value;
+
+    document.getElementById('addressError').innerText = '';
+    document.getElementById('paymentError').innerText = '';
+  let isValid=true
+    // Validate form data
+    if (!addressId) {
+      document.getElementById('addressError').innerText = 'Please select an address.';
+      isValid=false
+    } 
+    // else {
+    //   document.getElementById('addressError').innerText = '';
+    // }
+
+    if (!paymentMethod) {
+      document.getElementById('paymentError').innerText = 'Please select a payment method.';
+      isValid=false
+    } 
+    // else {
+    //   document.getElementById('paymentError').innerText = '';
+    // }
+    if(! isValid){
+      return
+    }
+
+    // Prepare data to send
+    const orderData = {
+      products: productIds.map((productId, index) => ({
+        productId: productId,
+        quantity: quantities[index]
+      })),
+      addressId: addressId.value,
+      orderTotal: orderTotal,
+      paymentMethod: paymentMethod.value
+    };
+
+    try {
+      const response = await fetch('/makeOrder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      if (response.ok) {
+        // Handle successful response
+        Swal.fire({
+                    icon: "success",
+                    title: "Order placed successfully!",
+                    showConfirmButton: false,
+                    timer:1000
+                 })
+        window.location.href = '/oredrConfirmation';
+      }else if(response.status === 402){ // Online Payment
+                    Swal.fire({
+                      title: 'Payment Required',
+                      text: 'Please complete your payment via PayPal.',
+                      icon: 'warning',
+                      showCancelButton: true,
+                      confirmButtonText: 'Pay with PayPal',
+                      cancelButtonText: 'Cancel'
+                    }).then(async (result) => {
+                      if (result.isConfirmed) {
+                        // Send order data to the server to create a PayPal order
+                        const paypalResponse = await fetch('/createPaypalOrder', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify({ orderData }),
+                        });
+            
+                        if (paypalResponse.ok) {
+                          const { approval_url } = await paypalResponse.json();
+                          // Redirect to PayPal link
+                          window.location.href = approval_url;
+                        } else {
+                          Swal.fire({
+                            icon: 'error',
+                            title: 'Failed to initiate PayPal payment.',
+                            showConfirmButton: true
+                          });
+                        }
+                      }
+                    });
+                  } else {
+        // Handle server errors
+        const errorData = await response.json();
+       // alert('Error placing order: ' + errorData.message);
+       Swal.fire({
+                    icon: "error",
+                    title: "Error placing order:  " + errorData.message,
+                    text: "This product is not in your cart",
+                    showConfirmButton: true
+                })
+      }
+    } catch (error) {
+      // Handle network errors
+      console.error('Error:', error);
+      //('An error occurred. Please try again.');
+    }
+  });
+</script>
+>
+
+<!-- const formData = new FormData(this);
+    const orderData = {};
+    formData.forEach((value, key) => {
+      if (!orderData[key]) {
+        orderData[key] = value;
+      } else {
+        if (!Array.isArray(orderData[key])) {
+          orderData[key] = [orderData[key]];
+        }
+        orderData[key].push(value);
+      }
+    });
+
+    try {
+      const response = await fetch('/makeOrder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderData)
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // Handle successful order placement
+        alert('Order placed successfully!');
+        window.location.href = '/orderSuccess'; // Redirect to success page
+      } else {
+        // Handle error
+        alert('Error placing order: ' + result.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while placing the order.');
+    } -->

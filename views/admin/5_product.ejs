@@ -12,11 +12,11 @@
             <a href="/admin/addProduct" class="btn btn-primary btn-sm rounded">Create new Product</a>
         </div>
     </div>
-    <% if (error) { %>
-        <div class=" text-center font-regular p-2 alert alert-danger "id="popup" style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkred;"><%= error %></div>  
+    <% if (message) { %>
+        <div id="error-message" class=" text-center font-regular p-2 alert alert-danger " style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkred;"><%= message %></div>  
       <% } %>
       <% if (success) { %>
-        <div class=" text-center font-regular p-2 alert alert-danger "id="popup" style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkgreen;" ><%= success %></div>  
+        <div id="error-message" class=" text-center font-regular p-2 alert alert-danger " style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkgreen;" ><%= success %></div>  
       <% } %>
     <div class="card mb-4">
         <header class="card-header">
@@ -27,11 +27,13 @@
                     </div>
                 </div> -->
                 <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
-                    <select class="form-select">
-                        <option selected>All category</option>
-                        <option>Mens</option>
-                        <option>Womens</option>
-                        <option>Show all</option>
+                    <select class="form-control" name="category" type="text" placeholder="Select Category" class="form-select" id="product_nam">
+                        <option value="" selected >All category</option>
+                                  <% if(category.length > 0) {
+                            for(let i=0; i < category.length; i++) { %>
+                         <option value="<%= category[i].name %>"><%= category[i].name %></option>
+                            <%  } } 
+                            else { %> <p>No categories To Select</p> <% } %>
                     </select>
                 </div>
                 <div class="col-md-2 col-6">
@@ -90,6 +92,7 @@
     <!-- heading End-->
     <% if(product.length > 0) {
         for(let i=0; i < product.length; i++) { %>
+         
     <article class="itemlist">
         <div class="row align-items-center">
             <div class="col col-check flex-grow-0">
@@ -100,7 +103,7 @@
             <div class="col-lg-3 col-sm-4 col-8 flex-grow-2 col-name">
                 <a class="itemside" href="#">
                     <div class="left">
-                        <img src="assets/imgs/items/1.jpg" class="img-sm img-thumbnail" alt="Item" />
+                        <img src="<%-product[i].productImage[0]%>" class="img-sm img-thumbnail" alt="Item" />
                     </div>
                     <div class="info">
                         <h6 class="mb-0"><b><%= product[i].productName %></b></h6>
@@ -123,12 +126,16 @@
                 <span><%= product[i].stock %></span>
             </div>
             <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-                <a href="/admin/editProductPage" class="btn btn-sm font-sm rounded btn-brand">
+                <!-- <a href="/admin/editProductPage" class="btn btn-sm font-sm rounded btn-brand">
                     <i class="material-icons md-edit"></i> Edit
-                </a>
-                    <button class="edit-btn btn-info block-btn  <%= product[i].isDeleted ? 'btn-success' : 'btn-danger' %>" 
+                    onclick="productEdit('<%= product[i]._id %>')"
+                </a> -->
+                <a href="/admin/editProduct/<%=product[i]._id %>"
+                ><i class="bi bi-pencil-square"></i>Edit</a>
+
+                <button class="edit-btn btn-info block-btn  <%= product[i].isDeleted ? 'btn-success' : 'btn-danger' %>" 
                         onclick="productStatus('<%= product[i]._id %>', '<%= product[i].isDeleted %>')">
-                        <%= product[i].isDeleted ? 'List' : 'Unlist' %> </button>
+                <%= product[i].isDeleted ? 'List' : 'Unlist' %> </button>
             </div>
         </div>
         <!-- row .// -->
@@ -177,22 +184,46 @@
                     <!-- card-body end// -->
                 </div>
                 <!-- card end// -->
-                <div class="pagination-area mt-30 mb-50">
+                <div class="row ">
+                    <div class="col-12 ">
+                        <nav aria-label="Page navigation example ">
+                            <ul class="pagination justify-content-center">
+                                <% if (currentPage > 1) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                                </li>
+                                <% } %>
+                                <% for (let i = 1; i <= totalPages; i++) { %>
+                                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                    <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                                </li>
+                                <% } %>
+                                <% if (currentPage < totalPages) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+                                </li>
+                                <% } %>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- <div class="pagination-area mt-30 mb-50">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-start">
+                            <li class="page-item">
+                            <a class="page-link" href="#"><i class="material-icons md-chevron_left"></i></a>
                             <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                            <li class="page-item"><a class="page-link" href="#">02</a></li>
-                            <li class="page-item"><a class="page-link" href="#">03</a></li>
-                            <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#">16</a></li>
+                            </li>
                             <li class="page-item">
                                 <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
                             </li>
                         </ul>
                     </nav>
-                </div>
+                </div> -->
             </section>
+            
             <script>
+//-----------------------List and Unlist ----------------------------------------------
                 async function productStatus(productId, isDeleted) {
                   Swal.fire({
                     title: "Are you sure?",

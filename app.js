@@ -1,48 +1,50 @@
-const express=require("express");
-const app=express();
+const express = require("express");
+const app = express();
+const passport = require('passport')
+require('./drivers/passport');
+const cors = require('cors')
+const connectDB = require('./drivers/dataBase');
+const nocache = require('nocache')
+// env variables
+require('dotenv').config()
 
 //middleware to parse JSON and url-encoded form data
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 
-const cookieParser=require('cookie-parser')
+const cookieParser = require('cookie-parser')
 app.use(cookieParser())
 
-// env variables
- require('dotenv').config()
+app.set('view engine', 'ejs');
 
- 
- //app.set('views',path.join(__dirname,"views"))
-// Load static assets
-app.use(express.static('public'));
-//cors 
-const cors =require('cors')
+app.use(passport.initialize());
 app.use(cors())
 
-// Use no-cache middleware to prevent browser from caching
-const nocache = require('nocache')
-app.use(nocache())
+//app.set('views',path.join(__dirname,"views"))
+// Load static assets
+app.use(express.static('public'));
+app.set('views', './views/users');
 
 //connecting MongoDB
-const mongoose=require("mongoose");
-mongoose.connect(process.env.MONGODB_URL_LOCAL)
-.then(()=>console.log("Connected to MongoDB "))
-.catch((err)=>console.log("MongoDB connectin failed"));
+connectDB();
 
-// for user routes
-const userRoute=require('./routes/userRoute');
-app.use('/',userRoute);
+// Use no-cache middleware to prevent browser from caching
+app.use(nocache())
+
 // for admin routes
-const adminRoute=require('./routes/adminRoute');
-app.use('/admin',adminRoute);
+const adminRoute = require('./routes/adminRoute');
+app.use('/admin', adminRoute);
+// for user routes
+const userRoute = require('./routes/userRoute');
+app.use('/', userRoute);
 
-// 404
-// app.all('*', (req, res) => {
-//    res.status(404).render('error', { status: 404, error: '' });
-//  });
+//404
+app.all('*', (req, res) => {
+   return res.status(404).render('404User', { status: 404, error: '' });
+});
 
-const port=process.env.PORT  || 8004;
+const port = process.env.PORT
 
-app.listen(port, ()=> {
-   console.log(`Listening to the server on http://127.0.0.1:${port}`); 
+app.listen(port, () => {
+   console.log(`Listening to the server on http://127.0.0.1:${port}`);
 });

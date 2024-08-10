@@ -1,16 +1,20 @@
 const mongoose=require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  mobile: { type: String, required: true },
-  password: { type: String, required: true },
-        
-        isAdmin:{
+  name: { type: String,
+     required: true },
+  email: { type: String,
+     required: true,
+     unique: true },
+  mobile: { type: String,
+     required: false },
+  password: { type: String,
+    required: false },
+   isAdmin:{
             type:Boolean,
             default: false
         },
-        isBlocked:{
+   isBlocked:{
           type:Boolean,
           default: false
        },
@@ -18,7 +22,14 @@ const userSchema = new mongoose.Schema({
        token:{
             type:String,
             default:null
-      }
+      },
+      googleId:{
+      type: String,
+      default:null},
+      otp:{type:Number,
+         required:false},
+      otpExpires: { type: Date,
+             required: false }
 },{timestamps:true});
 
 const tempUserSchema = new mongoose.Schema({
@@ -35,7 +46,6 @@ const User = mongoose.model('User', userSchema);
 const TempUser = mongoose.model('TempUser', tempUserSchema);
 
 module.exports = { User, TempUser };
-
 
 //module.exports=mongoose.model('User',signUpSchema)
 

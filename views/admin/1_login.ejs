@@ -4,7 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
-    <link href="/admin/stylesheet/main.css" rel="stylesheet" type="text/css" />
+    <link href="/admin/css/main.css" rel="stylesheet" type="text/css" />
+    <style>
+    /* Smooth transition effect */
+      .alert {
+    transition: opacity 1s ease-out;
+     }
+     /* Class to hide the error message */
+      .hidden {
+    opacity: 0;
+    }
+    </style>
 </head>
 <body>
         <section class="content-main mt-80 mb-80 ">
@@ -12,19 +22,21 @@
                     <div class="card-body">
                         <h4 class="card-title mb-4 text-center">Admin Sign-in</h4>
                         <br>
-                        <% if (error) { %>
-                            <div class=" text-center font-regular p-2 alert alert-danger "id="popup" style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkred;"><%= error %></div>  
+                        <% if (message) { %>
+                            <div id="error-message" class=" text-center font-regular p-2 alert alert-danger "  style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkred;"><%= message %></div>  
                           <% } %>
                           <% if (success) { %>
-                            <div class=" text-center font-regular p-2 alert alert-danger "id="popup" style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkgreen;" ><%= success %></div>  
+                            <div id="error-message" class=" text-center font-regular p-2 alert alert-danger" style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkgreen;" ><%= success %></div>  
                           <% } %>
-                        <form  action='/admin/adminSignIn' method="post" id="loginform"  novalidate>
+                        <form  action='/admin/adminSignIn' id="adminLogin" method="post"  novalidate>
                             <div class="mb-3">
-                                <input class="form-control" name="email" placeholder="Enter email here" type="email" />
+                                <div id="error" style="color: red;"></div>
+                                <input class="form-control" name="email" id="email" placeholder="Enter email here" type="email" />
                             </div>
                             <!-- form-group// -->
                             <div class="mb-3">
-                                <input class="form-control" name="password" placeholder="Password" type="password" />
+                                <div id="error1" style="color: red;"></div>
+                                <input class="form-control" name="password" id="password" placeholder="Password" type="password" />
                             </div>
                         <div class="mb-4 ">
                              <button type="submit"class="btn btn-primary w-100" style="justify-content:center;">Sign-in</button>
@@ -53,17 +65,101 @@
                     </div>
                 </div>
             </section>
-
-            <script>
+<script>
                 document.addEventListener("DOMContentLoaded", () => {
-    const errorMessage = document.getElementById("popup");
+    const errorMessage = document.getElementById("error-message");
 
     // Set a timeout to hide the error message after 5 seconds
     setTimeout(() => {
         errorMessage.classList.add("hidden");
-    }, 4000); // 4000 milliseconds = 4 seconds
+    }, 5000); // 5000 milliseconds = 5 seconds
 });
-            </script>
+
+</script>
+
+<script>
+    document.getElementById('adminLogin').addEventListener('submit', async function (event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const errorDiv = document.getElementById('error');
+        const errorDiv1 = document.getElementById('error1');
+        errorDiv.textContent = ''; // Clear previous errors
+        errorDiv1.textContent = '';
+
+        // Simple email validation regex
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+        // Password should not contain spaces
+        const passwordRegex = /^\S+$/;
+
+        // Validate email
+        if (!email && !password) {
+            errorDiv.textContent = 'Enter email';
+            errorDiv1.textContent = 'Enter password';
+            return;
+        }
+        else if (!email) {
+            errorDiv.textContent = 'Enter email';
+            return;
+        }
+        else if (!emailRegex.test(email)) {
+            errorDiv.textContent = 'Enter a valid email';
+            return;
+        }
+
+        // Validate password
+        if (!password) {
+            errorDiv1.textContent = 'Enter password';
+            return;
+        } else if (!passwordRegex.test(password)) {
+            errorDiv1.textContent = 'Password should not contain spaces';
+            return;
+        }
+        const loginData = {
+            email: email,
+            password: password
+        }
+        // If validation passes, send the form data to the server
+        try {
+            //console.log(loginData, 'this is usrData')
+            const response = await fetch('/admin/adminSignIn', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(loginData)
+            });
+           // console.log(response, 'this is data');
+            if (response.ok) {
+        // Handle successful response
+         console.log('Login successful:');
+        // Redirect to another page or update the UI accordingly
+        window.location.href = '/admin/dash';
+    }else if(response.status == 400){
+        const data = await response.json()
+        window.location.href = `/admin?message=${data.message}`;
+    } 
+    else if(response.status == 401){
+        const data = await response.json()
+        window.location.href = `/admin?message=${data.message}`;
+    } 
+     else if(response.status == 403){
+        const data = await response.json()
+        window.location.href = `/admin?message=${data.message}`;
+    }
+    else {
+        // Handle errors from the server
+        const errorData = await response.json();
+        errorDiv.textContent = errorData.message || 'Login failed';
+    }
+} catch (e) {
+        console.error('Error:', e.message);
+        errorDiv.textContent = 'An error occurred. Please try again later.';
+    }
+});
+</script>
                 
 </body>
 </html>

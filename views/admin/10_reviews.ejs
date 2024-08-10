@@ -1,0 +1,134 @@
+<%- include("../adminPartials/header") %>
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">Reviews</h2>
+                        <p>Lorem ipsum dolor sit amet.</p>
+                    </div>
+                    <div>
+                        <input type="text" placeholder="Search by name" class="form-control bg-white" />
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <header class="card-header">
+                        <div class="row gx-3">
+                            <div class="col-lg-4 col-md-6 me-auto">
+                                <input type="text" placeholder="Search..." class="form-control" />
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-6">
+                                <select class="form-select">
+                                    <option>Status</option>
+                                    <option>Active</option>
+                                    <option>Disabled</option>
+                                    <option>Show all</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-6">
+                                <select class="form-select">
+                                    <option>Show 20</option>
+                                    <option>Show 30</option>
+                                    <option>Show 40</option>
+                                </select>
+                            </div>
+                        </div>
+                    </header>
+                    <!-- card-header end// -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" />
+                                            </div>
+                                        </th>
+                                        <th>#ID</th>
+                                        <th>Product</th>
+                                        <th>Name</th>
+                                        <th>Rating</th>
+                                        <th>Date</th>
+                                        <!--<th class="text-end">Action</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if(reviews.length > 0) {
+                                        for(let i=0; i < reviews.length; i++) { %>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" />
+                                            </div>
+                                        </td>
+                                        <td><%= reviews[i]._id %></td>
+                                        <td><b><%= reviews[i].productName %></b></td>
+                                        <td><%= reviews[i].name %></td>
+                                        <td>
+                                            <ul class="rating-stars">
+                                                <li style="width: 60%" class="stars-active">
+                                                    <img src="assets/imgs/icons/stars-active.svg" alt="stars" />
+                                                </li>
+                                                <li>
+                                                    <img src="assets/imgs/icons/starts-disable.svg" alt="stars" />
+                                                </li>
+                                            </ul>
+                                        </td>
+                                        <td><%= (reviews[i].createdAt).toDateString() %></td>
+                                      <!--  <td class="text-end">
+                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
+                                            <div class="dropdown">
+                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                 <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="#">View detail</a>
+                                                    <a class="dropdown-item" href="#">Edit info</a>
+                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
+                                                </div> 
+                                            </div>
+                                        </td>-->
+                                    </tr>
+                                    <%}}%>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- table-responsive//end -->
+                    </div>
+                    <!-- card-body end// -->
+                </div>
+                <div class="row ">
+                    <div class="col-12 ">
+                        <nav aria-label="Page navigation example ">
+                            <ul class="pagination justify-content-center">
+                                <% if (currentPage > 1) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                                </li>
+                                <% } %>
+                                <% for (let i = 1; i <= totalPages; i++) { %>
+                                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                    <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                                </li>
+                                <% } %>
+                                <% if (currentPage < totalPages) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+                                </li>
+                                <% } %>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- <div class="pagination-area mt-30 mb-50">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <li class="page-item">
+                            <a class="page-link" href="#"><i class="material-icons md-chevron_left"></i></a>
+                            <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div> -->
+            </section>
+            <%- include("../adminPartials/footer") %>

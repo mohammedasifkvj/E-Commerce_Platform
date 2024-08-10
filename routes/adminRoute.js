@@ -1,48 +1,62 @@
-const express=require("express");
-const admin_route=express();
-const adminController=require("../controllers/adminController");
-const categoryController = require('../controllers/categoryController'); 
-const productController = require('../controllers/productController'); 
-const auth=require('../middlewares/adminTokenAuth')
+const express = require("express");
+const admin_route = express();
+const auth = require('../middlewares/adminTokenAuth')
+const logged = require('../middlewares/hasToken')
+const uploadImage = require('../drivers/multer')
+const methodOverride = require('method-override');
 
-// const path = require('path');
-// admin_route.set('views',path.join(__dirname,"views"))
+const adminController = require("../controllers/adminController");
+const categoryController = require('../controllers/categoryController');
+const productController = require('../controllers/productController');
+const offerController = require('../controllers/offer&CouponController');
 
-admin_route.set('view engine','ejs');
-admin_route.set('views','./views/admin');
-//---------------Admin
-admin_route.get('/',adminController.loadAdminSignIn)
-admin_route.get('/SignIn',adminController.loadAdminSignIn)
-admin_route.post('/adminSignIn',adminController.adminSignIn);
-admin_route.get('/dash',adminController.loadDash)
+admin_route.use(methodOverride('_method'));
+
+admin_route.set('views', './views/admin');
+//-------------Admin Login
+admin_route.get('/', logged.isAdminLoggedIn, adminController.loadAdminSignIn)
+admin_route.get('/login', logged.isAdminLoggedIn, adminController.loadAdminSignIn)
+admin_route.post('/adminSignIn', logged.isAdminLoggedIn, adminController.adminSignIn);
+
+admin_route.get('/logout', auth.authenticateToken, adminController.adminLogout)
+admin_route.get('/dash', auth.authenticateToken, adminController.loadDash)
 
 //-------------Categry
-//admin_route.get('/category',adminController.loadCategory)
-admin_route.get('/ShowCategory',categoryController.showCategory)
-admin_route.get('/createCat',categoryController.createCat)
-admin_route.post('/addCategory',categoryController.createCategory)
-admin_route.get('/category',categoryController.editCategoryPage)
-admin_route.post('/category',categoryController.editCategory)
-//admin_route.post('/category',categoryController.unlistCategory)
+admin_route.get('/ShowCategory', auth.authenticateToken, categoryController.showCategory)
+admin_route.get('/createCat', auth.authenticateToken, categoryController.createCat)
+admin_route.post('/addCategory', auth.authenticateToken, categoryController.createCategory)
+admin_route.get('/editCategory/:categoryId', auth.authenticateToken, categoryController.editCategoryPage)
+admin_route.put('/updateCategory/:categoryId', auth.authenticateToken, categoryController.editCategory)
+admin_route.patch('/categoryStatus', auth.authenticateToken, categoryController.listUnlistCategory)
 
 //------------Product 
-admin_route.get('/product',productController.product)
-admin_route.get('/addProduct',productController.addProductPage)
-admin_route.post('/addProduct',productController.addProduct)
-admin_route.get('/editProductPage',productController.editProductPage)
-//admin_route.post('/editProduct',productController.editProduct)
-admin_route.patch('/productStatus',productController.listUnlistProduct)
-
+admin_route.get('/product', auth.authenticateToken, productController.product)
+admin_route.get('/addProduct', auth.authenticateToken, productController.addProductPage)
+admin_route.post('/addProduct', auth.authenticateToken, uploadImage.any(), productController.addProduct)
+admin_route.get('/editProduct/:productId', auth.authenticateToken, uploadImage.any(), productController.editProductPage)
+admin_route.put('/updateProduct/:productId', auth.authenticateToken, productController.editProduct)
+admin_route.patch('/productStatus', auth.authenticateToken, productController.listUnlistProduct)
+admin_route.get('/product/reviews', auth.authenticateToken, productController.reviews)
 
 //--------------customer 
-admin_route.get('/customerTable',adminController.customerTable)
-//admin_route.get('/blockAndUnblockUser', adminController.blockAndUnblockUser)
-admin_route.patch('/userStatus', adminController.blockAndUnblockUser);
-
+admin_route.get('/userTable', auth.authenticateToken, adminController.customerTable)
+admin_route.patch('/userStatus', auth.authenticateToken, adminController.blockAndUnblockUser);
 
 //--------------Order
-//admin_route.get('/orderTable',adminController.orderTable)
+admin_route.get('/orderTable', auth.authenticateToken, adminController.orderTable)
+admin_route.get('/OrderDetails/:orderId', auth.authenticateToken, adminController.orderDetails)
+admin_route.delete('/deleteOrder', auth.authenticateToken, adminController.deleteOrder)
+admin_route.put('/changeStatus/:orderId', auth.authenticateToken, adminController.changeStatus)
 
-//-------------------------------------
+//--------Offer
+admin_route.get('/offer', auth.authenticateToken, offerController.offers)
+admin_route.get('/offer/addOfferPage', auth.authenticateToken, offerController.addOfferPage)
+admin_route.post('/offer/addOffer', auth.authenticateToken, offerController.addOffer)
+admin_route.patch('/offer/offerStatusChange', auth.authenticateToken,offerController.offerStatusChange);
 
-module.exports=admin_route;
+//404
+admin_route.get('*', (req, res) => {
+    return res.status(404).render('404Admin');
+});
+
+module.exports = admin_route;

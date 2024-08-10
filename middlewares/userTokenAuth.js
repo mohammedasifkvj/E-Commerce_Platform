@@ -6,15 +6,15 @@ const authenticateToken = (req, res, next) => {
 
     if (!token) {
         console.log("no token");
-        //  res.sendStatus(401);
-         return res.redirect(`/signIn?error=${encodeURIComponent('no token')}`);
+       //return res.status(401).json({ message: 'Access Denied: No Token Provided!' });
+       return res.status(401).redirect(`/signIn?message=${encodeURIComponent('Access Denied: No Token Provided!')}`);
     }
 
     jwt.verify(token, process.env.JWT_ACCESS_SECRET, (err, user) => {
         if (err) {
             console.log("error verification");
             // res.sendStatus(403);
-            return res.redirect(`/signIn?error=${encodeURIComponent(' verification error')}`);
+            return res.redirect(`/signIn?message=${encodeURIComponent(' verification error')}`);
         }
         req.user = user;
         next();

@@ -1,0 +1,788 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+<style>
+    /* Add your CSS styles here */
+    .image-upload-container {
+        border: 2px dashed #ccc;
+        padding: 20px;
+        text-align: center;
+        position: relative;
+    }
+
+    .image-upload-container input[type="file"] {
+        display: none;
+    }
+
+    .image-upload-container label {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .image-preview {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    .image-preview .image-box {
+        position: relative;
+        margin: 10px;
+    }
+
+    .image-preview img {
+        max-width: 150px;
+        max-height: 150px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .image-preview .remove-image {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: rgba(255, 0, 0, 0.8);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    /* Cropper modal styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding-top: 60px;
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        position: relative;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .error-message{
+       color: red;
+       font-size: 12px;
+    }
+</style>
+<%- include("../adminPartials/header") %>
+            <section class="content-main">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="content-header text-center">
+                            <h2 class="content-title ">Edit <%=product.productName %></h2>
+                            <div>
+                                <!-- <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button> -->
+                                <!-- <button class="btn btn-md rounded font-sm hover-up">Publish</button> -->
+                                <a href="/admin/product" class="btn btn-outline-secondary">Back to Product Page</a>
+                            </div>
+                        </div>
+                    </div>
+                    <% if (message) { %>
+                        <div class=" text-center font-regular p-2 alert alert-danger "id="popup" style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkred;"><%= message %></div>  
+                      <% } %>
+                      <% if (success) { %>
+                        <div class=" text-center font-regular p-2 alert alert-danger "id="popup" style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkgreen;" ><%= success %></div>  
+                      <% } %>
+                    <div class="col-lg-12">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4>Product Details</h4>
+                            </div>
+                            <div class="card-body">
+                               <form   id="formId"   enctype="multipart/form-data">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="mb-4">
+                                                <label class="form-label">Product Name</label>
+                                                <div class="error-message" id="productNameError"></div>
+                                                <div class="row gx-2">
+                                                    <input id="productName" name="productName" value="<%=product.productName %>" placeholder="" type="text" class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-4">
+                                                <label class="form-label">Brand</label>
+                                                <div class="error-message" id="brandError"></div>
+                                                <input id="brand" name="brand" value="<%=product.brand %>" placeholder="" type="text" class="form-control" />
+                                            </div>
+                                        </div>  
+                                    </div>    
+                                    <div class="col-lg-6">
+                                        <label for="product_category" class="form-label">Category</label>
+                                        <div class="error-message" id="categoryError"></div>
+                                        <select id="category" class="form-control" name="category" type="text" placeholder="Select Category" class="form-select" id="product_nam">
+                                            <option selected  ><%=product.category %></option>
+                                                      <% if(category.length > 0) {
+                                                for(let i=0; i < category.length; i++) { %>
+                                             <option ><%= category[i].name %></option>
+                                                <%  } } 
+                                                else { %> <p>No categories To Select</p> <% } %>
+                                        </select>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label">Full description</label>
+                                        <div class="error-message" id="descriptionError"></div>
+                                        <textarea id="description" name="description" placeholder="Type here" class="form-control"  rows="4" style="height: 20vh;"><%=product.description %></textarea>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="mb-4">
+                                                <label class="form-label">Dial Colour</label>
+                                                <div class="error-message" id="dialColourError"></div>
+                                                <div class="row gx-2">
+                                                    <input id="dial" name="dialColour" value="<%=product.dialColour %>" placeholder="" type="text" class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="mb-4">
+                                                <label class="form-label">Strap Colour</label>
+                                                <div class="error-message" id="strapColourError"></div>
+                                                <input id="strap" name="strapColour" value="<%=product.strapColour %>" placeholder="" type="text" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="mb-4">
+                                                <label class="form-label">Stock</label>
+                                                <div class="error-message" id="stockError"></div>
+                                                <input id="stock" name="stock" value="<%=product.stock %>" placeholder="" type="text" class="form-control" />
+                                            </div>
+                                        </div>  
+                                    </div>    
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="mb-4">
+                                                <label class="form-label">Regular price</label>
+                                                <div class="error-message" id="priceError"></div>
+                                                <div class="row gx-2">
+                                                    <input id="price" name="price" value="<%=product.price %>" placeholder="" type="text" class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-lg-4">
+                                            <div class="mb-4">
+                                                <label class="form-label">Discount price</label>
+                                                <div class="error-message" id="discountPriceError"></div>
+                                                <input id="discountPrice " name="discountPrice" value="<%=product.discountPrice %>" placeholder="" type="text" class="form-control" />
+                                            </div>
+                                        </div> -->
+                                        <!-- <div class="col-lg-4">
+                                            <div class="mb-4">
+                                                <label class="form-label">Discount</label>
+                                                <div class="error-message" id="discountError"></div>
+                                                <input id="discount" name="discount" value="<%=product.discount %>" placeholder="" type="text" class="form-control" />
+                                            </div>
+                                        </div>   -->
+                                    </div>              
+                    
+                </div>
+            <!-- Form for Product Images -->
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between text-center">
+                    <div id="productImageError" class="error-message"></div>
+                    <h5 class="mb-0 card-title  ">Product Images</h5>
+                    <!-- <a href="javascript:void(0);" class="fw-medium">Add media from URL</a> -->
+                </div>
+                <div class="card-body">
+                    <div class="image-upload-container">
+                        <input class="image" type="file" id="imageUpload" name="productImage" multiple accept="image/*">
+                        <div id="imagesError" class="error-message"></div>
+                        <label for="imageUpload">Add Images</label>
+                        <div   class="image-preview" id="imagePreview">
+                            <%   for(let j=0; j < product.productImage.length; j++) { %>
+                                <div class="image-box">
+                                    <img src="<%-product.productImage[j]%>" alt>
+                                     <button class="remove-image">×</button>
+                                  </div>
+                                  <%  } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- onclick="getProcessedFiles()" -->
+              <button type="submit" 
+              class="btn btn-md rounded font-sm hover-up" id="updateButton">Update</button>
+            </form> 
+        </div>
+        </div>
+            <!-- End Form for Product Images -->
+            
+            
+        </div>
+   
+            <!-- Cropper Modal -->
+<div id="cropperModal" class="modal">
+    <div   style="width: 41%; margin: 0 auto;">
+        <span class="close">&times;</span>
+        <h2>Crop Image</h2>
+        <img id="cropperImage" src="" alt="Image to crop" style="max-width: 60%; max-height:50%">
+        <button id="cropButton"
+         class="btn btn-primary mt-3">Next</button>
+    </div>
+  </div>
+     </section>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
+<script>
+    let cropper;
+    const imageUpload = document.getElementById('imageUpload');
+    const imagePreview = document.getElementById('imagePreview');
+    const cropperModal = document.getElementById('cropperModal');
+    const cropperImage = document.getElementById('cropperImage');
+    const cropButton = document.getElementById('cropButton');
+    const closeModalButton = document.getElementsByClassName('close')[0];
+    let currentFileIndex = 0;
+    let filesToProcess = [];
+    let processedFiles = [];
+
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+    imageUpload.addEventListener('change', function(event) {
+
+      if(!allowedExtensions.exec(event.target.files[0].name)){
+        showError('imagesError', 'please upload an image')
+        return
+       }
+
+        const files = event.target.files;
+        if (files.length > 0) {
+            filesToProcess = Array.from(files);
+            currentFileIndex = 0;
+            processNextFile();
+        }
+    });
+
+    function processNextFile() {
+        if (currentFileIndex < filesToProcess.length) {
+            const file = filesToProcess[currentFileIndex];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                cropperImage.src = e.target.result;
+                cropperModal.style.display = 'block';
+                cropper = new Cropper(cropperImage, {
+                    viewMode: 1,
+                    background: false,
+                    cropBoxResizable: false,
+                    ready: function() {
+                        this.cropper.setCropBoxData({
+                            width: 580,
+                            height: 630
+                        });
+                    }
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    cropButton.addEventListener('click', function() {
+        cropper.getCroppedCanvas({
+            width: 580,
+            height: 630
+        }).toBlob(function(blob) {
+            const url = URL.createObjectURL(blob);
+            const imageBox = document.createElement('div');
+            imageBox.classList.add('image-box');
+
+            const img = document.createElement('img');
+            img.src = url;
+            img.alt = filesToProcess[currentFileIndex].name;
+
+            const removeButton = document.createElement('button');
+            removeButton.classList.add('remove-image');
+            removeButton.innerHTML = '&times;';
+            removeButton.onclick = function() {
+                imagePreview.removeChild(imageBox);
+                // Remove from processedFiles array
+                processedFiles = processedFiles.filter(file => file.url !== url);
+            };
+
+            imageBox.appendChild(img);
+            imageBox.appendChild(removeButton);
+            imagePreview.appendChild(imageBox);
+
+            processedFiles.push({ name: filesToProcess[currentFileIndex].name, blob: blob, url: url });
+            cropperModal.style.display = 'none';
+            cropper.destroy();
+
+            currentFileIndex++;
+            processNextFile();
+
+            console.log(processedFiles)
+        });
+    });
+
+    closeModalButton.addEventListener('click', function() {
+        cropperModal.style.display = 'none';
+        cropper.destroy();
+    });
+
+    window.onclick = function(event) {
+        if (event.target === cropperModal) {
+            cropperModal.style.display = 'none';
+            cropper.destroy();
+        }
+    };
+
+    // function getProcessedFiles() {
+    //     return processedFiles.map(file => file.blob);
+    // }
+
+
+      // Function to get the processed files array
+    //   function getProcessedFiles() {
+    //     return processedFiles;
+    // }
+   
+</script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>      
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+     
+
+// Function to preview the thumbnail
+function previewThumbnail(input, previewContainerId) {
+    const thumbnailPreview = document.getElementById(previewContainerId);
+
+    // Clear any previous preview
+    thumbnailPreview.innerHTML = '';
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.classList.add('img-thumbnail', 'mt-2');
+            thumbnailPreview.appendChild(img);
+
+            
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        // If no file is selected, clear the thumbnail preview
+        clearThumbnailPreview(previewContainerId);
+    }
+}
+
+// Function to clear the thumbnail preview
+function clearThumbnailPreview(previewContainerId) {
+    const thumbnailPreview = document.getElementById(previewContainerId);
+    thumbnailPreview.innerHTML = '';
+}
+
+// Event listener for thumbnail input
+document.querySelectorAll('.thumbnailInput').forEach(function(input) {
+    input.addEventListener('change', function() {
+        const previewContainerId = this.dataset.previewContainerId;
+        previewThumbnail(this, previewContainerId);
+    });
+});
+
+});
+
+
+function showError(errorId, message) {
+        let errorElement = document.getElementById(errorId);
+        errorElement.textContent = message;
+    }
+
+  function hideError(errorId) {
+      let errorElement = document.getElementById(errorId);
+      errorElement.textContent = '';
+  }
+</script>
+
+<script>
+
+    
+    // function getProcessedFiles() {
+    //     return processedFiles.map(file => file.blob);
+    // }
+
+    
+//     document.getElementById('formId').addEventListener('submit', async function(event) {
+
+//   event.preventDefault();
+
+
+
+
+// const field=document.querySelectorAll('.form-control')
+// const  images= document.querySelectorAll('.image') 
+
+//   // Clear previous errors
+//   const errorElements = document.querySelectorAll('.error-message');
+//   errorElements.forEach(el => el.textContent = '');
+
+
+
+//   const productName = document.getElementById("productName")
+//   console.log(productName)
+//   const brand = document.getElementById("brand").value
+//   const description= document.getElementById("description").value
+//   const category = document.getElementById("category").value
+//   const dialColour = document.getElementById("dialColour").value
+//   const strapColour = document.getElementById("strapColour").value
+//   const stock = document.getElementById("stock").value
+//   const price = document.getElementById("price").value
+ // const discuntPrice = document.getElementsByName("discuntPrice")
+
+//  const productName = document.querySelector('#productName')?.value || '';
+//     const brand = document.querySelector('#brand')?.value || '';
+//     const description = document.querySelector('#description')?.value || '';
+//     const category = document.querySelector('#category')?.value || ''; 
+//     const dialColour = document.querySelector('#dial')?.value || '';
+//     const strapColour = document.querySelector('#strap')?.value || ''; 
+//     const stock = document.querySelector('#stock')?.value || '';
+//     const price = document.querySelector('#price')?.value || '';
+//     const productId = window.location.pathname.split('/').pop();
+//     const imageInput = document.querySelector('#imageUpload')?.value||'';
+//         const form = document.querySelector('#formId')
+// console.log(imageInput,'this is from nput')
+// let fileName = imageInput.split('\\').pop();
+//     // Log values for debugging
+// let formData = new FormData(form)
+// const data = new FormData()
+// formData.forEach((value,key)=>{
+//     console.log(value,key)
+//     data.append(value,key)
+// })
+// console.log(data,'this is the append data')
+// try {
+//        const response = await fetch(`/admin/updateProduct/<%=product._id %>`, {
+//         method: 'PUT',
+//     //   headers:{"Content-Type":"application/json"},
+
+//       body:data
+//     });
+//     // const response = await axios.put(`/admin/updateProduct/<%=product._id %>`,(formData))
+//     console.log(response," fd",response.data)
+// // const data = await response.json()
+// console.log("inin engilu m vaaaaaaaaaaaaaaaaaaaa")
+//     if (response.ok) {
+//       // Handle successful response
+//      const data = await response.json();
+   
+//     window.location.href = `/admin/product?message=${data.message}`;;
+//     }
+//     else if(response.status == 403){
+//             const data = await response.json()
+//             window.location.href = `/admin/addProduct?message=${data.message}`;
+//     }
+//     else {
+//     //   alert('Failed to add product: ' + result.message);
+//     // Handle errors from the server
+//     const errorData = await response.json();
+//     console.log(errorData,'this is errorData' );
+//     throw new Error('Network response was not ok');
+
+//     }
+//   } catch (error) {
+//     console.error('There was a problem with the fetch operation:', error);
+//   }
+// processedFiles.forEach((file, key) => {
+//   console.log(file, key);
+//   formData.append(key, file); // Ensure file is of type 'Blob' or 'File'
+// });
+
+// Append each product detail individually
+// formData.append('productName', productName);
+// formData.append('brand', brand);
+// formData.append('description', description);
+// formData.append('category', category);
+// formData.append('dialColour', dialColour);
+// formData.append('strapColour', strapColour);
+// formData.append('stock', stock);
+// formData.append('price', price);
+//    .append(brand)
+//    .append()
+    // formData={
+    //     productName,
+    //     brand,
+    //     description,
+    //     category,
+    //     dialColour,
+    //     strapColour,
+    //     stock,
+    //     price,
+    //    // productImage:fileName
+       
+    // }
+    console.log(formData,'this is formdat')
+//    processedFiles.forEach((file,key)=>{
+//     console.log(file,key)
+//     formData.append(key,file)
+//    })
+ 
+    // console.log(fileName)
+// console.log(processedFiles,'this is images')
+// formData.append(processedFiles)
+
+
+
+//     const formData = new FormData(form);
+    
+//    const form={
+//     productName:productName,
+//     description:description,
+//     brand:brand,
+//     category:category,
+//     dialColour:dialColour,
+//     strapColour:strapColour,
+//      price:price,
+//     stock:stock,
+  
+//    // discuntPrice:discuntPrice,
+
+//    }
+
+
+//   const form = new FormData(data);
+  
+  
+  
+  // Validate inputs
+//   let isValid = true;
+
+//   // Product name validation
+
+//   if (!productName || productName.length < 6) {
+//     document.getElementById('productNameError').textContent = 'Product name must be at least 6 characters long.';
+//     isValid = false;
+//   }
+
+//   // Brand validation
+  
+//   if (!brand) {
+//     document.getElementById('brandError').textContent = 'Brand is required.';
+//     isValid = false;
+//   }
+
+//   // Category validation
+  
+//   if (!category) {
+//     document.getElementById('categoryError').textContent = 'Category must be selected.';
+//     isValid = false;
+//   }
+
+//   // description validation
+  
+//   if (!description) {
+//     document.getElementById('descriptionError').textContent = 'Description is required.';
+//     isValid = false;
+//   }
+
+//   // Dial Colour validation
+  
+//   if (!dialColour) {
+//     document.getElementById('dialColourError').textContent = 'Dial Colour is required.';
+//     isValid = false;
+//   }
+
+//   // Strap Colour validation
+  
+//   if (!strapColour) {
+//     document.getElementById('strapColourError').textContent = 'Strap Colour is required.';
+//     isValid = false;
+//   }
+
+//   // Stock validation
+//   if (!stock || stock <= 0) {
+//     document.getElementById('stockError').textContent = 'Stock is required.';
+//     isValid = false;
+//   }
+
+//   // Regular price validation
+//   if (!price || price <= 0) {
+//     document.getElementById('priceError').textContent = 'Regular price is required.';
+//     // must be a positive number
+//     isValid = false;
+//   }
+
+  // Discount price validation
+//   const discountPrice = form.get('discountPrice');
+//   if (!discountPrice ) {
+//     document.getElementById('discountPriceError').textContent = 'Discount price is required.';
+//     isValid = false;
+//   }
+//   if (discountPrice <= 0  ) {
+//     document.getElementById('discountPriceError').textContent = 'Discount price must be greater than zero';
+//     isValid = false;
+//   }
+
+//   if ( discountPrice >= price ) {
+//     document.getElementById('discountPriceError').textContent = 'Discount price must be less than the regular price';
+//     isValid = false;
+//   }
+
+//   if (discountPrice <= 0 || discountPrice >= price ) {
+//     document.getElementById('discountPriceError').textContent = 'Discount price must be less than the regular price';
+//     isValid = false;
+//   }
+
+  //Images validation
+//    const imag = form.getAll('productImage');
+//   if (imag.length==0 ||imag.length < 4) {
+//     console.log('dfsjal')
+//     document.getElementById('imagesError').textContent = 'You must upload at least 4 images.';
+//     isValid = false;
+//   }
+
+
+
+
+//  const image = getProcessedFiles()
+
+
+//    if (!isValid) return;
+        // Gather form data
+
+  
+//addded blob
+//   images.forEach((file, index) => {
+//     formData.append(`productImages${index}`,file.name);
+//      });
+
+  // If validation passes, submit the form
+ 
+// });
+</script>
+
+            <%- include("../adminPartials/footer") %>
+        <script>
+
+            document.getElementById('makeOrder').addEventListener('submit', async function (event) {
+                event.preventDefault(); // Prevent the form from submitting the traditional way
+            
+                // Gather form data
+                const productIds = Array.from(document.getElementsByName('productId[]')).map(input => input.value);
+                const quantities = Array.from(document.getElementsByName('quantity[]')).map(input => input.value);
+                const addressId = document.querySelector('input[name="addressId"]:checked');
+                const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+                const orderTotal = document.getElementById('orderTotal').value;
+            
+                document.getElementById('addressError').innerText = '';
+                document.getElementById('paymentError').innerText = '';
+                let isValid = true;
+            
+                // Validate form data
+                if (!addressId) {
+                  document.getElementById('addressError').innerText = 'Please select an address.';
+                  isValid = false;
+                }
+            
+                if (!paymentMethod) {
+                  document.getElementById('paymentError').innerText = 'Please select a payment method.';
+                  isValid = false;
+                }
+            
+                if (!isValid) {
+                  return;
+                }
+            
+                // Prepare data to send
+                const orderData = {
+                  products: productIds.map((productId, index) => ({
+                    productId: productId,
+                    quantity: quantities[index]
+                  })),
+                  addressId: addressId.value,
+                  orderTotal: orderTotal,
+                  paymentMethod: paymentMethod.value
+                };
+            
+                try {
+                  const response = await fetch('/makeOrder', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderData),
+                  });
+            
+                  if (response.ok) {
+                    // Handle successful response
+                    Swal.fire({
+                      icon: "success",
+                      title: "Order placed successfully!",
+                      showConfirmButton: false,
+                      timer: 1000
+                    });
+                    window.location.href = '/orderConfirmation';
+                  } else if (response.status === 402) { // Online Payment
+                    Swal.fire({
+                      title: 'Payment Required',
+                      text: 'Please complete your payment via PayPal.',
+                      icon: 'warning',
+                      showCancelButton: true,
+                      confirmButtonText: 'Pay with PayPal',
+                      cancelButtonText: 'Cancel'
+                    }).then(async (result) => {
+                      if (result.isConfirmed) {
+                        // Send order data to the server to create a PayPal order
+                        const paypalResponse = await fetch('/create-paypal-order', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify({ orderData }),
+                        });
+            
+                        if (paypalResponse.ok) {
+                          const { approval_url } = await paypalResponse.json();
+                          // Redirect to PayPal link
+                          window.location.href = approval_url;
+                        } else {
+                          Swal.fire({
+                            icon: 'error',
+                            title: 'Failed to initiate PayPal payment.',
+                            showConfirmButton: true
+                          });
+                        }
+                      }
+                    });
+                  } else {
+                    // Handle server errors
+                    const errorData = await response.json();
+                    Swal.fire({
+                      icon: "error",
+                      title: "Error placing order: " + errorData.message,
+                      text: "This product is not in your cart",
+                      showConfirmButton: true
+                    });
+                  }
+                } catch (error) {
+                  // Handle network errors
+                  console.error('Error:', error);
+                }
+              });
+            </script>  

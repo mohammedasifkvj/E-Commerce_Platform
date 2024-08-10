@@ -1,0 +1,198 @@
+<%- include("../user_partials/header") %>
+<div class="themevale_Mobile themevale_MobileAccount" id="account-mobile">
+    <div class="themevale_close2">
+        <a href="javascript:void(0)" class="close">&times;<span class="text">close</span></a>
+    </div>
+    <div id="accountMobile">
+            <nav class="navPages-mobile">
+<ul class="navPages-list navPages-list--user">
+    <li class="navPages-item">
+        <p class="navPage-subMenu-title">
+            <span class="text">Account</span>
+        </p>
+    </li>
+    <li class="navPages-item">
+        <a class="navPage-subMenu-action navPages-action" href="/account"><span class="text">Account</span></a>
+    </li>
+    <li class="navPages-item">
+        <a class="navPage-subMenu-action navPages-action" href="/address"><span class="text">Addresses</span></a>
+    </li>
+    <li class="navPages-item">
+        <a class="navPage-subMenu-action navPages-action" href="/orders"><span class="text">Orders</span></a>
+    </li>
+    <li class="navPages-item">
+        <a class="navPage-subMenu-action navPages-action" href="/wishlist"><span class="text">Wish Lists</span></a>
+    </li>
+    <li class="navPages-item">
+        <a class="navPage-subMenu-action navPages-action" href="/profileSettings"><span class="text">Account Settings</span></a>
+    </li>
+    <li class="navPages-item">
+        <a class="navPage-subMenu-action navPages-action" href="/signOut"><span class="text">Log out</span></a>
+    </li>
+</ul>
+</nav>
+    </div>
+</div>
+ <div class="body" data-currency-code="USD">    
+<main class="page account-order-details account">
+    <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
+        <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
+            <meta itemprop="position" content="1" />
+        </li>
+        <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                <a href="/account" class="breadcrumb-label" itemprop="item"><span itemprop="name">Your Account</span></a>
+            <meta itemprop="position" content="2" />
+        </li>
+        <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                <a href="/orders" class="breadcrumb-label" itemprop="item"><span itemprop="name">Your Orders</span></a>
+            <meta itemprop="position" content="3" />
+        </li>
+        <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                <meta itemprop="item" content="https://luxwatches-demo-02.mybigcommerce.com/account.php?action=view_order&amp;order_id=107">
+                <span class="breadcrumb-label" itemprop="name">Order #107</span>
+            <meta itemprop="position" content="4" />
+        </li>
+    </ul>
+    <div class="container container-smaller">
+        <div class="page-content">
+            <div class="themevale-heading">
+                <h1 class="page-heading title">Order #107</h1>
+            </div>
+
+            <nav class="navBar navBar--sub navBar--account">
+                <ul class="navBar-section">
+                    <li class="navBar-item">
+                        <a class="navBar-action" href="/account">Account</a>
+                     </li>
+                     <li class="navBar-item">
+                        <a class="navBar-action" href="/address">Addresses</a>
+                     </li>
+                     <li class="navBar-item">
+                         <a class="navBar-action" href="/orders">Orders</a>
+                     </li>
+                     <li class="navBar-item ">
+                        <a class="navBar-action" href="/wishlist">Wish Lists</a>
+                     </li>
+                     <li class="navBar-item">
+                         <a class="navBar-action" href="/profileSettings">Account Settings</a>
+                     </li>
+                 </ul>
+            </nav>
+
+            <div class="account">
+                <div class="account-body">
+                    <div class="account-content account-content--fixedSmall">
+                        <h3 class="account-heading">Order Contents</h3>
+
+<!-- <ul class="account-list">
+                <li class="account-listShipping">
+                    <h5 class="account-listShipping-title">Items shipped to Cherumukku, Malappuram, Kerala, 676306, India</h5>
+                </li>
+</ul> -->
+
+<ul>
+    <% orderItems.forEach(item => { %>
+    <li class="account-listItem">
+        <div class="account-product account-product--alignMiddle">
+            <div class="account-product-checkItem">
+                    <input class="form-checkbox" type="checkbox" id="account-product-id-15" value="15">
+                    <label for="account-product-id-15" class="form-label">
+                        <span class="is-srOnly">Checkbox 15 label</span>
+                    </label>
+            </div>
+            <figure class="account-product-figure">
+                    <img src="<%= item.productId?.productImage[0] %>" alt="<%= item.productId.productName %>" title="<%= item.productId.productname %>" data-sizes="auto"/>
+            </figure>
+            <div class="account-product-body">
+                <span class="account-product-price"><%= item.quantity * item.productId.discountPrice %></span>
+                <h5 class="account-product-title"><%= item.quantity %> &#215; <%= item.productId.productName %></h5>
+                <dl class="definitionList">
+                        <dt class="definitionList-key">Color:</dt>
+                        <dd class="definitionList-value">White</dd>
+                        <dt class="definitionList-key">Size:</dt>
+                        <dd class="definitionList-value">S</dd>
+                </dl>
+            </div>
+        </div>
+    </li>
+    <% }) %> 
+</ul>
+
+                        <dl class="account-orderTotal">
+                                    <!-- <dt class="account-orderTotal-key">Subtotal:</dt>
+                                    <dd class="account-orderTotal-value">$1,847.99</dd> -->
+                                    <dt class="account-orderTotal-key">Shipping:</dt>
+                                    <dd class="account-orderTotal-value">$10.00</dd>
+                                    <dt class="account-orderTotal-key">Grand total:</dt>
+                                    <dd class="account-orderTotal-value"><%= orderItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %></dd>
+                        </dl>
+                    </div>
+
+                    <aside class="account-sidebar">
+                        <section class="account-sidebar-block">
+                            <h3 class="account-heading">Order Details</h3>
+                            <dl class="definitionList">
+                                <dt class="definitionList-key">Cart total:</dt>
+                                <dd class="definitionList-value"><%= orderItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %></dd>
+                                    <dt class="definitionList-key">Payment method:</dt>
+                                    <dd class="definitionList-value">
+                                        Cash on Delivery
+                                    </dd>
+                                    <dt class="order-payments-description">Here&#x27;s how to pay for your order:</dt>
+                                    <!-- <dd class="order-payments-value order-payments-value--long">Type your cash on delivery instructions in here.</dd> -->
+                            </dl>
+                           
+                            <!-- <button data-print-invoice="/account.php?action=print_invoice&amp;order_id=107" class="button button--small">Print Invoice</button>-->
+                        </section>
+
+                        <section class="account-sidebar-block">
+                            <h3 class="account-heading">Ship To</h3>
+                            <ul class="account-order-address">
+                                <li><%= address?.name%></li>
+                                <li><%= address?.houseName%></li>
+                                <li><%= address?.landmark%></li>
+                                <li><%= address?.state%></li>
+                                <li><%= address?.country%></li>
+                                <li><%= address?.pin %></li>
+                            </ul>
+                        </section>
+
+                        <section class="account-sidebar-block">
+                            <h3 class="account-heading">Bill To</h3>
+                            <ul class="account-order-address">
+                                <li><%= address?.name%></li>
+                                <li><%= address?.houseName%></li>
+                                <li><%= address?.landmark%></li>
+                                <li><%= address?.state%></li>
+                                <li><%= address?.country%></li>
+                                <li><%= address?.pin %></li>
+                            </ul>
+                        </section>
+
+                        <section class="account-sidebar-block">
+                            <h3 class="account-heading">Order Comments</h3>
+                            <p>second order</p>
+                        </section>
+
+                        <section class="account-sidebar-block">
+                            <h3 class="account-heading">Actions</h3>
+                            <div class="order-details-info">
+                                <!-- <form class="account-reorder-form" action="/account.php?action=reorder&amp;order_id=107" method="post" data-account-reorder-form>
+                                    <input type="hidden" name="orderid" value="107">
+                                            <input type="hidden" name="reorderitem[15]">
+                                            <input type="hidden" name="reorderitem[14]">
+                                    <input type="submit" class="button button--small" value="Reorder">
+                                </form> -->
+                            </div>
+                        </section>
+                    </aside>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+</div>
+<%- include("../user_partials/footer") %>

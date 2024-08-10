@@ -22,13 +22,15 @@
                 <h1 class="page-heading">Reset Password</h1>
             </div>
             <div class="account">
-                <p>Fill in your email below to request a new password. An email will be sent to the address below containing a link to verify your email address.</p>
-                <form action="https://luxwatches-demo-02.mybigcommerce.com/login.php?action=send_password_email" class="form forgot-password-form" method="post">
-                    
+                <p>Fill in your email below to request a new password. An OTP will sent email will be sent to the address below containing a link to verify your email address.</p>
+                <!-- https://luxwatches-demo-02.mybigcommerce.com/login.php?action=send_password_email -->
+                <form id="resetPW" action="/reset" class="form forgot-password-form" method="post">
+
                     <label class="form-label">Email Address:</label>
                       <div class="form-prefixPostfix wrap">
+                        <div id="error" style="color: red;"></div>
                         <input class="form-input" name="email" id="email" type="email" formnovalidate>
-                        <input type="submit" class="button button--small button--primary form-prefixPostfix-button--postfix" value="Reset Password">
+                        <input type="submit" class="button button--small button--primary form-prefixPostfix-button--postfix" value="Request OTP">
                     </div>
                 </form>
             </div>
@@ -52,4 +54,63 @@
     <div class="button-container"><button type="button" class="confirm button" data-reveal-close>OK</button></div>
 </div>
 </div>
+<script>
+    document.getElementById('resetPW').addEventListener('submit', async function (event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const email = document.getElementById('email').value;
+        const errorDiv = document.getElementById('error');
+        errorDiv.textContent = ''; // Clear previous errors
+
+        // Simple email validation regex
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+       
+        // Validate email
+         if (!email) {
+            errorDiv.textContent = 'Enter email';
+            return;
+        }
+        else if (!emailRegex.test(email)) {
+            errorDiv.textContent = 'Enter a valid email';
+            return;
+        }
+
+        const userData = {
+            email: email
+        }
+        // If validation passes, send the form data to the server
+        try {
+            //console.log(userData, 'this is usrData')
+            const response = await fetch('/reset', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            });
+           // console.log(response, 'this is data');
+            if (response.ok) {
+        // Handle successful response
+         console.log('Login successful:');
+        // Redirect to another page or update the UI accordingly
+        window.location.href = '/resetOTP';
+    }else if(response.status == 400){
+        const data = await response.json()
+        window.location.href = `/signUp?message=${data.message}`;
+    } 
+     else if(response.status == 403){
+        const data = await response.json()
+        window.location.href = `/signIn?message=${data.message}`;
+    } 
+    else {
+        // Handle errors from the server
+        const errorData = await response.json();
+        errorDiv.textContent = errorData.message || 'Reset password failed';
+    }
+} catch (e) {
+        console.error('Error:', e.message);
+        errorDiv.textContent = 'An error occurred. Please try again later.';
+    }
+});
+</script>
 <%- include("../user_partials/footer") %>

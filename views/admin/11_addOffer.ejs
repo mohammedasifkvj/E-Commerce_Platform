@@ -1,0 +1,190 @@
+<style>
+    .error-message{
+       color: red;
+       font-size: 12px;
+    }
+</style>
+<%- include("../adminPartials/header") %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="content-header text-center">
+                <h2 class="content-title ">Add New Offer</h2>
+                <div>
+                    <!-- <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button> -->
+                    <!-- <button class="btn btn-md rounded font-sm hover-up">Publish</button> -->
+                    <a href="/admin/offer" class="btn btn-outline-secondary">Back to Offer Page</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header text-center text-info">
+                    <h2>Offer Details</h2>
+                </div>
+                <div id="validationMessages" class="alert alert-danger mt-3  text-center " role="alert" style="display: none;">   
+                    <% if (typeof message !== "undefined") { %>
+                        <p class="text-danger mt-3"><%= message %></p>
+                    <% } %>
+                   </div>
+                <div class="card-body">
+                    <form id="offerForm" action="/admin/offer/addOffer" method="post" >
+                        <div class="col-lg-6">
+                            <label for="offer">Offer Name</label>
+                            <input type="text" class="form-control" id="offer" name="offerName" placeholder="Enter Offer Name Here" required>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="offerType">Offer Type</label>
+                            <select class="form-control" name="type" id="offerType" aria-label="Default select" onchange="toggleVisibility(this.value)" required>
+                                <option value="" selected disabled>Select Offer Type</option>
+                                <option value="Category Offer">Category Offer</option>
+                                <option value="Product Offer">Product Offer</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6" id="categoryList" style="display: none;">
+                            <label for="category">Category</label>
+                            <select name="category" class="form-control" id="category">
+                                <!-- <option value="" selected disabled>Select category</option> -->
+                                <% for (let i = 0; i < category.length; i++) { %> 
+                                    <option value="<%= category[i].name %>"><%= category[i].name %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                        <div class="col-lg-6" id="productList" style="display: none;">
+                            <label for="Pname">Product Name</label>
+                            <select class="form-control" name="productName" id="Pname" > <!--  aria-label="Default select example" -->
+                                <!-- <option value="" selected disabled>Select Product</option> -->
+                                <% for (let i = 0; i < product.length; i++) { %> 
+                                    <option value="<%= product[i].productName %>"><%= product[i].productName %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="expiredDate">Expiry Date</label>
+                            <input type="date" class="form-control" id="expiredDate" name="expDate" placeholder="Enter Expire Date" required>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-6 mb-3">
+                                <label for="discount">Discount (%)</label>
+                                <input type="number" class="form-control" id="discount" name="discount" placeholder="Enter Discount" min="1" max="60" required>
+                            </div>
+                            <div class="form-group col-lg-6 mb-3">
+                                <label for="maxRedeemableAmount">Maximum Redeemable Amount</label>
+                                <input type="number" class="form-control" id="maxRedeemableAmount" name="maxRedeemableAmount" placeholder="Enter Maximum Redeemable Amount" min="10" required>
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-md rounded font-sm hover-up">Publish Offer</button>
+                            <button type="button" class="btn btn-outline-secondary" onclick="clearForm()">Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+     <script>
+        function toggleVisibility(value) {
+            document.getElementById('productList').style.display = value === 'Product Offer' ? 'block' : 'none';
+            document.getElementById('categoryList').style.display = value === 'Category Offer' ? 'block' : 'none';
+        }
+    
+        function clearForm() {
+            document.getElementById('offerForm').reset();
+            document.getElementById('productList').style.display = 'none';
+            document.getElementById('categoryList').style.display = 'none';
+            document.getElementById('validationMessages').style.display = 'none';
+            document.getElementById('validationMessages').innerHTML = '';
+        }
+    
+        document.getElementById('offerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (!offerFormValidation()) {
+                return;
+            }
+    
+            const form = document.getElementById('offerForm');
+            const formData = new FormData(form);
+            const jsonObject = {};
+            formData.forEach((value, key) => {
+                jsonObject[key] = value;
+            });
+    
+            fetch('/admin/offer/addOffer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonObject)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        title: "New Offer Added",
+                        text: "New Offer Added Successfully",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer:1000
+                    }).then(() => {
+                        window.location.href = `/admin/offer`; 
+                    });
+                } else {
+                    const validationMessage = document.getElementById('validationMessages');
+                    validationMessage.style.display = 'block';
+                    validationMessage.innerHTML = `${data.message}`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                //alert('Error Adding Offer');
+                Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Failed  to Add Offer",
+                        showConfirmButton: true
+                    })
+            });
+        });
+    
+        function offerFormValidation() {
+            const validationMessage = document.getElementById('validationMessages');
+            validationMessage.style.display = 'none';
+            validationMessage.innerHTML = '';
+    
+            const offer = document.getElementById('offer').value.trim();
+            const expiredDate = document.getElementById('expiredDate').value;
+            const discount = document.getElementById('discount').value;
+    
+            const currentDate = new Date().toISOString().split('T')[0];
+    
+            const offerNamePattern = /^[a-zA-Z0-9]+( [a-zA-Z0-9]+)*$/;
+            const hasLetter = /[a-zA-Z]/;
+    
+            // Offer name validation
+            if (!offerNamePattern.test(offer) || !hasLetter.test(offer) || offer === "") {
+                validationMessage.style.display = 'block';
+                validationMessage.innerHTML += 'Offer name should not be only numbers, symbols, or whitespaces, and must include at least one letter.<br>';
+                return false;
+            }
+    
+            // Expiry date validation
+            if (expiredDate <= currentDate) {
+                validationMessage.style.display = 'block';
+                validationMessage.innerHTML += 'Expiry date must future date.<br>';
+                return false;
+            }
+    
+            // Discount validation
+            if (discount > 61 || discount < 5) {
+                validationMessage.style.display = 'block';
+                validationMessage.innerHTML += 'Discount must be between 5% and 60%.<br>';
+                return false;
+            }
+    
+            return true;
+        }
+    </script>
+            <%- include("../adminPartials/footer") %>

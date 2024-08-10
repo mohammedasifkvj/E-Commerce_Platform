@@ -1,0 +1,178 @@
+<%- include("../user_partials/header") %>
+<!-- account-mobile -->
+<div class="themevale_Mobile themevale_MobileAccount" id="account-mobile">
+    <div class="themevale_close2">
+        <a href="javascript:void(0)" class="close">&times;<span class="text">close</span></a>
+    </div>
+    <div id="accountMobile">
+            <nav class="navPages-mobile">
+<ul class="navPages-list navPages-list--user">
+    <li class="navPages-item">
+        <p class="navPage-subMenu-title">
+            <span class="text">Account</span>
+        </p>
+    </li>
+    <li class="navPages-item">
+        <a class="navPage-subMenu-action navPages-action" href="/account"><span class="text">Account</span></a>
+    </li>
+    <li class="navPages-item">
+        <a class="navPage-subMenu-action navPages-action" href="/address"><span class="text">Addresses</span></a>
+    </li>
+    <li class="navPages-item">
+        <a class="navPage-subMenu-action navPages-action" href="/orders"><span class="text">Orders</span></a>
+    </li>
+    <li class="navPages-item">
+        <a class="navPage-subMenu-action navPages-action" href="/wishlist"><span class="text">Wish Lists</span></a>
+    </li>
+    <li class="navPages-item">
+        <a class="navPage-subMenu-action navPages-action" href="/profileSettings"><span class="text">Account Settings</span></a>
+    </li>
+    <li class="navPages-item">
+        <a class="navPage-subMenu-action navPages-action" href="/signOut"><span class="text">Log out</span></a>
+    </li>
+</ul>
+</nav>
+    </div>
+</div>
+<!-- account-mobile -->
+        <div class="body" data-currency-code="USD">
+     
+    <main class="page account-address account">
+        <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
+            <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
+                <meta itemprop="position" content="1" />
+            </li>
+            <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <a href="/account" class="breadcrumb-label" itemprop="item"><span itemprop="name">Your Account</span></a>
+                <meta itemprop="position" content="2" />
+            </li>
+            <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <meta itemprop="item" content="https://luxwatches-demo-02.mybigcommerce.com/account.php?action=address_book">
+                    <span class="breadcrumb-label" itemprop="name">Address Book</span>
+                <meta itemprop="position" content="3" />
+            </li>
+    </ul>
+    <div class="container container-smaller">
+        <div class="page-content">
+            <div class="themevale-heading">
+                <h1 class="page-heading">Addresses</h1>
+            </div>
+    <nav class="navBar navBar--sub navBar--account">
+       <ul class="navBar-section">
+        <li class="navBar-item">
+            <a class="navBar-action" href="/account">Account</a>
+         </li>
+            <li class="navBar-item is-active">Addresses</li>
+            <li class="navBar-item">
+                <a class="navBar-action" href="/orders">Orders</a>
+            </li>
+            <li class="navBar-item">
+                    <a class="navBar-action" href="/wishlist">Wish Lists</a>
+             </li>
+            <li class="navBar-item">
+                <a class="navBar-action" href="/profileSettings">Account Settings</a>
+            </li>
+        </ul>
+    </nav>
+
+            <div class="account">
+                <div class="account-body">
+                    <% if(address.length > 0) {
+                        for(let i=0; i < address.length; i++) { %>    
+<ul class="addressList">
+        <li class="address">
+            <div class="panel panel--address">
+                <div class="panel-body">
+                    <!-- <h5 class="address-title"><%= address[i].name %></h5> -->
+                    <ul class="address-details address-details--postal">
+                        <li><%= address[i].houseName %></li>
+                        <li><%= address[i].landmark %></li>
+                        <li><%= address[i].city %></li>
+                        <li><%= address[i].state %></li>
+                        <li><%= address[i].country %></li>
+                        <li><%= address[i].pin %></li>
+                    </ul>
+                        
+         <!-- <form action="" method="get" data-delete-address="Are you sure you want to delete this address?">
+                        <div class="form-actions"> -->
+                        <a class="button button--primary button--small" href="/editAddress?id=<%=address[i]._id %>">Edit</a>
+                            <!-- <a href="/deleteAddress?id=<%=address[i]._id %>"></a> -->
+                        <button onclick=" deleteAddress('<%=address[i]._id %>')" class="button secondary button--small">Delete</button>
+                      <!--  </div>
+                     </form> -->
+                </div>
+            </div>
+         </li>
+         <% } }%>
+    <li class="address">
+        <a class="panel panel--address panel--newAddress" href="/addAddress">
+            <span class="panel-body">
+                <span class="address-addNew">
+                    <span class="address-symbol">&plus;</span>
+                    <h5 class="address-title">New Address</h5>
+                </span>
+            </span>
+        </a>
+    </li>
+</ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+    <div id="modal" class="modal" data-reveal data-prevent-quick-search-close>
+    <a href="#" class="modal-close" aria-label="Close" role="button">
+        <span aria-hidden="true">&#215;</span>
+    </a>
+    <div class="modal-content"></div>
+    <div class="loadingOverlay"></div>
+</div>
+    <div id="alert-modal" class="modal modal--alert modal--small" data-reveal data-prevent-quick-search-close>
+    <div class="swal2-icon swal2-error swal2-animate-error-icon"><span class="swal2-x-mark swal2-animate-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span></div>
+
+    <div class="modal-content"></div>
+
+    <div class="button-container"><button type="button" class="confirm button" data-reveal-close>OK</button></div>
+</div>
+</div>
+
+<script>
+    async function deleteAddress(addressId) {
+    const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Delete it!'
+    });
+
+    if (result.isConfirmed) {
+        const response = await fetch('/deleteAddress', {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ addressId })
+        });
+
+        const result = await response.json();
+        if (response.status === 200) {
+            // window.location.reload();
+            //updateCartUI(result.cartItems);
+           (() => {
+            location.reload(); // Reload the page to update the cart - Given as IIFE
+                })();
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: result.error || "An error occurred",
+                showConfirmButton: true
+            });
+        }
+    }
+}
+</script>
+<%- include("../user_partials/footer") %>

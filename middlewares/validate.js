@@ -24,3 +24,22 @@ module.exports={
     signUpValidation,
     signInValidation
 }
+//-------------------------------------------------------------
+const jwt = require('jsonwebtoken');
+const secretKey = 'yourSecretKey'; // Replace with your actual secret key
+
+const verifyToken = (req, res, next) => {
+  const token = req.cookies.jwt; // Assuming the JWT token is stored in a cookie named 'jwt'
+  
+  if (!token) {
+    return res.status(401).send('Access Denied: No Token Provided!');
+  }
+  
+  try {
+    const verified = jwt.verify(token, secretKey);
+    req.user = verified;
+    next();
+  } catch (err) {
+    res.status(400).send('Invalid Token');
+  }
+};

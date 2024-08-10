@@ -13,14 +13,18 @@ const productSchema =new mongoose.Schema({
         type:String,
         requred:true
     },
-    // model:{
-    //     type:String,
-    //     requred:true
-    // },
     description:{
         type:String,
         requred:true
     },
+    // dialColour:{
+    //     type:String,
+    //     requred:true
+    // },
+    // strapColour:{
+    //     type:String,
+    //     requred:true
+    // },
     price:{
         type:Number,
         requred:true
@@ -29,47 +33,38 @@ const productSchema =new mongoose.Schema({
         type:Number,
         requred:true
     },
-    // discount:{
-    //     type:Number,
-    //     requred:true
-    // },
-    // dialColor:{
-    //     type:String,
-    //     requred:true
-    // },
-    // strapColor:{
-    //     type:String,
-    //     requred:true
-    // },
-    // image:[{
-    //     type:String,
-    //     requred:true
-    // }],
-    status:{
-        type:Boolean,
-        default:true
-    },
     stock:{
         type:Number,
         requred:true
     },
-    // popularProduct:{
-    //     type:Boolean,
-    //     default:false
+    // discount:{
+    //     type:Number,
+    //     requred:true
     // },
+    productImage:[{
+        type:String,
+        requred:true
+    }],
+    popularProduct:{
+        type:Boolean,
+        default:false
+    },
     isDeleted:{
         type:Boolean,
         default:false
     },
-    createdAt: {
+    offer: [{
+        type: mongoose.Types.ObjectId,
+        default: null,
+        ref: 'Offer'
+    }],
+    newProductExpires:{ 
         type: Date,
-        default: Date.now
+        required: true },
+    status:{
+        type:Boolean,
+        default:true
     },
-    // offer: [{
-    //     type: mongoose.Types.ObjectId,
-    //     default: null,
-    //     ref: 'Offer'
-    // }]
-})
+},{timestamps:true})
 
-module.exports=mongoose.model('Products',productSchema)
+module.exports=mongoose.model('Product',productSchema)

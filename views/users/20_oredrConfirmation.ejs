@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Order Confirmation</title>
+  <meta name='platform' content='bigcommerce.stencil' />
+  <link href="https://cdn11.bigcommerce.com/r-f95fe29b190dd28c102afcdc38084f79cf5a00d0/img/bc_favicon.ico" rel="shortcut icon">
+  <base href="/" target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link href="https://cdn11.bigcommerce.com/shared/css/open_sans-d6a25005e2cc4260148ad7d363953fc5f6ba209a.css" rel="stylesheet" type="text/css">
+  <link href="https://cdn11.bigcommerce.com/shared/microapp/checkout/dist/checkout-c51d52d2.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript">
+    var BCData = {
+      "csrf_token": "2293b2f8fa70eb208c704378a71a0d7911ece35072ec5de01beaf1fa50d3060c"
+    };
+  </script>
+  <link data-stencil-stylesheet href="https://cdn11.bigcommerce.com/s-2nfdiyehvz/stencil/558781b0-6ef6-013b-f567-4afeb0a3a797/e/960150f0-c5aa-0139-ef11-066281ecf407/css/optimized-checkout-835bc9f0-6ef7-013b-b98c-32bb98ae51d5.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:500,400&display=swap" rel="stylesheet">
+  <script type="text/javascript">
+    window.language = {
+      "locale": "en",
+      "locales": {},
+      "translations": {}
+    };
+  </script>
+</head>
+
+<body>
+  <header class="checkoutHeader optimizedCheckout-header">
+    <div class="checkoutHeader-content">
+      <h1 class="is-srOnly">Checkout</h1>
+      <h2 class="checkoutHeader-heading">
+        <a class="checkoutHeader-link" href="https://luxwatches-demo-02.mybigcommerce.com/">
+          <img alt="Luxwatches Demo 02" class="checkoutHeader-logo" id="logoImage" src="https://cdn11.bigcommerce.com/s-2nfdiyehvz/product_images/lw-logo-w_1585626976__10415.png" />
+        </a>
+      </h2>
+    </div>
+  </header>
+
+  <div id="checkout-app">
+    <div class="layout optimizedCheckout-contentPrimary">
+      <div class="layout-main">
+        <div class="orderConfirmation">
+          <h1 class="optimizedCheckout-headingPrimary" data-test="order-confirmation-heading">Thank you MOHAMMED!</h1>
+          <section class="orderConfirmation-section">
+            <p data-test="order-confirmation-order-number-text"><span>Your order number is <strong>111</strong></span></p>
+            <p data-test="order-confirmation-order-status-text"><span>Your order was sent to us but is currently awaiting payment. Once we receive the payment for your order, it will be completed. If you've already provided payment details then we will process your order manually and send you an email when it's completed.</span></p>
+          </section>
+          <section class="orderConfirmation-section">
+            <div data-test="payment-instructions">Type your cash on delivery instructions in here.</div>
+          </section>
+          <div class="continueButtonContainer">
+            <form action="https://luxwatches-demo-02.mybigcommerce.com" method="get" target="_top">
+              <!-- <button class="button button--tertiary optimizedCheckout-buttonSecondary" type="submit">Continue Shopping »</button></form> -->
+              <a href="/home" class="button button--tertiary optimizedCheckout-buttonSecondary">Continue Shopping »</a>
+              <a href="/account" class="button button--tertiary optimizedCheckout-buttonSecondary">Go to Account</a>
+            </form>
+          </div>
+        </div>
+        <!-- // -->
+        <div class="cartDrawer optimizedCheckout-orderSummary" tabindex="0">
+          <figure class="cartDrawer-figure">
+            <div class="cartDrawer-imageWrapper"><img alt="Minterdum AnDacony Maliduet" data-test="cart-item-image" src="https://cdn11.bigcommerce.com/s-2nfdiyehvz/products/158/images/510/2232049__80153__76537.1583120669.220.290.jpg?c=2"></div>
+          </figure>
+          <div class="cartDrawer-body">
+            <h3 class="cartDrawer-items optimizedCheckout-headingPrimary">1 Item</h3><a>Show Details</a>
+          </div>
+          <div class="cartDrawer-actions">
+            <h3 class="cartDrawer-total optimizedCheckout-headingPrimary">$899.00</h3>
+          </div>
+        </div>
+        <!-- // -->
+        <div class="ReactModalPortal">
+          <div class="modalOverlay modalOverlay--afterOpen">
+            <div class="modal optimizedCheckout-contentPrimary optimizedCheckout-cart-modal modal--afterOpen" tabindex="-1" role="dialog" aria-modal="true">
+              <div class="modal-header cart-modal-header optimizedCheckout-orderSummary with-continue-button"><a class="modal-header-link cart-modal-link test" href="#" id="cart-print-link">
+                  <div class="icon"><svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"></path>
+                    </svg></div> Print
+                </a>
+                <h2 class="modal-header-title optimizedCheckout-headingSecondary cart-modal-title" data-test="modal-heading">
+                  <div>Order Summary<div class="cart-heading-subheader">1 item | $899.00 </div>
+                  </div>
+                </h2><a class="cart-modal-close" href="#"><span class="is-srOnly">Close</span>
+                  <div class="icon"><svg fill="none" height="37" viewBox="0 0 38 37" width="38" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M38 18.5C38 28.7173 29.7173 37 19.5 37C9.28273 37 1 28.7173 1 18.5C1 8.28273 9.28273 0 19.5 0C29.7173 0 38 8.28273 38 18.5Z" fill="#F3F3F3"></path>
+                      <path clip-rule="evenodd" d="M24.6671 24.6674L12.9998 13.0002L14.4141 11.5859L26.0813 23.2532L24.6671 24.6674Z" fill="black" fill-rule="evenodd"></path>
+                      <path clip-rule="evenodd" d="M25.6674 13.0004L14.0002 24.6676L12.5859 23.2534L24.2532 11.5862L25.6674 13.0004Z" fill="black" fill-rule="evenodd"></path>
+                    </svg></div>
+                </a>
+              </div>
+              <div class="modal-body cart-modal-body optimizedCheckout-orderSummary" data-test="modal-body">
+                <section class="cart-section optimizedCheckout-orderSummary-cartSection">
+                  <ul aria-live="polite" class="productList">
+                    <li class="productList-item is-visible">
+                      <div class="product" data-test="cart-item">
+                        <figure class="product-column product-figure"><img alt="Minterdum AnDacony Maliduet" data-test="cart-item-image" src="https://cdn11.bigcommerce.com/s-2nfdiyehvz/products/158/images/510/2232049__80153__76537.1583120669.220.290.jpg?c=2"></figure>
+                        <div class="product-column product-body">
+                          <h4 class="product-title optimizedCheckout-contentPrimary" data-test="cart-item-product-title">1 x Minterdum AnDacony Maliduet</h4>
+                        </div>
+                        <div class="product-column product-actions">
+                          <div class="product-price optimizedCheckout-contentPrimary" data-test="cart-item-product-price">$899.00</div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </section>
+                <section class="cart-section optimizedCheckout-orderSummary-cartSection">
+                  <div data-test="cart-subtotal">
+                    <div aria-live="polite" class="cart-priceItem optimizedCheckout-contentPrimary cart-priceItem--subtotal"><span class="cart-priceItem-label"><span data-test="cart-price-label">Subtotal </span></span><span class="cart-priceItem-value"><span data-test="cart-price-value">$899.00</span></span></div>
+                  </div>
+                  <div data-test="cart-shipping">
+                    <div aria-live="polite" class="cart-priceItem optimizedCheckout-contentPrimary"><span class="cart-priceItem-label"><span data-test="cart-price-label">Shipping </span></span><span class="cart-priceItem-value"><span data-test="cart-price-value">Free</span></span></div>
+                  </div>
+                  <div data-test="cart-taxes">
+                    <div aria-live="polite" class="cart-priceItem optimizedCheckout-contentPrimary"><span class="cart-priceItem-label"><span data-test="cart-price-label">Tax </span></span><span class="cart-priceItem-value"><span data-test="cart-price-value">$0.00</span></span></div>
+                  </div>
+                </section>
+                <section class="cart-section optimizedCheckout-orderSummary-cartSection">
+                  <div data-test="cart-total">
+                    <div aria-live="polite" class="cart-priceItem optimizedCheckout-contentPrimary cart-priceItem--total"><span class="cart-priceItem-label"><span data-test="cart-price-label">Total (USD) </span></span><span class="cart-priceItem-value"><span data-test="cart-price-value">$899.00</span></span></div>
+                  </div>
+                </section>
+              </div>
+              <div class="modal-footer" data-test="modal-footer"><button class="button cart-modal-continue" type="button">RETURN TO CHECKOUT</button></div>
+            </div>
+          </div>
+        </div>
+        <!-- // -->
+      </div>
+      <aside class="layout-cart">
+        <article class="cart optimizedCheckout-orderSummary" data-test="cart">
+          <header class="cart-header">
+            <h3 class="cart-title optimizedCheckout-headingSecondary">Order Summary</h3><a class="cart-header-link" href="#" id="cart-print-link">
+              <!-- <div class="icon"><svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"></path>
+                </svg></div> Print -->
+            </a>
+          </header>
+          <section class="cart-section optimizedCheckout-orderSummary-cartSection">
+            <h3 class="cart-section-heading optimizedCheckout-contentPrimary" data-test="cart-count-total">5 Items</h3>
+            <ul aria-live="polite" class="productList">
+              <li class="productList-item is-visible">
+                <div class="product" data-test="cart-item">
+                  <figure class="product-column product-figure"><img alt="Ampus Cosmo De Milancelos Scelerisque" data-test="cart-item-image" src="https://cdn11.bigcommerce.com/s-2nfdiyehvz/product_images/attribute_rule_images/912_thumb_1583466264.jpg"></figure>
+                  <div class="product-column product-body">
+                    <h4 class="product-title optimizedCheckout-contentPrimary" data-test="cart-item-product-title">2 x Ampus Cosmo De Milancelos Scelerisque</h4>
+                    <ul class="product-options optimizedCheckout-contentSecondary" data-test="cart-item-product-options">
+                      <li class="product-option" data-test="cart-item-product-option">Color Black</li>
+                      <li class="product-option" data-test="cart-item-product-option">Size S</li>
+                    </ul>
+                  </div>
+                  <div class="product-column product-actions">
+                    <div class="product-price optimizedCheckout-contentPrimary" data-test="cart-item-product-price">$1,678.00</div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </section>
+          <section class="cart-section optimizedCheckout-orderSummary-cartSection">
+            <div data-test="cart-subtotal">
+              <div aria-live="polite" class="cart-priceItem optimizedCheckout-contentPrimary cart-priceItem--subtotal"><span class="cart-priceItem-label"><span data-test="cart-price-label">Subtotal </span></span><span class="cart-priceItem-value"><span data-test="cart-price-value">$4,375.00</span></span></div>
+            </div>
+            <div data-test="cart-shipping">
+              <div aria-live="polite" class="cart-priceItem optimizedCheckout-contentPrimary"><span class="cart-priceItem-label"><span data-test="cart-price-label">Shipping </span></span><span class="cart-priceItem-value"><span data-test="cart-price-value">Free</span></span></div>
+            </div>
+            <div data-test="cart-taxes">
+              <div aria-live="polite" class="cart-priceItem optimizedCheckout-contentPrimary"><span class="cart-priceItem-label"><span data-test="cart-price-label">Tax </span></span><span class="cart-priceItem-value"><span data-test="cart-price-value">$0.00</span></span></div>
+            </div>
+          </section>
+          <section class="cart-section optimizedCheckout-orderSummary-cartSection">
+            <div data-test="cart-total">
+              <div aria-live="polite" class="cart-priceItem optimizedCheckout-contentPrimary cart-priceItem--total"><span class="cart-priceItem-label"><span data-test="cart-price-label">Total (USD) </span></span><span class="cart-priceItem-value"><span data-test="cart-price-value">$4,375.00</span></span></div>
+            </div>
+          </section>
+        </article>
+      </aside>
+    </div>
+  </div>
+  <!-- <script>
+        window.checkoutVariantIdentificationToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2x1eHdhdGNoZXMtZGVtby0wMi5teWJpZ2NvbW1lcmNlLmNvbSIsImlhdCI6MTcyMjQwMDgwMCwiZG9tYWluIjp7ImNhcnRJZCI6IiIsImNoZWNrb3V0VmFyaWFudCI6Im9wdGltaXplZF9vbmVfcGFnZV9jaGVja291dCJ9fQ.RpCwgimiFK-beY-KkaGySNrQeiZaI5jQn1lVHX8bZmc';
+    </script>
+
+    <script>
+        document.body.style.display = 'none';
+    </script>
+
+    <div id="checkout-app"></div>
+    <script src="https://cdn11.bigcommerce.com/shared/microapp/checkout/dist/loader-1.512.0.js"></script>
+
+    <script>
+        checkoutLoader.loadFiles({ publicPath: 'https://cdn11.bigcommerce.com/shared/microapp/checkout/dist' })
+            .then(function(app) {
+                document.body.style.display = '';
+
+                                    app.renderOrderConfirmation({
+                        orderId: '111',
+                        containerId: 'checkout-app',
+                        sentryConfig: {"release":"checkout-js@1.512.0","whitelistUrls":["https:\/\/cdn11.bigcommerce.com\/shared\/microapp\/checkout\/dist"],"dsn":"https:\/\/418e8e81a209403e9c8740c4fdbff5a6@sentry.io\/1542560","environment":"production","normalizeDepth":5,"tags":{"environment":"production","tier":1},"userId":"1000644542-0"},   
+                    });
+                            });
+    </script>
+
+<script type="text/javascript" src="https://cdn11.bigcommerce.com/shared/js/csrf-protection-header-5eeddd5de78d98d146ef4fd71b2aedce4161903e.js"></script>
+
+<script type="text/javascript" src="https://cdn11.bigcommerce.com/shared/js/csrf-protection-header-5eeddd5de78d98d146ef4fd71b2aedce4161903e.js"></script>
+<script type="text/javascript" src="https://cdn11.bigcommerce.com/r-f95fe29b190dd28c102afcdc38084f79cf5a00d0/javascript/visitor_stencil.js"></script> -->
+
+</body>
+
+</html>

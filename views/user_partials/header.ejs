@@ -13,7 +13,16 @@
         <meta name="theme-color" content="#232323">
         <meta name="Description" content="Ella BigCommerce theme developed by Themevale">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
+        <style>
+            /* Smooth transition effect  for show message*/
+              .alert {
+            transition: opacity 1s ease-out;
+             }
+             /* Class to hide the error message */
+              .hidden {
+            opacity: 0;
+            }
+            </style>
         <script>
             document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
         </script>
@@ -23,19 +32,27 @@
         </script>
         <script async src="/embedded/theme-bundle.head_async.js"></script>
 
-        <link href="user/styleSheet/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/user/styleSheet/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Poppins:500,400&amp;display=swap" rel="stylesheet">
-        <link data-stencil-stylesheet href="user/styleSheet/theme-835bc9f0-6ef7-013b-b98c-32bb98ae51d5.css" rel="stylesheet">
+        <link data-stencil-stylesheet href="/user/styleSheet/theme-835bc9f0-6ef7-013b-b98c-32bb98ae51d5.css" rel="stylesheet">
+        <!-- sw -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+   
 
-        
-<script type="text/javascript" src="/embedded/loader.js" defer></script>
 <script type="text/javascript">
 var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c09e37ca9d3a9"};
 </script>
 <!-- google SSO-->
-<meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content=process.env.GOOGLE_CLIENT_ID >
+<style>
+    #account-buttons { display: none; }
+    #sign-in-buttons { display: none; }
+  </style>
     </head>
-    <body class="page-type-cart homepage-layout-2">
+<body class="page-type-cart homepage-layout-2">
         <svg data-src="https://cdn11.bigcommerce.com/s-2nfdiyehvz/stencil/558781b0-6ef6-013b-f567-4afeb0a3a797/e/960150f0-c5aa-0139-ef11-066281ecf407/img/icon-sprite.svg" class="icons-svg-sprite"></svg>
 
         <!-- menu mobile  -->
@@ -54,34 +71,42 @@ var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c
             </div>
             <div id="accountMobile">
                     <nav class="navPages-mobile">
-	<ul class="navPages-list navPages-list--user">
-            <li class="navPages-item">
-                <p class="navPage-subMenu-title">
-                    <span class="text">Customer Login:</span>
-                </p>
-                <div class="login-content">
-                    <form class="login-form form" action="/signIn" method="post">
-                        
+	
+                <!-- <div class="login-content">
+                    <form id="loginForm" class="login-form form" action="/signIn" method="post">
                         
                         <div class="form-field">
                             <label class="form-label" for="login_email3">Email Address</label>
-                            <input class="form-input" name="email" id="login_email3" type="email">
+                            <input id="email" class="form-input" name="email" id="login_email3" type="email">
+                            <div id="error" style="color: red;"></div>
                         </div>
                         <div class="form-field">
                             <label class="form-label" for="login_pass3">Password</label>
-                            <input class="form-input" id="login_pass3" type="password" name="password">
+                            <input id="password" class="form-input" id="login_pass3" type="password" name="password">
+                            <div id="error1" style="color: red;"></div>
                         </div>
                         <div class="form-actions">
                             <input type="submit" class="button button--border" value="Login">
                             <a class="forgot-password" href="/forgetPW">Forgot your password?</a>
                         </div>
                     </form>
-                </div>
-                <div class="new-customer"> <!--   logind85d.html?action=create_account -->
-                        <a class="button button--primary" href="/signUp">Create Account</a>
-                </div>
-            </li>
-    </ul>
+                </div> -->
+                <nav class="navPages-mobile">
+                    <ul class="navPages-list navPages-list--user">
+                        <li class="navPages-item">
+                            <p class="navPage-subMenu-title">
+                                <span class="text">Customer Login:</span>
+                            </p>
+                            <div class="new-customer" id="sign-in-buttons">
+                                <a class="button button--primary" href="/signIn">Sign In</a>
+                                <a class="button button--primary" href="/signUp">Create Account</a>
+                            </div>
+                            <div class="new-customer" id="account-buttons">
+                                <a class="button button--primary" href="/account">Account</a>
+                                <a class="button button--primary" href="/logout">Logout</a>
+                            </div>
+                        </li>
+                    </ul>
 </nav>
             </div>
         </div>
@@ -89,9 +114,45 @@ var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c
         <!-- Cart mobile  -->
         <div class="themevale_Mobile themevale_MobileCart" id="cart-mobile">
             <div class="themevale_close2">
-                <a href="javascript:void(0)" class="close">&times;<span class="text">close</span></a>
+                <a href="javascript:void(0)" class="close">×<span class="text">close</span></a>
             </div>
-            <div class="dropdown-cart" id="cart-preview-dropdown" aria-hidden="true"></div>
+    <div class="dropdown-cart" id="cart-preview-dropdown" aria-hidden="true"><div class="previewCart">
+    <h5>Review Your Cart <span class="qty" data-cart-quantity="">5 items</span></h5>
+        <ul class="previewCartList _mCS_5 mCustomScrollbar _mCS_6"><div id="mCSB_6" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" tabindex="0" style="max-height: 0px;"><div id="mCSB_6_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
+                <li class="previewCartItem">
+                    <div class="previewCartItem-image">
+                            <img src="https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/100x128/products/158/510/2232049__80153__76537.1583120669.jpg?c=2" alt="Minterdum AnDacony Maliduet" title="Minterdum AnDacony Maliduet" data-sizes="auto" class="mCS_img_loaded">
+                    </div>
+
+                    <div class="previewCartItem-content">
+
+                        <h6 class="previewCartItem-name">
+                            <a href="https://luxwatches-demo-02.mybigcommerce.com/minterdum-andacony-maliduet/" alt="Minterdum AnDacony Maliduet" title="Minterdum AnDacony Maliduet">Minterdum AnDacony Maliduet</a>
+                        </h6>
+
+                        <span class="previewCartItem-price">
+                                3<span class="icon">X</span>
+                                <span>$899.00</span>
+                        </span>
+                    </div>
+                </li>
+        </div><div id="mCSB_6_scrollbar_vertical" class="mCSB_scrollTools mCSB_6_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: block;"><div class="mCSB_draggerContainer"><div id="mCSB_6_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: block; height: 0px; max-height: 86.9062px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div><div class="mCSB_draggerRail"></div></div></div></div></div></ul>
+        <div class="previewCartAction">
+                <div class="previewCartAction-checkout">
+                    <a href="/checkout" class="button button--primary">
+                        Check out now
+                    </a>
+                </div>
+
+            <div class="previewCartAction-viewCart">
+                <a href="/cart" class="button button--action">
+                    View Cart
+                </a>
+            </div>
+
+        </div>
+</div>
+</div>
         </div>
 
         <!-- Search mobile  -->
@@ -149,15 +210,56 @@ var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c
             </div></a></div></div>
                     <div class="header-right">
                         <!-- <%= locals.title ?title:'Login System' %> -->
-                        <div class="account-link"><a class="navUser-action" href="/signin">Account <svg class="icon"><use xlink:href="#icon-user"></use></svg></a></div>
+                        <div class="account-link"><a class="navUser-action" href="/account">Account <svg class="icon"><use xlink:href="#icon-user"></use></svg></a></div>
                          <div class="wrapper-top-cart">
-                             <a class="navUser-action cart-icon" data-cart-preview data-options="align:right" href="/cart">
-                                <span class="navUser-item-cartLabel">Cart</span>
+                        <a class="navUser-action cart-icon" data-cart-preview data-options="align:right" href="/cart">
+              <!--  This line change--> <span class="navUser-item-cartLabel">Cart</span>
                                 <svg class="icon"><use xlink:href="#icon-cart"></use></svg> 
                                 <span class="countPill cart-quantity"></span>
                             </a>
 
-                            <div class="themevale_dropdown dropdown-cart" id="cart-preview-dropdown"></div>
+                            <!-- dropdown-cart -->
+                            <div class="themevale_dropdown " id="cart-preview-dropdown" style="top: 0px;"><div class="previewCart">
+                                <div class="previewCart-emptyBody">
+                                    Your cart is empty
+                                </div>
+                                <h5>Review Your Cart <span class="qty" data-cart-quantity="">5 items</span></h5>
+                                    <ul class="previewCartList mCustomScrollbar _mCS_2"><div id="mCSB_2" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: 168px;" tabindex="0"><div id="mCSB_2_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
+                                            <li class="previewCartItem">
+                                                <div class="previewCartItem-image">
+                                                        <img src="https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/100x128/products/158/510/2232049__80153__76537.1583120669.jpg?c=2" alt="Minterdum AnDacony Maliduet" title="Minterdum AnDacony Maliduet" data-sizes="auto">
+                                                </div>
+                            
+                                                <div class="previewCartItem-content">
+                            
+                                                    <h6 class="previewCartItem-name">
+                                                        <a href="https://luxwatches-demo-02.mybigcommerce.com/minterdum-andacony-maliduet/" alt="Minterdum AnDacony Maliduet" title="Minterdum AnDacony Maliduet">Minterdum AnDacony Maliduet</a>
+                                                    </h6>
+                            
+                                                    <span class="previewCartItem-price">
+                                                            3<span class="icon">X</span>
+                                                            <span>$899.00</span>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                            
+                                    </div><div id="mCSB_2_scrollbar_vertical" class="mCSB_scrollTools mCSB_2_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: block;"><div class="mCSB_draggerContainer"><div id="mCSB_2_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: block; height: 115px; max-height: 158px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div><div class="mCSB_draggerRail"></div></div></div></div></div></ul>
+                                    <div class="previewCartAction">
+                                            <div class="previewCartAction-checkout">
+                                                <a href="/checkout" class="button button--primary">
+                                                    Check out now
+                                                </a>
+                                            </div>
+                            
+                                        <div class="previewCartAction-viewCart">
+                                            <a href="/cart" class="button button--action">
+                                                View Cart
+                                            </a>
+                                        </div>
+                            
+                                    </div>
+                            </div>
+                            </div>
                          </div>
                          <div class="search-nav">
                             <div id="quickSearch" aria-hidden="true" tabindex="-1" data-prevent-quick-search-close>
@@ -165,64 +267,17 @@ var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c
                                     <svg class="icon icon-close"><use xlink:href="#icon-close"></use></svg>
                                     <svg class="icon icon-search"><use xlink:href="#icon-search"></use></svg>
                                 </a>
-                                <div class="dropdown dropdown--quickSearch themevale_dropdown">
+ <div class="dropdown dropdown--quickSearch ">  <!-- themevale_dropdown    -->
     <div class="dropdown--quickSearch-inner">
-        <form class="form" action="https://luxwatches-demo-02.mybigcommerce.com/search.php">
+        <form class="form" action="/searchProduct" method="get">
             <fieldset class="form-fieldset">
                 <div class="form-field">
                     <input type="text" class="form-input" data-search-quick name="search_query" id="search_query" data-error-message="Search field cannot be empty." placeholder="Search..." autocomplete="off">
+                    <input type="hidden" name="origin" id="origin">
                     <button type="submit" class="icon-search"><span class="text">Search</span><svg class="icon"><use xlink:href="#icon-search"></use></svg></button>
                 </div>
             </fieldset>
         </form>
-        <div class="header-search-wrap">
-            <div class="header-search__trending">
-            	<!-- <ul class="list-item">
-            			<li>
-            				<a href="searche396.html?search_query=luxury%20watches&amp;section=content">
-        		    			<svg class="icon"><use xlink:href="#icon-fire"></use></svg>
-        		    			<span>luxury watches</span>
-            				</a>
-            			</li>
-            			<li>
-            				<a href="searchc1a8.html?search_query=watch&amp;section=content">
-        	    				<svg class="icon"><use xlink:href="#icon-fire"></use></svg>
-        	    				<span>watch</span>
-            				</a>
-            			</li>
-            			<li>
-            				<a href="search6e9e.html?search_query=chrono&amp;section=content">
-            					<svg class="icon"><use xlink:href="#icon-fire"></use></svg>
-            					<span>chrono</span>
-            				</a>
-            			</li>
-            			<li>
-            				<a href="search87d1.html?search_query=gold%20straps&amp;section=content">
-            					<svg class="icon"><use xlink:href="#icon-fire"></use></svg>
-            					<span>gold straps</span>
-            				</a>
-            			</li>
-            			<li>
-            				<a href="search37fe.html?search_query=diamond%20watches&amp;section=content">
-            					<svg class="icon"><use xlink:href="#icon-fire"></use></svg>
-            					<span>diamond watches</span>
-            				</a>
-            			</li>
-            			<li>
-            				<a href="search06c8.html?search_query=sunglasses&amp;section=content">
-            					<svg class="icon"><use xlink:href="#icon-fire"></use></svg>
-            					<span>sunglasses</span>
-            				</a>
-            			</li>
-            	</ul> -->
-            </div>
-            
-            <div id="search_product_block" class="search_product_block">
-                <ul class="productGrid">
-                </ul>
-            </div>
-        </div>
-        <section class="quickSearchResults" data-bind="html: results"></section>
     </div>
 </div>
                             </div>
@@ -250,7 +305,7 @@ var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c
                 <a class="navUser-action" href="/contact">Contact Us</a>
             </li>
             <li class="navUser-item">
-                <a class="navUser-action" href="/logout">Log-out</a>
+                <a class="navUser-action" href="/signOut">Log-out</a>
             </li>
     </ul>
 
@@ -359,819 +414,131 @@ var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c
      <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
     </p>
          </li>
-          <!--  <li class="navPages-item">
-                    <p class="navPages-action navPages-action-depth-max has-subMenu is-root">
-        <a class="text" href="/newRelease">New Releases</a> 
-        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
+         <li class="navPages-item">
+            <p class="navPages-action navPages-action-depth-max has-subMenu is-root">
+    <a class="text" href="/newRelease">New Releases</a> 
+     <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
     </p>
-     <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-36" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="new-releases/index.html">New Releases</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="new-releases/accessorius/index.html">Accéssorius</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-37" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="new-releases/accessorius/index.html">Accéssorius</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/accessorius/comodianos/index.html"><span class="text">Comodianos</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/accessorius/dincidunteros/index.html"><span class="text">Dincidunteros</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/accessorius/gravidas/index.html"><span class="text">Gravidas</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/accessorius/loremous/index.html"><span class="text">Loremous</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="new-releases/comos-de-milano/index.html">Comos De Milano</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-58" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="new-releases/comos-de-milano/index.html">Comos De Milano</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/comos-de-milano/dincidunteros/index.html"><span class="text">Dincidunteros</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/comos-de-milano/loremous-comodous/index.html"><span class="text">Loremous Comodous</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/comos-de-milano/namdos-hempus/index.html"><span class="text">Namdos Hempus</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/comos-de-milano/nectellus/index.html"><span class="text">Nectellus</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/comos-de-milano/pellentes-habitanto/index.html"><span class="text">Pellentes Habitanto</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="new-releases/lorem-dorus/index.html">Lorem Dorus</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-54" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="new-releases/lorem-dorus/index.html">Lorem Dorus</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/lorem-dorus/comodianos/index.html"><span class="text">Comodianos</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/lorem-dorus/dincidunteros/index.html"><span class="text">Dincidunteros</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/lorem-dorus/gravidas/index.html"><span class="text">Gravidas</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/lorem-dorus/loremous/index.html"><span class="text">Loremous</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="new-releases/lynn-cosmopolis/index.html">Lynn Cosmopolis</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-52" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="new-releases/lynn-cosmopolis/index.html">Lynn Cosmopolis</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/lynn-cosmopolis/dincidunteros/index.html"><span class="text">Dincidunteros</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/lynn-cosmopolis/loremous-comodous/index.html"><span class="text">Loremous Comodous</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/lynn-cosmopolis/namdos-hempus/index.html"><span class="text">Namdos Hempus</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/lynn-cosmopolis/nectellus/index.html"><span class="text">Nectellus</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="new-releases/milancelos-lanos/index.html">Milancelos Lanos</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-53" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="new-releases/milancelos-lanos/index.html">Milancelos Lanos</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/milancelos-lanos/bibendumetos/index.html"><span class="text">Bibendumetos</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/milancelos-lanos/consequato/index.html"><span class="text">Consequato</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/milancelos-lanos/loremoutica/index.html"><span class="text">Loremoutica</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/milancelos-lanos/pellentes-habitanto/index.html"><span class="text">Pellentes Habitanto</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/milancelos-lanos/scelerisque-yurna/index.html"><span class="text">Scelerisque Yurna</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="new-releases/nor-loremirus/index.html">Nor Loremirus</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-83" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="new-releases/nor-loremirus/index.html">Nor Loremirus</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/nor-loremirus/bibendumetos/index.html"><span class="text">Bibendumetos</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/nor-loremirus/consequato/index.html"><span class="text">Consequato</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="new-releases/nor-loremirus/pellentes-habitanto/index.html"><span class="text">Pellentes Habitanto</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="scelerisque-yurna/index.html"><span class="text">Scelerisque Yurna</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-    </ul>
-</div>
-            </li> -->
+         </li>
             <li class="navPages-item">
                     <p class="navPages-action navPages-action-depth-max has-subMenu is-root">
         <a class="text" href="/mens">Mens</a> 
         <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
     </p>
-    <!-- <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-51" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="mens/index.html">Mens</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="mens/accessorius/index.html">Accéssorius</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-89" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="mens/accessorius/index.html">Accéssorius</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/accessorius/comodianos/index.html"><span class="text">Comodianos</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/accessorius/dincidunteros/index.html"><span class="text">Dincidunteros</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/accessorius/gravidas/index.html"><span class="text">Gravidas</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/accessorius/loremous/index.html"><span class="text">Loremous</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="mens/comos-de-milano/index.html">Comos De Milano</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-108" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="mens/comos-de-milano/index.html">Comos De Milano</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/comos-de-milano/dincidunteros/index.html"><span class="text">Dincidunteros</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/comos-de-milano/loremous-comodous/index.html"><span class="text">Loremous Comodous</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/comos-de-milano/namdos-hempus/index.html"><span class="text">Namdos Hempus</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/comos-de-milano/nectellus/index.html"><span class="text">Nectellus</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/comos-de-milano/solutmades/index.html"><span class="text">Solutmades</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="mens/lorem-dorus/index.html">Lorem Dorus</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-95" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="mens/lorem-dorus/index.html">Lorem Dorus</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/lorem-dorus/comodianos/index.html"><span class="text">Comodianos</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/lorem-dorus/dincidunteros/index.html"><span class="text">Dincidunteros</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/lorem-dorus/gravidas/index.html"><span class="text">Gravidas</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/lorem-dorus/loremous/index.html"><span class="text">Loremous</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="mens/lynn-cosmopolis/index.html">Lynn Cosmopolis</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-114" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="mens/lynn-cosmopolis/index.html">Lynn Cosmopolis</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/lynn-cosmopolis/dincidunteros/index.html"><span class="text">Dincidunteros</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/lynn-cosmopolis/loremous-comodous/index.html"><span class="text">Loremous Comodous</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/lynn-cosmopolis/namdos-hempus/index.html"><span class="text">Namdos Hempus</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/lynn-cosmopolis/nectellus/index.html"><span class="text">Nectellus</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/lynn-cosmopolis/solutmades/index.html"><span class="text">Solutmades</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="mens/milancelos-lanos/index.html">Milancelos Lanos</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-101" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="mens/milancelos-lanos/index.html">Milancelos Lanos</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/milancelos-lanos/bibendumetos/index.html"><span class="text">Bibendumetos</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/milancelos-lanos/consequato/index.html"><span class="text">Consequato</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/milancelos-lanos/loremoutica/index.html"><span class="text">Loremoutica</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/milancelos-lanos/pellentes-habitanto/index.html"><span class="text">Pellentes Habitanto</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/milancelos-lanos/scelerisque-yurna/index.html"><span class="text">Scelerisque Yurna</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="mens/nor-loremirus/index.html">Nor Loremirus</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-120" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="mens/nor-loremirus/index.html">Nor Loremirus</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/nor-loremirus/bibendumetos/index.html"><span class="text">Bibendumetos</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/nor-loremirus/consequato/index.html"><span class="text">Consequato</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="mens/nor-loremirus/pellentes-habitanto/index.html"><span class="text">Pellentes Habitanto</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-    </ul>
-</div> -->
             </li>
             <li class="navPages-item">
                     <p class="navPages-action navPages-action-depth-max has-subMenu is-root">
         <a class="text" href="/womens">Womens</a> 
         <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
     </p>
-    <!-- <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-44" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="womens/index.html">Womens</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="womens/consequato/index.html"><span class="text">Consequato</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="womens/loremoutica/index.html"><span class="text">Loremoutica</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="womens/pellentes-habitanto/index.html">Pellentes Habitanto</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-46" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="womens/pellentes-habitanto/index.html">Pellentes Habitanto</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="womens/pellentes-habitanto/dincidunteros/index.html"><span class="text">Dincidunteros</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="womens/pellentes-habitanto/loremous-comodous/index.html"><span class="text">Loremous Comodous</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="womens/pellentes-habitanto/solutmades/index.html"><span class="text">Solutmades</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="womens/senectus/index.html"><span class="text">Senectus</span></a>
-                </li>
-    </ul>
-</div> -->
-            <!-- </li>
-            <li class="navPages-item">
-                    <p class="navPages-action navPages-action-depth-max has-subMenu is-root">
-        <a class="text" href="jewelry/index.html">Jewelry</a> 
-        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-    </p>
-    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-39" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="jewelry/index.html">Jewelry</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="jewelry/cosmopolitan/index.html">Cosmopolitan</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-126" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="jewelry/cosmopolitan/index.html">Cosmopolitan</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/cosmopolitan/comodianos/index.html"><span class="text">Comodianos</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/cosmopolitan/dincidunteros/index.html"><span class="text">Dincidunteros</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/cosmopolitan/gravidas/index.html"><span class="text">Gravidas</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/cosmopolitan/loremous/index.html"><span class="text">Loremous</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="jewelry/lorem-dorus/index.html">Lorem Dorus</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-40" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="jewelry/lorem-dorus/index.html">Lorem Dorus</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/lorem-dorus/loremous/index.html"><span class="text"> Loremous</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/lorem-dorus/comodianos/index.html"><span class="text">Comodianos</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/lorem-dorus/dincidunteros/index.html"><span class="text">Dincidunteros</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/lorem-dorus/gravidas/index.html"><span class="text">Gravidas</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="jewelry/lynn-cosmopolis/index.html">Lynn Cosmopolis</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-127" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="jewelry/lynn-cosmopolis/index.html">Lynn Cosmopolis</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/lynn-cosmopolis/dincidunteros/index.html"><span class="text">Dincidunteros</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/lynn-cosmopolis/loremous-comodous/index.html"><span class="text">Loremous Comodous</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/lynn-cosmopolis/namdos-hempus/index.html"><span class="text">Namdos Hempus</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/lynn-cosmopolis/nectellus/index.html"><span class="text">Nectellus</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="jewelry/milancelos-a-lanos/index.html">Milancelos A Lanos</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-41" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="jewelry/milancelos-a-lanos/index.html">Milancelos A Lanos</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/milancelos-a-lanos/bibendumetos/index.html"><span class="text">Bibendumetos</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/milancelos-a-lanos/consequato/index.html"><span class="text">Consequato</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/milancelos-a-lanos/loremoutica/index.html"><span class="text">Loremoutica</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/milancelos-a-lanos/pellentes-habitanto/index.html"><span class="text">Pellentes Habitanto</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/milancelos-a-lanos/scelerisque-yurna/index.html"><span class="text">Scelerisque Yurna</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="jewelry/nor-loremirus/index.html">Nor Loremirus</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-128" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="jewelry/nor-loremirus/index.html">Nor Loremirus</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/nor-loremirus/bibendumetos/index.html"><span class="text">Bibendumetos</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/nor-loremirus/consequato/index.html"><span class="text">Consequato</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/nor-loremirus/pellentes-habitanto/index.html"><span class="text">Pellentes Habitanto</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="jewelry/nor-loremirus/scelerisque-yurna/index.html"><span class="text">Scelerisque Yurna</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-    </ul>
-</div>
-            </li>
-            <li class="navPages-item">
-                    <p class="navPages-action navPages-action-depth-max has-subMenu is-root">
-        <a class="text" href="accessories/index.html">Accessories</a> 
-        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-    </p>
-    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-57" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="accessories/index.html">Accessories</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="accessories/lorem-dorus/index.html">Lorem Dorus</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-148" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="accessories/lorem-dorus/index.html">Lorem Dorus</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="accessories/lorem-dorus/comodianos/index.html"><span class="text">Comodianos</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="accessories/lorem-dorus/dincidunteros/index.html"><span class="text">Dincidunteros</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="accessories/lorem-dorus/gravidas/index.html"><span class="text">Gravidas</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="accessories/lorem-dorus/loremous/index.html"><span class="text">Loremous</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="accessories/lorem-dorus/montemous/index.html"><span class="text">Montemous</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="accessories/lynn-cosmopolis/index.html">Lynn Cosmopolis</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-154" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="accessories/lynn-cosmopolis/index.html">Lynn Cosmopolis</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="accessories/lynn-cosmopolis/dincidunteros/index.html"><span class="text">Dincidunteros</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="accessories/lynn-cosmopolis/loremous-comodous/index.html"><span class="text">Loremous Comodous</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="accessories/lynn-cosmopolis/namdos-hempus/index.html"><span class="text">Namdos Hempus</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="accessories/lynn-cosmopolis/nectellus/index.html"><span class="text">Nectellus</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-                <li class="navPage-subMenu-item-child">
-                    <p class="navPage-subMenu-action navPages-action navPages-action-depth-max has-subMenu">
-                        <a class="text" href="accessories/milancelos-lanos/index.html">Milancelos Lanos</a> 
-                        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                    </p>
-                    <div class="navPage-subMenu navPage-subMenu-horizontal" id="navPages-159" aria-hidden="true" tabindex="-1">
-    <ul class="navPage-subMenu-list">
-        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-            <p class="navPage-subMenu-action navPages-action">
-                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                <a class="text" href="accessories/milancelos-lanos/index.html">Milancelos Lanos</a>
-            </p>
-        </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="accessories/milancelos-lanos/bibendumetos/index.html"><span class="text">Bibendumetos</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="accessories/milancelos-lanos/consequato/index.html"><span class="text">Consequato</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="accessories/milancelos-lanos/loremoutica/index.html"><span class="text">Loremoutica</span></a>
-                </li>
-                <li class="navPage-subMenu-item-child navPages-action-end">
-                    <a class="navPage-subMenu-action navPages-action navPages-action-end" href="accessories/milancelos-lanos/pellentes-habitanto/index.html"><span class="text">Pellentes Habitanto</span></a>
-                </li>
-    </ul>
-</div>
-                </li>
-    </ul>
-</div>
-            </li>
-
-                     <li class="navPages-item navPages-item-page">
-                            <p class="navPages-action has-subMenu  navPages-action-depth-max has-subMenu is-root">
-                                <a class="text" href="https://www.halothemes.com/amember/signup?id=230">Buy Luxwatches</a> 
-                                <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                            </p>
-                            <div class="navPage-subMenu navPage-subMenu-horizontal">
-                                <ul class="navPage-subMenu-list">
-                                    <li class="navPage-subMenu-item-child navPage-subMenu-title">
-                                        <p class="navPage-subMenu-action navPages-action">
-                                            <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                                            <a class="text" href="https://www.halothemes.com/amember/signup?id=230">Buy Luxwatches</a>
-                                        </p>
-                                    </li>
-                                    <li class="navPage-subMenu-item-child">
-                                        <a class="navPage-subMenu-action navPages-action navPages-action-end" href="http://themes.halothemes.com/marketplace/bc-luxwatches-documentation/"><span class="text">Documentation</span></a>
-                                    </li>
-                                    <li class="navPage-subMenu-item-child">
-                                        <a class="navPage-subMenu-action navPages-action navPages-action-end" href="https://bigcommerce.zfrcsk.net/c/3093631/1593870/2941"><span class="text">Open A Store For FREE</span></a>
-                                    </li>
-                                    <li class="navPage-subMenu-item-child">
-                                        <a class="navPage-subMenu-action navPages-action navPages-action-end" href="https://halosoft.ticksy.com/"><span class="text">Get Support</span></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="navPages-item navPages-item-page navPages-action-end">
-                            <a class="navPages-action navPages-action-end " href="blog/index.html"><span class="text">Blog</span></a>
-                        </li>
-                        <li class="navPages-item navPages-item-page navPages-action-end">
-                            <a class="navPages-action navPages-action-end " href="faqs/index.html"><span class="text">FAQS</span></a>
-                        </li>
-    </ul>
-    <ul class="navPages-list navPages-list--user">
-        <li class="navPages-item">
-            <a class="navPages-action" href="login830b.html">
-                <span class="text"><svg class="icon"><use xlink:href="#icon-wishlist"/></svg>Wish Lists</span>
-            </a>
-        </li>
-        <li class="navPages-item">
-            <a class="navPages-action" href="contact-us/index.html">
-                <span class="text"><svg class="icon"><use xlink:href="#icon-location"/></svg>Store Locator</span>
-            </a>
-        </li>
-        <li class="navPages-item">
-            <a class="navPages-action" href="tel:+0123 456 7890">
-                <span class="text"><svg class="icon"><use xlink:href="#icon-telephone"/></svg>Contact us: +0123 456 7890</span>
-            </a>
-        </li>
-            <li class="navPages-item">
-                <p class="navPages-action navPages-action-currency has-subMenu" data-collapsible="navPages-currency" aria-controls="navPages-currency" aria-expanded="false">
-                    <a class="text" href="javascript:void(0)">
-                        <img src="../cdn11.bigcommerce.com/s-2nfdiyehvz/lib/flags/us.gif" border="0" alt="" role="presentation" /> USD 
-                    </a>
-                    <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                </p>
-
-                <div class="navPage-subMenu" id="navPages-currency" aria-hidden="true" tabindex="-1">
-                    <ul class="navPage-subMenu-list">
-                        <li class="navPage-subMenu-item-child navPage-subMenu-title">
-                            <p class="navPage-subMenu-action navPages-action">
-                                <span class="navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-                                <a class="text" href="javascript:void(0)"><img src="../cdn11.bigcommerce.com/s-2nfdiyehvz/lib/flags/us.gif" border="0" alt="" role="presentation" /> USD</a>
-                            </p>
-                        </li>
-                        <li class="navPage-subMenu-item-child navPages-action-end">
-                            <a class="navPage-subMenu-action navPages-action" href="cart612c.html?setCurrencyId=2">
-                                <span class="text">
-                                        <img src="../cdn11.bigcommerce.com/s-2nfdiyehvz/lib/flags/au.gif" border="0" alt="" role="presentation" /> Australian Dollar
-                                </span>
-                            </a>
-                        </li>
-                        <li class="navPage-subMenu-item-child navPages-action-end">
-                            <a class="navPage-subMenu-action navPages-action" href="cart66d1.html?setCurrencyId=3">
-                                <span class="text">
-                                        <img src="../cdn11.bigcommerce.com/s-2nfdiyehvz/lib/flags/us.gif" border="0" alt="" role="presentation" /> US Dollar
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-        
-
-
-            <li class="navPages-item">
-                    <ul class="socialLinks socialLinks--alt">
-                <li class="socialLinks-item">
-                    <a class="icon icon--facebook" href="https://www.halothemes.com/" target="_blank">
-                        <svg><use xlink:href="#icon-facebook" /></svg>
-                    </a>
-                </li>
-                <li class="socialLinks-item">
-                    <a class="icon icon--twitter" href="https://www.halothemes.com/" target="_blank">
-                        <svg><use xlink:href="#icon-twitter" /></svg>
-                    </a>
-                </li>
-                <li class="socialLinks-item">
-                    <a class="icon icon--pinterest" href="https://www.halothemes.com/" target="_blank">
-                        <svg><use xlink:href="#icon-pinterest" /></svg>
-                    </a>
-                </li>
-                <li class="socialLinks-item">
-                    <a class="icon icon--instagram" href="https://www.halothemes.com/" target="_blank">
-                        <svg><use xlink:href="#icon-instagram" /></svg>
-                    </a>
-                </li>
-            <li class="socialLinks-item">
-                <a class="icon icon--google-plus" href="https://www.themevale.com/" target="_blank">
-                        <svg><use xlink:href="#icon-google-plus" /></svg>
-                </a>
-            </li>
-
-            <li class="socialLinks-item">
-                <a class="icon icon--whatsapp" href="https://www.themevale.com/" target="_blank">
-                        <svg><use xlink:href="#icon-whatsapp" /></svg>
-                </a>
-            </li>
-    </ul>
-            </li>
-    </ul> -->
+      </li>
+      </ul>
+      
 </nav>
     </div>
 </div>
+<script>
+  // Function to get cookie value by name
+  function getCookie(name) {
+      let cookieArr = document.cookie.split(";");
+      for(let i = 0; i < cookieArr.length; i++) {
+          let cookiePair = cookieArr[i].split("=");
+          if(name == cookiePair[0].trim()) {
+              return decodeURIComponent(cookiePair[1]);
+          }
+      }
+      return null;
+  }
+
+  // Check for JWT token and display appropriate buttons
+  window.onload = function() {
+      let jwtToken = getCookie('jwtToken');
+      if(jwtToken) {
+          document.getElementById('account-buttons').style.display = 'block';
+      } else {
+          document.getElementById('sign-in-buttons').style.display = 'block';
+      }
+  }
+</script>
+
+<!-- <script>
+    document.getElementById('loginForm').addEventListener('submit', async function (event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const errorDiv = document.getElementById('error');
+        const errorDiv1 = document.getElementById('error1');
+        errorDiv.textContent = ''; // Clear previous errors
+
+        // Simple email validation regex
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // Password should not contain spaces
+        const passwordRegex = /^\S+$/;
+
+        // Validate email
+        if (!email && !password) {
+            errorDiv.textContent = 'Enter email';
+            errorDiv1.textContent = 'Enter password';
+            return;
+        }
+        else if (!email) {
+            errorDiv.textContent = 'Enter email';
+            return;
+        }
+        else if (!emailRegex.test(email)) {
+            errorDiv.textContent = 'Enter a valid email';
+            return;
+        }
+
+        // Validate password
+        if (!password) {
+            errorDiv1.textContent = 'Enter password';
+            return;
+        } else if (!passwordRegex.test(password)) {
+            errorDiv1.textContent = 'Password should not contain spaces';
+            return;
+        }
+        const userData = {
+            email: email,
+            password: password
+        }
+        // If validation passes, send the form data to the server
+        try {
+            //console.log(userData, 'this is usrData')
+            const response = await fetch('/signIn', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            });
+           // console.log(response, 'this is data');
+            if (response.ok) {
+        // Handle successful response
+        // console.log('Login successful:');
+        // Redirect to another page or update the UI accordingly
+        window.location.href = '/home';
+    }else if(response.status == 400){
+        const data = await response.json()
+        window.location.href = `/signIn?message=${data.message}`;
+    } 
+    else if(response.status == 401){
+        const data = await response.json()
+        window.location.href = `/signIn?message=${data.message}`;
+    } 
+     else if(response.status == 403){
+        const data = await response.json()
+        window.location.href = `/signIn?message=${data.message}`;
+    } 
+    else {
+        // Handle errors from the server
+        const errorData = await response.json();
+        errorDiv.textContent = errorData.message || 'Sign-in failed';
+    }
+} catch (e) {
+        console.error('Error:', e.message);
+        errorDiv.textContent = 'An error occurred. Please try again later.';
+    }
+});
+</script> -->

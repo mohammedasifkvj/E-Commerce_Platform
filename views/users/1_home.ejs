@@ -197,9 +197,6 @@ class="lazyload heroCarousel-image" loading="lazy"/>
 </div>
 </div></div></div>
   
-
-
-
 <div data-content-region="home_below_top_products"></div>
 
 <div id="featuredProduct" class="module-wrapper margin-top-70">
@@ -285,11 +282,10 @@ class="lazyload heroCarousel-image" loading="lazy"/>
     <article class="card" data-product-id="161" >
 <figure class="card-figure" data-product-id="161">
     <div class="card-figcaption-top" data-product-id="161">
-            <a href="logined4d.html?action=add&amp;product_id=161" class="wishlist icon" title="Add to Wish List">
+            <a href="/product/<%= product[i]._id %>" class="wishlist icon" title="Add to Wish List">
                 <svg class="icon"><use xlink:href="#icon-wishlist"/></svg>
                 <span class="text">Add to Wish List</span>
             </a>
-
                     <a class="quickview icon" data-product-id="161">
                         <svg class="icon"><use xlink:href="#icon-quickview"></use></svg>
                         <span class="text">Quick view</span>
@@ -297,22 +293,10 @@ class="lazyload heroCarousel-image" loading="lazy"/>
     </div>
 
 
-    <a href="turpis-at-metus-scelerisque-placerat/index.html" >
+    <a href="/product/<%= product[i]._id %>" >
         <div class="card-img-container " data-product-id="161">
-            <img src="../cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/500x641/products/161/530/9413448__57789.1576203438.1280.1280__51542__225384847.jpg?c=2" alt="Turpis At Metus Scelerisque Placerat" title="Turpis At Metus Scelerisque Placerat" data-sizes="auto"
-srcset="https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/80w/products/161/530/9413448__57789.1576203438.1280.1280__51542__22538.1583120671.jpg?c=2"
-data-srcset="https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/80w/products/161/530/9413448__57789.1576203438.1280.1280__51542__22538.1583120671.jpg?c=2 80w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/160w/products/161/530/9413448__57789.1576203438.1280.1280__51542__22538.1583120671.jpg?c=2 160w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/320w/products/161/530/9413448__57789.1576203438.1280.1280__51542__22538.1583120671.jpg?c=2 320w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/640w/products/161/530/9413448__57789.1576203438.1280.1280__51542__22538.1583120671.jpg?c=2 640w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/960w/products/161/530/9413448__57789.1576203438.1280.1280__51542__22538.1583120671.jpg?c=2 960w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/1280w/products/161/530/9413448__57789.1576203438.1280.1280__51542__22538.1583120671.jpg?c=2 1280w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/1920w/products/161/530/9413448__57789.1576203438.1280.1280__51542__22538.1583120671.jpg?c=2 1920w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/2560w/products/161/530/9413448__57789.1576203438.1280.1280__51542__22538.1583120671.jpg?c=2 2560w"
-
-class="lazyload card-image replace-2x img-responsive"
-
-/>
-                        <span class="product-additional">
-                            <img src="../cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/160w/products/161/529/2051362__97798__039634847.jpg?c=2" alt="Turpis At Metus Scelerisque Placerat" title="Turpis At Metus Scelerisque Placerat" data-sizes="auto"
-srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-data-srcset="https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/80w/products/161/529/2051362__97798__03963.1583120671.jpg?c=2 80w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/160w/products/161/529/2051362__97798__03963.1583120671.jpg?c=2 160w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/320w/products/161/529/2051362__97798__03963.1583120671.jpg?c=2 320w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/640w/products/161/529/2051362__97798__03963.1583120671.jpg?c=2 640w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/960w/products/161/529/2051362__97798__03963.1583120671.jpg?c=2 960w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/1280w/products/161/529/2051362__97798__03963.1583120671.jpg?c=2 1280w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/1920w/products/161/529/2051362__97798__03963.1583120671.jpg?c=2 1920w, https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/2560w/products/161/529/2051362__97798__03963.1583120671.jpg?c=2 2560w"
-
-class="lazyload card-image replace-2x img-responsive"/>
-                        </span>
+            <img src="<%-product[i].productImage[0]%>" alt="Item"
+class="lazyload card-image replace-2x img-responsive"/>                
         </div>
     </a>
 
@@ -322,7 +306,7 @@ class="lazyload card-image replace-2x img-responsive"/>
                     <div class="card-option-size card_optionSize card-option-size-161">
                         <div class="form-field" data-product-attribute="set-rectangle"></div>
                     </div>
-                        <a href="turpis-at-metus-scelerisque-placerat/index.html" data-event-type="product-click" class="button card-figcaption-button themevale_Option" data-product-id="161">Choose Options</a>
+                        <a href="/product/<%= product[i]._id %>" data-event-type="product-click" class="button card-figcaption-button themevale_Option" data-product-id="161">Choose Options</a>
         </div>
     </figcaption>
     
@@ -330,7 +314,7 @@ class="lazyload card-image replace-2x img-responsive"/>
 <div class="card-body">
         <p class="card-brand" data-test-info-type="brandName"><%= product[i].brand %></p>
     <h4 class="card-title">
-        <a href="turpis-at-metus-scelerisque-placerat/index.html" ><%= product[i].productName %></a>
+        <a href="/product/<%= product[i]._id %>" ><%= product[i].productName %></a>
     </h4>
     
     <div class="card-price" data-test-info-type="price">
@@ -398,12 +382,9 @@ class="lazyload card-image replace-2x img-responsive"/>
         </div>
 
 
-    <div class="card-action-bottom  card-show">
-                    <a href="turpis-at-metus-scelerisque-placerat/index.html" data-event-type="product-click" class="button card-figcaption-button themevale_Option" data-product-id="161">Choose Options</a>
-    </div>
+        <a href="/product/<%= product[i]._id %>" data-event-type="product-click" class="button card-figcaption-button themevale_Option" data-product-id="161">Choose Options</a>
 </div>
 </article>
-</li>
 </div>
      <% }} else { %><li  colspan="5" class="text-center"> No products To Show </li>  <% } %>
 
@@ -469,18 +450,18 @@ class="lazyload card-image replace-2x img-responsive"/>
 <div class="banner-list">
 <div class="banner-item">
 <div class="banner-item-inner">
-<div class="card-img-container"><a class="image-wrapper animate-hvr" title href="/womens"> <img class="card-image lazyload" title alt data-src="https://cdn11.bigcommerce.com/s-ol6dayxf7q/product_images/uploaded_images/home-two-banner-1.jpg"> </a></div>
+<div class="card-img-container"><a class="image-wrapper animate-hvr" title href="/womens"> <img class="card-image lazyload" title alt data-src="/assets/Banner_Images/Womens.jpg"> </a></div>
 <div class="caption position-top text-left">
-<h3 class="heading">Womens Watches</h3>
+<h3 class="heading"><b> Womens Watches</b></h3>
 <a class="button button--large" title href="/womens"><span>Shop Now</span></a></div>
 </div>
 </div>
 <!-- end banner item 1 -->
 <div class="banner-item">
 <div class="banner-item-inner">
-<div class="card-img-container"><a class="image-wrapper animate-hvr" title href="/mens"> <img class="card-image lazyload" title alt data-src="https://cdn11.bigcommerce.com/s-ol6dayxf7q/product_images/uploaded_images/home-two-banner-2.jpg"> </a></div>
+<div class="card-img-container"><a class="image-wrapper animate-hvr" title href="/mens"> <img class="card-image lazyload" title alt data-src="/assets/Banner_Images/Mens.jpg"> </a></div>
 <div class="caption position-top text-right">
-<h3 class="heading">Mens Watches</h3>
+<h3 class="heading"><b>Mens Watches</b></h3>
 <a class="button button--large" title href="/mens"><span>Shop Now</span></a></div>
 </div>
 </div>

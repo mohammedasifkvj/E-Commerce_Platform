@@ -1,5 +1,7 @@
 const { User, TempUser } = require('../models/signup');
 const Product = require('../models/product');
+const Category=require('../models/category')
+const Review=require("../models/review")
 const nodemailer = require('nodemailer');
 //const crypto = require('crypto');
 const otpGenerator = require('otp-generator');
@@ -7,14 +9,16 @@ const mailer=require("../drivers/mailer");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Joi = require('@hapi/joi');
-const cookieParser=require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const passport=require('passport')
+const mongoose = require('mongoose')
 
 const { OAuth2Client } = require('google-auth-library');
 // To load Home
 const loadHome = async (req, res) => {
   const {error,success} = req.query
     try {
-      const product= await Product.find()
+      const product= await Product.find({isDeleted:false})
         res.render('1_home',{
           product,
           error,
@@ -27,10 +31,10 @@ const loadHome = async (req, res) => {
 
 // To load SignUp
 const loadSignUp = async (req, res) => {
-  const {error,success} = req.query
+  const {message,success} = req.query
      try {
         res.render('2_logind85d',{
-          error,
+          message,
           success
         });
     } catch (e) {
@@ -42,9 +46,9 @@ const loadSignUp = async (req, res) => {
 const signupSchema = Joi.object({
   name: Joi.string().min(3).required(),
   email: Joi.string().email().required(),
-  mobile: Joi.string().pattern(/^[0-9]{10,15}$/).min(10).max(10).required(),
+  mobile: Joi.string().pattern(/^[0-9]{10,15}$/).min(10).required(),
   password: Joi.string().min(6).pattern(new RegExp('^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*])')).required()
-});
+}).options({ stripUnknown: true });
 
 const otpSchema = Joi.object({
   //email: Joi.string().email().required(),
@@ -55,26 +59,31 @@ const requestOtp = async (req, res) => {
   // Validate request body
   const { error } = signupSchema.validate(req.body);
   if (error) {
-    //return res.status(400).json({ message: errorVal.details[0].message });
+    console.log(error);
+    const message='Enter all fields'
+    //return res.status(400).json({ message: message,errorVal.details[0].message });
     return res.redirect(`/signUp?error=${encodeURIComponent('All fields are required')}`);
   }
   const { name, email, mobile, password } = req.body;
   // Check if user already exists
-  const existingUser = await User.findOne({ email });
+  const existingUser = await User.findOne({ email: { $regex: new RegExp(`^${email}$`,'i') }  });
   if (existingUser) {
-    return res.redirect(`/signUp?error=${encodeURIComponent('User already exists, Sign-up with another mail')}`);
+    const message='User already exists, Sign-up with another mail'
+    return res.status(400).json({message: message})
+    //return res.redirect(`/signUp?error=${encodeURIComponent('User already exists, Sign-up with another mail')}`);
   }
   // Generate OTP
   //const otp = crypto.randomBytes(3).toString('hex');
   const otp = otpGenerator.generate(6, { digits: true, lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false });
   console.log(otp);
 
-  // 3 minutes expiry
-  const otpExpires = Date.now() + 3 * 60 * 1000; 
+  // 10 minutes expiry
+  const otpExpires = Date.now() + 10 * 60 * 1000; 
+
 
   // Hash password
   const hashedPassword = await bcrypt.hash(password, 10);
-  //const hashedOTP = await bcrypt.hash(otp, 10);
+  hashedOTP = await bcrypt.hash(otp, 10);
 
   // Save temporary user with OTP and expiration time
   const tempUser = new TempUser({
@@ -87,21 +96,29 @@ const requestOtp = async (req, res) => {
   });
 
   await tempUser.save();
+  
 
- 
 const OTPmsg='<p>Hai '+name+', this is the OTP: '+otp+' for account creation ';
 
-        mailer.sendMail(email,'Email verification',OTPmsg);
+      mailer.sendMail(email,'Email verification',OTPmsg);
+      res.cookie('Timer',otp,hashedOTP,otpExpires,{ httpOnly: true })
       return res.redirect(`/otp?success=${encodeURIComponent('OTP is send to your email')}`);
 };
 
 // Load OTP page 
 const loadOTP=async (req, res) => {
   const {error,success} = req.query
+  const timer = req.cookies.Timer
     // try {
+    // Assume OTP expires in 1 minutes from now for this 
+  const otpExpires = Date.now() + 1 * 60 * 1000;
+  // Set the OTP expiration time in a cookie
+  res.cookie('otpExpires', otpExpires, { httpOnly: false });
        return res.render('3_otp',{
           success,
-          error
+          error,
+          //otpExpires,
+          timer
         });
       }
 
@@ -110,7 +127,7 @@ const verifyOtp = async (req, res) => {
   const { error} = otpSchema.validate(req.body);
   if (error) {
     //return res.status(400).json({ message: errorVal.details[0].message });
-    return res.redirect(`/otp?error=${encodeURIComponent('OTP is required ,Enter an OTP')}`);
+    return res.redirect(`/otp?error=${encodeURIComponent('6 digit OTP is required ,Enter an OTP')}`);
   }
 
   const { otp } = req.body;
@@ -138,39 +155,30 @@ const verifyOtp = async (req, res) => {
 
   await user.save();
 
-  // Remove temporary user data
+  // Remove temporary user data from DB
   const email=user.email
   await TempUser.deleteOne({email});
-
-  // Create JWT access and refresh tokens
-  const token = jwt.sign(
-    { id: user._id },
-    process.env.JWT_ACCESS_SECRET, 
-    // { expiresIn: '12h' }
-  );
-
- // const refreshToken = jwt.sign({ id: user._id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
-  user.accessToken=token;
-  user.password=undefined  // it will sent to front-end (client)
-
-  const options={
-    //expires:new Date(Date.now()+7*24*60*60*1000)   // 7day expiry
-    httpOnly:true , // cookies can manipulate by browser only
-    secure: true
-   }
-      // send token in user cookie
-  res.cookie('jwtToken',token,options)
 
   return res.redirect(`/signIn?success=${encodeURIComponent('Your account successfully created,please sign-in')}`);
 };
 
+//Resend OTP
+const resendOTP=async (req, res) => {
+   try {
+    const tempUser = await TempUser.findOne({ otp });
+      
+  } catch (e) {
+      console.log(e.message);
+  }
+}
+
 // To load SignIn
 const loadSignIn = async (req, res) => {
-  const {error,success} = req.query
+  const {success,message} = req.query
    try {
       res.render('4_login',{
-        error,
-        success
+        message,
+        success,
       });
   } catch (e) {
       console.log(e.message);
@@ -181,30 +189,36 @@ const verifySignIn=async(req,res)=>{
   try {
     const {email,password}=req.body
 
-if(!(email && password)){
-     return res.redirect(`/signIn?error=${encodeURIComponent('Enter all Fields')}`);
+if(!email ){
+     return res.redirect(`/signIn?message=${encodeURIComponent('Enter email')}`);
     } 
+    if(! password){
+      return res.redirect(`/signIn?message=${encodeURIComponent('Enter password')}`);
+     } 
     //query from DB
     const user=await User.findOne({email})
     if (!user) {
-       console.log(' Account not Found');
-       return res.redirect(`/signIn?error=${encodeURIComponent('Account not Found, Please Create an account first')}`);
+       //console.log(' Account not Found');
+       const message='Account not Found, Please Create an account first'
+       return res.status(400).json({message: message})
     }
-
+ // Checking is user blocked
+    if (user.isBlocked===true) {
+      const message="Your Account is Blocked!,You can't sign-in"
+     return res.status(403).json({message: message}) // 403 for 
+     }
+   // Password Matching
       const passwordMatch=await bcrypt.compare(password,user.password);
-
       if (!passwordMatch) {
        // console.log('Invalid credentials');
-       return res.redirect(`/signIn?error=${encodeURIComponent("Email or password is incorrect")}`); // 401 for unauthorized
+       const message='Incorrect Password'
+       return res.status(401).json({message: message}) // 401 for unauthorized
       }
 
-      if (user.isBlocked===true) {
-       return res.redirect(`/signIn?error=${encodeURIComponent("Your Account is Blocked!,You can't sign-in")}`); // 401 for unauthorized
-       }
        const token=jwt.sign(
-        {id:user._id},
+        {id:user._id}, // this is payLoad
         process.env.JWT_ACCESS_SECRET,
-        // {expiresIn:"24h"}
+         {expiresIn:"24h"}
        );
 
        user.accessToken=token;
@@ -221,26 +235,43 @@ if(!(email && password)){
     //user.lastLogin = new Date();
     //await user.save();(ERROR)
 
-       return res.redirect('/home')  
+      return res.redirect('/home')  
   } catch (e) {
     console.log(e.message);
   }
 }
 
 // Google SSO
-// const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const googleAuth = async (req, res) => {
+  try{
+  // Get the user object from req.user
+  const user = req.user;
+  if (user.isBlocked==true) {
+    const message="Your Account is Blocked!,You can't sign-in"
+   //return res.status(403).json({message: message}) // 403 for 
+   return res.status(403).redirect(`/signIn?message=${encodeURIComponent("Your Account is Blocked!,You can't sign-in")}`);
+   }
 
-//    const googleVerify=async (token)=> {
-//      const ticket = await client.verifyIdToken({
-//        idToken: token,
-//        audience: process.env.GOOGLE_CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
-//      });
-//      const payload = ticket.getPayload();
-//      const userid = payload['sub'];
-//      console.log(payload);
-//      // If request specified a G Suite domain:
-//      // const domain = payload['hd'];
-//    }
+  // Generate JWT token
+  const token = jwt.sign(
+      {id:user._id}, // Use user.id if you have an id field
+      process.env.JWT_ACCESS_SECRET,
+      { expiresIn: "24h" }
+  );
+
+  const options = {
+    // expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),  // 7 days expiry
+      httpOnly: true, // Cookie can only be manipulated by the browser
+      secure: true // Cookie will be sent only over HTTPS
+  };
+
+  // Send token in user cookie
+  res.cookie('jwtToken', token, options);
+  return res.status(200).redirect('/home');
+   }catch (e) {
+      console.log(e.message);
+  }
+}
 
 // To load forgot password 
 const forgetPW = async (req, res) => {
@@ -251,23 +282,108 @@ const forgetPW = async (req, res) => {
   }
 }
 
+//Forget password
+const resetPWOTP= async (req, res) => {
+  const {email}=req.body
+  try {
+      const user=await User.findOne({email})
+    if (!user) {
+       //console.log(' Account not Found');
+       const message='You are not a user, Please Create an account first'
+       return res.status(400).json({message: message})
+    }
+    if (user.googleId !== null) {
+      const message="Your Account is created using SSO ,You can't Reset Password"
+     return res.status(403).json({message: message}) // 403 for 
+     }
+
+     const otp = otpGenerator.generate(6, { digits: true, lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false });
+
+     console.log(otp);
+
+     const otpExpires = Date.now() + 5* 60 * 1000;
+
+     const OTPmsg='<p>Hai , this is the OTP: '+otp+' for reset your password ,OTP will expire in 5 minute';
+
+     mailer.sendMail(email,'Email verification',OTPmsg);
+     res.cookie('OTP',otp,email,otpExpires)
+      return res.status(200).redirect(`/resetOTP?success=${encodeURIComponent('OTP is send to your email')}`);
+  } catch (e) {
+      console.log(e.message);
+  }
+}
+
+//Rest Password OTP Page
+const loadresetOTP=async (req, res) => {
+  const {error,success} = req.query
+    // try {
+       return res.render('3_resetPWotp',{
+          success,
+          error
+        });
+      }
+//Rest Password 
+const resetPassword= async (req, res) => {
+  const { otp } = req.body;
+  console.log(req.body);
+  try { 
+    // Validate request body
+  const { error} = otpSchema.validate(req.body);
+  if (error) {
+    //return res.status(400).json({ message: errorVal.details[0].message });
+    return res.redirect(`/resetOTP?error=${encodeURIComponent('OTP is required ,Enter an OTP')}`);
+  }
+  const OTP=req.cookies.OTP
+  const expired=req.cookies.otpExpires
+console.log('This is OTP',OTP);
+  //const user = await User.findOne({ otp });
+
+  if (OTP!==otp) {
+    return res.redirect(`/resetOTP?error=${encodeURIComponent('Invalid OTP')}`);
+  }
+
+  // // Check if OTP has been expired or not
+  if (Date.now() > expired) {
+    return res.redirect(`/resetOTP?error=${encodeURIComponent('OTP expired ,ask for another')}`);
+  }
+
+  return res.render('6_resetPassword')
+ 
+  } catch (e) {
+      console.log(e.message);
+  }
+};
 // // To load New Release Page
 const newRel = async (req, res) => {
-  const { error, success } = req.query;
-  try {
-      const product= await Product.find({isDeleted:false });
+  try { 
+      const product= await Product.find({isDeleted:false, 
+         newProductExpires :{$gt:Date.now()}
+        });
       return res.render('7_newRelease', { product});
   } catch (e) {
       console.log(e.message);
   }
 };
 
-// To load Mens Page
+// To load Mens Page 
 const mensPage = async (req, res) => {
-  const { error, success } = req.query;
   try {
-      const product= await Product.find({category:"Mens" ,isDeleted:false });
-      return res.render('8_mens', { product});
+    const page = parseInt(req.query.page) || 1; // default to page 1
+    const limit = parseInt(req.query.limit) || 3; // default to 10 items per page
+
+    const skip = (page - 1) * limit;
+
+    //const products = await Product.find().skip(skip).limit(limit);
+
+    const totalCount = await Product.countDocuments();
+   // const category=await Category.find({isDeleted:false})
+      const product= await Product.find({category:"Mens" ,isDeleted:false }).skip(skip).limit(limit);
+      return res.render('8_mens', { product,
+        currentPage: page,
+        limit,
+        totalCount,
+        totalPages: Math.ceil(totalCount / limit),
+      });
   } catch (e) {
       console.log(e.message);
   }
@@ -284,23 +400,71 @@ const womensPage = async (req, res) => {
   }
 };
 
-// To load Cart
-const loadCart = async (req, res) => {
+// To load Product Page
+const productShow = async (req, res) => {
+const { productId } = req.params;
+
+  // Validate productId
+  if (!productId || !mongoose.Types.ObjectId.isValid(productId)) { 
+   // console.log('Invalid product ID');
+   return res.status(404).render('404User')
+    //return res.status(400).send('Invalid product ID');
+  }
+    const prodId= await Product.findById(productId)
+  if(prodId== undefined){
+    console.log('Invalid or missing product ID');
+   return res.status(404).render('404User')
+  }
+ // const {  productId } = req.params;
+  // console.log(req.params);
+  // console.log(productId);
+//   { productId: '668b854eb06d955923231980' }
+// 668b854eb06d955923231980
+// { productId: 'undefined' }
+// undefined
+// Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "Product"
   try {
-      res.render('10_cart');
+    let product= await Product.findById(productId);
+    // Find related products in the same category, excluding the current product
+    const relatedProducts = await Product.find({
+      category: product.category,  // Assuming 'category' is the field in your schema
+      _id: { $ne: productId } // Exclude the current product
+    }).limit(6); // Limit the number of related products
+    
+    // const productName = product?.productName;
+    // const category = product?.category;
+      res.render('Details page',{
+        product,
+        relatedProducts,
+        // category,
+        // productName
+      });
   } catch (e) {
       console.log(e.message);
   }
 }
 
-// To load Product Page
-const productShow = async (req, res) => {
+// Review of the product
+const postReview = async (req, res) => {
+  const { productId } = req.params;
+  const {rating,name,productName,comments}=req.body
+  // console.log(req.body)
+  // console.log(productId);
   try {
-      res.render('11_product');
-  } catch (e) {
+         const review = new Review({
+            productId,
+            rating,
+            name,
+            productName,
+            comments
+          })
+          await review.save();
+          return res.status(200).json({ message: 'Thanks for your review' });
+      }catch (e) {
       console.log(e.message);
   }
 }
+
 
 // To load Brands Page
 const brands = async (req, res) => {
@@ -329,43 +493,185 @@ const contactUs = async (req, res) => {
   }
 }
 
-// Lpg-Out
+// Log-Out
+// const logout=async(req,res)=>{
+//   try {
+//       const token=req.body.token|| req.query.token || req.headers["authorization'"];
+
+//       const bearer=token.split(' ')
+//       const bearerToken=bearer[1]
+
+//       const newBlacklist=new Blacklist({
+//           token:bearerToken
+//       })
+
+//       await newBlacklist.save()
+//       res.setHeader('Clear-Site-Data','"cookies","storage"')
+//       return res.redirect('/1_home')
+
+//   } catch (e) {
+//     console.log(e.message);
+//   }
+// }
 const logout=async(req,res)=>{
   try {
-      const token=req.body.token|| req.query.token || req.headers["authorization'"];
-
-      const bearer=token.split(' ')
-      const bearerToken=bearer[1]
-
-      const newBlacklist=new Blacklist({
-          token:bearerToken
-      })
-
-      await newBlacklist.save()
-      res.setHeader('Clear-Site-Data','"cookies","storage"')
-      return res.redirect('/1_home')
-
+   res.clearCookie('jwtToken') 
+   return res.redirect(`/signIn?success=${encodeURIComponent('LOG-OUT SUCCESS')}`);
   } catch (e) {
     console.log(e.message);
   }
-}
-module.exports={
+ }
+
+ // search Product 
+// const searchProduct = async (req, res) => {
+//   try {
+//       // let userId = req.session.userId
+//       const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
+//       let userData = null
+//       if (userId) {
+//           userData = await User.findById({ _id: userId })
+//       }
+
+//       // pagination setting
+//       const currentPage = parseInt(req.query.page)
+//       const productPerPage = 28
+//       const skip = (currentPage - 1) * productPerPage;
+
+//       const totalProduct = await User.countDocuments()
+//       const totalPages = Math.ceil(totalProduct / productPerPage)
+//       //pagination end
+
+
+//       let productData = []
+//       const categoryData = await Category.find({ isDeleted: false })
+//       //const color = await Product.distinct('strapColor')
+//       const Brand = await Product.distinct('brand')
+//       const allProduct = await Product.find({ isDeleted: false })
+
+//       if (req.query.search_query) {
+//           productData = await Product.find({
+//               $and: [
+//                   { isDeleted: false },
+//                   {
+//                       $or: [
+//                           { productName: { $regex: req.query.search_query, $options: 'i' } },  //search_query is the name in html as name (186)
+//                           { category: { $regex: req.query.search_query, $options: 'i' } },
+//                           { brand: { $regex: req.query.search_query, $options: 'i' } }
+//                       ]
+//                   }
+//               ]
+//           }).skip(skip).limit(productPerPage);
+//           res.render('1_home', { user: userData, product: productData, category: categoryData,
+//              //color: color,
+//               brand: Brand, currentPage, totalPages, allProduct })
+//       } else {
+//           res.render('1_home', { user: userData, product: productData, category: categoryData, 
+//             //color: color,
+//              brand: Brand, currentPage, totalPages, allProduct })
+
+//       }
+
+//   } catch (e) {
+//       console.log(e.message);
+//   }
+// }
+
+const searchProduct = async (req, res) => {
+  try {
+      // const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
+      // let userData = null;
+      // if (userId) {
+      //     userData = await User.findById({ _id: userId });
+      // }
+
+      // pagination setting
+      const currentPage = parseInt(req.query.page) || 1;
+      const productPerPage = 28;
+      const skip = (currentPage - 1) * productPerPage;
+
+      const totalProduct = await User.countDocuments();
+      const totalPages = Math.ceil(totalProduct / productPerPage);
+      // pagination end
+
+      let productData = [];
+      const categoryData = await Category.find({ isDeleted: false });
+      const Brand = await Product.distinct('brand');
+      const allProduct = await Product.find({ isDeleted: false });
+
+      const origin = req.query.origin // Default to home if no origin is specified
+     console.log(origin);
+      if (req.query.search_query) {
+          productData = await Product.find({
+              $and: [
+                  { isDeleted: false },
+                  {
+                      $or: [
+                          { productName: { $regex: req.query.search_query, $options: 'i' } },
+                          { category: { $regex: req.query.search_query, $options: 'i' } },
+                          { brand: { $regex: req.query.search_query, $options: 'i' } }
+                      ]
+                  }
+              ]
+          }).skip(skip).limit(productPerPage);
+      }
+
+      let template;
+      switch (origin) {
+          case 'mens':
+              template = '8_mens';
+              break;
+          case 'womens':
+              template = '9_womens';
+              break;
+              case 'newRel':
+              template = '7_newRelease';
+              break;
+          default:
+              template = '1_home';
+      }
+
+      res.render(template, { 
+          //user: userData, 
+          product: productData, 
+          category: categoryData, 
+          brand: Brand, 
+          currentPage, 
+          totalPages, 
+          allProduct 
+      });
+
+  } catch (e) {
+      console.log(e.message);
+      res.status(500).send('Internal Server Error');
+  }
+};
+
+
+
+
+ module.exports={
     loadHome,
     loadSignUp,
     requestOtp,
     loadOTP,
     verifyOtp,
-    //googleVerify,
+    resendOTP,
+    googleAuth,
     loadSignIn,
     verifySignIn,
     forgetPW,
+    resetPWOTP,
+    loadresetOTP,
+    resetPassword,
+    logout,
     newRel,
     mensPage,
     womensPage,
-    loadCart,
     productShow,
+    postReview,
+    searchProduct,
     retAndShip,
     contactUs,
-    brands,
-    logout
+    brands 
+
 }

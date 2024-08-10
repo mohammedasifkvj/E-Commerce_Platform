@@ -1,0 +1,121 @@
+<%- include("../user_partials/header") %>
+<!-- account-mobile -->
+<div class="themevale_Mobile themevale_MobileAccount" id="account-mobile">
+    <div class="themevale_close2">
+        <a href="javascript:void(0)" class="close">&times;<span class="text">close</span></a>
+    </div>
+    <div id="accountMobile">
+            <nav class="navPages-mobile">
+<ul class="navPages-list navPages-list--user">
+    <li class="navPages-item">
+        <p class="navPage-subMenu-title">
+            <span class="text">Account</span>
+        </p>
+    </li>
+    <li class="navPages-item">
+        <a class="navPage-subMenu-action navPages-action" href="/account"><span class="text">Account</span></a>
+    </li>
+    <li class="navPages-item">
+        <a class="navPage-subMenu-action navPages-action" href="/address"><span class="text">Addresses</span></a>
+    </li>
+    <li class="navPages-item">
+        <a class="navPage-subMenu-action navPages-action" href="/orders"><span class="text">Orders</span></a>
+    </li>
+    <li class="navPages-item">
+        <a class="navPage-subMenu-action navPages-action" href="/wishlist"><span class="text">Wish Lists</span></a>
+    </li>
+    <li class="navPages-item">
+        <a class="navPage-subMenu-action navPages-action" href="/profileSettings"><span class="text">Account Settings</span></a>
+    </li>
+    <li class="navPages-item">
+        <a class="navPage-subMenu-action navPages-action" href="/signOut"><span class="text">Log out</span></a>
+    </li>
+</ul>
+</nav>
+    </div>
+</div>
+<!-- account-mobile -->
+        <div class="body" data-currency-code="USD">
+     
+    <main class="page account-address account">
+        <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
+            <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
+                <meta itemprop="position" content="1" />
+            </li>
+            <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <span class="breadcrumb-label" itemprop="name">Your Account</span>
+                <meta itemprop="position" content="2" />
+            </li>
+    </ul>
+    <div class="container container-smaller">
+        <div class="page-content">
+            <div class="themevale-heading">
+                <h1 class="page-heading">Welcome <%=userData.name %></h1>
+            </div>
+    <nav class="navBar navBar--sub navBar--account">
+       <ul class="navBar-section">
+            <li class="navBar-item is-active">
+                Account
+            </li>
+            <li class="navBar-item ">
+                <a class="navBar-action" href="/address">Addresses</a>
+            </li>
+            <li class="navBar-item">
+                <a class="navBar-action" href="/orders">Orders</a>
+            </li>
+            <li class="navBar-item">
+                    <a class="navBar-action" href="/wishlist">Wish Lists</a>
+            </li>
+            <li class="navBar-item">
+                <a class="navBar-action" href="/profileSettings">Account Settings</a>
+            </li>
+        </ul>
+    </nav>
+
+<div class="account ">
+    <div class="account-body ">
+                    
+       <ul class="addressList ">
+          <li class="address">
+            <div class="panel panel--address text-center">
+                <div class="panel-body ">
+                    <h4 class="address-title ">Account Details</h4>
+                    <h3 class="address-title "><%=userData.name %></h3>
+                    <ul class="address-details address-details--postal">
+                        <li><%=userData.email %></li>
+                        <li><%=userData.mobile %></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                        <!-- <dl class="address-details">
+                            <dt class="address-label">Phone:</dt>
+                            <dd class="address-description">7012886459</dd>
+                        </dl> -->
+                </div>
+            </div>
+         </li>
+     </ul>
+    </div>
+</div>
+        </div>
+    </div>
+</main>
+
+    <div id="modal" class="modal" data-reveal data-prevent-quick-search-close>
+    <a href="#" class="modal-close" aria-label="Close" role="button">
+        <span aria-hidden="true">&#215;</span>
+    </a>
+    <div class="modal-content"></div>
+    <div class="loadingOverlay"></div>
+</div>
+    <div id="alert-modal" class="modal modal--alert modal--small" data-reveal data-prevent-quick-search-close>
+    <div class="swal2-icon swal2-error swal2-animate-error-icon"><span class="swal2-x-mark swal2-animate-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span></div>
+
+    <div class="modal-content"></div>
+
+    <div class="button-container"><button type="button" class="confirm button" data-reveal-close>OK</button></div>
+</div>
+</div>
+<%- include("../user_partials/footer") %>

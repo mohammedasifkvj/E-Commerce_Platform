@@ -1,222 +1,184 @@
 const Category = require('../models/category');
-const path=require("path");
-
-// // Category Page
-// exports.loadCategory = async (req,res)=>{
-//   const {error, success,name} = req.query
-//   try {
-//          const category= await Category.find({name});
-//         return res.render("3_category", { category,error, success });
-//   } catch (e) {
-//     console.log(e.message);
-//   }
-// }
+const Product = require('../models/product');
+const mongoose = require('mongoose')
 
 // Category Page
 exports.showCategory = async (req, res) => {
-    const { error, success } = req.query;
-    try {
-        const q = req.query.q || ''; // Fetch the query parameter if it exists
-        const category= await Category.find({ name: { $regex: ".*" + q + ".*", $options: 'i' } });
-        return res.render('3_category', { category, q, error, success });
-    } catch (e) {
-        console.log(e.message);
-    }
-  };
-  
-  //Load  Create category Page 
-  exports.createCat = async (req,res)=>{
-    const {error, success,name} = req.query
-    try {
-           const category= await Category.find({name});
-          return res.render("4_createCat", { category,error, success });
-    } catch (e) {
-      console.log(e.message);
-    }
+  const { message, success } = req.query
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit =10; // Number of category per page
+    const skip = (page - 1) * limit;
+    const category = await Category.find().skip(skip).limit(limit);
+    const totalCategory=await Category.countDocuments();
+    const totalPages = Math.ceil(totalCategory / limit);
+    return res.render('3_category', {
+      category,
+      currentPage: page,
+      totalPages, 
+      message,
+      success
+    });
+  } catch (e) {
+    console.log(e);
   }
-  
-  // Create new Category
-  exports.createCategory = async (req,res) =>{
-    const {name,description} = req.body;
-    try{
-        if(!name)
-            return res.redirect(`/admin/createCat?error=${encodeURIComponent('Name is required')}`);
-        if(! description)
-            return res.redirect(`/admin/createCat?error=${encodeURIComponent('Description is required')}`);
-  
-        const isExist = await Category.findOne({name});
-        if(isExist){
-           return res.redirect(`/admin/createCat?error=${encodeURIComponent(name+' Category is already exists')}`);
-        } 
-         await Category.create({name,description})
-  
-        return res.redirect(`/admin/showCategory?success=${encodeURIComponent('New Category '+name+' created successfully')}`); 
-        }catch(e){
-        console.log(e);
-    }
+};
+
+//Load  Create category Page 
+exports.createCat = async (req, res) => {
+  const { message, success } = req.query
+  try {
+    const category = await Category.find();
+    return res.render("4_createCat", { category, message, success });
+  } catch (e) {
+    console.log(e.message);
   }
+}
+
+// Create new Category
+exports.createCategory = async (req, res) => {
+  const { name, description } = req.body;
+  try {
+    if (!name){
+      return res.status(401).json({ message: 'Name is required'});
+      //return res.redirect(`/admin/createCat?message=${encodeURIComponent('Name is required')}`);
+    }
+    if (!description){
+      return res.status(401).json({ message: 'Description is required'});
+      //return res.redirect(`/admin/createCat?message=${encodeURIComponent('Description is required')}`);
+    }
+    // Perform case-insensitive search for existing category
+    const isExist = await Category.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') } });
+    if (isExist) {
+      return res.status(403).json({ message: name +' category already exists'});
+      //return res.staus(403).redirect(`/admin/createCat?message=${encodeURIComponent(name +' category already exists')}`);
+    }
+
+    await Category.create({ name, description });
+
+    return res.status(201).json({ success: true, message: 'New category '+ name +' created successfully'});
+    //return res.redirect(`/admin/showCategory?success=${encodeURIComponent('New category ' + name + ' created successfully')}`);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 
 // Edit Category Page 
 exports.editCategoryPage = async (req, res) => {
-    const { id } = req.params;
-    const {error, success} = req.query
-    const  category= await Category.findOne({ uid: id });
-    return res.render("5_editCategory", { category,error, success });
+  const { message, success } = req.query
+  const { categoryId } = req.params;
+  // Validate categoryId
+  if (!categoryId || !mongoose.Types.ObjectId.isValid(categoryId)) {
+    console.log('Invalid Category ID');
+    return res.status(404).render('404Admin')
+    //return res.status(404).send('Invalid address ID');
+  }
+  const categoryData = await Category.findById(categoryId)
+  if (categoryData == undefined) {
+    console.log('Invalid or missing category ID');
+    return res.redirect(`/admin/showCategory?message=${encodeURIComponent('Category not found')}`);
+  }
+  // if (!categoryData) {
+  //   // return res.json({ success: false, message: 'Category not found' });
+  //   return res.redirect(`/admin/showCategory?message=${encodeURIComponent('Category not found')}`);
+  // }
+  try {
+    let category = await Category.findById(categoryId);
+    return res.render('5_editCategory', {
+      category,
+      message,
+      success
+    });
+  } catch (e) {
+    console.log(e);
+  }
 }
-// exports.editCategoryPage = async (req, res) => {
-//     const { id } = req.params;
-//      try {
-//     const {error, success} = req.query
-//     const category = await Category.findOne({ uid: id });
-//     console.log('reached');
-//     return res.render("5_editCategory", { category ,error, success});
-// } catch (e) {
-//     console.log(e);
-//   }
-// }
 
 // Edit Category
 exports.editCategory = async (req, res) => {
-    const { id } = req.params;
-    const {  name,description } = req.body;
-    try {
-      if(!name)
-        return res.redirect(`/admin/category?error=${encodeURIComponent('Name is required')}`);
-    if(! description)
-        return res.redirect(`/admin/category?error=${encodeURIComponent('Description is required')}`);
-      const category = await Category.findOneAndUpdate(
-        { uid: id },
-        {
-          $set: {
-            name,
-            description
-          },
-        },
-        { new: true }
-      );
-
-      if (!category)
-        return res.redirect(
-          `/admin/showCategory?error=${encodeURIComponent(name+" Category not found!")}`
-        );
-
-      return res.redirect(
-        `/admin/showCategory?success=${encodeURIComponent(name+" Category Updated Successfully")}`
-      );
-    } catch (e) {
-      console.log(e);
+  try {
+    const { name, description } = req.body;
+    const { categoryId } = req.params;
+    //console.log(categoryId)
+    // Validate categoryId
+    if (!categoryId || !mongoose.Types.ObjectId.isValid(categoryId)) {
+      console.log('Invalid Category ID');
+      return res.status(404).render('404Admin')
+      //return res.status(404).send('Invalid address ID');
     }
+    const categoryData = await Category.findById(categoryId);
+    if (categoryData == undefined) {
+      console.log('Invalid or missing category ID');
+      return res.redirect(`/admin/showCategory?message=${encodeURIComponent('Category not found')}`);
+    }
+
+    // if (!categoryData) {
+    //   return res.json({ success: false, message: 'Category not found' });
+    //   //return res.redirect(`/admin/showCategory?message=${encodeURIComponent('Category not found')}`);
+    // }
+    if (!name){
+      return res.status(401).json({message:'Name is required'})
+      //return res.redirect(`/admin/showCategory?message=${encodeURIComponent('Name is required')}`);
+    }
+    if (!description){
+      return res.status(401).json({message:'Description is required'})
+      //return res.redirect(`/admin/showCategory?message=${encodeURIComponent('Description is required')}`);
+    }
+    //Perform case-insensitive search for existing category
+    const isExist = await Category.findOne({ _id: { $ne: categoryId },name: { $regex: new RegExp(`^${name}$`,'i')}});
+
+    if (isExist) {
+      return res.status(402).json({message:name + ' category already exists'})
+      //return res.redirect(`/admin/ShowCategory?message=${encodeURIComponent(name + ' category already exists')}`);
+    }
+
+    await Category.updateOne({ _id: categoryId },
+      {$set:{name,description}},
+      { new: true });
+     return res.status(200).json({ success: true, message:name+' Category Updated successfully' });
+    //return res.redirect(`/admin/showCategory?success=${encodeURIComponent('Category '+ name +' Updated successfully')}`);
+
+  } catch (e) {
+    console.log(e.message);
+    //return res.json({ success: false, message: 'An error occurred' });
+    return res.redirect(`/admin/showCategory?message=${encodeURIComponent('An error occurred')}`);
+  }
 }
 
+exports.listUnlistCategory = async (req, res) => {
+  try {
+    const { categoryId } = req.body;
+    // Validate categoryId
+    if (!categoryId || !mongoose.Types.ObjectId.isValid(categoryId)) {
+      console.log('Invalid Category ID');
+      return res.status(404).render('404Admin')
+      //return res.status(404).send('Invalid address ID');
+    }
+    const categoryData = await Category.findById(categoryId);
+    // if (categoryData == undefined) {
+    //   console.log('Invalid or missing category ID');
+    //   return res.status(404).render('404Admin')
+    // }
+   
+    if (!categoryData) {
+      return res.json({ success: false, message: 'Category is not found' });
+    }
 
+    const name = categoryData.name
 
-// //----------------------------------------
-// exports.editCategory= async (req, res) => {
-//     const { id } = req.params;
-//     const { name,description } = req.body;
-//     try {
-//       const category = await Category.findOneAndUpdate(
-//         {  uid:id },
-//         {$set: {
-//             name,
-//             description
-//           },
-//         },
-//         { new: true }
-//       );
+    if (categoryData.isDeleted) {
+      await Category.findByIdAndUpdate(categoryId, { $set: { isDeleted: false } }, { new: true });
+      await Product.updateMany({ category: name }, { $set: { isDeleted: false } }, { new: true });
+      return res.json({ success: true, message: `Category ${name} Hided successfully` });
+    } else {
+      await Category.findByIdAndUpdate(categoryId, { $set: { isDeleted: true } }, { new: true });
+      await Product.updateMany({ category: name }, { $set: { isDeleted: true } }, { new: true });
+      return res.json({ success: true, message: `Category ${name} Hided successfully`});
+    }
 
-//       if (!category)
-//         return res.redirect(
-//           `/admin/showCategory?error=${encodeURIComponent("Category not found!")}`
-//         );
-//       return res.redirect(
-//         `/admin/showCategory?success=${encodeURIComponent(category+" Updated Successfully")}`
-//       );
-//     } catch (e) {
-//       console.log(e);
-//     }
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const multer=require('multer');
-
-// const storage=multer.diskStorage({
-//     destination:function(req,file,cb){
-//         cb(null,path.join(__dirname,'../public/images'));
-//     },
-//     filename:function(req,file,cb){
-//         const name=Date.now()+'-'+file.originalname;
-//         cb(null,name)
-//     }
-// });
-// const upload=multer({storage:storage})
-
-// // Function to add a new category
-// exports.addCategory = async (req, res) => {
-//     const { name, imageUrl, description, status } = req.body;
-
-//     try {
-//         const newCategory = new Category({
-//             name,
-//             imageUrl,
-//             description,
-//             status
-//         });
-
-//         await newCategory.save();
-//         res.status(201).json({ message: 'Category added successfully', category: newCategory });
-//     } catch (error) {
-//         res.status(500).json({ message: 'Error adding category', error });
-//     }
-// };
-
-
-
-
-// // Function to edit an existing category
-// exports.editCategory = async (req, res) => {
-//     const { id } = req.params;
-//     const { name, imageUrl, description, status, isDeleted } = req.body;
-
-//     try {
-//         const updatedCategory = await Category.findByIdAndUpdate(
-//             id,
-//             { name, imageUrl, description, status, isDeleted },
-//             { new: true }
-//         );
-
-//         if (!updatedCategory) {
-//             return res.status(404).json({ message: 'Category not found' });
-//         }
-
-//         res.status(200).json({ message: 'Category updated successfully', category: updatedCategory });
-//     } catch (error) {
-//         res.status(500).json({ message: 'Error updating category', error });
-//     }
-// };
-
-
-// exports.editUser = async (req, res) => {
-//     const { id } = req.params;
-//     const user = await User.findOne({ uid: id });
-//     return res.render("admin/user_edit", { user });
-// }
+  } catch (e) {
+    console.log(e.message);
+    res.json({ success: false, message: 'An error occurred' });
+  }
+};

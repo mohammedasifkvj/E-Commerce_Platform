@@ -13,12 +13,24 @@
         <!-- Favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg" />
         <!-- Template CSS -->
-        <link href="/admin/stylesheet/main.css" rel="stylesheet" type="text/css" />
-
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <link href="/admin/css/main.css" rel="stylesheet" type="text/css" />
+        <style>
+            /* Smooth transition effect */
+              .alert {
+            transition: opacity 1s ease-out;
+             }
+             /* Class to hide the error message */
+              .hidden {
+            opacity: 0;
+            }
+            </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <!-- SweetAlert2 JS CDN -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     </head>
@@ -42,57 +54,53 @@
                             <span class="text">Dashboard</span>
                         </a>
                     </li>
-                    <li class="menu-item has-submenu">
+                    <li class="menu-item "> <!-- has-submenu -->
                         <a class="menu-link" href="/admin/showCategory">
                             <i class="icon material-icons md-shopping_bag"></i>
                             <span class="text">Category</span>
                         </a>
                     </li>
-                    <li class="menu-item has-submenu">
+                    <li class="menu-item ">
                         <a class="menu-link" href="/admin/product">
                             <i class="icon material-icons md-shopping_cart"></i>
-                            <span class="text">Product</span>
+                            <span class="text">Products</span>
                         </a>
-                        <!-- <div class="submenu">
-                            <a href="page-form-product-1.html">Add product 1</a>
-                            <a href="page-form-product-2.html">Add product 2</a>
-                            <a href="page-form-product-3.html">Add product 3</a>
-                            <a href="page-form-product-4.html">Add product 4</a>
-                        </div> -->
                     </li>
-                    <li class="menu-item has-submenu">
-                        <a class="menu-link" href="/admin/customerTable">
-                            <i class="icon material-icons md-store"></i>
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/product/reviews">
+                            <i class="icon material-icons md-comment"></i>
+                            <span class="text">Reviews</span>
+                        </a>
+                    </li>
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/userTable">
+                            <i class="icon material-icons md-person"></i>
                             <span class="text">Customers</span>
                         </a>
                     </li>
-                    <li class="menu-item has-submenu">
+                    <li class="menu-item ">
                         <a class="menu-link" href="/admin/orderTable">
-                            <i class="icon material-icons md-add_box"></i>
+                            <i class="icon material-icons md-shopping_cart"></i>
                             <span class="text">Orders</span>
                         </a>
                     </li>
 
-                    <li class="menu-item has-submenu">
-                        <a class="menu-link" href="/admin/Transaction">
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/offer">
                             <i class="icon material-icons md-monetization_on"></i>
-                            <span class="text">Transactions</span>
+                            <span class="text">Offers</span>
                         </a>
-                        <!-- <div class="submenu">
-                            <a href="page-transactions-1.html">Transaction 1</a>
-                            <a href="page-transactions-2.html">Transaction 2</a>
-                        </div> -->
                     </li>
-                    <li class="menu-item has-submenu">
+                    <li class="menu-item  ">
                         <a class="menu-link" href="#">
                             <i class="icon material-icons md-person"></i>
                             <span class="text">Account</span>
                         </a>
-                        <div class="submenu">
+                        <!-- <div class="submenu">
                             <a href="page-account-login.html">User login</a>
                             <a href="page-account-register.html">User registration</a>
                             <a href="page-error-404.html">Error 404</a>
-                        </div>
+                        </div> -->
                     </li>
                     <li class="menu-item">
                         <a class="menu-link" href="/admin/sellers">
@@ -112,7 +120,7 @@
                 </ul>
                 <hr />
                 <ul class="menu-aside">
-                    <li class="menu-item has-submenu">
+                    <li class="menu-item ">
                         <a class="menu-link" href="#">
                             <i class="icon material-icons md-settings"></i>
                             <span class="text">Settings</span>
@@ -182,7 +190,7 @@
                                 <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
                                 <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                                <a class="dropdown-item text-danger" href="/admin/logout"><i class="material-icons md-exit_to_app"></i>Logout</a>
                             </div>
                         </li>
                     </ul>

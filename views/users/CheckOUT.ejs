@@ -1,0 +1,168 @@
+<%- include("../user_partials/header") %>
+        <div class="body" data-currency-code="USD">
+<main class="page account-order-details account">
+    <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
+        <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
+            <meta itemprop="position" content="1" />
+        </li>
+        <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                <a href="/cart" class="breadcrumb-label" itemprop="item"><span itemprop="name">Cart</span></a>
+            <meta itemprop="position" content="2" />
+        </li>
+        <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                <meta itemprop="item" content="https://luxwatches-demo-02.mybigcommerce.com/account.php?action=view_order&amp;order_id=107">
+                <span class="breadcrumb-label" itemprop="name">Checkout</span>
+            <meta itemprop="position" content="3" />
+        </li>
+</ul>
+    <div class="container container-smaller">
+        <div class="page-content">
+            <div class="themevale-heading">
+                <h1 class="page-heading title">CheckOut</h1>
+            </div>
+
+            <div class="account">
+                <div class="account-body">
+                    <div class="account-content account-content--fixedSmall">
+                        <h3 class="account-heading">Cart Contents</h3>
+                        <div class="row">
+                        <div>
+                            <h3>Item</h3>
+                        </div>
+                        </div>
+      
+<form id="makeOrder"  action="/makeOrder" method="post" data-account-reorder-form>
+         <% if (cartItems.length != 0) { %>                      
+<ul class="account-list">
+    <% cartItems.forEach(item => { %>
+    <li class="account-listItem">
+        <div class="account-product account-product--alignMiddle">
+            <!-- <span class="account-product-price"><%= item.productId.discountPrice %></span> -->
+            <div class="account-product-checkItem">
+                    <label for="account-product-id-15" class="form-label">
+                        <span class="is-srOnly">Checkbox 15 label</span>
+                    </label>
+            </div>
+            
+            <figure class="account-product-figure">
+                <img src="<%= item.productId.productImage[0] %>" alt="" title="<%=item.productId.productName %>" data-sizes="auto"/>
+                
+                <input id="id" type="hidden" name="productId[]" value="<%= item.productId._id %>">  
+                <input id="quantity" type="hidden" name="quantity[]" value="<%= item.quantity %>"> 
+            </figure>
+            <div class="account-product-body">
+                <span class="account-product-price"><%= item.quantity * item.productId.discountPrice %></span>
+                <h5 class="account-product-title"><%= item.quantity %> &#215; <%= item.productId.productName %></h5>
+                <dl class="definitionList">
+                
+                </dl>
+            </div>
+        </div>
+    </li>
+    <% }) } %> 
+</ul>
+
+                        <dl class="account-orderTotal">
+                                    <dt class="account-orderTotal-key">Subtotal:</dt>
+                                    <dd class="account-orderTotal-value"><%= cartItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %></dd>
+                                    <dt class="account-orderTotal-key">Grand total:</dt>
+                                    <dd class="account-orderTotal-value"><%= cartItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %></dd>                
+                        </dl>   
+                    </div>
+
+                    <aside class="account-sidebar">
+                  <%  for(let i=0;i < address.length;i++) {%>
+                            <section class="account-sidebar-block">
+                                <h3 class="account-heading">Ship To</h3>
+                                <ul class="account-order-address">
+                                    <li><%= address[i]?.name%></li>
+                                    <li><%= address[i]?.houseName%></li>
+                                    <li><%= address[i]?.landmark%></li>
+                                    <li><%= address[i]?.state%></li>
+                                    <li><%= address[i]?.country%></li>
+                                    <li><%= address[i]?.pin %></li>
+                                </ul>
+                            </section> 
+                            <% }%>
+
+                        <section class="account-sidebar-block">
+                            <h3 class="account-heading">Actions</h3>
+                            <div class="order-details-info">
+                                    <input type="hidden" name="orderTotal" id="orderTotal" value="<%= cartItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %>">
+                                    <input type="hidden" name="addressId" id="addressId" value="<%= address?._id%>">  
+                                    <input type="submit" class="button button--small" value="Place Order">
+                                </form>
+                            </div>
+                        </section>
+                    </aside>
+                </div>
+            </div> 
+        </div>
+    </div>
+</main>
+
+</div>
+<!-- <script>
+     document.getElementById('makeOrder').addEventListener('submit', async function(event) {
+    event.preventDefault(); // Prevent the form from submitting the traditional way
+        const productId = document.getElementById('id').value;
+        const quantity = document.getElementById('quantity').value;
+        const addressId = document.getElementById('addressId').value;
+        const data={
+            productId:productId,
+            quantity:quantity,
+            addressId:addressId
+        }
+
+        console.log(data);
+
+    try {
+                const response = await fetch('/makeOrder', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                if (response.status==201) {
+                   // alert('Order placed successfully!');
+                   Swal.fire({
+                    icon: "success",
+                    title: "Order Placed Successfully",
+                    showConfirmButton: false,
+                    timer: 1300
+                });
+                } else if (response.status==400) { // alert('Order placed successfully!');
+                   Swal.fire({
+                    icon: "Orror",
+                    title: "Insufficient stock for product",
+                    showConfirmButton: false,
+                    timer: 1300
+                });
+                } 
+                else {
+                    //alert('Failed to place order: ' + result.message);
+                Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Failed to place order",
+                showConfirmButton: true
+            });
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                //alert('An error occurred while placing the order.');
+                Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: result.error || "An error occurred",
+                showConfirmButton: true
+            });
+            }
+        })
+</script> -->
+
+<%- include("../user_partials/footer") %>

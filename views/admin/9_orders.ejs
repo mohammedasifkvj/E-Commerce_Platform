@@ -1,0 +1,156 @@
+<%- include("../adminPartials/header") %>
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Order List</h2>
+            <!-- <p>Lorem ipsum dolor sit amet.</p> -->
+        </div>
+        <div>
+            <input type="text" placeholder="Search order ID" class="form-control bg-white" />
+        </div>
+    </div>
+    <div class="card mb-4">
+        <header class="card-header">
+            <div class="row gx-3">
+                <div class="col-lg-4 col-md-6 me-auto">
+                    <input type="text" placeholder="Search..." class="form-control" />
+                </div>
+                <div class="col-lg-2 col-6 col-md-3">
+                    <select class="form-select">
+                        <option>Status</option>
+                        <option>Active</option>
+                        <option>Disabled</option>
+                        <option>Show all</option>
+                    </select>
+                </div>
+                <div class="col-lg-2 col-6 col-md-3">
+                    <select class="form-select">
+                        <option>Show 20</option>
+                        <option>Show 30</option>
+                        <option>Show 40</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+        <!-- card-header end// -->
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">Customer Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Date</th>
+                        <th scope="col" class="text-end">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% orders.forEach(order => { %>
+                      <tr>
+                        <td><b><%= order.userId.name %></b></td>
+                        <td><%= order.userId.email %></td>
+                        <td><%= order.orderTotal %></td>
+                        <td><span class="badge rounded-pill alert-warning"><%= order?.status %></span></td>
+                        <td><%= (new Date(order.createdAt)).toDateString() %></td>
+                        <td class="text-end">
+                          <a href="/admin/OrderDetails/<%= order._id %>" class="btn btn-md rounded font-sm">Detail</a>
+                          <div class="dropdown">
+                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm">
+                              <i class="material-icons md-more_horiz"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                              <button type="button" onclick="deleteOrder('<%= order._id %>')" class="dropdown-item text-danger">Delete</button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <% }); %>
+                    </tbody>
+                  </table>
+                  
+            </div>
+            <!-- table-responsive //end -->
+        </div>
+        <!-- card-body end// -->
+    </div>
+    <!-- card end// -->
+    <div class="row ">
+        <div class="col-12 ">
+            <nav aria-label="Page navigation example ">
+                <ul class="pagination justify-content-center">
+                    <% if (currentPage > 1) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                    </li>
+                    <% } %>
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                    <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                        <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                    </li>
+                    <% } %>
+                    <% if (currentPage < totalPages) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+                    </li>
+                    <% } %>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- <div class="pagination-area mt-30 mb-50">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-start">
+                <li class="page-item">
+                <a class="page-link" href="#"><i class="material-icons md-chevron_left"></i></a>
+                <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+                </li>
+            </ul>
+        </nav>
+    </div> -->
+</section>  
+<script>
+    async function deleteOrder(orderId) {
+    const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Delete it!'
+    });
+
+    if (result.isConfirmed) {
+        const response = await fetch('/admin/deleteOrder/', {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({orderId})
+        });
+
+        const result = await response.json();
+        if (response.status === 200) {
+            // window.location.reload();
+            //updateCartUI(result.cartItems);
+           (() => {
+            location.reload(); // Reload the page to update the cart -Given as IIFE
+                })()
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: result.error || "An error occurred",
+                showConfirmButton: true
+            });
+        }
+    }
+}
+</script>    
+           
+<%- include("../adminPartials/footer") %><section class="content-main">
+   
+              
