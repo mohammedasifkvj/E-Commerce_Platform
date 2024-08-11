@@ -1,4 +1,26 @@
+
 <%- include("../user_partials/header") %>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse; /* Collapse borders into a single border */
+        margin-top: 20px; /* Add some space above the table */
+    }
+    th, td {
+        border: 1px solid #ddd; /* Add a border to table cells */
+        padding: 12px; /* Add some padding inside cells */
+        text-align: left; /* Align text to the left */
+    }
+    th {
+        background-color: #f4f4f4; /* Add a light background color to the header */
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9; /* Add a light background color to even rows */
+    }
+    .actions {
+        text-align: center; /* Center align the actions column */
+    }
+</style>
 <!-- account-mobile -->
 <div class="themevale_Mobile themevale_MobileAccount" id="account-mobile">
     <div class="themevale_close2">
@@ -76,60 +98,49 @@
             </li>
         </ul>
     </nav>
-
-            <div class="account">
-                <div class="account-head">
-                </div>
-                <div class="account-body">
-                    <section class="account-content">
-                            <h3 class="account-heading">Orders</h3>
+    
      <% if (order.length === 0) { %>
-             <h1 class="page-heading" data-cart-page-title> Your Nothing Orederd yet</h1>
+             <h1 class="page-heading" data-cart-page-title> You Nothing Orederd Yet</h1>
             <% } else{ %>
-<ul class="account-list">
-    <% for(let i=0;i < order.length; i++){ %>
-    <li class="account-listItem">
-        <div class="account-product">
-            <div class="account-product-figure">
-                    <img src="" alt="" title="" data-sizes="auto"/>
-            </div>
-            <div class="account-product-body">
-                <div class="account-orderStatus">
-                    <h6 class="account-orderStatus-label">Awaiting payment</h6>
-                </div>
-                
-                <h6 class="account-product-title">
-                    <a href="/orderDetails/<%= order[i]._id %>">Order Details</a>
-                </h6>
-                <p class="account-product-description"> <%= order[i].orderItems.length %></p>
-
-                <div class="account-product-details">
-                    <div class="account-product-detail">
-                        <h6 class="account-product-detail-heading">Order Placed</h6>
-                        <span><%= order[i].orderDate %></span>
-                    </div>
-                    <div class="account-product-detail">
-                        <h6 class="account-product-detail-heading">Last Update</h6>
-                        <span><%= order[i].createdAt %></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </li>
-    <%  } %>
-</ul>
-<%  } %>
-<div class="pagination">
-    <ul class="pagination-list pagination-list--small">
-
-            <li class="pagination-item">Page 1 of 1</li>
-
-    </ul>
-</div>
-
-                    </section>
-                </div>
-            </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Date</th>
+                            <th>Payment Method</th>
+                            <th>Order Total</th>
+                            <th>Status</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%  let SNo=1 %> 
+                        <% order.forEach(order => { %> 
+                        <tr>
+                            <td><%=  SNo++ %> </td>
+                            <td><%= (order.createdAt).toDateString() %></td>
+                            <td><%= order.paymentMethod %></td>
+                            <td><%= order.orderTotal %></td>
+                            <td><span class="badge rounded-pill alert-warning"><%= order?.status %></td>
+                            <td class="actions">
+                                <a class="btn-btn primary" href="/orderDetails/<%= order._id %>">Details</a>
+                                
+                                    <% if (order.status === 'Order confirmed') { %>
+                                      <button type="button" class="btn btn-sm btn-outline-danger" onclick="cancelOrder('<%= order._id %>')">Cancel</button>
+                                    <% } else if (order.status === 'Delivered') { %>
+                                      <button type="button" class="btn btn-sm btn-outline-warning" onclick="returnOrder('<%= order._id %>')">Return</button>
+                                    <% } else if (order.status === 'pending') { %>
+                                      <button type="button" class="btn btn-sm btn-outline-primary payAgainButton" data-order-id="<%= order._id %>">Pay Now</button>
+                                    <% } %>
+                                  
+                            </td>
+                        </tr>
+                        <%  }) %>
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+                <% }%>
+            
         </div>
     </div>
 </main>
@@ -149,4 +160,231 @@
     <div class="button-container"><button type="button" class="confirm button" data-reveal-close>OK</button></div>
 </div>
 </div>
+<script>
+  
+    // Script to update the order status display
+    document.addEventListener("DOMContentLoaded", function() {
+      const statuses = document.querySelectorAll('.status');
+  
+      statuses.forEach((statusElement) => {
+        const status = statusElement.getAttribute('data-status');
+        let iconHTML = '<i class="fa-solid fa-circle-dot"></i> ';
+  
+        switch(status) {
+          case 'order confirmed':
+            statusElement.innerHTML = iconHTML + 'On Delivery';
+            statusElement.style.color = 'blue';
+            break;
+          case 'cancelled':
+            statusElement.innerHTML = iconHTML + 'Order Cancelled';
+            statusElement.style.color = 'red';
+            break;
+          case 'delivered':
+          case 'completed':
+            statusElement.innerHTML = iconHTML + 'Product Delivered';
+            statusElement.style.color = 'green';
+            break;
+          case 'returned':
+            statusElement.innerHTML = iconHTML + 'The Product Returned';
+            statusElement.style.color = 'red';
+            break;
+          case 'Requested for Return':
+            statusElement.innerHTML = iconHTML + 'Requested for Return';
+            statusElement.style.color = 'red';
+            break;
+          case 'pending':
+            statusElement.innerHTML = iconHTML + 'Payment Incomplete';
+            statusElement.style.color = 'red';
+            break;
+        }
+      });
+    });
+  
+    // Cancel order function
+    function cancelOrder(orderId) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Cancel Order",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch(`/cancelOrder?orderId=${orderId}`, {
+            method: 'GET'
+          })
+          .then(response => {
+            if (response.ok) {
+              Swal.fire({
+                title: "Order Cancelled",
+                text: "The Order has been Cancelled.",
+                icon: "success"
+              }).then(() => {
+                window.location.reload();
+              });
+            } else {
+              Swal.fire({
+                title: "Error",
+                text: "An error occurred while Cancelling Order.",
+                icon: "error"
+              });
+            }
+          })
+          .catch(error => {
+            console.error("Error:", error);
+            Swal.fire({
+              title: "Error",
+              text: "An error occurred while Cancelling Order.",
+              icon: "error"
+            });
+          });
+        }
+      });
+    }
+  
+    // Return order function
+    function returnOrder(orderId) {
+      Swal.fire({
+        title: 'Return Order',
+        input: 'textarea',
+        inputPlaceholder: 'Type your reason here...',
+        inputAttributes: {
+          'aria-label': 'Type your reason here'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Submit',
+        cancelButtonText: 'Cancel',
+        inputValidator: (value) => {
+          if (!value) {
+            return 'You need to write something!';
+          }
+        }
+      }).then((result) => {
+        if (result.isConfirmed && result.value) {
+          fetch('/returnOrder', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              orderId: orderId,
+              reason: result.value
+            })
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            Swal.fire('Submitted!', 'Your return request has been submitted.', 'success').then(() => {
+              window.location.reload();
+            });
+          })
+          .catch(error => {
+            console.error('Error returning the order:', error);
+            Swal.fire('Failed!', 'Your return request could not be processed.', 'error');
+          });
+        }
+      });
+    }
+  
+    // Continue order function
+    document.addEventListener("DOMContentLoaded", function() {
+    var payAgainButtons = document.querySelectorAll('.payAgainButton');
+    payAgainButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        var orderId = this.getAttribute('data-order-id');
+        initiatePayment(orderId);
+      });
+    });
+  });
+  
+  function initiatePayment(orderId) {
+    fetch('/getPaymentDetails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ orderId: orderId })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        openRazorpay(data);
+      } else {
+        Swal.fire('Error', 'Failed to fetch payment details', 'error');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      Swal.fire('Error', 'Network Error. Try again.', 'error');
+    });
+  }
+  
+  function openRazorpay(data) {
+    var options = {
+      "key": data.key_id,
+      "amount": data.amount,
+      "currency": data.currency,
+      "name": "Coza Store",
+      "description": "Test Transaction",
+      "image": "https://example.com/your_logo",
+      "order_id": data.razorpayOrderId,
+      "handler": function (response) {
+        verifyPayment(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature, data.orderId);
+      },
+      "prefill": {
+        "name": "Coza Srore",
+        "email": "youremail@example.com",
+        "contact": "9999999999"
+      },
+      "notes": {
+        "address": "Your Address"
+      },
+      "theme": {
+        "color": "#3399cc"
+      }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+  }
+  
+  function verifyPayment(paymentId, orderId, signature, orderDbId) {
+    fetch('/verifyPayment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        paymentId: paymentId,
+        razorpayOrderId: orderId,
+        razorpaySignature: signature,
+        orderId: orderDbId
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        Swal.fire({
+          title: "Payment Successful",
+          text: "Your payment has been successfully processed.",
+          icon: "success"
+        }).then(() => {
+          window.location.href = `/orderDetails?orderId=${orderDbId}`;
+        });
+      } else {
+        Swal.fire('Error', 'Payment verification failed. Please try again.', 'error');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      Swal.fire('Error', 'Network Error. Try again.', 'error');
+    });
+  }
+  
+  </script>
 <%- include("../user_partials/footer") %>

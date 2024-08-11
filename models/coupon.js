@@ -1,14 +1,9 @@
 const mongoose = require('mongoose')
 
 const couponSchema = mongoose.Schema({
-    coupenCode :{  
+      couponCode :{  
         type:String,
-        required:true,
-        unique:true
-      },
-      status:{
-        type:Boolean,
-        default:true
+        required:true
       },
       discountPercentage:{
         type:Number,
@@ -18,11 +13,6 @@ const couponSchema = mongoose.Schema({
         type: Date,
         required: true,
       },
-    //   createdDate:{
-    //     type: Date,
-    //     required: true,
-    //     default:Date.now()
-    //   },
       minPurchaseAmt:{
         type:Number,
         required:true
@@ -30,6 +20,10 @@ const couponSchema = mongoose.Schema({
       maxRedimabelAmount:{
         type:Number,
         required:true
+      },
+      status:{
+        type:Boolean,
+        default:true
       }
 },{timestamps:true})
 

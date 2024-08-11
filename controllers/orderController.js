@@ -225,74 +225,137 @@ const makeOrder = async (req, res) => {
     }
   };
 
-  // PayPal client setup
+ // PayPal client setup
 let clientId = process.env.PAYPAL_CLIENT_ID;
 let clientSecret = process.env.PAYPAL_SECRET;
 
-//let environment = new paypal.core.LiveEnvironment(clientId, clientSecret);
 let environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
 let client = new paypal.core.PayPalHttpClient(environment);
 
-const payPalPay= async (req, res) => {
-    const { orderData } = req.body;
-
-    const request = new paypal.orders.OrdersCreateRequest();
-    request.requestBody({
-        intent: 'CAPTURE',
-        purchase_units: [{
-            amount: {
-                currency_code: 'USD',
-                value: orderData.orderTotal
-            }
-        }]
-    });
-
-    try {
-        const order = await client.execute(request);
-        res.json({ id: order.result.id, approval_url: order.result.links.find(link => link.rel === 'approve').href });
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send('Error creating PayPal order');
+const payPalPay = async (req, res) => {
+  const { orderData } = req.body;
+  console.log("this",req.body)
+  const request = new paypal.orders.OrdersCreateRequest();
+  request.requestBody({
+    intent: 'CAPTURE',
+    purchase_units: [{
+      amount: {
+        currency_code: 'USD',
+        value: orderData.orderTotal
+      }
+    }],
+    application_context: {
+      return_url: `${process.env.BASE_URL}/captureOrder?orderItems=${encodeURIComponent(JSON.stringify(orderData))}`, // URL to capture order
+      cancel_url: `${process.env.BASE_URL}/cancelOrder`   // URL if the user cancels payment
     }
+  });
+  try {
+    const order = await client.execute(request);
+    return res.json({ id: order.result.id, approval_url: order.result.links.find(link => link.rel === 'approve').href });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Error creating PayPal order');
+  }
 }
 
-  const createPayment = async (req, res) => {
-    const paymentData = {
-      intent: 'sale',
-      payer: {
-        payment_method: 'paypal',
-      },
-      transactions: [{
-        amount: {
-          total: '10.00',
-          currency: 'USD',
-        },
-        description: 'Your purchase description',
-      }],
-      redirect_urls: {
-        return_url: 'http://127.0.0.1:8004/oredrConfirmation',
-        cancel_url: 'http://127.0.0.1:8004/payment/cancel',
-      },
-    };
+// Route to capture PayPal order
+const captureOrder = async (req, res) => {
+  //const { } = req.query; // Token from PayPal URL
+  // Extracted order data
+  // const { addressId, products, orderTotal, paymentMethod,token} = req.query;
+  // 
+  const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
+  const { orderItems, token, PayerID } = req.query;
+   //console.log(req.query);
+
+   const request = new paypal.orders.OrdersCaptureRequest(token);
+// Parse the orderItems JSON string to extract its properties
+   const parsedOrderItems = JSON.parse(orderItems);
+
+    const { products, addressId, orderTotal, paymentMethod } = parsedOrderItems;
+   // console.log(parsedOrderItems);
   
-    try {
-      const response = await axios.post('https://api.sandbox.paypal.com/v1/payments/payment', paymentData, {
-        auth: {
-          username: process.env.PAYPAL_CLIENT_ID,
-          password: process.env.PAYPAL_SECRET,
-        },
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+  try {
+    const capture = await client.execute(request);
+    // Order captured, redirect to order confirmation
+    const orderItems = products.map(item => ({
+      productId: item.productId,
+      quantity: item.quantity
+    }));
+
+    // Create new order document
+    const newOrder = new Order({
+      userId,
+      orderItems,
+      orderTotal,
+      address: addressId,
+      paymentMethod,
+      status:"Order confirmed"
+    });
+
+    // Save the order to the database
+    await newOrder.save();
+
+     // Update stock for each product
+     for (const item of orderItems) {
+      const product = await Product.findById(item.productId);
+      if (!product) {
+          return res.status(404).json({ message: `Product with ID ${item.productId} not found` });
+      }
+
+      if (product.stock < item.quantity) {
+          return res.status(400).json({ message: `Insufficient stock for product ${product.productName}` });
+      }
+
+      product.stock -= item.quantity;
+      await product.save();
+  }
+    await Cart.deleteOne({userId });
+
+    return res.redirect('/orderConfirmation');
+  } catch (error) {
+    console.error(error.message);
+    //res.status(500).send('Error capturing PayPal order');
+  }
+}
+
+  // const createPayment = async (req, res) => {
+  //   const paymentData = {
+  //     intent: 'sale',
+  //     payer: {
+  //       payment_method: 'paypal',
+  //     },
+  //     transactions: [{
+  //       amount: {
+  //         total: '10.00',
+  //         currency: 'USD',
+  //       },
+  //       description: 'Your purchase description',
+  //     }],
+  //     redirect_urls: {
+  //       return_url: 'http://127.0.0.1:8004/oredrConfirmation',
+  //       cancel_url: 'http://127.0.0.1:8004/payment/cancel',
+  //     },
+  //   };
   
-      const approvalUrl = response.data.links.find(link => link.rel === 'approval_url').href;
-      res.redirect(approvalUrl);
-    } catch (error) {
-      console.error('Error creating PayPal payment:', error);
-      res.redirect('/payment/error');
-    }
-  };
+  //   try {
+  //     const response = await axios.post('https://api.sandbox.paypal.com/v1/payments/payment', paymentData, {
+  //       auth: {
+  //         username: process.env.PAYPAL_CLIENT_ID,
+  //         password: process.env.PAYPAL_SECRET,
+  //       },
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     });
+  
+  //     const approvalUrl = response.data.links.find(link => link.rel === 'approval_url').href;
+  //     res.redirect(approvalUrl);
+  //   } catch (error) {
+  //     console.error('Error creating PayPal payment:', error);
+  //     res.redirect('/payment/error');
+  //   }
+  // };
 
 const oredrConfirmation= async (req, res) => {
     try {
@@ -330,7 +393,8 @@ module.exports={
     checkoutPage,
     makeOrder,
     payPalPay,
-    createPayment,
+    captureOrder,
+    //createPayment,
     oredrConfirmation,
     Confirmation
 

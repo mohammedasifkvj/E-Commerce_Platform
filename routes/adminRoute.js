@@ -38,21 +38,27 @@ admin_route.put('/updateProduct/:productId', auth.authenticateToken, productCont
 admin_route.patch('/productStatus', auth.authenticateToken, productController.listUnlistProduct)
 admin_route.get('/product/reviews', auth.authenticateToken, productController.reviews)
 
-//--------------customer 
+//----------customer 
 admin_route.get('/userTable', auth.authenticateToken, adminController.customerTable)
 admin_route.patch('/userStatus', auth.authenticateToken, adminController.blockAndUnblockUser);
 
-//--------------Order
+//-----------Order
 admin_route.get('/orderTable', auth.authenticateToken, adminController.orderTable)
 admin_route.get('/OrderDetails/:orderId', auth.authenticateToken, adminController.orderDetails)
 admin_route.delete('/deleteOrder', auth.authenticateToken, adminController.deleteOrder)
-admin_route.put('/changeStatus/:orderId', auth.authenticateToken, adminController.changeStatus)
+admin_route.post('/updateOrderStatus', auth.authenticateToken, adminController.updateOrderStatus)
 
 //--------Offer
 admin_route.get('/offer', auth.authenticateToken, offerController.offers)
 admin_route.get('/offer/addOfferPage', auth.authenticateToken, offerController.addOfferPage)
 admin_route.post('/offer/addOffer', auth.authenticateToken, offerController.addOffer)
 admin_route.patch('/offer/offerStatusChange', auth.authenticateToken,offerController.offerStatusChange);
+
+//--------Coupon
+admin_route.get('/coupon', auth.authenticateToken, offerController.coupon)
+admin_route.get('/coupon/addCouponPage', auth.authenticateToken, offerController.addCouponPage)
+admin_route.post('/coupon/addCoupon', auth.authenticateToken, offerController.addCoupon)
+admin_route.patch('/coupon/couponStatusChange', auth.authenticateToken,offerController.couponStatusChange);
 
 //404
 admin_route.get('*', (req, res) => {

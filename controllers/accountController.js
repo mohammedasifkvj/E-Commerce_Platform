@@ -166,6 +166,7 @@ const orders = async (req, res) => {
 
 // Oreder  Details
 const orderDetails = async (req, res) => {
+    const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
     const {orderId}=req.params
 
     if (!orderId || !mongoose.Types.ObjectId.isValid(orderId)) { 
@@ -182,9 +183,12 @@ const orderDetails = async (req, res) => {
       const address=await Address.findOne({ userId: userId })
 
         const order = await Order.findById({ _id:orderId }).populate('orderItems.productId');
+        const user=await User.findById(userId)
         //const product=await Product.find();
         return res.render('17_orderDetails',{
             orderItems: order?.orderItems ,
+            order,
+            user,
             address
         });
     } catch (e) {

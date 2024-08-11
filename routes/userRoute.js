@@ -92,9 +92,10 @@ user_route.delete('/clearCart', auth.authenticateToken, cartController.clearCart
 //Create Order
 user_route.get('/checkout', auth.authenticateToken, orderController.checkoutPage)
 user_route.post('/makeOrder', auth.authenticateToken, orderController.makeOrder)
-user_route.post('/create', auth.authenticateToken, orderController.createPayment);
+//user_route.post('/create', auth.authenticateToken, orderController.createPayment);
 user_route.post('/createPaypalOrder', auth.authenticateToken, orderController.payPalPay);
-user_route.get('/oredrConfirmation', orderController.oredrConfirmation)
+user_route.get('/captureOrder',auth.authenticateToken, orderController.captureOrder);
+user_route.get('/orderConfirmation', orderController.oredrConfirmation)
 user_route.get('/Confirmation', orderController.Confirmation)
 
 // //404

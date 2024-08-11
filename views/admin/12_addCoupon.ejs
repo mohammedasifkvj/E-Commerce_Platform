@@ -1,0 +1,166 @@
+<style>
+    .error-message{
+       color: red;
+       font-size: 12px;
+    }
+</style>
+<%- include("../adminPartials/header") %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="content-header text-center">
+                <h2 class="content-title ">Add New Coupon</h2>
+                <div>
+                    <!-- <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button> -->
+                    <!-- <button class="btn btn-md rounded font-sm hover-up">Publish</button> -->
+                    <a href="/admin/coupon" class="btn btn-outline-secondary">Back to Coupon Page</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header text-center text-info">
+                    <h2>Coupon Details</h2>
+                </div>
+                <div id="validationMessages" class="alert alert-danger mt-3  text-center " role="alert" style="display: none;">   
+                    <% if (typeof message !== "undefined") { %>
+                        <p class="text-danger mt-3"><%= message %></p>
+                    <% } %>
+                </div>
+                <div class="card-body">
+                    <form id="couponForm" action="/admin/coupon/addcoupon" method="post" >
+                        <div class="row">
+                        <div class="col-lg-6">
+                            <label for="coupon">Coupon Code</label>
+                            <input type="text" class="form-control" id="coupon" name="couponCode" placeholder="Enter Coupon code Here" required>
+                        </div>
+                    </div>
+                        <div class="row">
+                            <div class="form-group col-lg-6 mb-3">
+                                <label for="discount">Discount Percentage (%)</label>
+                                <input type="number" class="form-control" id="discount" name="discountPercentage" placeholder="Enter Discount" min="1" max="60" required>
+                            </div>
+                            <div class="form-group col-lg-6 mb-3">
+                                <label for="expiredDate">Expiry Date</label>
+                            <input type="date" class="form-control" id="expiredDate" name="expiredDate" placeholder="Enter Expiry Date" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-6 mb-3">
+                                <label for="discount">Minimum Purchase Amount</label>
+                                <input type="number" class="form-control" id="discount" name="minPurchaseAmt" placeholder="Enter Minimum Purchase Amount Here" min="10"  required>
+                            </div>
+                            <div class="form-group col-lg-6 mb-3">
+                                <label for="maxRedeemableAmount">Maximum Redeemable Amount</label>
+                                <input type="number" class="form-control" id="maxRedeemableAmount" name="maxRedimabelAmount" placeholder="Enter Maximum Redeemable Amount" min="10" required>
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-md rounded font-sm hover-up">Publish Coupon</button>
+                            <button type="button" class="btn btn-outline-secondary" onclick="clearForm()">Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+     <script>
+        
+        function clearForm() {
+            document.getElementById('couponForm').reset();
+            document.getElementById('validationMessages').style.display = 'none';
+            document.getElementById('validationMessages').innerHTML = '';
+        }
+    
+        document.getElementById('couponForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (!couponFormValidation()) {
+                return;
+            }
+    
+            const form = document.getElementById('couponForm');
+            const formData = new FormData(form);
+            const jsonObject = {};
+            formData.forEach((value, key) => {
+                jsonObject[key] = value;
+            });
+    
+            fetch('/admin/coupon/addCoupon', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonObject)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        title: "New Coupon Added",
+                        text: "New Coupon Added Successfully",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer:1000
+                    }).then(() => {
+                        window.location.href = `/admin/coupon`; 
+                    });
+                } else {
+                    const validationMessage = document.getElementById('validationMessages');
+                    validationMessage.style.display = 'block';
+                    validationMessage.innerHTML = `${data.message}`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                //alert('Error Adding Coupon');
+                Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Failed  to Add Coupon",
+                        showConfirmButton: true
+                    })
+            });
+        });
+    
+        function couponFormValidation() {
+            const validationMessage = document.getElementById('validationMessages');
+            validationMessage.style.display = 'none';
+            validationMessage.innerHTML = '';
+    
+            const coupon = document.getElementById('coupon').value.trim();
+            const expiredDate = document.getElementById('expiredDate').value;
+            const discount = document.getElementById('discount').value;
+    
+            const currentDate = new Date().toISOString().split('T')[0];
+    
+            const couponCodePattern = /^[a-zA-Z0-9]+( [a-zA-Z0-9]+)*$/;
+            const hasLetter = /[a-zA-Z]/;
+    
+            // Coupon name validation
+            if (!couponCodePattern.test(coupon) || !hasLetter.test(coupon) || coupon === "") {
+                validationMessage.style.display = 'block';
+                validationMessage.innerHTML += 'Coupon Code should not be only numbers, symbols, or whitespaces, and must include at least one letter.<br>';
+                return false;
+            }
+    
+            // Expiry date validation
+            if (expiredDate <= currentDate) {
+                validationMessage.style.display = 'block';
+                validationMessage.innerHTML += 'Expiry date must be future date.<br>';
+                return false;
+            }
+    
+            // Discount validation
+            if (discount > 61 || discount < 5) {
+                validationMessage.style.display = 'block';
+                validationMessage.innerHTML += 'Discount must be between 5% and 60%.<br>';
+                return false;
+            }
+    
+            return true;
+        }
+    </script>
+            <%- include("../adminPartials/footer") %>

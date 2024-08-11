@@ -1,102 +1,392 @@
-
-
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Checkout</title>
-    <meta name='platform' content='bigcommerce.stencil' />
-    
-
-    <link href="https://cdn11.bigcommerce.com/r-2488d248a82fcc96989bdb04e120902b82b7d9c8/img/bc_favicon.ico" rel="shortcut icon">
-    
-<base href="/" target="_top">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<link href="https://cdn11.bigcommerce.com/shared/css/open_sans-d6a25005e2cc4260148ad7d363953fc5f6ba209a.css" rel="stylesheet" type="text/css">
-
-
-            <link href="https://cdn11.bigcommerce.com/shared/microapp/checkout/dist/checkout-6455dcc9.css" rel="stylesheet" type="text/css">
-    
-
-<script type="text/javascript">
-var BCData = {"csrf_token":"e292955a99f3ca63edee02996aaae0f9d2958c3c4b344f079274e9e4e7d2a14f"};
-</script>
-
-
-
-<link data-stencil-stylesheet href="https://cdn11.bigcommerce.com/s-2nfdiyehvz/stencil/558781b0-6ef6-013b-f567-4afeb0a3a797/e/960150f0-c5aa-0139-ef11-066281ecf407/css/optimized-checkout-835bc9f0-6ef7-013b-b98c-32bb98ae51d5.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Poppins:500,400&display=swap" rel="stylesheet">
-
-<script type="text/javascript">
-    window.language = {"locale":"en","locales":{},"translations":{}};
-</script>
-
-
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Table</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse; /* Collapse borders into a single border */
+            margin-top: 20px; /* Add some space above the table */
+        }
+        th, td {
+            border: 1px solid #ddd; /* Add a border to table cells */
+            padding: 12px; /* Add some padding inside cells */
+            text-align: left; /* Align text to the left */
+        }
+        th {
+            background-color: #f4f4f4; /* Add a light background color to the header */
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* Add a light background color to even rows */
+        }
+        .actions {
+            text-align: center; /* Center align the actions column */
+        }
+    </style>
 </head>
 <body>
-    <header class="checkoutHeader optimizedCheckout-header">
-    <div class="checkoutHeader-content">
-        <h1 class="is-srOnly">Checkout</h1>
-        <h2 class="checkoutHeader-heading">
-            <a class="checkoutHeader-link" href="https://luxwatches-demo-02.mybigcommerce.com/">
-                    <img alt="Luxwatches Demo 02" class="checkoutHeader-logo" id="logoImage" src="https://cdn11.bigcommerce.com/s-2nfdiyehvz/product_images/lw-logo-w_1585626976__10415.png"/>
-            </a>
-        </h2>
-    </div>
-</header>
-
-    <script>
-        window.checkoutVariantIdentificationToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2x1eHdhdGNoZXMtZGVtby0wMi5teWJpZ2NvbW1lcmNlLmNvbSIsImlhdCI6MTcyMDA3MDI3NSwiZG9tYWluIjp7ImNhcnRJZCI6ImIzMzA2M2E0LTEzZjktNDUxNy05NDU5LWNhMWQyOGMwMThhYiIsImNoZWNrb3V0VmFyaWFudCI6Im9wdGltaXplZF9vbmVfcGFnZV9jaGVja291dCJ9fQ.km13ig6KwfBhylfyi7cVl7ZXOTF-SxZtaomG2Vb31zQ';
-    </script>
-
-    <script>
-        document.body.style.display = 'none';
-    </script>
-
-    <div id="checkout-app"></div>
-    <script src="https://cdn11.bigcommerce.com/shared/microapp/checkout/dist/loader-1.504.0.js"></script>
-
-    <script>
-        checkoutLoader.loadFiles({ publicPath: 'https://cdn11.bigcommerce.com/shared/microapp/checkout/dist' })
-            .then(function(app) {
-                document.body.style.display = '';
-
-                                    app.renderCheckout({
-                        checkoutId: 'b33063a4-13f9-4517-9459-ca1d28c018ab',
-                        containerId: 'checkout-app',
-                        sentryConfig: {"release":"checkout-js@1.504.0","whitelistUrls":["https:\/\/cdn11.bigcommerce.com\/shared\/microapp\/checkout\/dist"],"dsn":"https:\/\/418e8e81a209403e9c8740c4fdbff5a6@sentry.io\/1542560","environment":"production","normalizeDepth":5,"tags":{"environment":"production","tier":1},"userId":"1000644542-0"},
-                        
-                    });
-                            });
-    </script>
-
-<script >
-!function(){if(!window._bcCsrfProtectionPatched){window._bcCsrfProtectionPatched=!0;var e=Object.getPrototypeOf(new window.XMLHttpRequest),t=e.open,n=e.send,i=e.setRequestHeader;if(e.open=function(){const e=d(arguments[1]);return this._isLocalRequest=o(e),this._isAssetRequest=u(arguments[0],e),t.apply(this,arguments)},e.send=function(){if(this._isLocalRequest&&!this._isAssetRequest){var e=a(),t=a("SF-CSRF-TOKEN");e&&!this._hasCsrfToken&&this.setRequestHeader("X-XSRF-TOKEN",e),t&&!this._hasSfCsrfToken&&this.setRequestHeader("X-SF-CSRF-TOKEN",t)}return n.apply(this,arguments)},e.setRequestHeader=function(){return"X-XSRF-TOKEN"===arguments[0]&&arguments[1]&&(this._hasCsrfToken=!0),"X-SF-CSRF-TOKEN"===arguments[0]&&arguments[1]&&(this._hasSfCsrfToken=!0),i.apply(this,arguments)},window.$&&window.$.fn&&window.$.fn.jquery?$(document).submit(c):document.addEventListener("submit",c),window.fetch){var r=window.fetch;window.fetch=function(e,t){if(window.Request){var n=new Request(e,t);return o(n.url)&&!u(n.method,n.url)&&h(n),r(n)}var i=d(e),s=t||{};return o(i)&&!u(s.method,i)&&h(s),r(i,s)}}var s=[new RegExp("^"+window.location.origin+"/wishlist.php"),new RegExp("^/?wishlist.php")]}function a(e="XSRF-TOKEN"){for(var t=document.cookie.split("; "),n=0;n<t.length;n++){var i=t[n].split("="),r=i[0],s=i[1];if(e===r)return s}return""}function o(e){return!!e.match(new RegExp("^(https?:)?//"+window.location.hostname))||!e.match(new RegExp("^(https?:)?//"))}function u(e,t){return(!e||"GET"===e.toUpperCase())&&/\.(png|gif|jpe?g|css|js|json|svg|html?)$/.test(t.split("?")[0])}function h(e){e.headers=e.headers||{};var t=a(),n=a("SF-CSRF-TOKEN");e.headers.append?(t&&(e.headers.delete("X-XSRF-TOKEN"),e.headers.append("X-XSRF-TOKEN",t)),n&&(e.headers.delete("X-SF-CSRF-TOKEN"),e.headers.append("X-SF-CSRF-TOKEN",n))):(t&&(e.headers["X-XSRF-TOKEN"]=t),n&&(e.headers["X-SF-CSRF-TOKEN"]=n))}function d(e){return e instanceof window.URL?e.href:e}function c(e){var t=e.target.getAttribute("action");null!=t&&function(e,t){for(var n=0;n<t.length;n++)if(e&&e.match(t[n]))return!0;return!1}(t,s)&&(e.target.method="POST");var n=e.target.querySelector('input[name="authenticity_token"]'),i=e.target.querySelector('input[name="sf_authenticity_token"]');if(!(n&&i||"post"!==e.target.method.toLowerCase())){if(null==n){var r=document.createElement("input");r.setAttribute("type","hidden"),r.setAttribute("name","authenticity_token"),r.setAttribute("value",a()),e.target.appendChild(r)}if(null==i){var o=document.createElement("input");o.setAttribute("type","hidden"),o.setAttribute("name","sf_authenticity_token"),o.setAttribute("value",a("SF-CSRF-TOKEN")),e.target.appendChild(o)}}}}();
-//# sourceMappingURL=csrf-protection-header-5eeddd5de78d98d146ef4fd71b2aedce4161903e.js.map</script>
-
-
-
-<script >
-    !function(){if(!window._bcCsrfProtectionPatched){window._bcCsrfProtectionPatched=!0;var e=Object.getPrototypeOf(new window.XMLHttpRequest),t=e.open,n=e.send,i=e.setRequestHeader;if(e.open=function(){const e=d(arguments[1]);return this._isLocalRequest=o(e),this._isAssetRequest=u(arguments[0],e),t.apply(this,arguments)},e.send=function(){if(this._isLocalRequest&&!this._isAssetRequest){var e=a(),t=a("SF-CSRF-TOKEN");e&&!this._hasCsrfToken&&this.setRequestHeader("X-XSRF-TOKEN",e),t&&!this._hasSfCsrfToken&&this.setRequestHeader("X-SF-CSRF-TOKEN",t)}return n.apply(this,arguments)},e.setRequestHeader=function(){return"X-XSRF-TOKEN"===arguments[0]&&arguments[1]&&(this._hasCsrfToken=!0),"X-SF-CSRF-TOKEN"===arguments[0]&&arguments[1]&&(this._hasSfCsrfToken=!0),i.apply(this,arguments)},window.$&&window.$.fn&&window.$.fn.jquery?$(document).submit(c):document.addEventListener("submit",c),window.fetch){var r=window.fetch;window.fetch=function(e,t){if(window.Request){var n=new Request(e,t);return o(n.url)&&!u(n.method,n.url)&&h(n),r(n)}var i=d(e),s=t||{};return o(i)&&!u(s.method,i)&&h(s),r(i,s)}}var s=[new RegExp("^"+window.location.origin+"/wishlist.php"),new RegExp("^/?wishlist.php")]}function a(e="XSRF-TOKEN"){for(var t=document.cookie.split("; "),n=0;n<t.length;n++){var i=t[n].split("="),r=i[0],s=i[1];if(e===r)return s}return""}function o(e){return!!e.match(new RegExp("^(https?:)?//"+window.location.hostname))||!e.match(new RegExp("^(https?:)?//"))}function u(e,t){return(!e||"GET"===e.toUpperCase())&&/\.(png|gif|jpe?g|css|js|json|svg|html?)$/.test(t.split("?")[0])}function h(e){e.headers=e.headers||{};var t=a(),n=a("SF-CSRF-TOKEN");e.headers.append?(t&&(e.headers.delete("X-XSRF-TOKEN"),e.headers.append("X-XSRF-TOKEN",t)),n&&(e.headers.delete("X-SF-CSRF-TOKEN"),e.headers.append("X-SF-CSRF-TOKEN",n))):(t&&(e.headers["X-XSRF-TOKEN"]=t),n&&(e.headers["X-SF-CSRF-TOKEN"]=n))}function d(e){return e instanceof window.URL?e.href:e}function c(e){var t=e.target.getAttribute("action");null!=t&&function(e,t){for(var n=0;n<t.length;n++)if(e&&e.match(t[n]))return!0;return!1}(t,s)&&(e.target.method="POST");var n=e.target.querySelector('input[name="authenticity_token"]'),i=e.target.querySelector('input[name="sf_authenticity_token"]');if(!(n&&i||"post"!==e.target.method.toLowerCase())){if(null==n){var r=document.createElement("input");r.setAttribute("type","hidden"),r.setAttribute("name","authenticity_token"),r.setAttribute("value",a()),e.target.appendChild(r)}if(null==i){var o=document.createElement("input");o.setAttribute("type","hidden"),o.setAttribute("name","sf_authenticity_token"),o.setAttribute("value",a("SF-CSRF-TOKEN")),e.target.appendChild(o)}}}}();
-//# sourceMappingURL=csrf-protection-header-5eeddd5de78d98d146ef4fd71b2aedce4161903e.js.map
-</script>
-<script >
-    function ready(fn) {
-    if (document.readyState != 'loading') {
-        fn();
-    } else {
-        document.addEventListener('DOMContentLoaded', fn);
-    }
-}
-
-ready(function() {
-    var origin = location.protocol + '//' + location.hostname;
-    var img = new Image(1, 1);
-    img.src = origin + '/index.php?action=track_visitor&' + new Date().getTime();
-    img.onload = function() { return true; };
-});
-</script>
+    <h2>Order Details</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Payment Method</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2024-08-10</td>
+                <td>Credit Card</td>
+                <td>$100.00</td>
+                <td>Completed</td>
+                <td class="actions">
+                    <button>Edit</button>
+                    <button>Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>2024-08-09</td>
+                <td>PayPal</td>
+                <td>$150.00</td>
+                <td>Pending</td>
+                <td class="actions">
+                    <button>Edit</button>
+                    <button>Delete</button>
+                </td>
+            </tr>
+            <!-- Add more rows as needed -->
+        </tbody>
+    </table>
 </body>
 </html>
+
+
+
+<%- include('../layouts/userLayout/headerCart.ejs') %>
+
+<link rel="stylesheet" type="text/css" href="css/theme.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<br>
+<br>
+<br>
+<div class="row justify-content-center">
+  <div class="col-lg-10">
+    <div class="card">
+      <div class="card-header">
+        <div class="row justify-content-between">
+          <div class="col-md-auto">
+            <h5 class="mb-3 mb-md-0">Order Details</h5>
+          </div>
+          <div class="col-md-auto"><a class="btn btn-sm btn-outline-secondary border-300 me-2 shadow-none" href="/index.html"> <span class="fas fa-chevron-left me-1" data-fa-transform="shrink-4"></span>Continue Shopping</a></div>
+        </div>
+      </div>
+      <div class="card-body p-0">
+        <div class="row gx-1 mx-0 bg-200 text-900 fs-10 fw-semi-bold">
+          <div class="col-1 col-md-2 py-2 px-1"></div>
+          <div class="col-1 col-md-2 py-2 px-1">Name</div>
+          <div class="col-3 col-md-2 py-2 px-1">Order Date</div>
+          <div class="col-2 col-md-2 py-2 px-1">Payment</div>
+          <div class="col-2 col-md-2 py-2 px-1">Status</div>
+          <div class="col-1 col-md-1 py-2 px-1 text-end">Action</div>
+        </div>
+
+        <!-- Iterate over each order -->
+        <% orders.forEach(order => { %> 
+          <% order.orderItems.forEach(item => { %>
+            <div class="row gx-1 mx-0 align-items-center border-bottom border-200">
+              <div class="col-4 py-3 px-1">
+                <div class="d-flex align-items-center">
+                  <a href=""><img class="img-fluid rounded-1 me-3 d-none d-md-block" src="<%= item.image[0] %>" alt="" width="60" /></a>
+                  <div class="flex-1 pt-3 pb-3">
+                    <h5 class="fs-9"><a class="text-900" href="/orderDetails?orderId=<%= order._id %>"><%= item.productName %></a></h5>
+                  </div>
+                </div>
+              </div>
+              <div class="col-2 py-3 px-1"><%= new Date(order.orderDate).toDateString() %></div>
+              <div class="col-2 py-3 px-1"><%= order.paymentMethod %></div>
+              <div class="col-2 py-3 px-1"><%= order.orderStatus %></div>
+              <div class="col-1 py-3 px-1 text-end">
+                <% if (order.orderStatus === 'Order confirmed') { %>
+                  <button type="button" class="btn btn-sm btn-outline-danger" onclick="cancelOrder('<%= order._id %>')">Cancel</button>
+                <% } else if (order.orderStatus === 'Delivered') { %>
+                  <button type="button" class="btn btn-sm btn-outline-warning" onclick="returnOrder('<%= order._id %>')">Return</button>
+                <% } else if (order.orderStatus === 'pending') { %>
+                  <button type="button" class="btn btn-sm btn-outline-primary payAgainButton" data-order-id="<%= order._id %>">Pay Again</button>
+                <% } %>
+              </div>
+            </div>
+          <% }); %>
+        <% }); %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pagination Controls -->
+<div class="row justify-content-center mt-4">
+  <nav aria-label="Page navigation example">
+    <ul class="pagination" style="justify-content: center;">
+      <% if (currentPage > 1) { %>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= currentPage - 1 %>" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+      <% } %>
+      <% for (let i = 1; i <= totalPages; i++) { %>
+        <li class="page-item <%= i === currentPage ? 'active' : '' %>"><a class="page-link" href="?page=<%= i %>"><%= i %></a></li>
+      <% } %>
+      <% if (currentPage < totalPages) { %>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= currentPage + 1 %>" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      <% } %>
+    </ul>
+  </nav>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+<script>
+  
+  // Script to update the order status display
+  document.addEventListener("DOMContentLoaded", function() {
+    const statuses = document.querySelectorAll('.status');
+
+    statuses.forEach((statusElement) => {
+      const status = statusElement.getAttribute('data-status');
+      let iconHTML = '<i class="fa-solid fa-circle-dot"></i> ';
+
+      switch(status) {
+        case 'order confirmed':
+          statusElement.innerHTML = iconHTML + 'On Delivery';
+          statusElement.style.color = 'blue';
+          break;
+        case 'cancelled':
+          statusElement.innerHTML = iconHTML + 'Order Cancelled';
+          statusElement.style.color = 'red';
+          break;
+        case 'delivered':
+        case 'completed':
+          statusElement.innerHTML = iconHTML + 'Product Delivered';
+          statusElement.style.color = 'green';
+          break;
+        case 'returned':
+          statusElement.innerHTML = iconHTML + 'The Product Returned';
+          statusElement.style.color = 'red';
+          break;
+        case 'Requested for Return':
+          statusElement.innerHTML = iconHTML + 'Requested for Return';
+          statusElement.style.color = 'red';
+          break;
+        case 'pending':
+          statusElement.innerHTML = iconHTML + 'Payment Incomplete';
+          statusElement.style.color = 'red';
+          break;
+      }
+    });
+  });
+
+  // Cancel order function
+  function cancelOrder(orderId) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Cancel Order",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`/cancelOrder?orderId=${orderId}`, {
+          method: 'GET'
+        })
+        .then(response => {
+          if (response.ok) {
+            Swal.fire({
+              title: "Order Cancelled",
+              text: "The Order has been Cancelled.",
+              icon: "success"
+            }).then(() => {
+              window.location.reload();
+            });
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: "An error occurred while Cancelling Order.",
+              icon: "error"
+            });
+          }
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          Swal.fire({
+            title: "Error",
+            text: "An error occurred while Cancelling Order.",
+            icon: "error"
+          });
+        });
+      }
+    });
+  }
+
+  // Return order function
+  function returnOrder(orderId) {
+    Swal.fire({
+      title: 'Return Order',
+      input: 'textarea',
+      inputPlaceholder: 'Type your reason here...',
+      inputAttributes: {
+        'aria-label': 'Type your reason here'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Submit',
+      cancelButtonText: 'Cancel',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'You need to write something!';
+        }
+      }
+    }).then((result) => {
+      if (result.isConfirmed && result.value) {
+        fetch('/returnOrder', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            orderId: orderId,
+            reason: result.value
+          })
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          Swal.fire('Submitted!', 'Your return request has been submitted.', 'success').then(() => {
+            window.location.reload();
+          });
+        })
+        .catch(error => {
+          console.error('Error returning the order:', error);
+          Swal.fire('Failed!', 'Your return request could not be processed.', 'error');
+        });
+      }
+    });
+  }
+
+  // Continue order function
+  document.addEventListener("DOMContentLoaded", function() {
+  var payAgainButtons = document.querySelectorAll('.payAgainButton');
+  payAgainButtons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      var orderId = this.getAttribute('data-order-id');
+      initiatePayment(orderId);
+    });
+  });
+});
+
+function initiatePayment(orderId) {
+  fetch('/getPaymentDetails', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ orderId: orderId })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      openRazorpay(data);
+    } else {
+      Swal.fire('Error', 'Failed to fetch payment details', 'error');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    Swal.fire('Error', 'Network Error. Try again.', 'error');
+  });
+}
+
+function openRazorpay(data) {
+  var options = {
+    "key": data.key_id,
+    "amount": data.amount,
+    "currency": data.currency,
+    "name": "Coza Store",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": data.razorpayOrderId,
+    "handler": function (response) {
+      verifyPayment(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature, data.orderId);
+    },
+    "prefill": {
+      "name": "Coza Srore",
+      "email": "youremail@example.com",
+      "contact": "9999999999"
+    },
+    "notes": {
+      "address": "Your Address"
+    },
+    "theme": {
+      "color": "#3399cc"
+    }
+  };
+  var rzp1 = new Razorpay(options);
+  rzp1.open();
+}
+
+function verifyPayment(paymentId, orderId, signature, orderDbId) {
+  fetch('/verifyPayment', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      paymentId: paymentId,
+      razorpayOrderId: orderId,
+      razorpaySignature: signature,
+      orderId: orderDbId
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      Swal.fire({
+        title: "Payment Successful",
+        text: "Your payment has been successfully processed.",
+        icon: "success"
+      }).then(() => {
+        window.location.href = `/orderDetails?orderId=${orderDbId}`;
+      });
+    } else {
+      Swal.fire('Error', 'Payment verification failed. Please try again.', 'error');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    Swal.fire('Error', 'Network Error. Try again.', 'error');
+  });
+}
+
+</script>
+
+<%- include('../layouts/userLayout/footerCart.ejs') %>

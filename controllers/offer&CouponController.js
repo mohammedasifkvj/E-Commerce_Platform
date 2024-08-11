@@ -112,7 +112,7 @@ const addOffer = async (req, res, next) => {
             );
         }
 
-        res.status(200).json({ success: true });
+        res.status(201).json({ success: true });
     } catch (error) {
         console.log(error.message);
         next(error);
@@ -176,65 +176,64 @@ const offerStatusChange = async (req,res) => {
 };
 
 
-const couponPage = async (req, res, next) => {
+const coupon = async (req, res) => {
     try {
-        
-        const currentPage = parseInt(req.query.page)
+        const currentPage = parseInt(req.query.page) || 1 ;
         const couponPerPage = 10
         const skip = (currentPage - 1) * couponPerPage;
 
-        const coupons = await Coupon.find().skip(skip).limit(couponPerPage).sort({createdDate:-1});
+        const coupon = await Coupon.find().skip(skip).limit(couponPerPage).sort({createdDate:-1});
 
         const totalProduct = await Coupon.countDocuments()
         const totalPages = Math.ceil(totalProduct / couponPerPage)
 
-        res.render('couponManagement', { coupons: coupons , currentPage, totalPages })
+        return res.render('12_coupon', { coupon , currentPage, totalPages })
     } catch (error) {
         console.log(error.message);
-        next(error);
     }
 }
 
 
-const addCouponPage = async (req, res, next) => {
+const addCouponPage = async (req, res) => {
     try {
-        res.render('addCoupon')
+       return res.render('12_addCoupon')
     } catch (error) {
         console.log(error.message);
-        next(error);
     }
 }
 
-const addCoupon = async (req, res, next) => {
+const addCoupon = async (req, res) => {
     try {
-        const { couponCode, discountPercentage, expiredDate, minPurchaseAmt, maxRedeemableAmount } = req.body
-
-
-        const isExist = await Coupon.findOne({ couponCode: couponCode })
-        if (isExist) {
-            return res.status(403).json({ message: "This CODE is already exist, please enter another one" })
-        } else if (couponCode[0] == ' ') {
-            return res.status(403).json({ message: "Enter Proper Coupon Code" })
-
-        }
-
-        const coupon = new Coupon({
-            couponCode: couponCode,
-            discountPercentage: discountPercentage,
-            expiredDate: expiredDate,
-            minPurchaseAmt: minPurchaseAmt,
-            maxRedeemableAmount: maxRedeemableAmount
-        })
-
-        await coupon.save()
-        res.status(200).json({ success: true })
-
-    } catch (error) {
-        console.log(error.message);
-        next(error);
+      const { couponCode, discountPercentage, expiredDate, minPurchaseAmt, maxRedimabelAmount } = req.body;
+      console.log(req.body)
+  
+      if (!couponCode || couponCode.trim() === "") {
+        return res.status(400).json({ message: "Coupon Code is required and cannot be empty" });
+      }
+  
+      const isExist = await Coupon.findOne({ couponCode: { $regex: new RegExp(`^${couponCode}$`, 'i') } });
+      if (isExist) {
+        return res.status(403).json({ message: "This Coupon Code already exists, please enter another one" });
+      }
+  
+      const coupon = new Coupon({
+        couponCode,
+        discountPercentage,
+        expiredDate,
+        minPurchaseAmt,
+        maxRedimabelAmount,
+      });
+  
+      await coupon.save();
+  
+      return res.status(200).json({ success: true });
+    } catch (e) {
+      console.log(e.message);
+      return res.status(500).json({ message: "Internal Server Error" });
     }
-}
-
+  };
+  
+//
 const couponStatusChange = async (req, res, next) => {
     try {
         const id = req.query.couponId;
@@ -260,7 +259,7 @@ const couponStatusChange = async (req, res, next) => {
 };
 
 
-const applyCoupon = async (req, res, next) => {
+const applyCoupon = async (req, res) => {
     try {
         const { couponCode, totalAmount } = req.body;
 
@@ -294,26 +293,24 @@ const applyCoupon = async (req, res, next) => {
         };
 
         // Example: Send response with success and discount
-        res.status(200).json({ success: true, discount: couponDiscount });
+        return res.status(200).json({ success: true, discount: couponDiscount });
     } catch (error) {
         console.error('Error applying coupon:', error);
-        res.status(500).json({ message: 'An error occurred while applying the coupon.' });
-        next(error);
+        return res.status(500).json({ message: 'An error occurred while applying the coupon.' });
     }
 };
 
 
 
-const removeCoupon = async (req, res, next) => {
+const removeCoupon = async (req, res) => {
     try {
         if (req.session.coupon) {
             delete req.session.coupon; // Remove coupon from session
         }
-        res.status(200).json({ success: true, message: 'Coupon removed successfully' });
+        return res.status(200).json({ success: true, message: 'Coupon removed successfully' });
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ message: 'An error occurred while removing the coupon' });
-        next(error);
+        return res.status(500).json({ message: 'An error occurred while removing the coupon' });
     }
 };
 
@@ -345,7 +342,7 @@ module.exports={
     addOffer,
     offerStatusChange,
     // Coupon
-    couponPage , 
+    coupon, 
     addCouponPage,
     addCoupon,
     couponStatusChange,

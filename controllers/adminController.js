@@ -199,24 +199,25 @@ const deleteOrder=async(req,res)=>{
 }
 }
 
-const changeStatus = async (req, res) => {
+const updateOrderStatus =  async (req, res, next) => {
+  const { orderId, status } = req.body;
+ // console.log(req.body)
+
   try {
-    const status  = req.body;
-    const { orderId } = req.params;
-    console.log(req.body)
-    console.log(req.params)
-    // if (!orderId || !mongoose.Types.ObjectId.isValid(orderId)) {
-    //   console.log('Invalid order ID');
-    //   return res.status(404).render('404Admin')
-    // }
-    await Order.updateOne({ _id: orderId },
-      {$set:{status:status}},
-      { new: true });
-      return 
-  } catch (e) {
-    console.log(e.message);
+      let order = await Order.findById(orderId);
+      if (!order) {
+          return res.status(404).json({ success: false, message: 'Order not found' });
+      }
+      // order.status = status;
+      // await order.save();
+      await Order.findByIdAndUpdate(orderId, { $set: {status : status } }, { new: true });
+
+      return res.json({ success: true });
+  } catch (error) {
+      res.status(500).json({ success: false, message: 'Server Error' });
+      next(error);
   }
-}
+};
 
 //Admin Logout
 const adminLogout=async(req,res)=>{
@@ -243,5 +244,6 @@ const adminLogout=async(req,res)=>{
     orderTable,
     orderDetails,
     deleteOrder,
-    changeStatus
+    updateOrderStatus
+    //changeStatus
   }

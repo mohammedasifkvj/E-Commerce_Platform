@@ -39,9 +39,9 @@
               </div>
 
               <form id="makeOrder" action="/makeOrder" method="post">
-                <% if (cartItems.length != 0) { %>
+                <% if (cartItems?.length != 0) { %>
                 <ul class="account-list">
-                  <% cartItems.forEach(item => { %>
+                  <% cartItems?.forEach(item => { %>
                   <li class="account-listItem">
                     <div class="account-product account-product--alignMiddle">
                       <div class="account-product-checkItem">
