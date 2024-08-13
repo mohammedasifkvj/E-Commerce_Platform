@@ -1,7 +1,7 @@
 const Product= require("../models/product")
 const Category=require("../models/category")
 const Reviews=require("../models/review")
-
+const mongoose = require('mongoose')
 const sharp =require('sharp')
        
 //Admin Product Page Load
@@ -128,8 +128,21 @@ const addProduct = async (req,res) =>{
 
     const {  productId } = req.params;
     const {message, success} = req.query
+
+    if (!productId || !mongoose.Types.ObjectId.isValid(productId)) { 
+        // console.log('Invalid product ID');
+        //return res.status(404).render('404Admin')
+        return res.redirect(`/admin/product?message=${encodeURIComponent('Product not found')}`);
+       }
+         const prodId= await Product.findById(productId)
+       if(prodId== undefined){
+         console.log('Invalid or missing product ID');
+         return res.redirect(`/admin/product?message=${encodeURIComponent('Product not found')}`);
+        //return res.status(404).render('404Admin')
+       }
+
     try {
-        let product= await Product.findById(productId);
+        const product= await Product.findById(productId);
         const category=await Category.find()
         return res.render('8_editProdectPage',{ 
         product,
@@ -145,13 +158,28 @@ const addProduct = async (req,res) =>{
 // Edit product
 const editProduct = async (req, res) => {
     try {
-        const {productName,category,brand,description,dialColour,strapColour,stock,price,discountPrice} = req.body;
+        const {productName,category,brand,description,
+           // dialColour,strapColour,
+            stock,price,discountPrice} = req.body;
         console.log(req.body,'this is body')
         console.log(req.files,'thsi si files')
        // const files=req.files ||{}
        
          const {productId} = req.params;
         console.log(productId,'this is productId')
+
+        if (!productId || !mongoose.Types.ObjectId.isValid(productId)) { 
+            // console.log('Invalid product ID');
+            //return res.status(404).render('404Admin')
+            return res.redirect(`/admin/product?message=${encodeURIComponent('Product not found')}`);
+           }
+             const prodId= await Product.findById(productId)
+           if(prodId== undefined){
+             console.log('Invalid or missing product ID');
+             return res.redirect(`/admin/product?message=${encodeURIComponent('Product not found')}`);
+            //return res.status(404).render('404Admin')
+           }
+        
        //const productData = await Product.findById(productId);
        //console.log(productData);
 

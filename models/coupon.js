@@ -3,7 +3,8 @@ const mongoose = require('mongoose')
 const couponSchema = mongoose.Schema({
       couponCode :{  
         type:String,
-        required:true
+        required:true,
+        unique: true,
       },
       discountPercentage:{
         type:Number,
@@ -26,5 +27,6 @@ const couponSchema = mongoose.Schema({
         default:true
       }
 },{timestamps:true})
+
 
 module.exports = mongoose.model('Coupon',couponSchema)

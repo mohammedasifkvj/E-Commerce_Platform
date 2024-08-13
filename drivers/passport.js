@@ -12,7 +12,7 @@ passport.use(
         callbackURL: 'http://127.0.0.1:8004/google/callback'
     },
     async (accessToken, refreshToken, profile, done) => {
-        let existingUser = await User.findOne({ googleId: profile.id });
+        const existingUser = await User.findOne({ googleId: profile.id });
         if (existingUser) {
             return done(null, existingUser);
         }

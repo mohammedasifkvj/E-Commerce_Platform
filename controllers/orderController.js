@@ -41,11 +41,11 @@ const checkoutPage= async (req, res) => {
 
 //         // const products = req.session.product;
 
-//         // for (let product of products) {
-//         //     if (product.inStock <= 0) {
-//         //         return res.status(403).json({ message: "Product is Out of Stock!!" });
-//         //     }
-//         // }
+        // for (let product of products) {
+        //     if (product.inStock <= 0) {
+        //         return res.status(403).json({ message: "Product is Out of Stock!!" });
+        //   
+        // }
 
 //         //  order = new Order({
 //         //     userId: userId,
@@ -226,11 +226,11 @@ const makeOrder = async (req, res) => {
   };
 
  // PayPal client setup
-let clientId = process.env.PAYPAL_CLIENT_ID;
-let clientSecret = process.env.PAYPAL_SECRET;
+const clientId = process.env.PAYPAL_CLIENT_ID;
+const clientSecret = process.env.PAYPAL_SECRET;
 
-let environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
-let client = new paypal.core.PayPalHttpClient(environment);
+const environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
+const client = new paypal.core.PayPalHttpClient(environment);
 
 const payPalPay = async (req, res) => {
   const { orderData } = req.body;

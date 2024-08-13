@@ -88,7 +88,7 @@ const loadDash = async (req,res)=>{
         const limit = 10; // Number of offers per page
         const skip = (page - 1) * limit;
         
-       const user = await User.find({isAdmin: false}).skip(skip).limit(limit);;
+       const user = await User.find({isAdmin: false}).skip(skip).limit(limit);
        const totalUsers = await User.countDocuments();
        const totalPages = Math.ceil(totalUsers / limit);
          //console.log(user);
@@ -151,7 +151,7 @@ const blockAndUnblockUser = async (req, res) => {
       const limit =10; // Number of product per page
       const skip = (page - 1) * limit;
       // Find all orders and populate user information
-      const orders = await Order.find().populate('userId', 'name email');
+      const orders = await Order.find().populate('userId', 'name email').skip(skip).limit(limit);
       const totalOrders=await Order.countDocuments();
       const totalPages = Math.ceil(totalOrders / limit);
       return res.render('9_orders', {
@@ -204,7 +204,7 @@ const updateOrderStatus =  async (req, res, next) => {
  // console.log(req.body)
 
   try {
-      let order = await Order.findById(orderId);
+      const order = await Order.findById(orderId);
       if (!order) {
           return res.status(404).json({ success: false, message: 'Order not found' });
       }
@@ -245,5 +245,4 @@ const adminLogout=async(req,res)=>{
     orderDetails,
     deleteOrder,
     updateOrderStatus
-    //changeStatus
   }

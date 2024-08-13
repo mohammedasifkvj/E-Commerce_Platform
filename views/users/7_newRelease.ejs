@@ -575,12 +575,10 @@ function getUrlVars() {
                 </label>
         </div>
 
-                    <div class="product-badge new-badge">
-                        <span class="text">New</span>
-                    </div>
-                    <div class="product-badge sale-badge">
-                        <span class="text">Sale</span>
-                    </div>
+        <% if (product[i].stock < 1) { %>
+            <div class="product-badge sale-badge">
+                <span class="text">Out of Stock</span>
+            </div> <% } %>
 
          <a href="/product/<%= product[i]._id %>" >
             <div class="card-img-container" data-product-id="161">
@@ -609,7 +607,7 @@ function getUrlVars() {
         <div class="card-price" data-test-info-type="price">
                 
             <div class="price-section price-section--withoutTax rrp-price--withoutTax" >
-                MSRP:
+                MRP:
                 <span data-product-rrp-price-without-tax class="price price--rrp"> 
                     <%= product[i].price %>
                 </span>
@@ -669,6 +667,8 @@ function getUrlVars() {
             <div class="card-option card_optionImage card-option-161">
                 <div class="form-field" data-product-attribute="swatch"></div>
             </div>
+            <% if (product[i].stock != 0 && product[i].offer) { %>
+                <p ><i class="fa-solid fa-tag" style="color: #308a00;"></i> Special Offer Available</p><% }  %>
             <!-- /<%= product[i]._id %> -->
         <div class="card-action-bottom  card-show">
             <a href="/product/<%= product[i]._id %>" data-event-type="product-click" class="button card-figcaption-button themevale_Option" data-product-id="161">Choose Options</a>

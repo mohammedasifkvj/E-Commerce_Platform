@@ -15,7 +15,7 @@ const jwt = require('jsonwebtoken');
 //         console.log(productId, 'This is productId');
 
 //         // Check if a cart exists for the user
-//         let cart = await Cart.findOne({ userId: userId });
+//         const cart = await Cart.findOne({ userId: userId });
 
 //         if (cart) {
 //             // Check if the product already exists in the cart
@@ -60,7 +60,7 @@ const jwt = require('jsonwebtoken');
 //         //console.log(productId, 'This is productId');
 
 //         // Check if a cart exists for the user
-//         let cart = await Cart.findOne({ userId: userId });
+//         const cart = await Cart.findOne({ userId: userId });
 
 //         if (cart) {
 //             // Check if the product already exists in the cart
@@ -113,7 +113,7 @@ const addToCart = async (req, res) => {
         }
 
         // Check if a cart exists for the user
-        let cart = await Cart.findOne({ userId: userId });
+        const cart = await Cart.findOne({ userId: userId });
 
         if (cart) {
             // Check if the product already exists in the cart
@@ -175,7 +175,7 @@ const increaseQuantity = async (req, res) => {
         const { productId } = req.body;
 
         // Find the user's cart
-        let cart = await Cart.findOne({ userId: userId });
+        const cart = await Cart.findOne({ userId: userId });
 
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
@@ -210,7 +210,7 @@ const increaseQuantity = async (req, res) => {
 //         const { productId } = req.body;
 
 //         // Find the user's cart
-//         let cart = await Cart.findOne({ userId: userId });
+//         const cart = await Cart.findOne({ userId: userId });
 
 //         if (!cart) {
 //             return res.status(404).json({ message: 'Cart not found' });
@@ -258,7 +258,7 @@ const decreaseQuantity = async (req, res) => {
         const { productId } = req.body;
 
         // Find the user's cart
-        let cart = await Cart.findOne({ userId: userId });
+        const cart = await Cart.findOne({ userId: userId });
 
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
@@ -290,7 +290,7 @@ const deleteProduct = async (req, res) => {
     const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
 
     try {
-        let cart = await Cart.findOne({ userId });
+        const cart = await Cart.findOne({ userId });
         if (!cart) return res.status(404).json({ message: 'Cart not found' });
 
         //cart.cartItems = cart.cartItems.filter(item => item.productId.toString() !== productId);
@@ -314,7 +314,7 @@ const clearCart = async (req, res) => {
    // const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
 
     try {
-        let cart = await Cart.findOne({ userId });
+        const cart = await Cart.findOne({ userId });
         if (!cart) return res.status(404).json({ message: 'Cart not found' });
 
         cart.cartItems = [];
@@ -336,7 +336,7 @@ const addToWishlist = async (req, res) => {
         //console.log(productId, 'This is productId');
 
         // Check if a cart exists for the user
-        let wishlist = await Wishlist.findOne({ userId: userId });
+        const wishlist = await Wishlist.findOne({ userId: userId });
 
         if (wishlist) {
             // Check if the product already exists in the Wishlist
@@ -382,7 +382,7 @@ const removeProduct = async (req, res) => {
     const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
 
     try {
-        let wishlist = await Wishlist.findOne({ userId });
+        const wishlist = await Wishlist.findOne({ userId });
         if (!wishlist) return res.status(404).json({ message: 'Cart not found' });
 
         //cart.cartItems = cart.cartItems.filter(item => item.productId.toString() !== productId);

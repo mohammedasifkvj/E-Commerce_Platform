@@ -566,10 +566,10 @@ snippet location product_rating
             <article class="card" data-product-id="161" >
     <figure class="card-figure" data-product-id="161">
         <div class="card-figcaption-top" data-product-id="161">
-                <a onclick="addProductToWishlist('<%- product[i]._id %>')" class="wishlist icon" title="Add to Wish List">
+                <!-- <a onclick="addProductToWishlist('<%- product[i]._id %>')" class="wishlist icon" title="Add to Wish List">
                     <svg class="icon"><use xlink:href="#icon-wishlist"/></svg>
                     <span class="text">Add to Wish List</span>
-                </a>
+                </a> -->
 
                <a class="quickview icon" data-product-id="161">
                     <svg class="icon"><use xlink:href="#icon-quickview"></use></svg>
@@ -582,12 +582,10 @@ snippet location product_rating
                 </label>
         </div>
 
-                    <div class="product-badge new-badge">
-                        <span class="text">New</span>
-                    </div>
+        <% if (product[i].stock < 1) { %>
                     <div class="product-badge sale-badge">
-                        <span class="text">Sale</span>
-                    </div>
+                        <span class="text">Out of Stock</span>
+                    </div> <% } %>
 
          <a href="/product/<%= product[i]._id %>" >
             <div class="card-img-container" data-product-id="161">
@@ -603,7 +601,6 @@ snippet location product_rating
                             <div class="form-field" data-product-attribute="set-rectangle"></div>
                         </div>
                             <a href="#" data-event-type="product-click" class="button card-figcaption-button themevale_Option" data-product-id="161">Choose Options</a>
-
             </div>
         </figcaption>
         
@@ -617,7 +614,7 @@ snippet location product_rating
         <div class="card-price" data-test-info-type="price">
                 
             <div class="price-section price-section--withoutTax rrp-price--withoutTax" >
-                MSRP:
+                MRP:
                 <span data-product-rrp-price-without-tax class="price price--rrp"> 
                     <%= product[i].price %>
                 </span>
@@ -677,7 +674,8 @@ snippet location product_rating
             <div class="card-option card_optionImage card-option-161">
                 <div class="form-field" data-product-attribute="swatch"></div>
             </div>
-            <!-- /<%= product[i]._id %> -->
+            <% if (product[i].stock != 0 && product[i].offer) { %>
+        <p ><i class="fa-solid fa-tag" style="color: #308a00;"></i> Special Offer Available</p><% }  %>
         <div class="card-action-bottom  card-show">
             <a href="/product/<%= product[i]._id %>" data-event-type="product-click" class="button card-figcaption-button themevale_Option" data-product-id="161">Choose Options</a>
         </div>
@@ -705,10 +703,7 @@ snippet location product_rating
 	    </div>
 </div>  
  </main>
-
-
         <div data-content-region="category_below_content"></div>
-
         <div data-content-region="category_banner_bottom"></div>
         <div data-content-region="category_banner_bottom--global"><div data-layout-id="0a878b41-9b46-4e3a-aa12-ef7d943d8f4f"><div data-sub-layout-container="232f4175-e828-45e6-8a17-684f9423528b" data-layout-name="Layout">
   <style data-container-styling="232f4175-e828-45e6-8a17-684f9423528b">
@@ -774,13 +769,30 @@ snippet location product_rating
   </div>
 </div></div></div>
         <!-- breadcrumbs -->
-        <ul class="pagination">
-            <% for(let i=1;i<totalPages;i++){ %>
-                <li class="page-item">
-                    <a href="?page=<%= i %>" class="page-link"><%= i %></a>
-                </li>
-            <% } %>
-         </ul>
+        <div class="row text-center">
+            <div class="pagination-area mt-30 mb-50 ">
+                <nav aria-label="Page navigation example ">
+                    <ul class="pagination justify-content-center">
+                        <% if (currentPage > 1) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                        </li>
+                        <% } %>
+                        <% for (let i = 1; i <= totalPages; i++) { %>
+                        <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                            <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                        </li>
+                        <% } %>
+                        <% if (currentPage < totalPages) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+                        </li>
+                        <% } %>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
     </div>
 
 </div>

@@ -84,7 +84,7 @@ exports.editCategoryPage = async (req, res) => {
   //   return res.redirect(`/admin/showCategory?message=${encodeURIComponent('Category not found')}`);
   // }
   try {
-    let category = await Category.findById(categoryId);
+    const category = await Category.findById(categoryId);
     return res.render('5_editCategory', {
       category,
       message,
@@ -113,10 +113,6 @@ exports.editCategory = async (req, res) => {
       return res.redirect(`/admin/showCategory?message=${encodeURIComponent('Category not found')}`);
     }
 
-    // if (!categoryData) {
-    //   return res.json({ success: false, message: 'Category not found' });
-    //   //return res.redirect(`/admin/showCategory?message=${encodeURIComponent('Category not found')}`);
-    // }
     if (!name){
       return res.status(401).json({message:'Name is required'})
       //return res.redirect(`/admin/showCategory?message=${encodeURIComponent('Name is required')}`);

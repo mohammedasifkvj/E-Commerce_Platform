@@ -64,7 +64,7 @@ const addAddress = async (req, res) => {
         //     return res.status(403).json({ message: "please select address type" })
         // }
 
-        let userAddress = new Address(req.body)
+        const userAddress = new Address(req.body)
         userAddress.userId = userId
         userAddress.email = email
 
@@ -90,7 +90,7 @@ const editAddressPage = async (req, res) => {
        return res.status(404).render('404User')
       }
     try {
-        let address=await Address.findById(addressId)
+        const address=await Address.findById(addressId)
         return res.render('16_editAddress',{address});
     } catch (e) {
         console.log(e.message);
@@ -135,7 +135,7 @@ const deleteAddress = async (req, res) => {
   }
   
     try {
-        // let address = await Address.findById(addressId);
+        // const address = await Address.findById(addressId);
         // if (!address) return res.status(404).json({ message: 'Address not found' });
 
         await Address.deleteOne({ _id: addressId });

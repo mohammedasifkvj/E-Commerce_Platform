@@ -202,7 +202,7 @@ class="lazyload heroCarousel-image" loading="lazy"/>
 <div id="featuredProduct" class="module-wrapper margin-top-70">
     <div class="container container-small">
         <h2 class="page-heading margin-bottom-40"><span class="title">Featured Products</span></h2>
-
+        
 <section id="block_featured" class="productCarousel" data-list-name="" data-slick='{
     "dots": true,
     "arrows": false,
@@ -276,7 +276,7 @@ class="lazyload heroCarousel-image" loading="lazy"/>
         }
     ]
 }'>
-    <% if(product.length > 0) {
+    <% if(product?.length > 0) {
         for(let i=0; i < product.length; i++) { %>
 <div class="productCarousel-slide">
     <article class="card" data-product-id="161" >

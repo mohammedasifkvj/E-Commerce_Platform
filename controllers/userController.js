@@ -1,4 +1,4 @@
-const { User, TempUser } = require('../models/signup');
+ const { User, TempUser } = require('../models/signup');
 const Product = require('../models/product');
 const Category=require('../models/category')
 const Review=require("../models/review")
@@ -356,9 +356,13 @@ console.log('This is OTP',OTP);
 // // To load New Release Page
 const newRel = async (req, res) => {
   try { 
+     const page = parseInt(req.query.page) || 1;
+        const limit = 12; // Number of offers per page
+        const skip = (page - 1) * limit;
+
       const product= await Product.find({isDeleted:false, 
          newProductExpires :{$gt:Date.now()}
-        });
+        }).skip(skip).limit(limit);
       return res.render('7_newRelease', { product});
   } catch (e) {
       console.log(e.message);
@@ -368,21 +372,20 @@ const newRel = async (req, res) => {
 // To load Mens Page 
 const mensPage = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1; // default to page 1
-    const limit = parseInt(req.query.limit) || 3; // default to 10 items per page
+    const page = parseInt(req.query.page) || 1;
+        const limit = 12; // Number of Product per page
+        const skip = (page - 1) * limit;
 
-    const skip = (page - 1) * limit;
-
-    //const products = await Product.find().skip(skip).limit(limit);
-
-    const totalCount = await Product.countDocuments();
+    
    // const category=await Category.find({isDeleted:false})
       const product= await Product.find({category:"Mens" ,isDeleted:false }).skip(skip).limit(limit);
-      return res.render('8_mens', { product,
+      const totalProduct = await Product.countDocuments()
+      const totalPages = Math.ceil(totalProduct/limit);
+
+      return res.render('8_mens', { 
+        product,
         currentPage: page,
-        limit,
-        totalCount,
-        totalPages: Math.ceil(totalCount / limit),
+        totalPages
       });
   } catch (e) {
       console.log(e.message);
@@ -391,10 +394,19 @@ const mensPage = async (req, res) => {
 
 // To load Womens Page
 const womensPage = async (req, res) => {
-  const { error, success } = req.query;
+  const page = parseInt(req.query.page) || 1;
+        const limit = 12; // Number of offers per page
+        const skip = (page - 1) * limit;
+  
   try {
-      const product= await Product.find({ category:"Womens",isDeleted:false });
-      return res.render('9_womens', { product});
+      const product= await Product.find({ category:"Womens",isDeleted:false }).skip(skip).limit(limit);
+      const totalProduct = await Product.countDocuments()
+      const totalPages = Math.ceil(totalProduct/limit);
+      return res.render('9_womens', { 
+        product,
+        currentPage: page,
+        totalPages
+      });
   } catch (e) {
       console.log(e.message);
   }
@@ -402,8 +414,10 @@ const womensPage = async (req, res) => {
 
 // To load Product Page
 const productShow = async (req, res) => {
+  try {
 const { productId } = req.params;
-
+// console.log(req.params);
+// console.log(productId);
   // Validate productId
   if (!productId || !mongoose.Types.ObjectId.isValid(productId)) { 
    // console.log('Invalid product ID');
@@ -415,16 +429,13 @@ const { productId } = req.params;
     console.log('Invalid or missing product ID');
    return res.status(404).render('404User')
   }
- // const {  productId } = req.params;
-  // console.log(req.params);
-  // console.log(productId);
 //   { productId: '668b854eb06d955923231980' }
 // 668b854eb06d955923231980
 // { productId: 'undefined' }
 // undefined
 // Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "Product"
-  try {
-    let product= await Product.findById(productId);
+ 
+    const product= await Product.findById(productId);
     // Find related products in the same category, excluding the current product
     const relatedProducts = await Product.find({
       category: product.category,  // Assuming 'category' is the field in your schema
@@ -500,11 +511,9 @@ const contactUs = async (req, res) => {
 
 //       const bearer=token.split(' ')
 //       const bearerToken=bearer[1]
-
 //       const newBlacklist=new Blacklist({
 //           token:bearerToken
 //       })
-
 //       await newBlacklist.save()
 //       res.setHeader('Clear-Site-Data','"cookies","storage"')
 //       return res.redirect('/1_home')
@@ -525,9 +534,9 @@ const logout=async(req,res)=>{
  // search Product 
 // const searchProduct = async (req, res) => {
 //   try {
-//       // let userId = req.session.userId
+//       // const userId = req.session.userId
 //       const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
-//       let userData = null
+//       const userData = null
 //       if (userId) {
 //           userData = await User.findById({ _id: userId })
 //       }
@@ -542,7 +551,7 @@ const logout=async(req,res)=>{
 //       //pagination end
 
 
-//       let productData = []
+//       const productData = []
 //       const categoryData = await Category.find({ isDeleted: false })
 //       //const color = await Product.distinct('strapColor')
 //       const Brand = await Product.distinct('brand')
@@ -579,7 +588,7 @@ const logout=async(req,res)=>{
 const searchProduct = async (req, res) => {
   try {
       // const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
-      // let userData = null;
+      // const userData = null;
       // if (userId) {
       //     userData = await User.findById({ _id: userId });
       // }
@@ -593,7 +602,7 @@ const searchProduct = async (req, res) => {
       const totalPages = Math.ceil(totalProduct / productPerPage);
       // pagination end
 
-      let productData = [];
+      const productData = [];
       const categoryData = await Category.find({ isDeleted: false });
       const Brand = await Product.distinct('brand');
       const allProduct = await Product.find({ isDeleted: false });
@@ -673,5 +682,4 @@ const searchProduct = async (req, res) => {
     retAndShip,
     contactUs,
     brands 
-
 }
