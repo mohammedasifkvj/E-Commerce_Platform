@@ -29,12 +29,12 @@
                                     <div class="mb-4">
                                         <label for="product_name" class="form-label" >Category Name</label>
                                         <div class="error-message" id="nameError"></div>
-                                        <input id="categoryName" type="text" style="width: 50%;" name="name"  placeholder="Type category name here" class="form-control" required />   
+                                        <input id="categoryName" type="text" style="width: 50%;" name="name"  placeholder="Type category name here" class="form-control" />   
                                     </div>
                                     <div class="mb-4">
                                         <label class="form-label">Description</label>
                                         <div class="error-message" id="descError"></div>
-                                        <textarea id="description" name="description" placeholder="Type here" class="form-control" style="height: 20vh;" required ></textarea>
+                                        <textarea id="description" name="description" placeholder="Type here" class="form-control" style="height: 20vh;" ></textarea>
                                     </div>
                                     <div class="d-grid " >
                                         <button type="submit" class="btn btn-primary">Create category</button>
@@ -53,8 +53,8 @@
                 document.getElementById('categoryForm').addEventListener('submit', async function (event) {
                     event.preventDefault(); // Prevent the default form submission
             
-                    const categoryName = document.getElementById('categoryName').value;
-                    const description = document.getElementById('description').value;
+                    const categoryName = document.getElementById('categoryName').value.trim();
+                    const description = document.getElementById('description').value.trim();
                     const errorDiv = document.getElementById('nameError');
                     const errorDiv1 = document.getElementById('descError');
                     errorDiv.textContent = ''; // Clear previous errors
@@ -72,7 +72,7 @@
                         return;
                     }
                     // Validate dec
-                    if (!description) {
+                    if (!description ) {
                         errorDiv1.textContent = 'Write Description';
                         return;
                     }

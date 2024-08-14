@@ -170,7 +170,7 @@
                                         <div class="mb-4">
                                             <label class="form-label">Stock</label>
                                             <div class="error-message" id="stockError"></div>
-                                            <input id="stock" name="stock" value="<%=product?.stock %>" placeholder="" type="text" class="form-control" />
+                                            <input id="stock" name="stock" value="<%=product?.stock %>" placeholder="" type="number" class="form-control" />
                                         </div>
                                     </div>  
                                 </div>    
@@ -180,7 +180,7 @@
                                             <label class="form-label">Regular price</label>
                                             <div class="error-message" id="priceError"></div>
                                             <div class="row gx-2">
-                                                <input id="price" name="price" value="<%=product?.price %>" placeholder="" type="text" class="form-control" />
+                                                <input id="price" name="price" value="<%=product?.price %>" placeholder="" type="number" class="form-control" />
                                             </div>
                                         </div>
                                     </div>
@@ -189,7 +189,7 @@
                                             <label class="form-label">Discount Price</label>
                                             <div class="error-message" id="discountPriceError"></div>
                                             <div class="row gx-2">
-                                                <input id="discountPrice" name="discountPrice" value="<%=product?.discountPrice %>" placeholder="" type="text" class="form-control" />
+                                                <input id="discountPrice" name="discountPrice" value="<%=product?.discountPrice %>" placeholder="" type="number" class="form-control" />
                                             </div>
                                         </div>
                                     </div>
@@ -197,7 +197,7 @@
                                         <div class="mb-4">
                                             <label class="form-label">Discount</label>
                                             <div class="error-message" id="discountError"></div>
-                                            <input id="discount" name="discount" value="<%=product.discount %>" placeholder="" type="text" class="form-control" />
+                                            <input id="discount" name="discount" value="<%=product.discount %>" placeholder="" type="number" class="form-control" />
                                         </div>
                                     </div>   -->
                                 </div>              
@@ -454,12 +454,12 @@ const  images= document.querySelectorAll('.image')
   errorElements.forEach(el => el.textContent = '');
 
   // Gather form data
-  const productName = document.getElementById('productName').value ;
-    const brand = document.getElementById('brand').value;
+  const productName = document.getElementById('productName').value.trim(); 
+    const brand = document.getElementById('brand').value.trim();
     const category = document.getElementById('category').value;
-    const description = document.getElementById('description').value;
-    // const dialColour = document.getElementById('dial').value;
-    // const strapColour = document.getElementById('strap').value;
+    const description = document.getElementById('description').value.trim();
+    // const dialColour = document.getElementById('dial').value.trim();
+    // const strapColour = document.getElementById('strap').value.trim();
     const stock = document.getElementById('stock').value;
     const price = document.getElementById('price').value;
 const discountPrice = document.getElementById('discountPrice').value
@@ -537,7 +537,7 @@ const discountPrice = document.getElementById('discountPrice').value
 
   // Stock validation
  // const stoc = formData.get('stock');
-  if (!stock || stock <= 0) {
+  if (!stock || stock < 0) {
     document.getElementById('stockError').textContent = 'Stock is required.';
     isValid = false;
   }

@@ -170,7 +170,7 @@
                                             <div class="mb-4">
                                                 <label class="form-label">Stock</label>
                                                 <div class="error-message" id="stockError"></div>
-                                                <input name="stock" placeholder="" type="text" class="form-control" />
+                                                <input name="stock" placeholder="" type="number" class="form-control" />
                                             </div>
                                         </div>  
                                     </div>    
@@ -180,7 +180,7 @@
                                                 <label class="form-label">Regular price</label>
                                                 <div class="error-message" id="priceError"></div>
                                                 <div class="row gx-2">
-                                                    <input name="price" placeholder="" type="text" class="form-control" />
+                                                    <input name="price" placeholder="" type="number" class="form-control" />
                                                 </div>
                                             </div>
                                         </div>
@@ -195,7 +195,7 @@
                                             <div class="mb-4">
                                                 <label class="form-label">Discount</label>
                                                 <div class="error-message" id="discountError"></div>
-                                                <input name="discount" placeholder="" type="text" class="form-control" />
+                                                <input name="discount" placeholder="" type="number" class="form-control" />
                                             </div>
                                         </div>   -->
                                     </div>              
@@ -449,42 +449,42 @@ const  images= document.querySelectorAll('.image')
   let isValid = true;
 
   // Product name validation
-  const productName = form.get('productName');
+  const productName = form.get('productName').trim();
   if (!productName || productName.length < 6) {
     document.getElementById('productNameError').textContent = 'Product name must be at least 6 characters long.';
     isValid = false;
   }
 
   // Brand validation
-  const brand = form.get('brand');
+  const brand = form.get('brand').trim();
   if (!brand) {
     document.getElementById('brandError').textContent = 'Brand is required.';
     isValid = false;
   }
 
   // Category validation
-  const category = form.get('category');
+  const category = form.get('category')
   if (!category) {
     document.getElementById('categoryError').textContent = 'Category must be selected.';
     isValid = false;
   }
 
   // description validation
-  const description = form.get('description');
+  const description = form.get('description').trim();
   if (!description) {
     document.getElementById('descriptionError').textContent = 'Description is required.';
     isValid = false;
   }
 
 // // Dial Colour validation
-//   const dialColour = form.get('dialColour');
+//   const dialColour = form.get('dialColour').trim();
 //   if (!dialColour) {
 //     document.getElementById('dialColourError').textContent = 'Dial Colour is required.';
 //     isValid = false;
 //   }
 
 //   // Strap Colour validation
-//   const strapColour = form.get('strapColour');
+//   const strapColour = form.get('strapColour').trim();
 //   if (!dialColour) {
 //     document.getElementById('strapColourError').textContent = 'Strap Colour is required.';
 //     isValid = false;
@@ -493,7 +493,7 @@ const  images= document.querySelectorAll('.image')
   // Stock validation
   const stock = form.get('stock');
   if (!stock || stock <= 0) {
-    document.getElementById('stockError').textContent = 'Stock is required.';
+    document.getElementById('stockError').textContent = 'Stock is required and greater than 0.';
     isValid = false;
   }
 

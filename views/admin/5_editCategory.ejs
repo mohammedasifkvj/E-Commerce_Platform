@@ -52,8 +52,8 @@
                 document.getElementById('editCategory').addEventListener('submit', async function (event) {
                     event.preventDefault(); // Prevent the default form submission
             
-                    const categoryName = document.getElementById('categoryName').value;
-                    const description = document.getElementById('description').value;
+                    const categoryName = document.getElementById('categoryName').value.trim();
+                    const description = document.getElementById('description').value.trim();
                     const errorDiv = document.getElementById('nameError');
                     const errorDiv1 = document.getElementById('descError');
                     errorDiv.textContent = ''; // Clear previous errors
