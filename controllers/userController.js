@@ -2,6 +2,7 @@
 const Product = require('../models/product');
 const Category=require('../models/category')
 const Review=require("../models/review")
+const RefreshToken = require('../models/refreshToken');
 const nodemailer = require('nodemailer');
 //const crypto = require('crypto');
 const otpGenerator = require('otp-generator');
@@ -215,13 +216,19 @@ if(!email ){
        return res.status(401).json({message: message}) // 401 for unauthorized
       }
 
-       const token=jwt.sign(
+       const accessToken=jwt.sign(
         {id:user._id}, // this is payLoad
         process.env.JWT_ACCESS_SECRET,
          {expiresIn:"24h"}
        );
 
-       user.accessToken=token;
+       const refershToken=jwt.sign(
+        {id:user._id},   //
+        process.env.JWT_REFRESH_SECRET,
+         {expiresIn:"7d"}
+       );
+
+       user.token=accessToken;
        user.password=undefined 
 
        const options={
@@ -230,7 +237,7 @@ if(!email ){
        secure: true
       }
        // send token in user cookie
-      res.cookie('jwtToken',token,options)
+      res.cookie('jwtToken',accessToken,options)
 
     //user.lastLogin = new Date();
     //await user.save();(ERROR)
@@ -253,11 +260,17 @@ const googleAuth = async (req, res) => {
    }
 
   // Generate JWT token
-  const token = jwt.sign(
+  const accessToken = jwt.sign(
       {id:user._id}, // Use user.id if you have an id field
       process.env.JWT_ACCESS_SECRET,
       { expiresIn: "24h" }
   );
+
+  const refreshToken=jwt.sign(
+    {id:user._id},   //
+    process.env.JWT_REFRESH_SECRET,
+     {expiresIn:"5m"}
+   );
 
   const options = {
     // expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),  // 7 days expiry
@@ -265,8 +278,19 @@ const googleAuth = async (req, res) => {
       secure: true // Cookie will be sent only over HTTPS
   };
 
+  // Save the refresh token in the database
+  const newRefreshToken = new RefreshToken({
+    token: refreshToken,
+    userId: user._id,
+    expiresAt: new Date(Date.now() + 7*24*60*60*1000) // 7 days expiry
+});
+
+await newRefreshToken.save();
+
   // Send token in user cookie
-  res.cookie('jwtToken', token, options);
+  res.cookie('jwtToken', accessToken, options);
+
+  res.cookie('RFToken', refreshToken, options);
   return res.status(200).redirect('/home');
    }catch (e) {
       console.log(e.message);
@@ -416,29 +440,22 @@ const womensPage = async (req, res) => {
 const productShow = async (req, res) => {
   try {
 const { productId } = req.params;
-// console.log(req.params);
-// console.log(productId);
+ // console.log(productId);
   // Validate productId
   if (!productId || !mongoose.Types.ObjectId.isValid(productId)) { 
    // console.log('Invalid product ID');
    return res.status(404).render('404User')
-    //return res.status(400).send('Invalid product ID');
   }
     const prodId= await Product.findById(productId)
   if(prodId== undefined){
     console.log('Invalid or missing product ID');
    return res.status(404).render('404User')
   }
-//   { productId: '668b854eb06d955923231980' }
-// 668b854eb06d955923231980
-// { productId: 'undefined' }
-// undefined
-// Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "Product"
- 
+
     const product= await Product.findById(productId);
     // Find related products in the same category, excluding the current product
     const relatedProducts = await Product.find({
-      category: product.category,  // Assuming 'category' is the field in your schema
+      category: product.category,  
       _id: { $ne: productId } // Exclude the current product
     }).limit(6); // Limit the number of related products
     
@@ -446,14 +463,18 @@ const { productId } = req.params;
     // const category = product?.category;
       res.render('Details page',{
         product,
-        relatedProducts,
-        // category,
-        // productName
+        relatedProducts
       });
   } catch (e) {
       console.log(e.message);
   }
 }
+
+//   { productId: '668b854eb06d955923231980' }
+// 668b854eb06d955923231980
+// { productId: 'undefined' }
+// undefined
+// Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "Product"
 
 // Review of the product
 const postReview = async (req, res) => {
@@ -472,7 +493,7 @@ const postReview = async (req, res) => {
           await review.save();
           return res.status(200).json({ message: 'Thanks for your review' });
       }catch (e) {
-      console.log(e.message);
+      console.log(e);
   }
 }
 
@@ -534,8 +555,8 @@ const logout=async(req,res)=>{
  // search Product 
 // const searchProduct = async (req, res) => {
 //   try {
-//       // const userId = req.session.userId
-//       const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
+//       
+//       const userId = req.user.id;
 //       const userData = null
 //       if (userId) {
 //           userData = await User.findById({ _id: userId })
@@ -587,7 +608,7 @@ const logout=async(req,res)=>{
 
 const searchProduct = async (req, res) => {
   try {
-      // const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
+      // const userId = req.user.id;
       // const userData = null;
       // if (userId) {
       //     userData = await User.findById({ _id: userId });
@@ -602,12 +623,12 @@ const searchProduct = async (req, res) => {
       const totalPages = Math.ceil(totalProduct / productPerPage);
       // pagination end
 
-      const productData = [];
+      let productData = [];
       const categoryData = await Category.find({ isDeleted: false });
       const Brand = await Product.distinct('brand');
       const allProduct = await Product.find({ isDeleted: false });
 
-      const origin = req.query.origin // Default to home if no origin is specified
+      let origin = req.query.origin // Default to home if no origin is specified
      console.log(origin);
       if (req.query.search_query) {
           productData = await Product.find({
@@ -650,8 +671,8 @@ const searchProduct = async (req, res) => {
       });
 
   } catch (e) {
-      console.log(e.message);
-      res.status(500).send('Internal Server Error');
+      console.log(e);
+      //return res.status(500).json({message:'Internal Server Error'});
   }
 };
 

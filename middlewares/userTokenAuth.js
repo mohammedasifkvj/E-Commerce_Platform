@@ -1,23 +1,52 @@
 const jwt = require('jsonwebtoken');
+const RefreshToken = require('../models/refreshToken');
 
-const authenticateToken = (req, res, next) => {
-    // console.log(req.cookies)
-    const token = req.cookies.jwtToken
+const authenticateToken = async (req, res, next) => {
+    const token = req.cookies.jwtToken;
 
     if (!token) {
-        console.log("no token");
-       //return res.status(401).json({ message: 'Access Denied: No Token Provided!' });
-       return res.status(401).redirect(`/signIn?message=${encodeURIComponent('Access Denied: No Token Provided!')}`);
+        return res.status(401).redirect(`/signIn?message=${encodeURIComponent('Access Denied: No Token Provided!')}`);
     }
 
-    jwt.verify(token, process.env.JWT_ACCESS_SECRET, (err, user) => {
+    jwt.verify(token, process.env.JWT_ACCESS_SECRET, async (err, user) => {
         if (err) {
-            console.log("error verification");
-            // res.sendStatus(403);
-            return res.redirect(`/signIn?message=${encodeURIComponent(' verification error')}`);
+            // If access token is expired, check refresh token
+            if (err.name === 'TokenExpiredError') {
+                const refreshToken = req.cookies.RFToken;
+                // console.log("Thsis is RF",refreshToken)
+
+                if (!refreshToken) {
+                    return res.status(403).redirect(`/signIn?message=${encodeURIComponent('Refresh Token Missing')}`);
+                }
+
+                try {
+                    const storedToken = await RefreshToken.findOne({ token: refreshToken });
+                    if (!storedToken) {
+                        return res.status(403).redirect(`/signIn?message=${encodeURIComponent('Invalid Refresh Token')}`);
+                    }
+
+                    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+                    const newAccessToken = jwt.sign(
+                        { id: decoded.id },
+                        process.env.JWT_ACCESS_SECRET,
+                        { expiresIn: '4m' }
+                    );
+
+                    // Update access token in cookies
+                    res.cookie('jwtToken', newAccessToken, { httpOnly: true, secure: true });
+                    req.user = decoded;
+                    return next();
+                } catch (err) {
+                    console.log("Refresh token verification error", err);
+                    return res.status(403).redirect(`/signIn?message=${encodeURIComponent('Invalid Refresh Token')}`);
+                }
+            } else {
+                return res.status(403).redirect(`/signIn?message=${encodeURIComponent('Token verification error')}`);
+            }
+        } else {
+            req.user = user;
+            next();
         }
-        req.user = user;
-        next();
     });
 };
 

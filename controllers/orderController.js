@@ -4,21 +4,60 @@ const Product= require("../models/product");
 const Cart=require("../models/cart");
 const Address=require("../models/address")
 const Order=require ("../models/order")
+const Coupon=require ("../models/coupon")
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose')
 const axios = require('axios');
 const paypal = require('@paypal/checkout-server-sdk');
+
+//Stock check before move to  Checkout Page
+const stockCheck=async (req, res) => {
+  const { cartItems } = req.body;  
+  try {
+    
+    const outOfStockProducts = [];
+
+    // Check if enough stock is available for each product in the cart
+    for (const item of cartItems) {
+        const product = await Product.findById(item.productId);
+        if (!product || product.stock < item.quantity) {
+            outOfStockProducts.push({
+                productName: product ? product.productName : 'Unknown Product',
+                available: product ? product.stock : 0,
+                inCart: item.quantity
+            });
+        }
+    }
+
+    if (outOfStockProducts.length > 0) {
+        return res.json({ success: false, outOfStockProducts });
+    }
+
+    // If all items have sufficient stock
+    return res.json({ success: true });
+} catch (error) {
+    console.error('Error checking stock:', error);
+    return res.status(500).json({ success: false, message: 'Internal server error' });
+}
+};
+
 // Checkout Page
 const checkoutPage= async (req, res) => {
+  const userId = req.user.id;
     try {
-       const  userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
         const cart = await Cart.findOne({ userId: userId }).populate('cartItems.productId');
-        const product=await Product.find();
         const address=await Address.find({ userId: userId })
-        res.render('NewCheck',{
+        const currentDate = new Date();
+
+    // Find active coupons that have not expired
+    const coupon = await Coupon.find({
+      status: true,
+      expiredDate: { $gt: currentDate }  // Find coupons where the expiredDate is greater than  the current date
+    });
+       return res.render('NewCheck',{
             address,
-            cartItems: cart?.cartItems ,
-            product
+            cartItems: cart?.cartItems,
+            coupon
         });
     } catch (e) {
         console.log(e.message);
@@ -26,147 +65,14 @@ const checkoutPage= async (req, res) => {
   }
 
 
-//   const makeOrder = async (req, res) => {
-//     try {
-//        const  userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
-//         const { productId ,quatity} = req.body;
-
-//         console.log(req.body)
-        
-//         const userData = await User.findById(userId)
-//         const UserAddress = await Address.findById({ _id: userId})
-
-//         const itemIndex = order.orderItems.findIndex(item => item.productId.toString() === productId);
-
-
-//         // const products = req.session.product;
-
-        // for (let product of products) {
-        //     if (product.inStock <= 0) {
-        //         return res.status(403).json({ message: "Product is Out of Stock!!" });
-        //   
-        // }
-
-//         //  order = new Order({
-//         //     userId: userId,
-//         //    // orderItems: orderItems,
-//         //     address: UserAddress,
-//         //     //totalAmount: req.session.totalAmount,
-//         // })
-//         //await order.save()
-
-//     } catch (e) {
-//         console.error('Create Order Failed:', e);
-//     }
-// };
-
-// const makeOrder = async (req, res) => {
-//     try {
-//         const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
-//         const { addressId, productId, quantity } = req.body;
-
-//         console.log(req.body);
-
-//         // if (!Array.isArray(productId) || !Array.isArray(quantity) || productId.length !== quantity.length) {
-//         //     return res.status(400).json({ message: "Invalid input data" });
-//         // }
-
-//         // Construct order items
-//         const orderItems = productId.map((id, index) => ({
-//             productId: new mongoose.Types.ObjectId(id),
-//             quantity: parseInt(quantity[index])
-//         }));
-
-//         // Create new order
-//         const newOrder = new Order({
-//             userId: new mongoose.Types.ObjectId(userId),
-//             orderItems: orderItems,
-//             address: new mongoose.Types.ObjectId(addressId)
-//         });
-
-//         // Save the order to the database
-//         await newOrder.save();
-
-//         // Clear the user's cart (assuming user has a cart in their schema)
-//         await Cart.updateOne(
-//             { userId: userId },
-//             { $set: { cartItems: [] } }
-//         );
-
-//         //return res.status(201).json({ message: "Order placed successfully", order: newOrder });
-//         return res.status(201).redirect('/home',)
-
-//     } catch (e) {
-//         console.error("Error placing order:", e.message);
-//         //res.status(500).json({ message: "Internal server error" });
-//     }
-// };
-
-// const makeOrder = async (req, res) => {
-//     try {
-//         const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
-//         const { addressId,productId, quantity,orderTotal } = req.body;
-
-//         //console.log(req.body);
-
-//         // if (!Array.isArray(productId) || !Array.isArray(quantity) || productId.length !== quantity.length) {
-//         //     return res.status(400).json({ message: "Invalid input data" });
-//         // }
-
-//         // Construct order items
-//         const orderItems = productId.map((id, index) => ({
-//             productId: new mongoose.Types.ObjectId(id),
-//             quantity: parseInt(quantity[index])
-//         }));
-
-//         // Create new order
-//         const newOrder = new Order({
-//             userId: new mongoose.Types.ObjectId(userId),
-//             orderItems,
-//             address: new mongoose.Types.ObjectId(addressId),
-//             orderTotal,
-//         });
-
-//         // Save the order to the database
-//         await newOrder.save();
-
-//         // Update stock for each product
-//         for (const item of orderItems) {
-//             const product = await Product.findById(item.productId);
-//             if (!product) {
-//                 return res.status(404).json({ message: `Product with ID ${item.productId} not found` });
-//             }
-
-//             if (product.stock < item.quantity) {
-//                 return res.status(400).json({ message: `Insufficient stock for product ${product.productName}` });
-//             }
-
-//             product.stock -= item.quantity;
-//             await product.save();
-//         }
-
-//         // Clear the user's cart (assuming user has a cart in their schema)
-//         await Cart.updateOne(
-//             { userId: userId },
-//             { $set: { cartItems: [] } }
-//         );
-
-//         //return res.status(201).json({ message: "Order placed successfully", order: newOrder });
-//         return res.status(201).redirect('/home');
-
-//     } catch (e) {
-//         console.error("Error placing order:", e.message);
-//        // res.status(500).json({ message: "Internal server error" });
-//     }
-// };
-
 const makeOrder = async (req, res) => {
     try {
       // Verify user from JWT token
       const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
   
       // Destructure request body to get necessary fields
-      const { addressId, products, orderTotal, paymentMethod } = req.body;
+      const { addressId, products, orderTotal,discount, paymentMethod } = req.body;
+      //console.log(req.body)
   
       // Validate input data
       if (!addressId || !products || !products.length) {
@@ -180,7 +86,7 @@ const makeOrder = async (req, res) => {
       }));
       
       if(paymentMethod=='Online'){
-        return res.status(402).json({ addressId, products, orderTotal, paymentMethod}); 
+        return res.status(402).json({ addressId, products, orderTotal,discount, paymentMethod}); 
       }
   
       // Create new order document
@@ -188,14 +94,12 @@ const makeOrder = async (req, res) => {
         userId,
         orderItems,
         orderTotal,
+        discount,
         address: addressId,
         paymentMethod:paymentMethod,
         status:"pending"
       });
   
-      // Save the order to the database
-      await newOrder.save();
-
        // Update stock for each product
        for (const item of orderItems) {
         const product = await Product.findById(item.productId);
@@ -210,21 +114,20 @@ const makeOrder = async (req, res) => {
         product.stock -= item.quantity;
         await product.save();
     }
-    // Clear the user's cart 
-    //   await Cart.updateOne(
-    //     { userId },
-    //     { $set: { cartItems: [] } }
-    //   );
-      await Cart.deleteOne({userId });
+    
+    // Save the order to the database
+    await newOrder.save();
+
+    await Cart.deleteOne({userId });
   
       // Redirect to home or send a success message
-      return res.status(201).json({ message: "Order placed successfully", order: newOrder });
+      return res.status(201).json({ message: "Order placed successfully", orderId: newOrder._id });
     } catch (e) {
       console.error("Error placing order:", e.message);
       return res.status(500).json({ message: "Internal server error" });
     }
   };
-
+//if payment is online
  // PayPal client setup
 const clientId = process.env.PAYPAL_CLIENT_ID;
 const clientSecret = process.env.PAYPAL_SECRET;
@@ -246,7 +149,7 @@ const payPalPay = async (req, res) => {
     }],
     application_context: {
       return_url: `${process.env.BASE_URL}/captureOrder?orderItems=${encodeURIComponent(JSON.stringify(orderData))}`, // URL to capture order
-      cancel_url: `${process.env.BASE_URL}/cancelOrder`   // URL if the user cancels payment
+      cancel_url: `${process.env.BASE_URL}/checkout`   // URL if the user cancels payment
     }
   });
   try {
@@ -254,7 +157,7 @@ const payPalPay = async (req, res) => {
     return res.json({ id: order.result.id, approval_url: order.result.links.find(link => link.rel === 'approve').href });
   } catch (error) {
     console.error(error.message);
-    res.status(500).send('Error creating PayPal order');
+    res.status(500).json({message:'Error creating PayPal order'});
   }
 }
 
@@ -272,7 +175,7 @@ const captureOrder = async (req, res) => {
 // Parse the orderItems JSON string to extract its properties
    const parsedOrderItems = JSON.parse(orderItems);
 
-    const { products, addressId, orderTotal, paymentMethod } = parsedOrderItems;
+    const { products, addressId, orderTotal,discount, paymentMethod } = parsedOrderItems;
    // console.log(parsedOrderItems);
   
   try {
@@ -288,14 +191,13 @@ const captureOrder = async (req, res) => {
       userId,
       orderItems,
       orderTotal,
+      discount,
       address: addressId,
       paymentMethod,
       status:"Order confirmed"
     });
 
-    // Save the order to the database
-    await newOrder.save();
-
+    
      // Update stock for each product
      for (const item of orderItems) {
       const product = await Product.findById(item.productId);
@@ -310,79 +212,41 @@ const captureOrder = async (req, res) => {
       product.stock -= item.quantity;
       await product.save();
   }
+  // Save the order to the database
+    await newOrder.save();
+
     await Cart.deleteOne({userId });
 
-    return res.redirect('/orderConfirmation');
+    // Redirect to the order confirmation page with orderId as a URL parameter
+    return res.redirect(`/orderConfirmation/${newOrder._id}`);
   } catch (error) {
     console.error(error.message);
-    //res.status(500).send('Error capturing PayPal order');
+    //return res.status(500).json({message:'Error capturing PayPal order'});
   }
 }
 
-  // const createPayment = async (req, res) => {
-  //   const paymentData = {
-  //     intent: 'sale',
-  //     payer: {
-  //       payment_method: 'paypal',
-  //     },
-  //     transactions: [{
-  //       amount: {
-  //         total: '10.00',
-  //         currency: 'USD',
-  //       },
-  //       description: 'Your purchase description',
-  //     }],
-  //     redirect_urls: {
-  //       return_url: 'http://127.0.0.1:8004/oredrConfirmation',
-  //       cancel_url: 'http://127.0.0.1:8004/payment/cancel',
-  //     },
-  //   };
-  
-  //   try {
-  //     const response = await axios.post('https://api.sandbox.paypal.com/v1/payments/payment', paymentData, {
-  //       auth: {
-  //         username: process.env.PAYPAL_CLIENT_ID,
-  //         password: process.env.PAYPAL_SECRET,
-  //       },
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     });
-  
-  //     const approvalUrl = response.data.links.find(link => link.rel === 'approval_url').href;
-  //     res.redirect(approvalUrl);
-  //   } catch (error) {
-  //     console.error('Error creating PayPal payment:', error);
-  //     res.redirect('/payment/error');
-  //   }
-  // };
 
 const oredrConfirmation= async (req, res) => {
-    try {
-    //    const  userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
-    //     const cart = await Cart.findOne({ userId: userId }).populate('cartItems.productId');
-    //     const product=await Product.find();
-    //     const address=await Address.findOne({ userId: userId })
-        res.render('20_oredrConfirmation',{
-            // address,
-            // cartItems: cart?.cartItems ,
-            // product
-        });
-    } catch (e) {
-        console.log(e.message);
-    }
-  }
+  const  userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
+  const orderId = req.params.orderId;
 
-  const Confirmation= async (req, res) => {
-    try {
-    //    const  userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
-    //     const cart = await Cart.findOne({ userId: userId }).populate('cartItems.productId');
-    //     const product=await Product.find();
-    //     const address=await Address.findOne({ userid: userId })
-        res.render('20_oredrConfirmation',{
-            // address,
-            // cartItems: cart?.cartItems ,
-            // product
+  if (!orderId || !mongoose.Types.ObjectId.isValid(orderId)) {
+      return res.status(404).redirect('/orders')
+  }
+  const ord = await Order.findById(orderId)
+  if (ord == undefined) {
+      return res.status(404).redirect('/orders')
+  }
+  try {
+    const order = await Order.findById(orderId).populate('orderItems.productId');
+    const user = await User.findById(userId)
+    const addressId=order.address;
+    const address = await Address.findById(addressId)
+    return res.render('20_oredrConfirmation',{
+        orderItems: order?.orderItems,
+        order,
+        user,
+        address
         });
     } catch (e) {
         console.log(e.message);
@@ -390,12 +254,11 @@ const oredrConfirmation= async (req, res) => {
   }
 
 module.exports={
+    stockCheck,
     checkoutPage,
     makeOrder,
     payPalPay,
     captureOrder,
     //createPayment,
-    oredrConfirmation,
-    Confirmation
-
+    oredrConfirmation
 }

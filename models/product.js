@@ -1,21 +1,21 @@
 const mongoose = require('mongoose')
 
-const productSchema =new mongoose.Schema({
-    productName :{
-        type:String,
-        requred:true
+const productSchema = new mongoose.Schema({
+    productName: {
+        type: String,
+        requred: true
     },
-    category:{
-        type:String,
-        requred:true
+    category: {
+        type: String,
+        requred: true
     },
-    brand:{
-        type:String,
-        requred:true
+    brand: {
+        type: String,
+        requred: true
     },
-    description:{
-        type:String,
-        requred:true
+    description: {
+        type: String,
+        requred: true
     },
     // dialColour:{
     //     type:String,
@@ -25,46 +25,47 @@ const productSchema =new mongoose.Schema({
     //     type:String,
     //     requred:true
     // },
-    price:{
-        type:Number,
-        requred:true
+    price: {
+        type: Number,
+        requred: true
     },
-    discountPrice:{
-        type:Number,
-        requred:true
+    discountPrice: {
+        type: Number,
+        requred: true
     },
-    stock:{
-        type:Number,
-        requred:true
+    stock: {
+        type: Number,
+        requred: true
     },
     // discount:{
     //     type:Number,
     //     requred:true
     // },
-    productImage:[{
-        type:String,
-        requred:true
+    productImage: [{
+        type: String,
+        requred: true
     }],
-    popularProduct:{
-        type:Boolean,
-        default:false
+    popularProduct: {
+        type: Boolean,
+        default: false
     },
-    isDeleted:{
-        type:Boolean,
-        default:false
+    isDeleted: {
+        type: Boolean,
+        default: false
     },
     offer: [{
         type: mongoose.Types.ObjectId,
         default: null,
         ref: 'Offer'
     }],
-    newProductExpires:{ 
+    newProductExpires: {
         type: Date,
-        required: true },
-    status:{
-        type:Boolean,
-        default:true
+        required: true
     },
-},{timestamps:true})
+    status: {
+        type: Boolean,
+        default: true
+    },
+}, { timestamps: true })
 
-module.exports=mongoose.model('Product',productSchema)
+module.exports = mongoose.model('Product', productSchema)

@@ -18,8 +18,8 @@ passport.use(
         }
 
         // Check if a user with the given email already exists and doesn't have a Google ID
-      existingUser = await User.findOne({ email: profile.emails[0].value });
-      if (existingUser && !existingUser.googleId) {
+      const existingUserWithPW = await User.findOne({ email: profile.emails[0].value });
+      if (existingUserWithPW && !existingUserWithPW.googleId) {
        return done(null, false, { message: 'Account with this email already exists. Please Sign-in using email and password.' });
        
       }

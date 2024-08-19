@@ -9,15 +9,15 @@ exports.isLoggedIn = async(req,res,next)=>{
         const userId = jwt.decode(req.cookies.jwtToken).id
         const userStatus = await User.findOne({_id:userId})
         
-        jwt.verify(token, process.env.JWT_ACCESS_SECRET, (err, user) => {
-            if (err) {
-                console.log("error verification");
-                // res.sendStatus(403);
-                return res.redirect(`/admin/login?error=${encodeURIComponent(' verification error')}`);
-            }
-            req.user = user;
-           // next();
-        });
+        // jwt.verify(token, process.env.JWT_ACCESS_SECRET, (err, user) => {
+        //     if (err) {
+        //         console.log("error verification");
+        //         // res.sendStatus(403);
+        //         return res.redirect(`/admin/login?error=${encodeURIComponent(' verification error')}`);
+        //     }
+        //     req.user = user;
+        //    // next();
+        // });
         if(userStatus){
             res.redirect('/')
         }

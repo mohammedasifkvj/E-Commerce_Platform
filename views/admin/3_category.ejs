@@ -38,7 +38,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% if(category.length > 0) {
+                                            <% if(category?.length > 0) {
                                                 for(let i=0; i < category.length; i++) { %>
                                             <tr>
                                                 <td class="text-center">
@@ -46,8 +46,8 @@
                                                         <input class="form-check-input" type="checkbox" value="" />
                                                     </div>
                                                 </td>
-                                                <td><b><%= category[i].name %></b></td>
-                                                <td><%= category[i].description %></td>
+                                                <td><b><%= category[i]?.name %></b></td>
+                                                <td><%= category[i]?.description %></td>
                                                 <!--<td><%= category[i].status %></td> -->
                                                 <td >  
                                                     </div>
@@ -56,7 +56,7 @@
                                         
                                                         <button class="edit-btn btn-info block-btn  <%= category[i].isDeleted ? 'btn-success' : 'btn-danger' %>" 
                                                             onclick="categoryStatus('<%= category[i]._id %>', '<%= category[i].isDeleted %>')">
-                                                    <%= category[i].isDeleted ? 'List' : 'Unlist' %> </button> 
+                                                    <%= category[i]?.isDeleted ? 'List' : 'Unlist' %> </button> 
                                                 </td>
                                             </tr> 
                                            </div> 
@@ -85,7 +85,7 @@
                                             <%  } 
                                         } else { %>
                                             <tr>
-                                                <td  colspan="5" class="text-center"> No categories found </td>
+                                                <td  colspan="5" class="text-center"> No categories Added </td>
                                             </tr>
                                     <% } %>
                                         </tbody>

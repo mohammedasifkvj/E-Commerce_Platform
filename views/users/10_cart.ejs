@@ -1,4 +1,10 @@
 <%- include("../user_partials/header") %>
+<style>
+    .error-message{
+       color: red;
+       font-size: 12px;
+    }
+</style>
 
 <div class="body" data-currency-code="USD">
      
@@ -11,12 +17,12 @@
                 <meta itemprop="position" content="1" />
             </li>
             <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                    <meta itemprop="item" content="https://luxwatches-demo-02.mybigcommerce.com/cart.php">
+                   <meta itemprop="item" > <!--  content="https://luxwatches-demo-02.mybigcommerce.com/cart.php" -->
                     <span class="breadcrumb-label" itemprop="name">Your Cart</span>
                 <meta itemprop="position" content="2" />
             </li>
         </ul>
-        <main class="page-content" data-cart><% if (cartItems.length === 0) { %>
+        <main class="page-content" data-cart><% if (cartItems?.length === 0) { %>
             <h1 class="page-heading" data-cart-page-title> Your Cart is Empty</h1>
         <% } else{ %>
             <h1 class="page-heading" data-cart-page-title> Your Cart</h1>
@@ -35,7 +41,7 @@
         </tr>
     </thead>
     <tbody id="cart-table-body" class="cart-list">
-            <% cartItems.forEach(item => { %>
+            <% cartItems?.forEach(item => { %>
             <tr data-product-id="<%= item.productId._id %>" class="cart-item" data-item-row>
                 <td class="cart-item-block cart-item-figure ">
                     <img src="<%= item.productId.productImage[0] %>" alt="<%= item.productId.productName %>" title="<%= item.productId.productName %>" data-sizes="auto"class="cart-item-image"/>
@@ -58,43 +64,40 @@
                 <a href="" data-item-giftwrap="02e3b9c1-7767-4c7c-973d-5a6ac01a5f9d">Add</a>
             </dd>
     </dl>-->
+    
         </td>
                 <td class="cart-item-block cart-item-info cart-item-price">
                     <span class="cart-item-label">Price:</span>
                         <span class="cart-item-value "><%=item.productId.discountPrice %></span>
                 </td>
+                <!--onclick="decreaseQuantity('<%= item.productId._id %>')" -->
+                <!-- onclick="increaseQuantity('<%= item.productId._id %>')" -->
 
                 <td id="quantity" class="cart-item-block cart-item-info cart-item-quantity form-field--increments ">
-
-                    <label class="form-label cart-item-label" for="qty-02e3b9c1-7767-4c7c-973d-5a6ac01a5f9d">Quantity:</label>
+                    <label class="form-label cart-item-label" for="qty-<%= item.productId._id %>">Quantity:</label>
                     <div class="form-increment">
-                            <button class="button--icon" data-cart-update data-cart-itemid="02e3b9c1-7767-4c7c-973d-5a6ac01a5f9d" data-action="dec"
-                            onclick="decreaseQuantity('<%= item.productId._id %>')">
-                                <span class="is-srOnly">Decrease Quantity:</span>
-                            </button>
+                        <button class="button--icon decrease-btn" data-product-id="<%= item.productId._id %>" data-action="dec">
+                            <span class="is-srOnly">Decrease Quantity:</span>
+                        </button>
                         <input class="form-input form-input--incrementTotal cart-item-qty-input"
-                               id="qty-02e3b9c1-7767-4c7c-973d-5a6ac01a5f9d"
-                               name="qty-02e3b9c1-7767-4c7c-973d-5a6ac01a5f9d"
+                               id="qty-<%= item.productId._id %>"
+                               name="qty-<%= item.productId._id %>"
                                type="tel"
                                value="<%= item.quantity %>"
-                               data-quantity-min=""
-                               data-quantity-max=""
-                               data-quantity-min-error="The minimum purchasable quantity is null"
-                               data-quantity-max-error="The maximum purchasable quantity is null"
                                min="1"
+                               max="5"
                                pattern="[0-9]*"
-                               data-cart-itemid="02e3b9c1-7767-4c7c-973d-5a6ac01a5f9d"
-                               data-action="manualQtyChange"
+                               data-product-id="<%= item.productId._id %>"
                                aria-live="polite">
-                            <button class="button--icon" data-cart-update data-cart-itemid="02e3b9c1-7767-4c7c-973d-5a6ac01a5f9d" data-action="inc"
-                            onclick="increaseQuantity('<%= item.productId._id %>')">
-                                <span class="is-srOnly">Increase Quantity:</span>
-                            </button>
+                        <button class="button--icon increase-btn" data-product-id="<%= item.productId._id %>" data-action="inc">
+                            <span class="is-srOnly">Increase Quantity:</span>
+                        </button>
                     </div>
                 </td>
                 <td id="total" class=" cart-item-block cart-item-info cart-item-price ">
                     <span class="cart-item-label">Total:</span>
-                        <span class="cart-item-value "><%= item.quantity * item.productId.discountPrice %></span>
+                
+                        <span id="total-<%= item.productId._id %>" class="cart-item-value total"><%= item.quantity * item.productId.discountPrice %></span>
                         <a type="button" onclick="deleteProduct('<%= item.productId._id %>')"  class="cart-remove icon" data-cart-itemid="02e3b9c1-7767-4c7c-973d-5a6ac01a5f9d" data-confirm-delete="Are you sure you want to delete this item?">
                             <svg><use xlink:href="#icon-close"></use></svg>
                         </a>
@@ -117,26 +120,8 @@
 
                 <div data-cart-totals>
                     <div class="cart-totals">
-    <div class="left-column column">
-            <div class="cart-total">
-                <div class="cart-total-header">
-                    <div class="cart-total-label">
-                        Coupon Code:
-                    </div>
-                    <div class="cart-total-value add">
-                        <button class="coupon-code-add">Add Coupon</button>
-                        <button class="coupon-code-cancel" style="display: none;">Cancel</button>
-                    </div>
-                </div>
-                <div class="cart-form coupon-code">
-	<label class="form-label" for="couponcode">Enter your coupon code if you have one.</label>
-    <form class="form form--hiddenLabels coupon-form" method="post" action="/cart.php">
-        <input class="form-input" data-error="Please enter your coupon code."  id="couponcode" type="text" name="couponcode" value="" placeholder="Add Coupon">
-        <input class="button button--primary button--small" type="submit" value="Apply">
-        <input type="hidden" name="action" value="applycoupon">
-    </form>
-</div>
-            </div></div>
+   
+
     <!-- <div class="middle-column column">
             <div class="cart-total">
                 <div class="cart-total-header">
@@ -1037,33 +1022,36 @@
 </div>
             </div>
     </div> -->
+    
     <div class="right-column column">
         <div class="cart-total">
             <div class="cart-total-header">
                 <div class="cart-total-label">
-                    Order Summary:
+                    Cart Summary:
                 </div>
             </div>
         </div>
         <div class="cart-total subtotal">
-            <div class="cart-total-label">
-                Subtotal:
-            </div>
+            <div class="cart-total-label">Subtotal:</div>
             <div class="cart-total-value">
-                    <span><%= cartItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %></span>
+                <span id="subtotal-value"><%= cartItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %></span>
+            </div>
+        </div>
+        <!-- <div class="cart-total end">
+            <div class="cart-total-label">Discount:</div>
+            <div class="cart-total-value">
+                <span id="discount-value">0</span>
             </div>
         </div>
         <div class="cart-total end">
-            <div id="total-price" class="cart-total-label">
-                Grand total:
+            <div class="cart-total-label">Grand Total:</div>
+            <div class="cart-total-value">
+                <span id="grand-total-value"><%= cartItems?.reduce((total, item) => total + (item?.quantity * item?.productId?.discountPrice), 0) %></span>
             </div>
-            <div class="cart-total-value cart-total-grandTotal">
-                    <span><%= cartItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %></span>
-            </div>
-        </div>
+        </div> -->
 
             <div class="cart-actions">
-                <a class="button button--checkout" href="/checkout" title="Click here to proceed to checkout">Proceed To Checkout</a>
+                <a class="button button--checkout" id="checkoutButton" href="/checkout" title="Click here to proceed to checkout">Proceed To Checkout</a>
             </div>
 
             <!-- <div class="cart-additionalCheckoutButtons">
@@ -1128,8 +1116,218 @@
 </div>
 </div>
 <% } } %>
-<script>
+<!-- -->
 
+ <script>
+ //Increase and decrease quantity
+document.querySelectorAll('.increase-btn, .decrease-btn').forEach(button => {
+        button.addEventListener('click', async function (e) {
+            const productId = this.getAttribute('data-product-id');
+            const inputField = document.getElementById(`qty-${productId}`);
+            let currentQuantity = parseInt(inputField.value);
+            const action = this.getAttribute('data-action');
+
+            // Determine new quantity
+            let newQuantity = action === 'inc' ? currentQuantity + 1 : currentQuantity - 1;
+
+            // Check frontend limits
+            if (newQuantity > 5) {
+                Swal.fire({
+                  icon: "warning",
+                  title: "Maximum quantity reached",
+                  text: "You can't add more than 5 units of any product",
+                  showConfirmButton: false,
+                  timer:1000
+                });
+                return;
+            }
+
+            if ( newQuantity < 1 ) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Minimum quantity reached",
+                    text: "You can't have less than one of this product",
+                    showConfirmButton: false,
+                    timer:1000
+                });
+                return;
+            }
+
+        try {
+            const response = await axios.post('/cart/changeQuantity', {
+                productId: productId,
+                quantity: newQuantity
+            });
+
+            inputField.value = response.data.newQuantity;
+
+            // Update cart subtotal
+            document.getElementById('subtotal-value').innerText = response.data.newTotal;
+
+            // Update the product total using the correct ID
+             document.getElementById(`total-${productId}`).innerText = response.data.productTotal;
+            // console.log(productTotalElement);
+            // if (productTotalElement) {
+            //     productTotalElement.innerText = response.data.productTotal;
+            //     productTotalElement.style.display = '';  // Ensure the total is visible
+            // }
+
+        } catch (error) {
+    if (error.response) {
+        const { status, data } = error.response;
+
+        if (status === 400 ) {
+            Swal.fire({
+                icon: "error",
+                title: "Insufficiant Stock",
+                text: data.message,
+                showConfirmButton: false,
+                timer: 1000
+            });
+        }else if (status === 401 || status === 402 || status === 403) {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: data.message,
+                showConfirmButton: false,
+                timer: 1000
+            });
+        }
+    } else {
+        Swal.fire({
+            icon: "error",
+            title: "An unexpected error occurred",
+            showConfirmButton: false,
+            timer: 1000
+        });
+    }}
+    });
+});
+</script>
+
+<script>
+    //Delete single element from the cart and Clear the Cart
+ async function deleteProduct(productId) {
+    const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (result.isConfirmed) {
+        const response = await fetch('/deleteProduct', {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ productId })
+        });
+
+        const result = await response.json();
+
+        if (response.status === 200) {
+            // updateCartUI([]);
+            (() => {
+                     location.reload(); // Reload the page to update the cart
+                })()
+
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: result.error || "An error occurred",
+                showConfirmButton: true
+            });
+        }
+    }
+}
+
+// Clear the cart
+async function clearCart() {
+    const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: "This will remove all items from your cart!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, clear it!'
+    });
+
+    if (result.isConfirmed) {
+        const response = await fetch('/clearCart', {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+     const result = await response.json();
+
+        if (response.status === 200) {
+            // updateCartUI([]);
+            (() => {
+                     location.reload(); // Reload the page to update the cart
+                })()
+
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: result.error || "An error occurred",
+                showConfirmButton: true
+            });
+        }
+    }
+}
+</script>
+
+<script>
+//stock checking before checkout 
+    document.getElementById('checkoutButton').addEventListener('click', async (e) => {
+        e.preventDefault(); // Prevent default action
+        
+        // Get cart items
+        const cartItems = [];
+        document.querySelectorAll('.cart-item').forEach(itemRow => {
+            const productId = itemRow.getAttribute('data-product-id');
+            const quantity = itemRow.querySelector('.cart-item-qty-input').value;
+            cartItems.push({ productId, quantity: parseInt(quantity) });
+        });
+
+        try {
+            // Make axios POST request to check stock
+            const response = await axios.post('/stockCheck', { cartItems });
+
+            if (response.data.success) {
+                // If stock is available, redirect to the checkout page
+                window.location.href = "/checkout";
+            } else {
+                // Display SweetAlert for out of stock items
+                const outOfStockProducts = response.data.outOfStockProducts;
+                let productList = outOfStockProducts.map(product => `${product.productName} (Available: ${product.available}, In Cart: ${product.inCart})`).join('<br>');
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Out of Stock',
+                    html: `Some products are out of stock:<br><b>Please Reduce the quantity of the following</b></p>
+                    <ul><b>${productList}</b></ul>`,
+                    confirmButtonText: 'OK'
+                });
+            }
+        } catch (error) {
+            console.error('Error checking stock:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred while checking stock. Please try again later.',
+                confirmButtonText: 'OK'
+            });
+        }
+    });
+</script>
+
+<script>
     async function increaseQuantity(productId) {
         const response = await fetch('/increaseQty', {
             method: "POST",
@@ -1184,68 +1382,7 @@
         }
     }
 
-//     async function increaseQuantity(productId) {
-//     const response = await fetch('/increaseQty', {
-//         method: "POST",
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({ productId })
-//     });
-
-//     const result = await response.json();
-
-//     if (response.status === 200) {
-//         Swal.fire({
-//             icon: "success",
-//             title: "Product quantity increased",
-//             showConfirmButton: false,
-//             timer: 1000
-//         }).then(() => {
-//             location.reload(); // Reload the page to update the cart
-//         });
-//     } else if (response.status === 400 && result.message === 'Maximum quantity reached') {
-//         Swal.fire({
-//             icon: "warning",
-//             title: "Maximum quantity reached",
-//             text: "You can't add more than 5 units of this product",
-//             showConfirmButton: true
-//         });
-//     } else if (response.status === 400 && result.message === 'Exceeds available stock') {
-//         Swal.fire({
-//             icon: "warning",
-//             title: "Exceeds available stock",
-//             text: "You can't add more than the available stock of this product",
-//             showConfirmButton: true
-//         });
-//     } else if (response.status === 401) {
-//         Swal.fire({
-//             icon: "warning",
-//             title: "You are not logged in",
-//             text: "Please log in to update your cart",
-//             showConfirmButton: true
-//         });
-//     } else if (response.status === 404) {
-//         Swal.fire({
-//             icon: "error",
-//             title: "Product not found",
-//             text: "This product is not in your cart",
-//             showConfirmButton: true
-//         });
-//     } else {
-//         Swal.fire({
-//             icon: "error",
-//             title: "Error",
-//             text: result.error || "An error occurred",
-//             showConfirmButton: true
-//         });
-//     }
-// }
-
-
-
 // Decrease quantity 
-
 async function decreaseQuantity(productId) {
             const response = await fetch('/decreaseQty', {
                 method: "POST",
@@ -1346,96 +1483,6 @@ async function decreaseQuantity(productId) {
         //     const totalPrice = cartItems.reduce((total, item) => total + (item.quantity * item.productId.price), 0);
         //     document.getElementById('total-price').innerText = `Total: ${totalPrice}`;
         // }
-
-
-//Delete single element from the cart
- async function deleteProduct(productId) {
-    const result = await Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!'
-    });
-
-    if (result.isConfirmed) {
-        const response = await fetch('/deleteProduct', {
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ productId })
-        });
-
-        const result = await response.json();
-
-        if (response.status === 200) {
-            // updateCartUI([]);
-            (() => {
-                     location.reload(); // Reload the page to update the cart
-                })()
-
-
-        // const result = await response.json();
-        // if (response.status === 200) {
-        //     //updateCartUI(result.cartItems);
-        //     (() => {
-        //     window.location.reload(); // Reload the page to update the cart -Given as IIFE
-        //         })()
-            // Swal.fire({
-            //         icon: "success",
-            //         title: "Product Deleted frm Cart",
-            //         showConfirmButton: false,
-            //         timer:1000
-            //      }).then(() => {
-            //          location.reload(); // Reload the page to update the cart
-            //     });
-        } else {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: result.error || "An error occurred",
-                showConfirmButton: true
-            });
-        }
-    }
-}
-// Clear the cart
-async function clearCart() {
-    const result = await Swal.fire({
-        title: 'Are you sure?',
-        text: "This will remove all items from your cart!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, clear it!'
-    });
-
-    if (result.isConfirmed) {
-        const response = await fetch('/clearCart', {
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-     const result = await response.json();
-
-        if (response.status === 200) {
-            // updateCartUI([]);
-            (() => {
-                     location.reload(); // Reload the page to update the cart
-                })()
-
-        } else {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: result.error || "An error occurred",
-                showConfirmButton: true
-            });
-        }
-    }
-}
 </script>
 
 <%- include("../user_partials/footer") %>

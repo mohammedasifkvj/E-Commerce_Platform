@@ -386,7 +386,7 @@
                                     <div class="form-field" id="FormField_13" data-validation="{&quot;type&quot;:&quot;singleline&quot;,&quot;label&quot;:&quot;Zip\/Postcode&quot;,&quot;required&quot;:true,&quot;maxlength&quot;:0}" data-type="Zip">
     <label class="form-label" for="FormField_13_input">Zip/Postcode</label>
     <div id="errorZip" style="color: red;"></div>
-    <input type="text" data-label="Zip/Postcode" name="pin" id="pin"  maxlength="6" class="form-input" aria-required="true" data-field-type="Zip" >
+    <input type="number" data-label="Zip/Postcode" name="pin" id="pin"  maxlength="6" class="form-input" aria-required="true" data-field-type="Zip" >
 </div>
 
                             </div>
@@ -424,11 +424,11 @@
 
         // const name = document.getElementById('name').value;
         // const mobile = document.getElementById('mobile').value;
-        const house = document.getElementById('house').value;
-        const landmark= document.getElementById('landmark').value;
-        const city = document.getElementById('city').value;
-        const state = document.getElementById('state').value;
-        const country = document.getElementById('country').value;
+        const house = document.getElementById('house').value.trim()
+        const landmark= document.getElementById('landmark').value.trim();
+        const city = document.getElementById('city').value.trim();
+        const state = document.getElementById('state').value.trim();
+        const country = document.getElementById('country').value.trim();
         const pin = document.getElementById('pin').value;
 
         

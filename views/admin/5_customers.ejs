@@ -1,37 +1,36 @@
 <%- include("../adminPartials/header") %>
 
-
   <section class="content-main">
     <div class="content-header">
       <div>
         <h2 class="content-title card-title">Customers</h2>
         <p>Details of customers</p>
       </div>
-      <div>
-        <input type="text" placeholder="Search order ID" class="form-control bg-white" />
-      </div>
+      <!-- <div>
+        <input type="text" placeholder="Search user ID" class="form-control bg-white" />
+      </div> -->
     </div>
     <div class="card mb-4">
       <header class="card-header">
         <div class="row gx-3">
-          <div class="col-lg-4 col-md-6 me-auto">
+          <!-- <div class="col-lg-4 col-md-6 me-auto">
             <input type="text" placeholder="Search..." class="form-control" />
-          </div>
+          </div> -->
           <div class="col-lg-2 col-6 col-md-3">
-            <select class="form-select">
+            <!-- <select class="form-select">
               <option>Status</option>
               <option>Active</option>
               <option>Disabled</option>
               <option>Show all</option>
-            </select>
+            </select> -->
           </div>
-          <div class="col-lg-2 col-6 col-md-3">
+          <!-- <div class="col-lg-2 col-6 col-md-3">
             <select class="form-select">
               <option>Show 20</option>
               <option>Show 30</option>
               <option>Show 40</option>
             </select>
-          </div>
+          </div> -->
         </div>
       </header>
       <!-- card-header end// -->
@@ -53,13 +52,13 @@
                 <% for(let i=0; i < user.length; i++) { %>
                   <tr>
                     <td>
-                      <%= user[i].name %>
+                      <%= user[i]?.name %>
                     </td>
                     <td>
-                      <%= user[i].email %>
+                      <%= user[i]?.email %>
                     </td>
                     <td>
-                      <%= user[i].mobile %>
+                      <%= user[i]?.mobile %>
                     </td>
                     <td>
                       <%= new Date(user[i].createdAt).toLocaleDateString('en-US', { weekday: 'short' , month: 'short' ,
@@ -69,7 +68,7 @@
                       <a id="block-unblock-btn-<%= user[i]._id %>" 
                          class="btn-icon <%= user[i].isBlocked ? 'btn-success' : 'btn-danger' %>" 
                          onclick="userStatus('<%= user[i]._id %>', '<%= user[i].isBlocked %>')">
-                        <%= user[i].isBlocked ? 'Unblock' : 'Block' %>
+                        <%= user[i]?.isBlocked ? 'Unblock' : 'Block' %>
                       </a>
                     </td>
 

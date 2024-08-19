@@ -8,6 +8,7 @@ const authMiddleware = require('../middlewares/authMiddleware')
 const cartController = require('../controllers/cart&WishController')
 const orderController = require('../controllers/orderController')
 const accountController = require('../controllers/accountController')
+const offerController = require('../controllers/offer&CouponController')
 //const {signUpValidation,signInValidation}=require("../validators/signUpValidation")
 const cookieParser = require('cookie-parser');
 const methodOverride = require('method-override');
@@ -84,19 +85,24 @@ user_route.get('/orderDetails/:orderId', auth.authenticateToken, accountControll
 // cart
 user_route.post('/addProductToCart', auth.authenticateToken, cartController.addToCart)
 user_route.get('/cart', auth.authenticateToken, cartController.loadCart)
-user_route.post('/increaseQty', auth.authenticateToken, cartController.increaseQuantity)
-user_route.post('/decreaseQty', auth.authenticateToken, cartController.decreaseQuantity)
+user_route.post('/cart/changeQuantity', auth.authenticateToken, cartController.changeQuantity)
+// user_route.post('/increaseQty', auth.authenticateToken, cartController.increaseQuantity)
+// user_route.post('/decreaseQty', auth.authenticateToken, cartController.decreaseQuantity)
 user_route.delete('/deleteProduct', auth.authenticateToken, cartController.deleteProduct)
 user_route.delete('/clearCart', auth.authenticateToken, cartController.clearCart)
 
+//Coupon
+user_route.post('/applyCoupon', auth.authenticateToken, offerController.applyCoupon)
+
 //Create Order
+user_route.post('/stockCheck', auth.authenticateToken, orderController.stockCheck)
 user_route.get('/checkout', auth.authenticateToken, orderController.checkoutPage)
 user_route.post('/makeOrder', auth.authenticateToken, orderController.makeOrder)
 //user_route.post('/create', auth.authenticateToken, orderController.createPayment);
 user_route.post('/createPaypalOrder', auth.authenticateToken, orderController.payPalPay);
 user_route.get('/captureOrder',auth.authenticateToken, orderController.captureOrder);
-user_route.get('/orderConfirmation', orderController.oredrConfirmation)
-user_route.get('/Confirmation', orderController.Confirmation)
+user_route.get('/orderConfirmation/:orderId',auth.authenticateToken, orderController.oredrConfirmation)
+
 
 // //404
 // user_route.get('*', (req, res) => {

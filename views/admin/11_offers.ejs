@@ -1,32 +1,32 @@
 <%- include("../adminPartials/header") %>
 <section class="content-main">
-    <div class="content-header">
-        <div>
-            <h2 class="content-title card-title">Offer List</h2>
-            <!-- <p>Lorem ipsum dolor sit amet.</p> -->
-        </div>
-        
-        <div>
-            <!-- <a href="#" class="btn btn-light rounded font-md">Export</a>
-            <a href="#" class="btn btn-light rounded font-md">Import</a> -->
-            <a href="/admin/offer/addOfferPage" class="btn btn-primary btn-sm rounded">Create new offer</a>
-        </div>
+  <div class="content-header">
+    <div>
+      <h2 class="content-title card-title">Offer List</h2>
+      <!-- <p>Lorem ipsum dolor sit amet.</p> -->
     </div>
-    <% if (message) { %>
-        <div id="error-message" class=" text-center font-regular p-2 alert alert-danger " style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkred;"><%= message %></div>  
-      <% } %>
-      <% if (success) { %>
-        <div id="error-message" class=" text-center font-regular p-2 alert alert-danger " style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkgreen;" ><%= success %></div>  
-      <% } %>
-    <div class="card mb-4">
-        <header class="card-header">
-            <div class="row align-items-center">
-                <!-- <div class="col col-check flex-grow-0">
+
+    <div>
+      <!-- <a href="#" class="btn btn-light rounded font-md">Export</a>
+            <a href="#" class="btn btn-light rounded font-md">Import</a> -->
+      <a href="/admin/offer/addOfferPage" class="btn btn-primary btn-sm rounded">Create new offer</a>
+    </div>
+  </div>
+  <% if (message) { %>
+  <div id="error-message" class=" text-center font-regular p-2 alert alert-danger " style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkred;"><%= message %></div>
+  <% } %>
+  <% if (success) { %>
+  <div id="error-message" class=" text-center font-regular p-2 alert alert-danger " style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkgreen;"><%= success %></div>
+  <% } %>
+  <div class="card mb-4">
+    <header class="card-header">
+      <div class="row align-items-center">
+        <!-- <div class="col col-check flex-grow-0">
                     <div class="form-check ms-2">
                         <input class="form-check-input" type="checkbox" value="" />
                     </div>
                 </div> -->
-                <!-- <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
+        <!-- <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
                     <select class="form-control" name="category" type="text" placeholder="Select Category" class="form-select" id="offer_nam">
                         <option value="" selected >All category</option>
                                   <% if(category.length > 0) {
@@ -36,176 +36,163 @@
                             else { %> <p>No categories To Select</p> <% } %>
                     </select>
                 </div> -->
-                <div class="col-md-2 col-6">
-                    <input type="date" value="02.05.2021" class="form-control" />
-                </div>
-                <div class="col-md-2 col-6" >
-                    <select class="form-select">
-                        <option selected disabled>Status</option>
-                        <option>Active</option>
-                        <option>In-active</option>
-                    </select>
-                </div>
-            </div>
-        </header>
-        <!-- card-header end// -->
-<div class="card-body">
-    <!-- heading -->
-    <article class="itemlist">
-        <div class="row align-items-center">
-            
-            <div class="col-lg-2">
-                <h5 class="mb-0"><b>Offer Name</b></h5>
-            </div>
-            <div class="col-lg-2 ">
-                <span><b>Type</b></span>
-            </div>
-            <div class="col-lg-2">
-                <h5 class="mb-0"><b>Expiry Date</b></h5>
-            </div>
-            <div class="col-lg-2">
-                <span><b>Percentage</b></span>
-            </div>
-            <div class="col-lg-2">
-                <span><b>Max .Red. Amount</b></span>
-            </div>
-            <div class="col-lg-2">
-                <h5><b>Actions</b></h5>
-            </div>
+        <div class="col-md-2 col-6">
+          <input type="date" value="02.05.2021" class="form-control" />
         </div>
-    </article>
-    <!-- heading End-->
-    <% if(offer.length > 0) {
-        for(let i=0; i < offer.length; i++) { %>
-         
-    <article class="itemlist">
-        <div class="row align-items-center">
-            <div class="col-lg-2">
-                <h6 class="mb-0"><b><%= offer[i].offerName %></b></h6>
-            </div>
-            <div class="col-lg-2">
-                <span class="badge rounded-pill alert-success"><%= offer[i].type %></span>
-            </div>
-            <div class="col-lg-2">
-                <h6 class="mb-0"><b><%=( offer[i].expDate ).toDateString()%></b></h6>
-            </div>
-            <div class="col-lg-2 text-center">
-                <span><%= offer[i].discount %></span>
-            </div>
-            <div class="col-lg-1 col-sm-2 col-4 col-stock text-center">
-                <span><%= offer[i].maxRedeemableAmount %></span>
-            </div>
-            <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-                <!-- <a href="/admin/editOffer/<%=offer[i]._id %>"><i class="bi bi-pencil-square"></i>Edit</a> -->
-                <% if(offer[i].status){ %>
-                    <button type="button" class="edit-btn  btn-danger" onclick="offerStatusChange('<%= offer[i]._id %>',true)">Deactivate</button>
-                  <% }else{ %>
-                    <button type="button" class="edit-btn  btn-success" onclick="offerStatusChange('<%= offer[i]._id %>',false)">Activate</button>
-                  <%} %>
-            </div>
+        <div class="col-md-2 col-6">
+          <select class="form-select">
+            <option selected disabled>Status</option>
+            <option>Active</option>
+            <option>In-active</option>
+          </select>
         </div>
-        <!-- row .// -->
-    </article>
-    <% } 
-} else { %>
-    <!-- itemlist  .// -->
-    <article colspan="5" class="text-center">
-         Offers not Added Yet
-    </article>
-    <% } %>
-                    </div>
-                    <!-- card-body end// -->
-                </div>
-                <!-- card end// -->
-                <div class="row ">
-                    <div class="col-12 ">
-                        <nav aria-label="Page navigation example ">
-                            <ul class="pagination justify-content-center">
-                                <% if (currentPage > 1) { %>
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
-                                </li>
-                                <% } %>
-                                <% for (let i = 1; i <= totalPages; i++) { %>
-                                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-                                    <a class="page-link" href="?page=<%= i %>"><%= i %></a>
-                                </li>
-                                <% } %>
-                                <% if (currentPage < totalPages) { %>
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
-                                </li>
-                                <% } %>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
+      </div>
+    </header>
+    <!-- card-header end// -->
+    <div class="card-body">
+      <!-- heading -->
+      <article class="itemlist">
+        <div class="row align-items-center text-center text-md-start">
+          <div class="col-6 col-sm-4 col-md-2">
+            <h5 class="mb-0"><b>Offer Name</b></h5>
+          </div>
+          <div class="col-6 col-sm-4 col-md-2">
+            <span><b>Type</b></span>
+          </div>
+          <div class="col-6 col-sm-4 col-md-2">
+            <h5 class="mb-0"><b>Expiry Date</b></h5>
+          </div>
+          <div class="col-6 col-sm-4 col-md-2">
+            <span><b>Discount Percentage</b></span>
+          </div>
+          <div class="col-6 col-sm-4 col-md-2">
+            <span><b>Max. Red. Amount</b></span>
+          </div>
+          <div class="col-6 col-sm-4 col-md-2 ">
+            <h5><b>Actions</b></h5>
+          </div>
+        </div>
+      </article>
+      <!-- heading End-->
 
-                <!-- <div class="pagination-area mt-30 mb-50">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="material-icons md-chevron_left"></i></a>
-                                <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-                                </li>
-                        </ul>
-                    </nav>
-                </div> -->
+      <% if(offer.length > 0) { 
+                for(let i=0; i < offer.length; i++) { %>
 
-            </section>
-            <!-- --Activate and Deactivate Offer---- -->
-            <script>
-                function offerStatusChange(offerId, currentStatus) {
-                    const newStatus = !currentStatus;
-                    const url = `/admin/offer/offerStatusChange?offerId=${offerId}&status=${newStatus}`;
-            
-                    // Show confirmation dialog
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: `You are about to ${newStatus ? 'Activate' : 'Deactivate'} this offer.`,
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, do it!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // Proceed with status change
-                            fetch(url,{
-                                method:"PATCH"
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    Swal.fire(
-                                        'Updated!',
-                                        `The offer has been ${newStatus ? 'Activated' : 'Deactivated'}.`,
-                                        'success',
-                                        // showConfirmButton: false
-                                    ).then(() => {
-                                        location.reload();
-                                    });
-                                } else {
-                                    Swal.fire(
-                                        'Error!',
-                                        'There was an error updating the offer status.',
-                                        'error'
-                                    );
-                                }
-                            })
-                            .catch(error => {
-                                //console.log('Error:', error);
-                                Swal.fire(
-                                    'Error!',
-                                    'There was an error updating the offer status.',
-                                    'error'
-                                );
-                            });
-                        }
-                    });
-                }
-            </script>
-            <%- include("../adminPartials/footer") %>
+      <article class="itemlist">
+        <div class="row align-items-center text-center text-md-start">
+          <div class="col-6 col-sm-4 col-md-2">
+            <h6 class="mb-0"><b><%= offer[i].offerName %></b></h6>
+          </div>
+          <div class="col-6 col-sm-4 col-md-2">
+            <span class="badge rounded-pill alert-success"><%= offer[i].type %></span>
+          </div>
+          <div class="col-6 col-sm-4 col-md-2">
+            <h6 class="mb-0"><b><%= (offer[i].expDate).toDateString() %></b></h6>
+          </div>
+          <div class="col-6 col-sm-4 col-md-2 text-center">
+            <span><%= offer[i].discount %></span>
+          </div>
+          <div class="col-6 col-sm-4 col-md-2 text-center">
+            <span><%= offer[i].maxRedeemableAmount %></span>
+          </div>
+          <div class="col-12 col-sm-4 col-md-2 text-center text-md-end mt-2 mt-md-0">
+            <% if(offer[i].status){ %>
+            <button type="button" class="btn btn-danger" onclick="offerStatusChange('<%= offer[i]._id %>', true)">Deactivate</button>
+            <% }else{ %>
+            <button type="button" class="btn btn-success" onclick="offerStatusChange('<%= offer[i]._id %>', false)">Activate</button>
+            <% } %>
+          </div>
+        </div>
+      </article>
+      <% } %>
+    </div>
+
+  </div>
+
+  <% } else { %>
+  <!-- itemlist  .// -->
+  <article colspan="5" class="text-center">
+    Offers not Added Yet
+  </article>
+  <% } %>
+  </div>
+  <!-- card-body end// -->
+  </div>
+  <!-- card end// -->
+  <div class="row ">
+    <div class="col-12 ">
+      <nav aria-label="Page navigation example ">
+        <ul class="pagination justify-content-center">
+          <% if (currentPage > 1) { %>
+          <li class="page-item">
+            <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+          </li>
+          <% } %>
+          <% for (let i = 1; i <= totalPages; i++) { %>
+          <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+            <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+          </li>
+          <% } %>
+          <% if (currentPage < totalPages) { %>
+          <li class="page-item">
+            <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+          </li>
+          <% } %>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>
+<!-- --Activate and Deactivate Offer---- -->
+<script>
+  function offerStatusChange(offerId, currentStatus) {
+    const newStatus = !currentStatus;
+    const url = `/admin/offer/offerStatusChange?offerId=${offerId}&status=${newStatus}`;
+
+    // Show confirmation dialog
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `You are about to ${newStatus ? 'Activate' : 'Deactivate'} this offer.`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, do it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Proceed with status change
+        fetch(url, {
+            method: "PATCH"
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              Swal.fire(
+                'Updated!',
+                `The offer has been ${newStatus ? 'Activated' : 'Deactivated'}.`,
+                'success',
+                // showConfirmButton: false
+              ).then(() => {
+                location.reload();
+              });
+            } else {
+              Swal.fire(
+                'Error!',
+                'There was an error updating the offer status.',
+                'error'
+              );
+            }
+          })
+          .catch(error => {
+            //console.log('Error:', error);
+            Swal.fire(
+              'Error!',
+              'There was an error updating the offer status.',
+              'error'
+            );
+          });
+      }
+    });
+  }
+</script>
+<%- include("../adminPartials/footer") %>

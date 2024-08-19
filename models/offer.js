@@ -33,6 +33,6 @@ const offerSchema = mongoose.Schema({
         type: Boolean,
         default: true
     }
-},{timestamps:true})
+}, { timestamps: true })
 
 module.exports = mongoose.model('Offer', offerSchema)

@@ -29,9 +29,9 @@
                 <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
                     <select class="form-control" name="category" type="text" placeholder="Select Category" class="form-select" id="product_nam">
                         <option value="" selected >All category</option>
-                                  <% if(category.length > 0) {
+                                  <% if(category?.length > 0) {
                             for(let i=0; i < category.length; i++) { %>
-                         <option value="<%= category[i].name %>"><%= category[i].name %></option>
+                         <option value="<%= category[i].name %>"><%= category[i]?.name %></option>
                             <%  } } 
                             else { %> <p>No categories To Select</p> <% } %>
                     </select>
@@ -39,14 +39,14 @@
                 <div class="col-md-2 col-6">
                     <input type="date" value="02.05.2021" class="form-control" />
                 </div>
-                <div class="col-md-2 col-6" >
+                <!-- <div class="col-md-2 col-6" >
                     <select class="form-select">
                         <option selected>Status</option>
                         <option>In-stock</option>
                         <option>Below 5 </option>
                         <option>out-of-stock</option>
                     </select>
-                </div>
+                </div> -->
             </div>
         </header>
         <!-- card-header end// -->
@@ -90,7 +90,7 @@
         </div>
     </article>
     <!-- heading End-->
-    <% if(product.length > 0) {
+    <% if(product?.length > 0) {
         for(let i=0; i < product.length; i++) { %>
          
     <article class="itemlist">
@@ -103,32 +103,32 @@
             <div class="col-lg-3 col-sm-4 col-8 flex-grow-2 col-name">
                 <a class="itemside" href="#">
                     <div class="left">
-                        <img src="<%-product[i].productImage[0]%>" class="img-sm img-thumbnail" alt="Item" />
+                        <img src="<%-product[i]?.productImage[0]%>" class="img-sm img-thumbnail" alt="Item" />
                     </div>
                     <div class="info">
-                        <h6 class="mb-0"><b><%= product[i].productName %></b></h6>
+                        <h6 class="mb-0"><b><%= product[i]?.productName %></b></h6>
                     </div>
                 </a>
             </div>
             <div class="col-lg-2 col-sm-2 col-4 col-price">
-                <span class="badge rounded-pill alert-success"><%= product[i].category %></span>
+                <span class="badge rounded-pill alert-success"><%= product[i]?.category %></span>
             </div>
             <div class="col-lg-1 col-sm-2 col-4 col-status">
-                <span><%= product[i].brand %></span>
+                <span><%= product[i]?.brand %></span>
             </div>
             <div class="col-lg-1 col-sm-2 col-4 col-date">
-                <span><%= product[i].price %></span>
+                <span><%= product[i]?.price %></span>
             </div>
             <div class="col-lg-1 col-sm-2 col-4 col-price">
-                <span><%= product[i].discountPrice %></span>
+                <span><%= product[i]?.discountPrice %></span>
             </div>
             <div class="col-lg-1 col-sm-2 col-4 col-stock">
-                <span><%= product[i].stock %></span>
+                <span><%= product[i]?.stock %></span>
             </div>
             <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
                 <!-- <a href="/admin/editProductPage" class="btn btn-sm font-sm rounded btn-brand">
                     <i class="material-icons md-edit"></i> Edit
-                    onclick="productEdit('<%= product[i]._id %>')"
+                    onclick="productEdit('<%= product[i]?._id %>')"
                 </a> -->
                 <a href="/admin/editProduct/<%=product[i]._id %>"
                 ><i class="bi bi-pencil-square"></i>Edit</a>

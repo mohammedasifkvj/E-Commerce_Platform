@@ -1,87 +1,87 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
-    
+
 <!-- Mirrored from luxwatches-demo-02.mybigcommerce.com/cart.php by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 02 May 2024 11:55:05 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+
 <head>
-        <title>Shopping Cart</title>
-        <link rel="dns-prefetch preconnect" href="https://cdn11.bigcommerce.com/s-2nfdiyehvz" crossorigin><link rel="dns-prefetch preconnect" href="https://fonts.googleapis.com/" crossorigin><link rel="dns-prefetch preconnect" href="https://fonts.gstatic.com/" crossorigin>
-        <meta name='platform' content='bigcommerce.stencil' />
-        
-        <link href="https://cdn11.bigcommerce.com/r-582505a111dbefdeb3f92e026834009de99f4cda/img/bc_favicon.ico" rel="shortcut icon">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <meta name="theme-color" content="#232323">
-        <meta name="Description" content="Ella BigCommerce theme developed by Themevale">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <style>
-            /* Smooth transition effect  for show message*/
-              .alert {
-            transition: opacity 1s ease-out;
-             }
-             /* Class to hide the error message */
-              .hidden {
-            opacity: 0;
-            }
-            </style>
-        <script>
-            document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
-        </script>
-        <script>
-            window.lazySizesConfig = window.lazySizesConfig || {};
-            window.lazySizesConfig.loadMode = 1;
-        </script>
-        <script async src="/embedded/theme-bundle.head_async.js"></script>
+  <title>Shopping Cart</title>
+  <link rel="dns-prefetch preconnect" href="https://cdn11.bigcommerce.com/s-2nfdiyehvz" crossorigin>
+  <link rel="dns-prefetch preconnect" href="https://fonts.googleapis.com/" crossorigin>
+  <link rel="dns-prefetch preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <meta name='platform' content='bigcommerce.stencil' />
 
-        <link href="/user/styleSheet/font-awesome.min.css" rel="stylesheet" type="text/css">
-        
-        <link href="https://fonts.googleapis.com/css?family=Poppins:500,400&amp;display=swap" rel="stylesheet">
-        <link data-stencil-stylesheet href="/user/styleSheet/theme-835bc9f0-6ef7-013b-b98c-32bb98ae51d5.css" rel="stylesheet">
-        <!-- ajax cdn -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link href="https://cdn11.bigcommerce.com/r-582505a111dbefdeb3f92e026834009de99f4cda/img/bc_favicon.ico" rel="shortcut icon">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="theme-color" content="#232323">
+  <meta name="Description" content="Ella BigCommerce theme developed by Themevale">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    
-        <!-- sweetalert -->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-   
+  <!-- sweetalert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <style>
+    /* Smooth transition effect  for show message*/
+    .alert {
+      transition: opacity 1s ease-out;
+    }
 
-<script type="text/javascript">
-var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c09e37ca9d3a9"};
-</script>
-<!-- google SSO-->
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-<meta name="google-signin-client_id" content=process.env.GOOGLE_CLIENT_ID >
-<style>
-    #account-buttons { display: none; }
-    #sign-in-buttons { display: none; }
+    /* Class to hide the error message */
+    .hidden {
+      opacity: 0;
+    }
   </style>
-    </head>
+  <script>
+    document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+  </script>
+  <script>
+    window.lazySizesConfig = window.lazySizesConfig || {};
+    window.lazySizesConfig.loadMode = 1;
+  </script>
+  <script async src="/embedded/theme-bundle.head_async.js"></script>
+
+  <link href="/user/styleSheet/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+  <link href="https://fonts.googleapis.com/css?family=Poppins:500,400&amp;display=swap" rel="stylesheet">
+  <link data-stencil-stylesheet href="/user/styleSheet/theme-835bc9f0-6ef7-013b-b98c-32bb98ae51d5.css" rel="stylesheet">
+  <!-- ajax cdn -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <meta name="google-signin-client_id" content=process.env.GOOGLE_CLIENT_ID>
+  <style>
+    #account-buttons {
+      display: none;
+    }
+
+    #sign-in-buttons {
+      display: none;
+    }
+  </style>
+</head>
+
 <body class="page-type-cart homepage-layout-2">
-        <svg data-src="https://cdn11.bigcommerce.com/s-2nfdiyehvz/stencil/558781b0-6ef6-013b-f567-4afeb0a3a797/e/960150f0-c5aa-0139-ef11-066281ecf407/img/icon-sprite.svg" class="icons-svg-sprite"></svg>
+  <svg data-src="https://cdn11.bigcommerce.com/s-2nfdiyehvz/stencil/558781b0-6ef6-013b-f567-4afeb0a3a797/e/960150f0-c5aa-0139-ef11-066281ecf407/img/icon-sprite.svg" class="icons-svg-sprite"></svg>
 
-        <!-- menu mobile  -->
-        <div class="themevale_Mobile themevale_MobileMenu" id="menu-mobile">
-            <div class="themevale_close">
-                <a href="javascript:void(0)" class="close">&times;</a>
-            </div>
-            <div class="navPages-container" id="menuMobile" data-menu>
-            </div>
-        </div>
+  <!-- menu mobile  -->
+  <div class="themevale_Mobile themevale_MobileMenu" id="menu-mobile">
+    <div class="themevale_close">
+      <a href="javascript:void(0)" class="close">&times;</a>
+    </div>
+    <div class="navPages-container" id="menuMobile" data-menu>
+    </div>
+  </div>
 
-        <!-- Account mobile  -->
-        <div class="themevale_Mobile themevale_MobileAccount" id="account-mobile">
-            <div class="themevale_close2">
-                <a href="javascript:void(0)" class="close">&times;<span class="text">close</span></a>
-            </div>
-            <div id="accountMobile">
-                    <nav class="navPages-mobile">
-	
-                <!-- <div class="login-content">
+  <!-- Account mobile  -->
+  <div class="themevale_Mobile themevale_MobileAccount" id="account-mobile">
+    <div class="themevale_close2">
+      <a href="javascript:void(0)" class="close">&times;<span class="text">close</span></a>
+    </div>
+    <div id="accountMobile">
+      <nav class="navPages-mobile">
+
+        <!-- <div class="login-content">
                     <form id="loginForm" class="login-form form" action="/signIn" method="post">
                         
                         <div class="form-field">
@@ -100,35 +100,38 @@ var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c
                         </div>
                     </form>
                 </div> -->
-                <nav class="navPages-mobile">
-                    <ul class="navPages-list navPages-list--user">
-                        <li class="navPages-item">
-                            <p class="navPage-subMenu-title">
-                                <span class="text">Customer Login:</span>
-                            </p>
-                            <div class="new-customer" id="sign-in-buttons">
-                                <a class="button button--primary" href="/signIn">Sign In</a>
-                                <a class="button button--primary" href="/signUp">Create Account</a>
-                            </div>
-                            <div class="new-customer" id="account-buttons">
-                                <a class="button button--primary" href="/account">Account</a>
-                                <a class="button button--primary" href="/logout">Logout</a>
-                            </div>
-                        </li>
-                    </ul>
-</nav>
-            </div>
-        </div>
+        <nav class="navPages-mobile">
+          <ul class="navPages-list navPages-list--user">
+            <li class="navPages-item">
+              <p class="navPage-subMenu-title">
+                <span class="text">Customer Login:</span>
+              </p>
+              <div class="new-customer" id="sign-in-buttons">
+                <a class="button button--primary" href="/signIn">Sign In</a>
+                <a class="button button--primary" href="/signUp">Create Account</a>
+              </div>
+              <div class="new-customer" id="account-buttons">
+                <a class="button button--primary" href="/account">Account</a>
+                <a class="button button--primary" href="/logout">Logout</a>
+              </div>
+            </li>
+          </ul>
+        </nav>
+    </div>
+  </div>
 
-        <!-- Cart mobile  -->
-        <div class="themevale_Mobile themevale_MobileCart" id="cart-mobile">
-            <div class="themevale_close2">
-                <a href="javascript:void(0)" class="close">×<span class="text">close</span></a>
-            </div>
-    <div class="dropdown-cart" id="cart-preview-dropdown" aria-hidden="true"><div class="previewCart">
-    <!-- <h5>Review Your Cart <span class="qty" data-cart-quantity="">5 items</span></h5> -->
-        <ul class="previewCartList _mCS_5 mCustomScrollbar _mCS_6"><div id="mCSB_6" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" tabindex="0" style="max-height: 0px;"><div id="mCSB_6_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
-                <!-- <li class="previewCartItem">
+  <!-- Cart mobile  -->
+  <div class="themevale_Mobile themevale_MobileCart" id="cart-mobile">
+    <div class="themevale_close2">
+      <a href="javascript:void(0)" class="close">×<span class="text">close</span></a>
+    </div>
+    <div class="dropdown-cart" id="cart-preview-dropdown" aria-hidden="true">
+      <div class="previewCart">
+        <!-- <h5>Review Your Cart <span class="qty" data-cart-quantity="">5 items</span></h5> -->
+        <ul class="previewCartList _mCS_5 mCustomScrollbar _mCS_6">
+          <div id="mCSB_6" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" tabindex="0" style="max-height: 0px;">
+            <div id="mCSB_6_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
+              <!-- <li class="previewCartItem">
                     <div class="previewCartItem-image">
                             <img src="https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/100x128/products/158/510/2232049__80153__76537.1583120669.jpg?c=2" alt="Minterdum AnDacony Maliduet" title="Minterdum AnDacony Maliduet" data-sizes="auto" class="mCS_img_loaded">
                     </div>
@@ -145,40 +148,50 @@ var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c
                         </span>
                     </div>
                 </li> -->
-        </div><div id="mCSB_6_scrollbar_vertical" class="mCSB_scrollTools mCSB_6_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: block;"><div class="mCSB_draggerContainer"><div id="mCSB_6_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: block; height: 0px; max-height: 86.9062px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div><div class="mCSB_draggerRail"></div></div></div></div></div></ul>
+            </div>
+            <div id="mCSB_6_scrollbar_vertical" class="mCSB_scrollTools mCSB_6_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: block;">
+              <div class="mCSB_draggerContainer">
+                <div id="mCSB_6_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: block; height: 0px; max-height: 86.9062px; top: 0px;">
+                  <div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
+                  <div class="mCSB_draggerRail"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ul>
         <div class="previewCartAction">
-                <div class="previewCartAction-checkout">
-                    <!-- <a href="/checkout" class="button button--primary">
+          <div class="previewCartAction-checkout">
+            <!-- <a href="/checkout" class="button button--primary">
                         Check out now 
                     </a>-->
-                </div>
+          </div>
 
-            <div class="previewCartAction-viewCart">
-                <a href="/cart" class="button button--action">
-                    View Cart
-                </a>
-            </div>
+          <div class="previewCartAction-viewCart">
+            <a href="/cart" class="button button--action">
+              View Cart
+            </a>
+          </div>
 
         </div>
-</div>
-</div>
-        </div>
+      </div>
+    </div>
+  </div>
 
-        <!-- Search mobile  -->
-        <div class="themevale_Mobile themevale_MobileSearch" id="search-mobile">
-            <div class="themevale_close2">
-                <a href="javascript:void(0)" class="close">&times;<span class="text">close</span></a>
-            </div>
-            <div class="dropdown dropdown--quickSearch" id="dropdown--quickSearch" aria-hidden="true"></div>
-        </div>
+  <!-- Search mobile  -->
+  <div class="themevale_Mobile themevale_MobileSearch" id="search-mobile">
+    <div class="themevale_close2">
+      <a href="javascript:void(0)" class="close">&times;<span class="text">close</span></a>
+    </div>
+    <div class="dropdown dropdown--quickSearch" id="dropdown--quickSearch" aria-hidden="true"></div>
+  </div>
 
-        <div class="themevale_popup"></div> 
-        
-            <header class="header themevale-header-layout-2" role="banner">
+  <div class="themevale_popup"></div>
+
+  <header class="header themevale-header-layout-2" role="banner">
     <div class="themevale-header-PC">
-        	    <div id="top-bar-promotion" class="top-bar-promotion-layout-2">
-	        <div class="container">
-	        	<div class="item-list" data-slick='{
+      <div id="top-bar-promotion" class="top-bar-promotion-layout-2">
+        <div class="container">
+          <div class="item-list" data-slick='{
 		        "dots": false,
 		        "arrows": false,
 		        "infinite": true,
@@ -188,53 +201,63 @@ var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c
 		        "vertical": true,
 		        "autoplay": true
 		    }'>
-	            	<div class="banner-header-top text-center">
-	            		<div class="banner-header-top-inner">
-		            			<span>Free Shipping</span>
-		            			on all Orders. No Minimum Purchases Required*
-		            	</div>
-	            	</div>
-	            	<div class="banner-header-top text-center">
-	            		<div class="banner-header-top-inner">
-		            			<span>20% discount</span>
-		            			on selected items
-		            	</div>
-	            	</div>
-	            </div>
-	        </div>
-	    </div>
+            <div class="banner-header-top text-center">
+              <div class="banner-header-top-inner">
+                <span>Free Shipping</span>
+                on all Orders. No Minimum Purchases Required*
+              </div>
+            </div>
+            <div class="banner-header-top text-center">
+              <div class="banner-header-top-inner">
+                <span>20% discount</span>
+                on selected items
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        <div class="container">
-            <div class="themevale_header">
-                <div class="header-top">
-                   <div class="header-left">
-                        <!--      <span class="phone-number info"><a href="tel:+0123 456 7890">+0123 456 7890</a></span>
+      <div class="container">
+        <div class="themevale_header">
+          <div class="header-top">
+            <div class="header-left">
+              <!--      <span class="phone-number info"><a href="tel:+0123 456 7890">+0123 456 7890</a></span>
                             <span class="email"><a href="mailto:">email@domain.com</a></span> -->
-                    </div>
-                    <div class="header-center">
-                            <div class="header-logo">
-                                <a href="/home">
-            <div class="header-logo-image-container">
-                <img class="header-logo-image" src="../cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/509x81/lw-logo-w_1585626976__10415.original.png" alt="Luxwatches Demo 02" title="Luxwatches Demo 02">
-            </div></a></div></div>
-                    <div class="header-right">
-                        <!-- <%= locals.title ?title:'Login System' %> -->
-                        <div class="account-link"><a class="navUser-action" href="/account">Account <svg class="icon"><use xlink:href="#icon-user"></use></svg></a></div>
-                         <div class="wrapper-top-cart">
-                        <a class="navUser-action cart-icon" data-cart-preview data-options="align:right" href="/cart">
-              <!--  This line change--> <span class="navUser-item-cartLabel">Cart</span>
-                                <svg class="icon"><use xlink:href="#icon-cart"></use></svg> 
-                                <!-- <span class="countPill cart-quantity"></span> -->
-                            </a>
+            </div>
+            <div class="header-center">
+              <div class="header-logo">
+                <a href="/home">
+                  <div class="header-logo-image-container">
+                    <img class="header-logo-image" src="../cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/509x81/lw-logo-w_1585626976__10415.original.png" alt="Luxwatches Demo 02" title="Luxwatches Demo 02">
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="header-right">
+              <!-- <%= locals.title ?title:'Login System' %> -->
+              <div class="account-link"><a class="navUser-action" href="/account">Account <svg class="icon">
+                    <use xlink:href="#icon-user"></use>
+                  </svg></a></div>
+              <div class="wrapper-top-cart">
+                <a class="navUser-action cart-icon" data-cart-preview data-options="align:right" href="/cart">
+                  <!--  This line change--> <span class="navUser-item-cartLabel">Cart</span>
+                  <svg class="icon">
+                    <use xlink:href="#icon-cart"></use>
+                  </svg>
+                  <!-- <span class="countPill cart-quantity"></span> -->
+                </a>
 
-                            <!-- dropdown-cart -->
-                            <div class="themevale_dropdown " id="cart-preview-dropdown" style="top: 0px;"><div class="previewCart">
-                                <!-- <div class="previewCart-emptyBody">
+                <!-- dropdown-cart -->
+                <div class="themevale_dropdown " id="cart-preview-dropdown" style="top: 0px;">
+                  <div class="previewCart">
+                    <!-- <div class="previewCart-emptyBody">
                                     Your cart is empty
                                 </div>
                                 <h5>Review Your Cart <span class="qty" data-cart-quantity="">5 items</span></h5> -->
-                                    <ul class="previewCartList mCustomScrollbar _mCS_2"><div id="mCSB_2" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: 168px;" tabindex="0"><div id="mCSB_2_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
-                                            <!-- <li class="previewCartItem">
+                    <ul class="previewCartList mCustomScrollbar _mCS_2">
+                      <div id="mCSB_2" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: 168px;" tabindex="0">
+                        <div id="mCSB_2_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
+                          <!-- <li class="previewCartItem">
                                                 <div class="previewCartItem-image">
                                                         <img src="https://cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/100x128/products/158/510/2232049__80153__76537.1583120669.jpg?c=2" alt="Minterdum AnDacony Maliduet" title="Minterdum AnDacony Maliduet" data-sizes="auto">
                                                 </div>
@@ -251,85 +274,102 @@ var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c
                                                     </span>
                                                 </div>
                                             </li> -->
-                                            
-                                    </div><div id="mCSB_2_scrollbar_vertical" class="mCSB_scrollTools mCSB_2_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: block;"><div class="mCSB_draggerContainer"><div id="mCSB_2_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: block; height: 115px; max-height: 158px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div><div class="mCSB_draggerRail"></div></div></div></div></div></ul>
-                                    <div class="previewCartAction">
-                                            <!-- <div class="previewCartAction-checkout">
+
+                        </div>
+                        <div id="mCSB_2_scrollbar_vertical" class="mCSB_scrollTools mCSB_2_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: block;">
+                          <div class="mCSB_draggerContainer">
+                            <div id="mCSB_2_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: block; height: 115px; max-height: 158px; top: 0px;">
+                              <div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
+                              <div class="mCSB_draggerRail"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </ul>
+                    <div class="previewCartAction">
+                      <!-- <div class="previewCartAction-checkout">
                                                 <a href="/checkout" class="button button--primary">
                                                     Check out now
                                                 </a>
                                             </div> -->
-                            
-                                        <div class="previewCartAction-viewCart">
-                                            <a href="/cart" class="button button--action">
-                                                View Cart
-                                            </a>
-                                        </div>
-                            
-                                    </div>
-                            </div>
-                            </div>
-                         </div>
-                         <div class="search-nav">
-                            <div id="quickSearch" aria-hidden="true" tabindex="-1" data-prevent-quick-search-close>
-                                <a class="search-icon" href="#" data-search="quickSearch" aria-controls="quickSearch" aria-expanded="false">
-                                    <svg class="icon icon-close"><use xlink:href="#icon-close"></use></svg>
-                                    <svg class="icon icon-search"><use xlink:href="#icon-search"></use></svg>
-                                </a>
- <div class="dropdown dropdown--quickSearch ">  <!-- themevale_dropdown    -->
-    <div class="dropdown--quickSearch-inner">
-        <form class="form" action="/searchProduct" method="get">
-            <fieldset class="form-fieldset">
-                <div class="form-field">
-                    <input type="text" class="form-input" data-search-quick name="search_query" id="search_query" data-error-message="Search field cannot be empty." placeholder="Search..." autocomplete="off">
-                    <input type="hidden" name="origin" id="origin">
-                    <button type="submit" class="icon-search"><span class="text">Search</span><svg class="icon"><use xlink:href="#icon-search"></use></svg></button>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-</div>
-                            </div>
-                         </div>
-                         <div class="right-nav">
-                            <a href="#" class="mobileMenu-toggle">
-                                <span class="mobileMenu-toggleIcon">Toggle menu</span>
-                            </a>
-                            <nav class="navUser themevale_dropdown">
-    <ul class="navUser-section navUser-section--alt no-currency">
 
-        <li class="navUser-item navUser-item--account login">
-                <a class="navUser-action" href="/signIn">Log in</a>
-        </li>
-                <li class="navUser-item navUser-item--account create_account">
-                    <a class="navUser-action" href="/signUp">Create Account</a>
-                </li>
-        <li class="navUser-item navUser-item--wishlist">
-            <a class="navUser-action" href="#">My Wish Lists</a>
-        </li>
-            <li class="navUser-item">
-                <a class="navUser-action" href="/return">Shipping and Return</a>
-            </li>
-            <li class="navUser-item">
-                <a class="navUser-action" href="/contact">Contact Us</a>
-            </li>
-            <li class="navUser-item">
-                <a class="navUser-action" href="/signOut">Log-out</a>
-            </li>
-    </ul>
+                      <div class="previewCartAction-viewCart">
+                        <a href="/cart" class="button button--action">
+                          View Cart
+                        </a>
+                      </div>
 
-
-</nav>
-                        </div> 
                     </div>
+                  </div>
                 </div>
+              </div>
+              <div class="search-nav">
+                <div id="quickSearch" aria-hidden="true" tabindex="-1" data-prevent-quick-search-close>
+                  <a class="search-icon" href="#" data-search="quickSearch" aria-controls="quickSearch" aria-expanded="false">
+                    <svg class="icon icon-close">
+                      <use xlink:href="#icon-close"></use>
+                    </svg>
+                    <svg class="icon icon-search">
+                      <use xlink:href="#icon-search"></use>
+                    </svg>
+                  </a>
+                  <div class="dropdown dropdown--quickSearch ">
+                    <!-- themevale_dropdown    -->
+                    <div class="dropdown--quickSearch-inner">
+                      <form class="form" action="/searchProduct" method="get">
+                        <fieldset class="form-fieldset">
+                          <div class="form-field">
+                            <input type="text" class="form-input" data-search-quick name="search_query" id="search_query" data-error-message="Search field cannot be empty." placeholder="Search..." autocomplete="off">
+                            <input type="hidden" name="origin" id="origin">
+                            <button type="submit" class="icon-search"><span class="text">Search</span><svg class="icon">
+                                <use xlink:href="#icon-search"></use>
+                              </svg></button>
+                          </div>
+                        </fieldset>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="right-nav">
+                <a href="#" class="mobileMenu-toggle">
+                  <span class="mobileMenu-toggleIcon">Toggle menu</span>
+                </a>
+                <nav class="navUser themevale_dropdown">
+                  <ul class="navUser-section navUser-section--alt no-currency">
+
+                    <li class="navUser-item navUser-item--account login">
+                      <a class="navUser-action" href="/signIn">Log in</a>
+                    </li>
+                    <li class="navUser-item navUser-item--account create_account">
+                      <a class="navUser-action" href="/signUp">Create Account</a>
+                    </li>
+                    <li class="navUser-item navUser-item--wishlist">
+                      <a class="navUser-action" href="#">My Wish Lists</a>
+                    </li>
+                    <li class="navUser-item">
+                      <a class="navUser-action" href="/return">Shipping and Return</a>
+                    </li>
+                    <li class="navUser-item">
+                      <a class="navUser-action" href="/contact">Contact Us</a>
+                    </li>
+                    <li class="navUser-item">
+                      <a class="navUser-action" href="/signOut">Log-out</a>
+                    </li>
+                  </ul>
+
+
+                </nav>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-   <div class="themevale-header-Mobile">
-    	    <div id="top-bar-promotion" class="top-bar-promotion-layout-2">
-	        <div class="container">
-	        	<div class="item-list" data-slick='{
+    <div class="themevale-header-Mobile">
+      <div id="top-bar-promotion" class="top-bar-promotion-layout-2">
+        <div class="container">
+          <div class="item-list" data-slick='{
 		        "dots": false,
 		        "arrows": false,
 		        "infinite": true,
@@ -339,138 +379,141 @@ var BCData = {"csrf_token":"cfcc448ef6c3f5083fe85675d3afb233f8003c94484e5026ba3c
 		        "vertical": true,
 		        "autoplay": true
 		    }'>
-	            	<div class="banner-header-top text-center">
-	            		<div class="banner-header-top-inner">
-		            			<span>Free Shipping</span>
-		            			on all Orders. No Minimum Purchases Required*
-		            	</div>
-	            	</div>
-	            	<div class="banner-header-top text-center">
-	            		<div class="banner-header-top-inner">
-		            			<span>20% discount</span>
-		            			on selected items
-		            	</div>
-	            	</div>
-	            </div>
-	        </div>
-	    </div>
-    <div class="themevale_header">
-    <div class="header-Mobile-item text-left">
-        <div class="items item--hamburger">
+            <div class="banner-header-top text-center">
+              <div class="banner-header-top-inner">
+                <span>Free Shipping</span>
+                on all Orders. No Minimum Purchases Required*
+              </div>
+            </div>
+            <div class="banner-header-top text-center">
+              <div class="banner-header-top-inner">
+                <span>20% discount</span>
+                on selected items
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="themevale_header">
+        <div class="header-Mobile-item text-left">
+          <div class="items item--hamburger">
             <a class="mobileMenu-toggle" href="#" data-mobile-menu-toggle="menu">
-                <span class="mobileMenu-toggleIcon">Toggle menu</span>
+              <span class="mobileMenu-toggleIcon">Toggle menu</span>
             </a>
-        </div>
-        <div class="items item--searchMobile">
+          </div>
+          <div class="items item--searchMobile">
             <a class="navUser-action searchMobile" href="#" data-search="quickSearch" aria-controls="quickSearch" aria-expanded="false">
-                <div class="search-icon">
-                    <svg class="icon"><use xlink:href="#icon-search"></use></svg>
-                </div>
+              <div class="search-icon">
+                <svg class="icon">
+                  <use xlink:href="#icon-search"></use>
+                </svg>
+              </div>
             </a>
+          </div>
         </div>
-    </div>
-    <div class="header-Mobile-item text-center">
-        <div class="items">
+        <div class="header-Mobile-item text-center">
+          <div class="items">
             <div class="logo-wrapper">
-                    <div class="header-logo">
-                        <a href="/home">
-            <div class="header-logo-image-container">
-                <!-- Logo path -->
-                <img class="header-logo-image" src="../cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/509x81/lw-logo-w_1585626976__10415.original.png" alt="" title="">
+              <div class="header-logo">
+                <a href="/home">
+                  <div class="header-logo-image-container">
+                    <!-- Logo path -->
+                    <img class="header-logo-image" src="../cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/509x81/lw-logo-w_1585626976__10415.original.png" alt="" title="">
+                  </div>
+                </a>
+              </div>
             </div>
-</a>
-                    </div>
-            </div>
+          </div>
         </div>
-    </div>
-    <div class="header-Mobile-item text-right">
-        <div class="items item--account">
+        <div class="header-Mobile-item text-right">
+          <div class="items item--account">
             <a class="navUser-action accountMobile" href="javascript:void(0)">
-                <div class="navUser-icon">
-                    <svg class="icon"><use xlink:href="#icon-user"/></svg>
-                </div>
+              <div class="navUser-icon">
+                <svg class="icon">
+                  <use xlink:href="#icon-user" />
+                </svg>
+              </div>
             </a>
-        </div>
-        <div class="items item--cart themevale_cart">
-            <a class="navUser-action cartMobile"
-                data-cart-preview
-                data-options="align:right"
-                href="/cart">
-                <div class="navUser-icon navUser-item-cartIcon cart-icon">
-                    <svg class="icon"><use xlink:href="#icon-cart"></use></svg>
-                    <span class="countPill cart-quantity"></span>
-                </div>
+          </div>
+          <div class="items item--cart themevale_cart">
+            <a class="navUser-action cartMobile" data-cart-preview data-options="align:right" href="/cart">
+              <div class="navUser-icon navUser-item-cartIcon cart-icon">
+                <svg class="icon">
+                  <use xlink:href="#icon-cart"></use>
+                </svg>
+                <span class="countPill cart-quantity"></span>
+              </div>
             </a>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-   </div>   
-</header>
+  </header>
 
-<div class="navPages-container navPages-layout-2 homepage-layout-2" id="menu" data-menu>
+  <div class="navPages-container navPages-layout-2 homepage-layout-2" id="menu" data-menu>
     <div class="container">
-        <div class="logo-wrapper">
-            <div class="header-sticky-logo">
-                <!-- Logo Path  -->
-                <a href="/home"><img src="product_images/uploaded_images/logo-scroll.png" title="" alt=""/></a>
-            </div>
-        </div> 
-        <nav class="navPages">
-    <ul class="navPages-list navPages-list-depth-max">
-        <li class="navPages-item">
+      <div class="logo-wrapper">
+        <div class="header-sticky-logo">
+          <!-- Logo Path  -->
+          <a href="/home"><img src="product_images/uploaded_images/logo-scroll.png" title="" alt="" /></a>
+        </div>
+      </div>
+      <nav class="navPages">
+        <ul class="navPages-list navPages-list-depth-max">
+          <li class="navPages-item">
             <p class="navPages-action navPages-action-depth-max has-subMenu is-root">
-    <a class="text" href="/home">Home</a> 
-     <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-    </p>
-         </li>
-         <li class="navPages-item">
+              <a class="text" href="/home">Home</a>
+              <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
+            </p>
+          </li>
+          <li class="navPages-item">
             <p class="navPages-action navPages-action-depth-max has-subMenu is-root">
-    <a class="text" href="/newRelease">New Releases</a> 
-     <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-    </p>
-         </li>
-            <li class="navPages-item">
-                    <p class="navPages-action navPages-action-depth-max has-subMenu is-root">
-        <a class="text" href="/mens">Mens</a> 
-        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-    </p>
-            </li>
-            <li class="navPages-item">
-                    <p class="navPages-action navPages-action-depth-max has-subMenu is-root">
-        <a class="text" href="/womens">Womens</a> 
-        <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
-    </p>
-      </li>
-      </ul>
-      
-</nav>
+              <a class="text" href="/newRelease">New Releases</a>
+              <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
+            </p>
+          </li>
+          <li class="navPages-item">
+            <p class="navPages-action navPages-action-depth-max has-subMenu is-root">
+              <a class="text" href="/mens">Mens</a>
+              <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
+            </p>
+          </li>
+          <li class="navPages-item">
+            <p class="navPages-action navPages-action-depth-max has-subMenu is-root">
+              <a class="text" href="/womens">Womens</a>
+              <span class="icon navPages-action-moreIcon" aria-hidden="true">&#10095;</span>
+            </p>
+          </li>
+        </ul>
+
+      </nav>
     </div>
-</div>
-<script>
-  // Function to get cookie value by name
-  function getCookie(name) {
+  </div>
+  <script>
+    // Function to get cookie value by name
+    function getCookie(name) {
       let cookieArr = document.cookie.split(";");
-      for(let i = 0; i < cookieArr.length; i++) {
-          let cookiePair = cookieArr[i].split("=");
-          if(name == cookiePair[0].trim()) {
-              return decodeURIComponent(cookiePair[1]);
-          }
+      for (let i = 0; i < cookieArr.length; i++) {
+        let cookiePair = cookieArr[i].split("=");
+        if (name == cookiePair[0].trim()) {
+          return decodeURIComponent(cookiePair[1]);
+        }
       }
       return null;
-  }
+    }
 
-  // Check for JWT token and display appropriate buttons
-  window.onload = function() {
+    // Check for JWT token and display appropriate buttons
+    window.onload = function() {
       let jwtToken = getCookie('jwtToken');
-      if(jwtToken) {
-          document.getElementById('account-buttons').style.display = 'block';
+      if (jwtToken) {
+        document.getElementById('account-buttons').style.display = 'block';
       } else {
-          document.getElementById('sign-in-buttons').style.display = 'block';
+        document.getElementById('sign-in-buttons').style.display = 'block';
       }
-  }
-</script>
+    }
+  </script>
 
-<!-- <script>
+  <!-- <script>
     document.getElementById('loginForm').addEventListener('submit', async function (event) {
         event.preventDefault(); // Prevent the default form submission
 

@@ -121,10 +121,10 @@
     document.getElementById('signupForm').addEventListener('submit', async function (event) {
         event.preventDefault(); // Prevent the default form submission
 
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
+        const name = document.getElementById('name').value.trim()
+        const email = document.getElementById('email').value.trim()
         const mobile = document.getElementById('mobile').value;
-        const password = document.getElementById('password').value;
+        const password = document.getElementById('password').value.trim()
         
         const errorName = document.getElementById('errorName');
         const errorEmail = document.getElementById('errorEmail');

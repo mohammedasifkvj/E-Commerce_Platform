@@ -34,11 +34,8 @@
                                     <% } %>
                     </div>
                     <!-- hide after  5 seconnds -->
-
                     <div class="login-row">
-                        <!-- https://luxwatches-demo-02.mybigcommerce.com/login.php?action=check_login -->
                         <form id="loginForm" class="login-form form" action="/signIn" method="post" novalidate>
-
 
                             <div class="form-field">
                                 <label class="form-label" for="login_email">Email Address<small>*</small></label>
@@ -53,6 +50,7 @@
                             </div>
                             <div class="form-actions">
                                 <input type="submit" class="button button--small button--primary" value="Sign in">
+                            </form>
                                 <a class="forgot-password" href="/forgetPW">Forgot your password?</a>
                                 <br>
                                 <br>
@@ -84,8 +82,8 @@
                                     Sign in using Facebook
                                 </a></button> -->
                                 </div>
-                            </div>
-                        </form>
+                    </div>
+                    
                         <div class="new-customer">
                             <div class="panel">
                                 <div class="panel-header">
@@ -135,8 +133,8 @@
         document.getElementById('loginForm').addEventListener('submit', async function (event) {
             event.preventDefault(); // Prevent the default form submission
 
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            const email = document.getElementById('email').value.trim()
+            const password = document.getElementById('password').value.trim()
             const errorDiv = document.getElementById('error');
             const errorDiv1 = document.getElementById('error1');
             errorDiv.textContent = ''; // Clear previous errors

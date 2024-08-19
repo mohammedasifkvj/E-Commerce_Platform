@@ -1,33 +1,34 @@
 const { required, number } = require('@hapi/joi');
 const { default: mongoose } = require('mongoose');
-const mongoos=require('mongoose');
+const mongoos = require('mongoose');
 
-const Otp=new mongoos.Schema({
+const Otp = new mongoos.Schema({
 
     // user_id:{
     //     type:mongoose.Schema.Types.ObjectId,
     //     required:true,
     //     ref:'User'
     // },
-    email:{type:String,
-        required:true
+    email: {
+        type: String,
+        required: true
     },
-    otp:{
-        type:String,
-        required:true
+    otp: {
+        type: String,
+        required: true
     },
-    timestamp:{
-        type:Date,
-        default:Date.now,
-        required:true,
-        get:(timestamp)=>timestamp.getTime(),
-        set:(timestamp)=>new Date(timestamp),
-        index:{expires:360}
+    timestamp: {
+        type: Date,
+        default: Date.now,
+        required: true,
+        get: (timestamp) => timestamp.getTime(),
+        set: (timestamp) => new Date(timestamp),
+        index: { expires: 360 }
         //OTP expires after 3 min
     },
-},{timestamps:true});
+}, { timestamps: true });
 
-module.exports=mongoos.model("Otp",Otp)
+module.exports = mongoos.model("Otp", Otp)
 
 
 

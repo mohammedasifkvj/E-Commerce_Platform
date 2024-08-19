@@ -7,15 +7,15 @@ exports.showCategory = async (req, res) => {
   const { message, success } = req.query
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit =10; // Number of category per page
+    const limit = 10; // Number of category per page
     const skip = (page - 1) * limit;
     const category = await Category.find().skip(skip).limit(limit);
-    const totalCategory=await Category.countDocuments();
+    const totalCategory = await Category.countDocuments();
     const totalPages = Math.ceil(totalCategory / limit);
     return res.render('3_category', {
       category,
       currentPage: page,
-      totalPages, 
+      totalPages,
       message,
       success
     });
@@ -39,24 +39,24 @@ exports.createCat = async (req, res) => {
 exports.createCategory = async (req, res) => {
   const { name, description } = req.body;
   try {
-    if (!name){
-      return res.status(401).json({ message: 'Name is required'});
+    if (!name) {
+      return res.status(401).json({ message: 'Name is required' });
       //return res.redirect(`/admin/createCat?message=${encodeURIComponent('Name is required')}`);
     }
-    if (!description){
-      return res.status(401).json({ message: 'Description is required'});
+    if (!description) {
+      return res.status(401).json({ message: 'Description is required' });
       //return res.redirect(`/admin/createCat?message=${encodeURIComponent('Description is required')}`);
     }
     // Perform case-insensitive search for existing category
     const isExist = await Category.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') } });
     if (isExist) {
-      return res.status(403).json({ message: name +' category already exists'});
+      return res.status(403).json({ message: name + ' category already exists' });
       //return res.staus(403).redirect(`/admin/createCat?message=${encodeURIComponent(name +' category already exists')}`);
     }
 
     await Category.create({ name, description });
 
-    return res.status(201).json({ success: true, message: 'New category '+ name +' created successfully'});
+    return res.status(201).json({ success: true, message: 'New category ' + name + ' created successfully' });
     //return res.redirect(`/admin/showCategory?success=${encodeURIComponent('New category ' + name + ' created successfully')}`);
   } catch (e) {
     console.log(e);
@@ -113,26 +113,26 @@ exports.editCategory = async (req, res) => {
       return res.redirect(`/admin/showCategory?message=${encodeURIComponent('Category not found')}`);
     }
 
-    if (!name){
-      return res.status(401).json({message:'Name is required'})
+    if (!name) {
+      return res.status(401).json({ message: 'Name is required' })
       //return res.redirect(`/admin/showCategory?message=${encodeURIComponent('Name is required')}`);
     }
-    if (!description){
-      return res.status(401).json({message:'Description is required'})
+    if (!description) {
+      return res.status(401).json({ message: 'Description is required' })
       //return res.redirect(`/admin/showCategory?message=${encodeURIComponent('Description is required')}`);
     }
     //Perform case-insensitive search for existing category
-    const isExist = await Category.findOne({ _id: { $ne: categoryId },name: { $regex: new RegExp(`^${name}$`,'i')}});
+    const isExist = await Category.findOne({ _id: { $ne: categoryId }, name: { $regex: new RegExp(`^${name}$`, 'i') } });
 
     if (isExist) {
-      return res.status(402).json({message:name + ' category already exists'})
+      return res.status(402).json({ message: name + ' category already exists' })
       //return res.redirect(`/admin/ShowCategory?message=${encodeURIComponent(name + ' category already exists')}`);
     }
 
     await Category.updateOne({ _id: categoryId },
-      {$set:{name,description}},
+      { $set: { name, description } },
       { new: true });
-     return res.status(200).json({ success: true, message:name+' Category Updated successfully' });
+    return res.status(200).json({ success: true, message: name + ' Category Updated successfully' });
     //return res.redirect(`/admin/showCategory?success=${encodeURIComponent('Category '+ name +' Updated successfully')}`);
 
   } catch (e) {
@@ -156,7 +156,7 @@ exports.listUnlistCategory = async (req, res) => {
     //   console.log('Invalid or missing category ID');
     //   return res.status(404).render('404Admin')
     // }
-   
+
     if (!categoryData) {
       return res.json({ success: false, message: 'Category is not found' });
     }
@@ -170,7 +170,7 @@ exports.listUnlistCategory = async (req, res) => {
     } else {
       await Category.findByIdAndUpdate(categoryId, { $set: { isDeleted: true } }, { new: true });
       await Product.updateMany({ category: name }, { $set: { isDeleted: true } }, { new: true });
-      return res.json({ success: true, message: `Category ${name} Hided successfully`});
+      return res.json({ success: true, message: `Category ${name} Hided successfully` });
     }
 
   } catch (e) {

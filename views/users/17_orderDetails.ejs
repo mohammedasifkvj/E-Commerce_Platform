@@ -113,14 +113,20 @@
     <% }) %> 
 </ul>
 
-                        <dl class="account-orderTotal">
-                                    <!-- <dt class="account-orderTotal-key">Subtotal:</dt>
-                                    <dd class="account-orderTotal-value">1,847.99</dd> 
-                                    <dt class="account-orderTotal-key">Shipping:</dt>
-                                    <dd class="account-orderTotal-value">₹10.00</dd>-->
-                                    <dt class="account-orderTotal-key">Grand total:</dt>
-                                    <dd class="account-orderTotal-value"><%= orderItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %></dd>
-                        </dl>
+<dl class="account-orderTotal">
+    <dt class="account-orderTotal-key">Subtotal:</dt>
+    <dd class="account-orderTotal-value">
+        <%= orderItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %>
+    </dd>
+    <dt class="account-orderTotal-key">Discount:</dt>
+    <dd id="discount-value" class="account-orderTotal-value">
+        <%= order?.discount %>
+    </dd>
+    <dt class="account-orderTotal-key">Grand total:</dt>
+    <dd id="grand-total-value" class="account-orderTotal-value">
+        <%= orderItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) - order?.discount  %>
+    </dd>
+  </dl>
                     </div>
 
                     <aside class="account-sidebar">
@@ -161,10 +167,11 @@
                             <h3 class="account-heading">Ship To</h3>
                             <ul class="account-order-address">
                                 <!-- <li><%= address?.name%></li> -->
-                                <li><%= address?.houseName%></li>
-                                <li><%= address?.landmark%></li>
-                                <li><%= address?.state%></li>
-                                <li><%= address?.country%></li>
+                                <li><%= address?.houseName %></li>
+                                <li><%= address?.landmark %></li>
+                                <li><%= address?.city %></li>
+                                <li><%= address?.state %></li>
+                                <li><%= address?.country %></li>
                                 <li><%= address?.pin %></li>
                             </ul>
                         </section>

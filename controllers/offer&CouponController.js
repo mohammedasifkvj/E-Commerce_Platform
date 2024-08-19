@@ -37,7 +37,7 @@ const addOfferPage =async (req,res)=>{
         const product=await Product.find()
         return res.render('11_addOffer',{ 
         category,
-        product,
+        product
     });
     } catch (e) {
         console.log(e);
@@ -75,17 +75,6 @@ const addOffer = async (req, res, next) => {
             productName: type === 'Product Offer' ? productName: undefined
         });
 
-        // const newOffer = new Offer({
-        //     offerName: offer,
-        //     type: type,
-        //     expiredDate: expiredDate,
-        //     discount: discount,
-        //     maxRedeemableAmount: maxRedeemableAmount,
-        //     category: type === 'Category Offer' ? category : undefined,
-        //     Pname: type === 'Product Offer' ? Pname : undefined
-        // });
-
-
         await newOffer.save();
 
         const offerId = newOffer._id;
@@ -118,6 +107,7 @@ const addOffer = async (req, res, next) => {
         next(error);
     }
 };
+
 // Offer status change 
 const offerStatusChange = async (req,res) => {
     try {
@@ -175,7 +165,7 @@ const offerStatusChange = async (req,res) => {
     }
 };
 
-
+// Coupon Table
 const coupon = async (req, res) => {
     try {
         const currentPage = parseInt(req.query.page) || 1 ;
@@ -202,85 +192,8 @@ const addCouponPage = async (req, res) => {
     }
 }
 
-// const addCoupon = async (req, res) => {
-//     try {
-//       const { couponCode, discountPercentage, expiredDate, minPurchaseAmt, maxRedimabelAmount } = req.body;
-  
-//       // Trim and validate couponCode
-//       if (!couponCode || couponCode.trim() === "") {
-//         return res.status(400).json({ message: "Coupon Code is required and cannot be empty" });
-//       }
-  
-//       // Ensure values are properly typed
-//       const couponData = {
-//         couponCode: couponCode.trim(),
-//         discountPercentage: Number(discountPercentage),
-//         expiredDate: new Date(expiredDate),
-//         minPurchaseAmt: Number(minPurchaseAmt),
-//         maxRedimabelAmount: Number(maxRedimabelAmount),
-//       };
-  
-//       // Check if couponCode already exists
-//       const isExist = await Coupon.findOne({ couponCode: couponData.couponCode });
-//       if (isExist) {
-//         return res.status(403).json({ message: "This Coupon Code already exists, please enter another one" });
-//       }
-  
-//       // Create new coupon
-//       const coupon = new Coupon(couponData);
-  
-//       // Save coupon to database
-//       await coupon.save();
-  
-//       return res.status(200).json({ success: true });
-//     } catch (e) {
-//       console.error(e);
-//       return res.status(500).json({ message: "Internal Server Error" });
-//     }
-//   };
-  
-  
 
-// const addCoupon = async (req, res) => {
-//     try {
-//       const { couponCode, discountPercentage, expiredDate, minPurchaseAmt, maxRedimabelAmount } = req.body;
-
-//       console.log(req.body,couponCode, discountPercentage, expiredDate, minPurchaseAmt, maxRedimabelAmount )
-  
-//       if (!couponCode || couponCode.trim() === "") {
-//         return res.status(400).json({ message: "Coupon Code is required and cannot be empty" });
-//       }
-  
-//       const isExist = await Coupon.findOne({ couponCode: { $regex: new RegExp(`^${couponCode}$`, 'i') } });
-//       if (isExist) {
-//         return res.status(403).json({ message: "This Coupon Code already exists, please enter another one" });
-//       }
-  
-//     //   const coupon = new Coupon({
-//     //     couponCode,
-//     //     discountPercentage,
-//     //     expiredDate,
-//     //     minPurchaseAmt,
-//     //     maxRedimabelAmount,
-//     //   });
-  
-//     const coupon = new Coupon({
-//         couponCode,
-//         discountPercentage: Number(discountPercentage),
-//         expiredDate: new Date(expiredDate),
-//         minPurchaseAmt: Number(minPurchaseAmt),
-//         maxRedimabelAmount: Number(maxRedimabelAmount),
-//     });
-
-//       await coupon.save();
-  
-//       return res.status(200).json({ success: true });
-//     } catch (e) {
-//       console.log(e.message);
-//       return res.status(500).json({ message: "Internal Server Error" });
-//     }
-//   };
-  
+// Add Coupon
 const addCoupon = async (req, res) => {
     try {
         const { couponCode, discountPercentage, expiredDate, minPurchaseAmt, maxRedimabelAmount } = req.body;
@@ -320,7 +233,7 @@ const addCoupon = async (req, res) => {
 };
 
 
-//
+//Activate and Deactivate
 const couponStatusChange = async (req, res, next) => {
     try {
         const id = req.query.couponId;
@@ -349,10 +262,12 @@ const couponStatusChange = async (req, res, next) => {
 const applyCoupon = async (req, res) => {
     try {
         const { couponCode, totalAmount } = req.body;
-
+        //console.log(req.body)
         // Example validation or checking before processing
         if (!couponCode) {
-            return res.status(400).json({ message: "Coupon code is required." });
+            console.log("1");
+            
+            return res.status(401).json({ message: "Coupon code is required." });
         }
         
         // Example: Fetch coupon data from database
@@ -360,6 +275,13 @@ const applyCoupon = async (req, res) => {
 
         if (!coupon) {
             return res.status(404).json({ message: "Coupon not found." });
+        }
+        if (coupon.minPurchaseAmt > totalAmount) {
+            return res.status(408).json({ message: `Insufficiant Purchase amount , ${coupon.minPurchaseAmt} is requered` });
+        }
+
+        if (coupon.status===false) {
+            return res.status(400).json({ message: `This coupon is Blocked ,You Can't Add This` });
         }
 
         // Example: Check if coupon is applicable based on conditions
@@ -369,18 +291,10 @@ const applyCoupon = async (req, res) => {
 
         // Example: Calculate discount or apply coupon logic
         const discountAmount = (totalAmount * coupon.discountPercentage) / 100;
-        const couponDiscount = Math.min(discountAmount, coupon.maxRedeemableAmount);
+        const couponDiscount = Math.min(discountAmount, coupon.maxRedimabelAmount);
+        const grandTotal=totalAmount - couponDiscount
 
-        // Example: Save coupon details in session or response
-        req.session.coupon = {
-            id: coupon._id,
-            discountPercentage: coupon.discountPercentage,
-            maxRedeemableAmount: coupon.maxRedimabelAmount,
-            discountAmount: couponDiscount // Save calculated discount amount
-        };
-
-        // Example: Send response with success and discount
-        return res.status(200).json({ success: true, discount: couponDiscount });
+        return res.status(200).json({ success: true, discount: couponDiscount,grandTotal:grandTotal });
     } catch (error) {
         console.error('Error applying coupon:', error);
         return res.status(500).json({ message: 'An error occurred while applying the coupon.' });
@@ -423,12 +337,12 @@ const removeCoupon = async (req, res) => {
 
 
 module.exports={
-    //offer
+//offer
     offers,
     addOfferPage,
     addOffer,
     offerStatusChange,
-    // Coupon
+// Coupon
     coupon, 
     addCouponPage,
     addCoupon,
