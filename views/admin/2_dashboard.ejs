@@ -316,7 +316,7 @@
         <table class="table align-middle table-nowrap mb-0">
           <thead class="table-light">
             <tr>
-              
+
               <th class="align-middle" scope="col">Date</th>
               <th class="align-middle" scope="col">Customer Name</th>
               <th class="align-middle" scope="col">Product Name</th>
@@ -331,7 +331,7 @@
             <!-- Data will be dynamically inserted here by JavaScript -->
           </tbody>
         </table>
-        
+
         <h5 id="totalSales">Total Sales: </h5>
         <h5 id="totalOrderAmount">Total Order Amount: </h5>
         <h5 id="totalDiscount">Total Discount: </h5>
@@ -519,22 +519,23 @@
 
 
   function displayReportData(data) {
+    if (data.totalSales > 0) {
 
-    document.getElementById('reportHeading').innerText = data.reportHeading;
-    // Select table body
-    const tableBody = document.getElementById('reportTableBody');
-    tableBody.innerHTML = ''; // Clear existing rows
+      document.getElementById('reportHeading').innerText = data.reportHeading;
+      // Select table body
+      const tableBody = document.getElementById('reportTableBody');
+      tableBody.innerHTML = ''; // Clear existing rows
 
-    // Populate table with new data
-    data.orders.forEach(order => {
+      // Populate table with new data
+      data.orders.forEach(order => {
         // Keep track of whether it's the first row for the current order
         let isFirstRow = true;
 
         order.orderItems.forEach(item => {
-            const row = document.createElement('tr');
+          const row = document.createElement('tr');
 
-            // Only show customer name, date, and order-wide details for the first row
-            row.innerHTML = `
+          // Only show customer name, date, and order-wide details for the first row
+          row.innerHTML = `
                 <td>${isFirstRow ? new Date(order.createdAt).toLocaleDateString() : ''}</td>
                 <td>${isFirstRow ? order.userId.name || 'Unknown' : ''}</td>
                 <td>${item.productId.productName}</td>
@@ -544,19 +545,19 @@
                 <td>${isFirstRow ? order.paymentMethod : ''}</td>
                 <td>${isFirstRow ? order.status : ''}</td>
             `;
-            tableBody.appendChild(row);
+          tableBody.appendChild(row);
 
-            // Set isFirstRow to false after the first row is generated
-            isFirstRow = false;
+          // Set isFirstRow to false after the first row is generated
+          isFirstRow = false;
         });
-    });
+      });
 
-    // Display total sales, total order amount, and total discount
-    document.getElementById('totalSales').innerText = `Total Sales: ${data.totalSales}`;
-    document.getElementById('totalOrderAmount').innerText = `Total Order Amount: ${data.totalOrderAmount.toFixed(2)}`;
-    document.getElementById('totalDiscount').innerText = `Total Discount: ${data.totalDiscount.toFixed(2)}`;
-}
-
+      // Display total sales, total order amount, and total discount
+      document.getElementById('totalSales').innerText = `Total Sales: ${data.totalSales}`;
+      document.getElementById('totalOrderAmount').innerText = `Total Order Amount: ${data.totalOrderAmount.toFixed(2)}`;
+      document.getElementById('totalDiscount').innerText = `Total Discount: ${data.totalDiscount.toFixed(2)}`;
+    }
+  }
 </script>
 
 <script>
@@ -596,214 +597,223 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
 
 <script>
-async function downloadPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({
-    orientation: 'portrait',
-    unit: 'mm',
-    format: 'a4'
-  });
-
-  // Backend data (from HTML elements)
-  const totalSales = document.getElementById('totalSales').innerText;
-  const totalOrderAmount = document.getElementById('totalOrderAmount').innerText;
-  const totalDiscount = document.getElementById('totalDiscount').innerText;
-  const reportHeading = document.getElementById('reportHeading').innerText; // Get the report period
-
-  // Add centered report heading based on reportPeriod
-  const reportTitle = `${reportHeading}`; // 
-  doc.setFontSize(16);
-  doc.text(reportTitle, doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
-
-  // Add backend data below the heading
-  doc.setFontSize(14);
-  doc.text(`${totalSales}`, 10, 40);
-  doc.text(`${totalOrderAmount}`, 10, 50);
-  doc.text(`${totalDiscount}`, 10, 60);
-
-  // Leave space between text and table
-  let finalY = 70;  // Adjust the starting Y position for the table
-
-  // Extract table data
-  const table = document.getElementById('salesReport');
-  const headers = [];
-  const data = [];
-
-  // Extract headers
-  const headerCells = table.querySelectorAll('thead tr th');
-  headerCells.forEach(headerCell => {
-    headers.push(headerCell.innerText);
-  });
-
-  // Extract table rows
-  const rows = table.querySelectorAll('tbody tr');
-  rows.forEach(row => {
-    const rowData = [];
-    const cells = row.querySelectorAll('td');
-    cells.forEach(cell => {
-      rowData.push(cell.innerText);
+  async function downloadPDF() {
+    const {
+      jsPDF
+    } = window.jspdf;
+    const doc = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
     });
-    data.push(rowData);
-  });
 
-  // Add table to the PDF with centered alignment
-  doc.autoTable({
-    head: [headers],
-    body: data,
-    startY: finalY,  // Start after the backend data
-    theme: 'grid',  // Adds borders to the table
-    margin: { top: 10 },
-    headStyles: { fillColor: [22, 160, 133] },  // Customizing header color
-    styles: { halign: 'center' },  // Center align all content in the table
-    didDrawPage: function (data) {
-      // Add page number on each page
-      const pageCount = doc.internal.getNumberOfPages();
-      doc.setFontSize(10);
-      doc.text(`Page ${pageCount}`, data.settings.margin.left, doc.internal.pageSize.height - 10);  // Page number at bottom
-    }
-  });
+    // Backend data (from HTML elements)
+    const totalSales = document.getElementById('totalSales').innerText;
+    const totalOrderAmount = document.getElementById('totalOrderAmount').innerText;
+    const totalDiscount = document.getElementById('totalDiscount').innerText;
+    const reportHeading = document.getElementById('reportHeading').innerText;
 
-  // Save the PDF
-  doc.save('sales-report.pdf');
-}
+    // Add centered report heading based on reportPeriod
+    const reportTitle = `${reportHeading}`; // 
+    doc.setFontSize(16);
+    doc.text(reportTitle, doc.internal.pageSize.getWidth() / 2, 20, {
+      align: 'center'
+    });
 
-// async function downloadPDF() {
-//   const { jsPDF } = window.jspdf;
-//   const doc = new jsPDF({
-//     orientation: 'portrait',
-//     unit: 'mm',
-//     format: 'a4'
-//   });
+    // Add backend data below the heading
+    doc.setFontSize(14);
+    doc.text(`${totalSales}`, 10, 40);
+    doc.text(`${totalOrderAmount}`, 10, 50);
+    doc.text(`${totalDiscount}`, 10, 60);
 
-//   // Backend data (from HTML elements)
-//   const totalSales = document.getElementById('totalSales').innerText;
-//   const totalOrderAmount = document.getElementById('totalOrderAmount').innerText;
-//   const totalDiscount = document.getElementById('totalDiscount').innerText;
-//   //const reportPeriod = document.getElementById('reportPeriod').innerText; // Get the report period
+    // Leave space between text and table
+    let finalY = 70; // Adjust the starting Y position for the table
 
-//   // Add centered report heading based on reportPeriod
-//   const reportTitle = `Sales Report `;  // (${reportPeriod})
-//   doc.setFontSize(16);
-//   doc.text(reportTitle, doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
+    // Extract table data
+    const table = document.getElementById('salesReport');
+    const headers = [];
+    const data = [];
 
-//   // Add backend data below the heading
-//   doc.setFontSize(14);
-//   doc.text(`${totalSales}`, 10, 40);
-//   doc.text(`${totalOrderAmount}`, 10, 50);
-//   doc.text(`${totalDiscount}`, 10, 60);
+    // Extract headers
+    const headerCells = table.querySelectorAll('thead tr th');
+    headerCells.forEach(headerCell => {
+      headers.push(headerCell.innerText);
+    });
 
-//   // Leave space between text and table
-//   let finalY = 70;  // Adjust the starting Y position for the table
+    // Extract table rows
+    const rows = table.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+      const rowData = [];
+      const cells = row.querySelectorAll('td');
+      cells.forEach(cell => {
+        rowData.push(cell.innerText);
+      });
+      data.push(rowData);
+    });
 
-//   // Extract table data
-//   const table = document.getElementById('salesReport');
-//   const headers = [];
-//   const data = [];
+    // Add table to the PDF with centered alignment
+    doc.autoTable({
+      head: [headers],
+      body: data,
+      startY: finalY, // Start after the backend data
+      theme: 'grid', // Adds borders to the table
+      margin: {
+        top: 10
+      },
+      headStyles: {
+        fillColor: [22, 160, 133]
+      }, // Customizing header color
+      styles: {
+        halign: 'center'
+      }, // Center align all content in the table
+      didDrawPage: function(data) {
+        // Add page number on each page
+        const pageCount = doc.internal.getNumberOfPages();
+        doc.setFontSize(10);
+        doc.text(`Page ${pageCount}`, data.settings.margin.left, doc.internal.pageSize.height - 10); // Page number at bottom
+      }
+    });
 
-//   // Extract headers
-//   const headerCells = table.querySelectorAll('thead tr th');
-//   headerCells.forEach(headerCell => {
-//     headers.push(headerCell.innerText);
-//   });
+    // Save the PDF
+    doc.save('sales-report.pdf');
+  }
 
-//   // Extract table rows
-//   const rows = table.querySelectorAll('tbody tr');
-//   rows.forEach(row => {
-//     const rowData = [];
-//     const cells = row.querySelectorAll('td');
-//     cells.forEach(cell => {
-//       rowData.push(cell.innerText);
-//     });
-//     data.push(rowData);
-//   });
+  // async function downloadPDF() {
+  //   const { jsPDF } = window.jspdf;
+  //   const doc = new jsPDF({
+  //     orientation: 'portrait',
+  //     unit: 'mm',
+  //     format: 'a4'
+  //   });
 
-//   // Add table to the PDF with pagination
-//   doc.autoTable({
-//     head: [headers],
-//     body: data,
-//     startY: finalY,  // Start after the backend data
-//     theme: 'grid',  // Adds borders to the table
-//     margin: { top: 10 },
-//     headStyles: { fillColor: [22, 160, 133] },  // Customizing header color
-//     didDrawPage: function (data) {
-//       // Add page number on each page instead of redundant title
-//       const pageCount = doc.internal.getNumberOfPages();
-//       doc.setFontSize(10);
-//       doc.text(`Page ${pageCount}`, data.settings.margin.left, doc.internal.pageSize.height - 10);  // Page number at bottom
-//     }
-//   });
+  //   // Backend data (from HTML elements)
+  //   const totalSales = document.getElementById('totalSales').innerText;
+  //   const totalOrderAmount = document.getElementById('totalOrderAmount').innerText;
+  //   const totalDiscount = document.getElementById('totalDiscount').innerText;
+  //   //const reportPeriod = document.getElementById('reportPeriod').innerText; // Get the report period
 
-//   // Save the PDF
-//   doc.save('sales-report.pdf');
-// }
+  //   // Add centered report heading based on reportPeriod
+  //   const reportTitle = `Sales Report `;  // (${reportPeriod})
+  //   doc.setFontSize(16);
+  //   doc.text(reportTitle, doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
+
+  //   // Add backend data below the heading
+  //   doc.setFontSize(14);
+  //   doc.text(`${totalSales}`, 10, 40);
+  //   doc.text(`${totalOrderAmount}`, 10, 50);
+  //   doc.text(`${totalDiscount}`, 10, 60);
+
+  //   // Leave space between text and table
+  //   let finalY = 70;  // Adjust the starting Y position for the table
+
+  //   // Extract table data
+  //   const table = document.getElementById('salesReport');
+  //   const headers = [];
+  //   const data = [];
+
+  //   // Extract headers
+  //   const headerCells = table.querySelectorAll('thead tr th');
+  //   headerCells.forEach(headerCell => {
+  //     headers.push(headerCell.innerText);
+  //   });
+
+  //   // Extract table rows
+  //   const rows = table.querySelectorAll('tbody tr');
+  //   rows.forEach(row => {
+  //     const rowData = [];
+  //     const cells = row.querySelectorAll('td');
+  //     cells.forEach(cell => {
+  //       rowData.push(cell.innerText);
+  //     });
+  //     data.push(rowData);
+  //   });
+
+  //   // Add table to the PDF with pagination
+  //   doc.autoTable({
+  //     head: [headers],
+  //     body: data,
+  //     startY: finalY,  // Start after the backend data
+  //     theme: 'grid',  // Adds borders to the table
+  //     margin: { top: 10 },
+  //     headStyles: { fillColor: [22, 160, 133] },  // Customizing header color
+  //     didDrawPage: function (data) {
+  //       // Add page number on each page instead of redundant title
+  //       const pageCount = doc.internal.getNumberOfPages();
+  //       doc.setFontSize(10);
+  //       doc.text(`Page ${pageCount}`, data.settings.margin.left, doc.internal.pageSize.height - 10);  // Page number at bottom
+  //     }
+  //   });
+
+  //   // Save the PDF
+  //   doc.save('sales-report.pdf');
+  // }
 
 
-//   async function downloadPDF() {
-//     const {
-//       jsPDF
-//     } = window.jspdf;
-//     const doc = new jsPDF({
-//       orientation: 'portrait',
-//       unit: 'mm',
-//       format: 'a4'
-//     });
-// // Backend data
-//   const totalSales = document.getElementById('totalSales').innerText
-//   const totalOrderAmount = document.getElementById('totalOrderAmount').innerText
-//   const totalDiscount = document.getElementById('totalDiscount').innerText
+  //   async function downloadPDF() {
+  //     const {
+  //       jsPDF
+  //     } = window.jspdf;
+  //     const doc = new jsPDF({
+  //       orientation: 'portrait',
+  //       unit: 'mm',
+  //       format: 'a4'
+  //     });
+  // // Backend data
+  //   const totalSales = document.getElementById('totalSales').innerText
+  //   const totalOrderAmount = document.getElementById('totalOrderAmount').innerText
+  //   const totalDiscount = document.getElementById('totalDiscount').innerText
 
-//   // Add backend data to the PDF
-//   doc.setFontSize(14);
-//   doc.text(`${totalSales}`, 10, 10);
-//   doc.text(`${totalOrderAmount}`, 10, 20);
-//   doc.text(`${totalDiscount}`, 10, 30);
+  //   // Add backend data to the PDF
+  //   doc.setFontSize(14);
+  //   doc.text(`${totalSales}`, 10, 10);
+  //   doc.text(`${totalOrderAmount}`, 10, 20);
+  //   doc.text(`${totalDiscount}`, 10, 30);
 
-//   // Add a small gap before the table
-//   doc.setFontSize(12);
+  //   // Add a small gap before the table
+  //   doc.setFontSize(12);
 
-//     // Get table data
-//     const table = document.getElementById('salesReport');
-//     const headers = [];
-//     const data = [];
+  //     // Get table data
+  //     const table = document.getElementById('salesReport');
+  //     const headers = [];
+  //     const data = [];
 
-//     // Extract headers
-//     const headerCells = table.querySelectorAll('thead tr th');
-//     headerCells.forEach(headerCell => {
-//       headers.push(headerCell.innerText);
-//     });
+  //     // Extract headers
+  //     const headerCells = table.querySelectorAll('thead tr th');
+  //     headerCells.forEach(headerCell => {
+  //       headers.push(headerCell.innerText);
+  //     });
 
-//     // Extract table rows
-//     const rows = table.querySelectorAll('tbody tr');
-//     rows.forEach(row => {
-//       const rowData = [];
-//       const cells = row.querySelectorAll('td');
-//       cells.forEach(cell => {
-//         rowData.push(cell.innerText);
-//       });
-//       data.push(rowData);
-//     });
+  //     // Extract table rows
+  //     const rows = table.querySelectorAll('tbody tr');
+  //     rows.forEach(row => {
+  //       const rowData = [];
+  //       const cells = row.querySelectorAll('td');
+  //       cells.forEach(cell => {
+  //         rowData.push(cell.innerText);
+  //       });
+  //       data.push(rowData);
+  //     });
 
-//     // Add table to the PDF
-//     doc.autoTable({
-//       head: [headers],
-//       body: data,
-//       margin: {
-//         top: 10
-//       },
-//       theme: 'grid', // Adds borders
-//       headStyles: {
-//         fillColor: [22, 160, 133]
-//       }, // Customizing header color
-//       didDrawPage: function(data) {
-//         doc.text('Sales Report', data.settings.margin.left, 10); // Add a title to the top of each page
-//       },
-//       startY: 20, // Position of the table on the page
-//     });
+  //     // Add table to the PDF
+  //     doc.autoTable({
+  //       head: [headers],
+  //       body: data,
+  //       margin: {
+  //         top: 10
+  //       },
+  //       theme: 'grid', // Adds borders
+  //       headStyles: {
+  //         fillColor: [22, 160, 133]
+  //       }, // Customizing header color
+  //       didDrawPage: function(data) {
+  //         doc.text('Sales Report', data.settings.margin.left, 10); // Add a title to the top of each page
+  //       },
+  //       startY: 20, // Position of the table on the page
+  //     });
 
-//     // Save the PDF
-//     doc.save('sales-report.pdf');
-//   }
-
+  //     // Save the PDF
+  //     doc.save('sales-report.pdf');
+  //   }
 </script>
 
 <script>
