@@ -1,5 +1,6 @@
 const Product= require("../models/product")
 const Category=require("../models/category")
+const Cart=require("../models/cart")
 const Reviews=require("../models/review")
 const mongoose = require('mongoose')
 const sharp =require('sharp')
@@ -82,11 +83,13 @@ const addProduct = async (req,res) =>{
             const message='Price is required'
             return res.status(400).json({message: message})
            // return res.redirect(`/admin/addproduct?message=${encodeURIComponent('Price is required')}`);
-        }if(!discountPrice){
-            const message='Discount Price is required'
-            return res.status(400).json({message: message})
-           // return res.redirect(`/admin/addproduct?message=${encodeURIComponent('Discount Price is required')}`);
-        }if(!stock){
+        }
+        // if(!discountPrice){
+        //     const message='Discount Price is required'
+        //     return res.status(400).json({message: message})
+        //    // return res.redirect(`/admin/addproduct?message=${encodeURIComponent('Discount Price is required')}`);
+        // }
+        if(!stock){
             const message='Stock is required'
             return res.status(400).json({message: message})
             //return res.redirect(`/admin/addproduct?message=${encodeURIComponent('Stock is required')}`);
@@ -115,7 +118,20 @@ const addProduct = async (req,res) =>{
                 .toFile(`public/${imagePaths}`);
         }
 
-         await Product.create({productName,category,brand,description,dialColour,strapColour,stock,price,discountPrice,productImage:productImagePaths,newProductExpires})
+         await Product.create({
+            productName:productName,
+            category:category,
+            brand:brand,
+            description:description,
+            // dialColour:dialColour,
+            // strapColour:strapColour,
+            stock:stock,
+            price:price,
+            discountPrice:price,
+            //productImage:productImagePaths,
+            newProductExpires:newProductExpires
+            ,productImage:productImagePaths,
+            newProductExpires:newProductExpires})
         const message='New product  '+productName+ ' created successfully'
          return res.status(200).json({success:true,message:message})
        // return res.redirect(`/admin/product?success=${encodeURIComponent('New product  '+productName+' created successfully')}`); 
@@ -214,15 +230,15 @@ const editProduct = async (req, res) => {
             return res.status(400).json({message: message})
            // return res.redirect(`/admin/addproduct?message=${encodeURIComponent('Price is required')}`);
         }
-        if(!discountPrice){
-            const message='Discount Price is required'
-            return res.status(400).json({message: message})
-           // return res.redirect(`/admin/addproduct?message=${encodeURIComponent('Discount Price is required')}`);
-        }
+        // if(!discountPrice){
+        //     const message='Discount Price is required'
+        //     return res.status(400).json({message: message})
+        //    // return res.redirect(`/admin/addproduct?message=${encodeURIComponent('Discount Price is required')}`);
+        // }
         if(!stock){
             const message='Stock is required'
             return res.status(400).json({message: message})
-            return res.redirect(`/admin/addproduct?message=${encodeURIComponent('Stock is required')}`);
+           // return res.redirect(`/admin/addproduct?message=${encodeURIComponent('Stock is required')}`);
          }
     // if(!productImage){
     //         const meassage='4 images must be added'
@@ -278,32 +294,69 @@ const editProduct = async (req, res) => {
   }
 
 //List and Unlist Product
+// const listUnlistProduct = async (req, res) => {
+//     //console.log("work")
+//     try {
+//         const { productId } = req.body;
+//         console.log(productId, 'this is productId');
+//         const productData = await Product.findById(productId);
+         
+//         if (!productData) {
+//           return res.json({ success: false, message: 'Product not found' });
+//         }
+  
+//        if (productData.isDeleted) {
+//         await Product.findByIdAndUpdate(productId, { $set: { isDeleted: false } }, { new: true });
+//         return res.json({ success: true, message: 'Product Listed successfully' });
+//        } else {
+//         await Product.findByIdAndUpdate(productId, { $set: { isDeleted: true } }, { new: true });
+//         return res.json({ success: true, message: 'Product Hided successfully' });
+//        }
+//     } catch (e) {
+//         console.log(e.message);
+//         res.json({ success: false, message: 'An message occurred' });
+//      }
+//   };
+
+  //Review Page Load
+//List and Unlist Product
+
 const listUnlistProduct = async (req, res) => {
-    //console.log("work")
     try {
         const { productId } = req.body;
-        console.log(productId, 'this is productId');
+       // console.log(productId, 'this is productId');
+        
+        // Find the product by its ID
         const productData = await Product.findById(productId);
          
         if (!productData) {
-          return res.json({ success: false, message: 'Product not found' });
+            return res.json({ success: false, message: 'Product not found' });
         }
-  
-       if (productData.isDeleted) {
-        await Product.findByIdAndUpdate(productId, { $set: { isDeleted: false } }, { new: true });
-        return res.json({ success: true, message: 'Product Listed successfully' });
-       } else {
-        await Product.findByIdAndUpdate(productId, { $set: { isDeleted: true } }, { new: true });
-        return res.json({ success: true, message: 'Product Hided successfully' });
-       }
-    } catch (e) {
-        console.log(e.message);
-        res.json({ success: false, message: 'An message occurred' });
-    }
-  };
 
-  //Review Page Load
-const reviews = async(req,res)=>{
+        if (productData.isDeleted) {
+            // If the product is already deleted, list the product (set isDeleted to false)
+            await Product.findByIdAndUpdate(productId, { $set: { isDeleted: false } }, { new: true });
+            return res.json({ success: true, message: 'Product Listed successfully' });
+        } else {
+            // If the product is not deleted, unlist the product (set isDeleted to true)
+            await Product.findByIdAndUpdate(productId, { $set: { isDeleted: true } }, { new: true });
+
+            // Remove the unlisted product from all users' carts
+            await Cart.updateMany(
+                { "cartItems.productId": productId },
+                { $pull: { cartItems: { productId: productId } } }
+            );
+
+            return res.json({ success: true, message: 'Product Hided successfully and removed from all carts' });
+        }
+    } catch (e) {
+        console.log(e);
+        res.json({ success: false, message: 'An error occurred' });
+    }
+};
+
+
+  const reviews = async(req,res)=>{
     const {message, success} = req.query
     try {
         const page = parseInt(req.query.page) || 1;

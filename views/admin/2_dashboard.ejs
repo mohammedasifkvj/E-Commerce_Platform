@@ -1,325 +1,347 @@
 <%- include("../adminPartials/header") %>
+<style>
+  .error-message {
+    color: red;
+    font-size: 12px;
+  }
+</style>
 <section class="content-main">
-    <div class="content-header">
-        <div>
-            <h2 class="content-title card-title">Dashboard</h2>
-            <p>Whole data about your business here</p>
-        </div>
-        <div>
-            <a href="#" class="btn btn-primary"><i class="text-muted material-icons md-post_add"></i>Create report</a>
-        </div>
+  <div class="content-header">
+    <div>
+      <h2 class="content-title card-title">Dashboard</h2>
+      <p>Whole data about your business here</p>
     </div>
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="card card-body mb-4">
-                <article class="icontext">
-                    <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
-                    <!-- <div class="text">
+    <div>
+      <a href="#" class="btn btn-primary"><i class="text-muted material-icons md-post_add"></i>Create report</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="card card-body mb-4">
+        <article class="icontext">
+          <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
+          <!-- <div class="text">
                         <h6 class="mb-1 card-title">Revenue</h6>
                         <span>$13,456.5</span>
                         <span class="text-sm"> Shipping fees are not included </span>
                     </div> -->
-                </article>
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="card card-body mb-4">
-                <article class="icontext">
-                    <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-success material-icons md-local_shipping"></i></span>
-                    <div class="text">
-                        <h6 class="mb-1 card-title">Orders</h6>
-                        <span>53.668</span>
-                        <span class="text-sm"> Excluding orders in transit </span>
-                    </div>
-                </article>
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="card card-body mb-4">
-                <article class="icontext">
-                    <span class="icon icon-sm rounded-circle bg-warning-light"><i class="text-warning material-icons md-qr_code"></i></span>
-                    <div class="text">
-                        <h6 class="mb-1 card-title">Products</h6>
-                        <span>9.856</span>
-                        <span class="text-sm"> In 19 Categories </span>
-                    </div>
-                </article>
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="card card-body mb-4">
-                <article class="icontext">
-                    <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
-                    <div class="text">
-                        <h6 class="mb-1 card-title">Monthly Earning</h6>
-                        <span>6,982</span>
-                        <span class="text-sm"> Based in your local time. </span>
-                    </div>
-                </article>
-            </div>
-        </div>
+        </article>
+      </div>
     </div>
-    <div class="row">
-        <div class="col-xl-8 col-lg-12">
-            <div class="card mb-4">
-                <article class="card-body">
-                    <h5 class="card-title">Sale statistics</h5>
-                    <canvas id="myChart" height="120px"></canvas>
-                </article>
-            </div>
-            <div class="row">
-                <div class="col-lg-5">
-                    <div class="card mb-4">
-                        <article class="card-body">
-                            <h5 class="card-title">New Members</h5>
-                            <div class="new-member-list">
-                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                    <div class="d-flex align-items-center">
-                                        <img src="assets/imgs/people/avatar-4.png" alt="" class="avatar" />
-                                        <div>
-                                            <h6>Patric Adams</h6>
-                                            <p class="text-muted font-xs">Sanfrancisco</p>
-                                        </div>
-                                    </div>
-                                    <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                    <div class="d-flex align-items-center">
-                                        <img src="assets/imgs/people/avatar-2.png" alt="" class="avatar" />
-                                        <div>
-                                            <h6>Dilan Specter</h6>
-                                            <p class="text-muted font-xs">Sanfrancisco</p>
-                                        </div>
-                                    </div>
-                                    <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                    <div class="d-flex align-items-center">
-                                        <img src="assets/imgs/people/avatar-3.png" alt="" class="avatar" />
-                                        <div>
-                                            <h6>Tomas Baker</h6>
-                                            <p class="text-muted font-xs">Sanfrancisco</p>
-                                        </div>
-                                    </div>
-                                    <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-                <div class="col-lg-7">
-                    <div class="card mb-4">
-                        <article class="card-body">
-                            <h5 class="card-title">Recent activities</h5>
-                            <ul class="verti-timeline list-unstyled font-sm">
-                                <li class="event-list">
-                                    <div class="event-timeline-dot">
-                                        <i class="material-icons md-play_circle_outline font-xxl"></i>
-                                    </div>
-                                    <div class="media">
-                                        <div class="me-3">
-                                            <h6><span>Today</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                                        </div>
-                                        <div class="media-body">
-                                            <div>Lorem ipsum dolor sit amet consectetur</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="event-list active">
-                                    <div class="event-timeline-dot">
-                                        <i class="material-icons md-play_circle_outline font-xxl animation-fade-right"></i>
-                                    </div>
-                                    <div class="media">
-                                        <div class="me-3">
-                                            <h6><span>17 May</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                                        </div>
-                                        <div class="media-body">
-                                            <div>Debitis nesciunt voluptatum dicta reprehenderit</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="event-list">
-                                    <div class="event-timeline-dot">
-                                        <i class="material-icons md-play_circle_outline font-xxl"></i>
-                                    </div>
-                                    <div class="media">
-                                        <div class="me-3">
-                                            <h6><span>13 May</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                                        </div>
-                                        <div class="media-body">
-                                            <div>Accusamus voluptatibus voluptas.</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="event-list">
-                                    <div class="event-timeline-dot">
-                                        <i class="material-icons md-play_circle_outline font-xxl"></i>
-                                    </div>
-                                    <div class="media">
-                                        <div class="me-3">
-                                            <h6><span>05 April</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                                        </div>
-                                        <div class="media-body">
-                                            <div>At vero eos et accusamus et iusto odio dignissi</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="event-list">
-                                    <div class="event-timeline-dot">
-                                        <i class="material-icons md-play_circle_outline font-xxl"></i>
-                                    </div>
-                                    <div class="media">
-                                        <div class="me-3">
-                                            <h6><span>26 Mar</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                                        </div>
-                                        <div class="media-body">
-                                            <div>Responded to need “Volunteer Activities</div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </article>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4 col-lg-12">
-            <div class="card mb-4">
-                <article class="card-body">
-                    <h5 class="card-title">Revenue Base on Area</h5>
-                    <canvas id="myChart2" height="217"></canvas>
-                </article>
-            </div>
-            <div class="card mb-4">
-                <article class="card-body">
-                    <h5 class="card-title">Marketing Chanel</h5>
-                    <span class="text-muted font-xs">Facebook</span>
-                    <div class="progress mb-3">
-                        <div class="progress-bar" role="progressbar" style="width: 15%">15%</div>
-                    </div>
-                    <span class="text-muted font-xs">Instagram</span>
-                    <div class="progress mb-3">
-                        <div class="progress-bar" role="progressbar" style="width: 65%">65%</div>
-                    </div>
-                    <span class="text-muted font-xs">Google</span>
-                    <div class="progress mb-3">
-                        <div class="progress-bar" role="progressbar" style="width: 51%">51%</div>
-                    </div>
-                    <span class="text-muted font-xs">Twitter</span>
-                    <div class="progress mb-3">
-                        <div class="progress-bar" role="progressbar" style="width: 80%">80%</div>
-                    </div>
-                    <span class="text-muted font-xs">Other</span>
-                    <div class="progress mb-3">
-                        <div class="progress-bar" role="progressbar" style="width: 80%">80%</div>
-                    </div>
-                </article>
-            </div>
-        </div>
+    <div class="col-lg-3">
+      <div class="card card-body mb-4">
+        <article class="icontext">
+          <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-success material-icons md-local_shipping"></i></span>
+          <div class="text">
+            <h6 class="mb-1 card-title">Orders</h6>
+            <span>53.668</span>
+            <span class="text-sm"> Excluding orders in transit </span>
+          </div>
+        </article>
+      </div>
     </div>
-    <div class="card mb-4">
-        <header class="card-header">
-            <h4 class="card-title">Latest orders</h4>
-            <!-- <div class="row align-items-center">
-                <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
-                    <div class="custom_select">
-                        <select class="form-select select-nice">
-                            <option selected>All Categories</option>
-                            <option>Women's Clothing</option>
-                            <option>Men's Clothing</option>
-                            <option>Cellphones</option>
-                            <option>Computer & Office</option>
-                            <option>Consumer Electronics</option>
-                            <option>Jewelry & Accessories</option>
-                            <option>Home & Garden</option>
-                            <option>Luggage & Bags</option>
-                            <option>Shoes</option>
-                            <option>Mother & Kids</option>
-                        </select>
+    <div class="col-lg-3">
+      <div class="card card-body mb-4">
+        <article class="icontext">
+          <span class="icon icon-sm rounded-circle bg-warning-light"><i class="text-warning material-icons md-qr_code"></i></span>
+          <div class="text">
+            <h6 class="mb-1 card-title">Products</h6>
+            <span>9.856</span>
+            <span class="text-sm"> In 19 Categories </span>
+          </div>
+        </article>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="card card-body mb-4">
+        <article class="icontext">
+          <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
+          <div class="text">
+            <h6 class="mb-1 card-title">Monthly Earning</h6>
+            <span>6,982</span>
+            <span class="text-sm"> Based in your local time. </span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-8 col-lg-12">
+      <div class="card mb-4">
+        <article class="card-body">
+          <h5 class="card-title">Sale statistics</h5>
+          <canvas id="myChart" height="120px"></canvas>
+        </article>
+      </div>
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="card mb-4">
+            <article class="card-body">
+              <h5 class="card-title">New Members</h5>
+              <div class="new-member-list">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                  <div class="d-flex align-items-center">
+                    <img src="assets/imgs/people/avatar-4.png" alt="" class="avatar" />
+                    <div>
+                      <h6>Patric Adams</h6>
+                      <p class="text-muted font-xs">Sanfrancisco</p>
                     </div>
+                  </div>
+                  <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
                 </div>
-                <div class="col-md-2 col-6">
-                    <input type="date" value="02.05.2021" class="form-control" />
-                </div>
-                <div class="col-md-2 col-6">
-                    <div class="custom_select">
-                        <select class="form-select select-nice">
-                            <option selected>Status</option>
-                            <option>All</option>
-                            <option>Paid</option>
-                            <option>Chargeback</option>
-                            <option>Refund</option>
-                        </select>
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                  <div class="d-flex align-items-center">
+                    <img src="assets/imgs/people/avatar-2.png" alt="" class="avatar" />
+                    <div>
+                      <h6>Dilan Specter</h6>
+                      <p class="text-muted font-xs">Sanfrancisco</p>
                     </div>
+                  </div>
+                  <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
                 </div>
-            </div> -->
-        </header>
-        <div class="card-body">
-            <div class="table-responsive">
-                <div class="table-responsive">
-                    <table class="table align-middle table-nowrap mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th scope="col" class="text-center">
-                                    <div class="form-check align-middle">
-                                        <input class="form-check-input" type="checkbox" id="transactionCheck01" />
-                                        <label class="form-check-label" for="transactionCheck01"></label>
-                                    </div>
-                                </th>
-                                <th class="align-middle" scope="col">Customer Name</th>
-                                <th class="align-middle" scope="col">E-mail</th>
-                                <th class="align-middle" scope="col">Total</th>
-                                <th class="align-middle" scope="col">Order Status</th>
-                                <th class="align-middle" scope="col">Payment Method</th>
-                                <th class="align-middle" scope="col">Date</th>
-                                <th class="align-middle" scope="col">View Details</th>
-                            </tr>
-                        </thead>
-                        <% let SNo = 1; %>
-                        <tbody>
-                            <!-- <tr>
-                                <td class="text-center">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="transactionCheck02" />
-                                        <label class="form-check-label" for="transactionCheck02"></label>
-                                    </div>
-                                </td>
-                                <td><a href="#" class="fw-bold">#SK2540</a></td>
-                                <td>Neal Matthews</td>
-                                <td>07 Oct, 2021</td>
-                                <td>$400</td>
-                                <td>
-                                    <span class="badge badge-pill badge-soft-success">Paid</span>
-                                </td>
-                                <td><i class="material-icons md-payment font-xxl text-muted mr-5"></i> Mastercard</td>
-                                <td>
-                                    <a href="#" class="btn btn-xs"> View details</a>
-                                </td>
-                            </tr> -->
-                          <% orders.forEach(order => { %>
-                          <tr>
-                            <td><b></b><%= SNo ++ %></td>
-                            <td><b><%= order?.userId?.name %></b></td>
-                            <td><%= order?.userId?.email %></td>
-                            <td><%= order?.orderTotal %></td>
-                            <td><span class="badge rounded-pill alert-warning"><%= order?.status %></span></td>
-                            <td><%= order?.paymentMethod %></td>
-                            <td><%= new Date(order.createdAt).toDateString() %></td>
-                            <td class="text-end">
-                              <a href="/admin/OrderDetails/<%= order._id %>" class="btn btn-xs font-sm text-end"> Details</a>
-                            </td>
-                          </tr>
-                          <% }); %>
-                        </tbody>
-                      </table>
-                      
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                  <div class="d-flex align-items-center">
+                    <img src="assets/imgs/people/avatar-3.png" alt="" class="avatar" />
+                    <div>
+                      <h6>Tomas Baker</h6>
+                      <p class="text-muted font-xs">Sanfrancisco</p>
+                    </div>
+                  </div>
+                  <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
                 </div>
-                <!-- table-responsive //end -->
-            </div>
-            <!-- card-body end// -->
+              </div>
+            </article>
+          </div>
         </div>
-        <!-- Paginstion-->
-        <!-- <div class="row ">
+        <div class="col-lg-7">
+          <div class="card mb-4">
+            <article class="card-body">
+              <h5 class="card-title">Recent activities</h5>
+              <ul class="verti-timeline list-unstyled font-sm">
+                <li class="event-list">
+                  <div class="event-timeline-dot">
+                    <i class="material-icons md-play_circle_outline font-xxl"></i>
+                  </div>
+                  <div class="media">
+                    <div class="me-3">
+                      <h6><span>Today</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
+                    </div>
+                    <div class="media-body">
+                      <div>Lorem ipsum dolor sit amet consectetur</div>
+                    </div>
+                  </div>
+                </li>
+                <li class="event-list active">
+                  <div class="event-timeline-dot">
+                    <i class="material-icons md-play_circle_outline font-xxl animation-fade-right"></i>
+                  </div>
+                  <div class="media">
+                    <div class="me-3">
+                      <h6><span>17 May</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
+                    </div>
+                    <div class="media-body">
+                      <div>Debitis nesciunt voluptatum dicta reprehenderit</div>
+                    </div>
+                  </div>
+                </li>
+                <li class="event-list">
+                  <div class="event-timeline-dot">
+                    <i class="material-icons md-play_circle_outline font-xxl"></i>
+                  </div>
+                  <div class="media">
+                    <div class="me-3">
+                      <h6><span>13 May</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
+                    </div>
+                    <div class="media-body">
+                      <div>Accusamus voluptatibus voluptas.</div>
+                    </div>
+                  </div>
+                </li>
+                <li class="event-list">
+                  <div class="event-timeline-dot">
+                    <i class="material-icons md-play_circle_outline font-xxl"></i>
+                  </div>
+                  <div class="media">
+                    <div class="me-3">
+                      <h6><span>05 April</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
+                    </div>
+                    <div class="media-body">
+                      <div>At vero eos et accusamus et iusto odio dignissi</div>
+                    </div>
+                  </div>
+                </li>
+                <li class="event-list">
+                  <div class="event-timeline-dot">
+                    <i class="material-icons md-play_circle_outline font-xxl"></i>
+                  </div>
+                  <div class="media">
+                    <div class="me-3">
+                      <h6><span>26 Mar</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
+                    </div>
+                    <div class="media-body">
+                      <div>Responded to need “Volunteer Activities</div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-12">
+      <div class="card mb-4">
+        <article class="card-body">
+          <h5 class="card-title">Revenue Base on Area</h5>
+          <canvas id="myChart2" height="217"></canvas>
+        </article>
+      </div>
+      <div class="card mb-4">
+        <article class="card-body">
+          <h5 class="card-title">Marketing Chanel</h5>
+          <span class="text-muted font-xs">Facebook</span>
+          <div class="progress mb-3">
+            <div class="progress-bar" role="progressbar" style="width: 15%">15%</div>
+          </div>
+          <span class="text-muted font-xs">Instagram</span>
+          <div class="progress mb-3">
+            <div class="progress-bar" role="progressbar" style="width: 65%">65%</div>
+          </div>
+          <span class="text-muted font-xs">Google</span>
+          <div class="progress mb-3">
+            <div class="progress-bar" role="progressbar" style="width: 51%">51%</div>
+          </div>
+          <span class="text-muted font-xs">Twitter</span>
+          <div class="progress mb-3">
+            <div class="progress-bar" role="progressbar" style="width: 80%">80%</div>
+          </div>
+          <span class="text-muted font-xs">Other</span>
+          <div class="progress mb-3">
+            <div class="progress-bar" role="progressbar" style="width: 80%">80%</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+  <div class="card mb-4">
+    <header class="card-header">
+      <h4 id="reportHeading" class="card-title text-center">Sales Report</h4>
+    </header>
+    <div class="card-body">
+      <!-- Sales Report View - Form -->
+      <form id="salesReportForm" method="GET" class="mb-4">
+        <div class="row">
+          <!-- Report Type Selector -->
+          <div class="col-md-3">
+            <label for="reportType">Report Period:</label>
+            <select name="reportType" id="reportType" class="form-control">
+              <option value="" selected disabled>Select Report Period</option>
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+              <option value="custom">Custom Date</option>
+            </select>
+            <div class="error-message" id="typeError"></div>
+          </div>
+
+          <!-- Date Inputs -->
+          <div class="col-md-4" id="dateInputs">
+            <!-- Daily Date Input -->
+            <div id="dailyInput" class="report-input" style="display:none;">
+              <label for="day">Select Day:</label>
+              <input type="date" id="day" name="day" class="form-control">
+              <div class="error-message" id="dayError"></div>
+            </div>
+
+            <!-- Weekly Date Input -->
+            <div id="weeklyInput" class="report-input" style="display:none;">
+              <label for="week">Select Week:</label>
+              <input type="week" id="week" name="week" class="form-control">
+              <div class="error-message" id="weekError"></div>
+            </div>
+
+            <!-- Monthly Date Input -->
+            <div id="monthlyInput" class="report-input" style="display:none;">
+              <label for="month">Select Month:</label>
+              <input type="month" id="month" name="month" class="form-control">
+              <div class="error-message" id="monthError"></div>
+            </div>
+
+            <!-- Yearly Date Input -->
+            <div id="yearlyInput" class="report-input" style="display:none;">
+              <label for="year">Select Year:</label>
+              <input type="number" id="year" name="year" class="form-control" placeholder="Enter year in YYYY format" min="2000" max="2100">
+              <div class="error-message" id="yearError"></div>
+            </div>
+
+            <!-- Custom Date Range Inputs -->
+            <div id="customDateRange" class="report-input" style="display:none;">
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="startDate">Start Date:</label>
+                  <input type="date" id="startDate" name="startDate" class="form-control">
+                  <div class="error-message" id="startError"></div>
+                </div>
+                <div class="col-md-6">
+                  <label for="endDate">End Date:</label>
+                  <input type="date" id="endDate" name="endDate" class="form-control">
+                  <div class="error-message" id="endError"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="col-md-2 align-self-end">
+            <button type="submit" class="btn btn-primary mt-4"><i class="text-muted material-icons md-post_add"></i>Generate Report</button>
+          </div>
+          <!-- Hidden Download Buttons -->
+          <div class="col-md-2 align-self-end" id="downloadButtons" style="display: none;">
+            <button type="button" class="btn btn-outline-danger custom-size" id="downloadPdfBtn" onclick="downloadPDF('salesReport')">
+              <i class="fa-solid fa-file-pdf"></i> Download PDF
+            </button>
+            <br>
+
+            <br>
+            <button type="button" class="btn btn-outline-success custom-size" id="excelDownloadBtn" onclick="downloadExcel('salesReport')">
+              <i class="fa-solid fa-file-excel"></i> Download Excel
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Table to display report data -->
+      <div id="salesReport" class="table-responsive">
+        <table class="table align-middle table-nowrap mb-0">
+          <thead class="table-light">
+            <tr>
+              
+              <th class="align-middle" scope="col">Date</th>
+              <th class="align-middle" scope="col">Customer Name</th>
+              <th class="align-middle" scope="col">Product Name</th>
+              <th class="align-middle" scope="col">Quantity</th>
+              <th class="align-middle" scope="col">Discount</th>
+              <th class="align-middle" scope="col">Total</th>
+              <th class="align-middle" scope="col">Payment Method</th>
+              <th class="align-middle" scope="col">Order Status</th>
+            </tr>
+          </thead>
+          <tbody id="reportTableBody">
+            <!-- Data will be dynamically inserted here by JavaScript -->
+          </tbody>
+        </table>
+        
+        <h5 id="totalSales">Total Sales: </h5>
+        <h5 id="totalOrderAmount">Total Order Amount: </h5>
+        <h5 id="totalDiscount">Total Discount: </h5>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Paginstion-->
+  <!-- <div class="row ">
             <div class="col-12 ">
                 <nav aria-label="Page navigation example ">
                     <ul class="pagination justify-content-center">
@@ -342,7 +364,458 @@
                 </nav>
             </div>
         </div> -->
+
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const salesReportForm = document.getElementById('salesReportForm');
+    const downloadButtons = document.getElementById('downloadButtons');
+    const reportTypeSelect = document.getElementById('reportType');
+
+    // Form input fields
+    const dayInput = document.getElementById('day');
+    const weekInput = document.getElementById('week');
+    const monthInput = document.getElementById('month');
+    const yearInput = document.getElementById('year');
+    const startDateInput = document.getElementById('startDate');
+    const endDateInput = document.getElementById('endDate');
+
+    // Initially hide the download buttons
+    downloadButtons.style.display = 'none';
+
+    // Add event listener for form submission
+    salesReportForm.addEventListener('submit', async function(event) {
+      event.preventDefault(); // Prevent the default form submission
+
+      //clear previous erros
+      document.getElementById('typeError').textContent = ""
+      document.getElementById('dayError').textContent = ""
+      document.getElementById('weekError').textContent = ""
+      document.getElementById('monthError').textContent = ""
+      document.getElementById('yearError').textContent = ""
+      document.getElementById('endError').textContent = ""
+      document.getElementById('startError').textContent = ""
+
+      // Get form elements
+      const reportType = reportTypeSelect.value;
+      const day = dayInput.value;
+      const week = weekInput.value;
+      const month = monthInput.value;
+      const year = yearInput.value;
+      const startDate = startDateInput.value;
+      const endDate = endDateInput.value;
+
+      // Validation
+      if (!reportType) {
+        document.getElementById('typeError').textContent = 'Please select a report period';
+        //alert('Please select a report type.');
+        return;
+      }
+
+      if (reportType === 'daily' && !day) {
+        document.getElementById('dayError').textContent = "Please select a day."
+        //alert('Please select a day.');
+        return;
+      }
+
+      if (reportType === 'weekly' && !week) {
+        document.getElementById('weekError').textContent = "Please select a week."
+        // alert('Please select a week.');
+        return;
+      }
+
+      if (reportType === 'monthly' && !month) {
+        document.getElementById('monthError').textContent = "Please select a month."
+        //alert('Please select a month.');
+        return;
+      }
+
+      if (reportType === 'yearly' && !year) {
+        document.getElementById('yearError').textContent = "Please select an Year."
+        //alert('Please select a year.');
+        return;
+      }
+
+      if (reportType === 'custom' && (!startDate && !endDate)) {
+        document.getElementById('startError').textContent = "Please select start date."
+        document.getElementById('endError').textContent = "Please select end date."
+        //alert('Please select a start and end date.');
+        return;
+      }
+
+      if (reportType === 'custom' && !startDate) {
+        document.getElementById('startError').textContent = "Please select start date."
+        return;
+      }
+
+      if (reportType === 'custom' && !endDate) {
+        document.getElementById('endError').textContent = "Please select end date."
+        return;
+      }
+
+      if (new Date(startDate) > new Date(endDate)) {
+        document.getElementById('startError').textContent = "Start date must be less than end date."
+        return;
+      }
+
+      // Prepare query string
+      const queryParams = new URLSearchParams({
+        reportType,
+        day,
+        week,
+        month,
+        year,
+        startDate,
+        endDate
+      }).toString();
+
+      try {
+        // Fetch report data
+        const response = await fetch(`/admin/generateSalesReport?${queryParams}`);
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+
+        // Display report data in the table
+        displayReportData(data);
+
+        if (data.totalSales > 0) {
+          // Show the download buttons
+          downloadButtons.style.display = 'block';
+        } else {
+          // Hide download buttons if no sales data
+          downloadButtons.style.display = 'none';
+          Swal.fire({
+            icon: "error",
+            title: "NO DATA AVAILABLE",
+            text: "No sales done in selected period",
+            showConfirmButton: true
+          });
+          //alert('No sales data available for the selected period.');
+        }
+      } catch (error) {
+        console.error('Error fetching report data:', error);
+      }
+    });
+
+    // Hide download buttons when the report type is changed
+    reportTypeSelect.addEventListener('change', function() {
+      downloadButtons.style.display = 'none';
+    });
+
+    // Hide download buttons when any input field is changed
+    function hideDownloadButtonsOnInputChange() {
+      downloadButtons.style.display = 'none';
+    }
+
+    // Add event listeners to all inputs based on the report type
+    dayInput.addEventListener('input', hideDownloadButtonsOnInputChange);
+    weekInput.addEventListener('input', hideDownloadButtonsOnInputChange);
+    monthInput.addEventListener('input', hideDownloadButtonsOnInputChange);
+    yearInput.addEventListener('input', hideDownloadButtonsOnInputChange);
+    startDateInput.addEventListener('input', hideDownloadButtonsOnInputChange);
+    endDateInput.addEventListener('input', hideDownloadButtonsOnInputChange);
+  });
+
+
+  function displayReportData(data) {
+
+    document.getElementById('reportHeading').innerText = data.reportHeading;
+    // Select table body
+    const tableBody = document.getElementById('reportTableBody');
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    // Populate table with new data
+    data.orders.forEach(order => {
+        // Keep track of whether it's the first row for the current order
+        let isFirstRow = true;
+
+        order.orderItems.forEach(item => {
+            const row = document.createElement('tr');
+
+            // Only show customer name, date, and order-wide details for the first row
+            row.innerHTML = `
+                <td>${isFirstRow ? new Date(order.createdAt).toLocaleDateString() : ''}</td>
+                <td>${isFirstRow ? order.userId.name || 'Unknown' : ''}</td>
+                <td>${item.productId.productName}</td>
+                <td>${item.quantity}</td>
+                <td>${isFirstRow ? order.discount : ''}</td>
+                <td>${isFirstRow ? order.orderTotal.toFixed(2) : ''}</td>
+                <td>${isFirstRow ? order.paymentMethod : ''}</td>
+                <td>${isFirstRow ? order.status : ''}</td>
+            `;
+            tableBody.appendChild(row);
+
+            // Set isFirstRow to false after the first row is generated
+            isFirstRow = false;
+        });
+    });
+
+    // Display total sales, total order amount, and total discount
+    document.getElementById('totalSales').innerText = `Total Sales: ${data.totalSales}`;
+    document.getElementById('totalOrderAmount').innerText = `Total Order Amount: ${data.totalOrderAmount.toFixed(2)}`;
+    document.getElementById('totalDiscount').innerText = `Total Discount: ${data.totalDiscount.toFixed(2)}`;
+}
+
+</script>
+
+<script>
+  document.getElementById('reportType').addEventListener('change', function() {
+    const reportType = this.value;
+
+    // Hide all report input fields initially
+    document.querySelectorAll('.report-input').forEach(input => {
+      input.style.display = 'none';
+    });
+
+    // Show the appropriate input field based on the selected report type
+    if (reportType === 'daily') {
+      document.getElementById('dailyInput').style.display = 'block';
+    } else if (reportType === 'weekly') {
+      document.getElementById('weeklyInput').style.display = 'block';
+    } else if (reportType === 'monthly') {
+      document.getElementById('monthlyInput').style.display = 'block';
+    } else if (reportType === 'yearly') {
+      document.getElementById('yearlyInput').style.display = 'block';
+    } else if (reportType === 'custom') {
+      document.getElementById('customDateRange').style.display = 'block';
+    }
+  });
+</script>
+<!-- CDN for Sales Report PDF Download Start 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>-->
+<!-- <script>
+    async function downloadPDF() {
+    const queryString = new URLSearchParams(new FormData(document.getElementById('salesReportForm'))).toString();
+    window.open(`/admin/downloadPdfReport?${queryString}`, '_blank');
+}
+</script> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+
+<script>
+async function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'mm',
+    format: 'a4'
+  });
+
+  // Backend data (from HTML elements)
+  const totalSales = document.getElementById('totalSales').innerText;
+  const totalOrderAmount = document.getElementById('totalOrderAmount').innerText;
+  const totalDiscount = document.getElementById('totalDiscount').innerText;
+  const reportHeading = document.getElementById('reportHeading').innerText; // Get the report period
+
+  // Add centered report heading based on reportPeriod
+  const reportTitle = `${reportHeading}`; // 
+  doc.setFontSize(16);
+  doc.text(reportTitle, doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
+
+  // Add backend data below the heading
+  doc.setFontSize(14);
+  doc.text(`${totalSales}`, 10, 40);
+  doc.text(`${totalOrderAmount}`, 10, 50);
+  doc.text(`${totalDiscount}`, 10, 60);
+
+  // Leave space between text and table
+  let finalY = 70;  // Adjust the starting Y position for the table
+
+  // Extract table data
+  const table = document.getElementById('salesReport');
+  const headers = [];
+  const data = [];
+
+  // Extract headers
+  const headerCells = table.querySelectorAll('thead tr th');
+  headerCells.forEach(headerCell => {
+    headers.push(headerCell.innerText);
+  });
+
+  // Extract table rows
+  const rows = table.querySelectorAll('tbody tr');
+  rows.forEach(row => {
+    const rowData = [];
+    const cells = row.querySelectorAll('td');
+    cells.forEach(cell => {
+      rowData.push(cell.innerText);
+    });
+    data.push(rowData);
+  });
+
+  // Add table to the PDF with centered alignment
+  doc.autoTable({
+    head: [headers],
+    body: data,
+    startY: finalY,  // Start after the backend data
+    theme: 'grid',  // Adds borders to the table
+    margin: { top: 10 },
+    headStyles: { fillColor: [22, 160, 133] },  // Customizing header color
+    styles: { halign: 'center' },  // Center align all content in the table
+    didDrawPage: function (data) {
+      // Add page number on each page
+      const pageCount = doc.internal.getNumberOfPages();
+      doc.setFontSize(10);
+      doc.text(`Page ${pageCount}`, data.settings.margin.left, doc.internal.pageSize.height - 10);  // Page number at bottom
+    }
+  });
+
+  // Save the PDF
+  doc.save('sales-report.pdf');
+}
+
+// async function downloadPDF() {
+//   const { jsPDF } = window.jspdf;
+//   const doc = new jsPDF({
+//     orientation: 'portrait',
+//     unit: 'mm',
+//     format: 'a4'
+//   });
+
+//   // Backend data (from HTML elements)
+//   const totalSales = document.getElementById('totalSales').innerText;
+//   const totalOrderAmount = document.getElementById('totalOrderAmount').innerText;
+//   const totalDiscount = document.getElementById('totalDiscount').innerText;
+//   //const reportPeriod = document.getElementById('reportPeriod').innerText; // Get the report period
+
+//   // Add centered report heading based on reportPeriod
+//   const reportTitle = `Sales Report `;  // (${reportPeriod})
+//   doc.setFontSize(16);
+//   doc.text(reportTitle, doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
+
+//   // Add backend data below the heading
+//   doc.setFontSize(14);
+//   doc.text(`${totalSales}`, 10, 40);
+//   doc.text(`${totalOrderAmount}`, 10, 50);
+//   doc.text(`${totalDiscount}`, 10, 60);
+
+//   // Leave space between text and table
+//   let finalY = 70;  // Adjust the starting Y position for the table
+
+//   // Extract table data
+//   const table = document.getElementById('salesReport');
+//   const headers = [];
+//   const data = [];
+
+//   // Extract headers
+//   const headerCells = table.querySelectorAll('thead tr th');
+//   headerCells.forEach(headerCell => {
+//     headers.push(headerCell.innerText);
+//   });
+
+//   // Extract table rows
+//   const rows = table.querySelectorAll('tbody tr');
+//   rows.forEach(row => {
+//     const rowData = [];
+//     const cells = row.querySelectorAll('td');
+//     cells.forEach(cell => {
+//       rowData.push(cell.innerText);
+//     });
+//     data.push(rowData);
+//   });
+
+//   // Add table to the PDF with pagination
+//   doc.autoTable({
+//     head: [headers],
+//     body: data,
+//     startY: finalY,  // Start after the backend data
+//     theme: 'grid',  // Adds borders to the table
+//     margin: { top: 10 },
+//     headStyles: { fillColor: [22, 160, 133] },  // Customizing header color
+//     didDrawPage: function (data) {
+//       // Add page number on each page instead of redundant title
+//       const pageCount = doc.internal.getNumberOfPages();
+//       doc.setFontSize(10);
+//       doc.text(`Page ${pageCount}`, data.settings.margin.left, doc.internal.pageSize.height - 10);  // Page number at bottom
+//     }
+//   });
+
+//   // Save the PDF
+//   doc.save('sales-report.pdf');
+// }
+
+
+//   async function downloadPDF() {
+//     const {
+//       jsPDF
+//     } = window.jspdf;
+//     const doc = new jsPDF({
+//       orientation: 'portrait',
+//       unit: 'mm',
+//       format: 'a4'
+//     });
+// // Backend data
+//   const totalSales = document.getElementById('totalSales').innerText
+//   const totalOrderAmount = document.getElementById('totalOrderAmount').innerText
+//   const totalDiscount = document.getElementById('totalDiscount').innerText
+
+//   // Add backend data to the PDF
+//   doc.setFontSize(14);
+//   doc.text(`${totalSales}`, 10, 10);
+//   doc.text(`${totalOrderAmount}`, 10, 20);
+//   doc.text(`${totalDiscount}`, 10, 30);
+
+//   // Add a small gap before the table
+//   doc.setFontSize(12);
+
+//     // Get table data
+//     const table = document.getElementById('salesReport');
+//     const headers = [];
+//     const data = [];
+
+//     // Extract headers
+//     const headerCells = table.querySelectorAll('thead tr th');
+//     headerCells.forEach(headerCell => {
+//       headers.push(headerCell.innerText);
+//     });
+
+//     // Extract table rows
+//     const rows = table.querySelectorAll('tbody tr');
+//     rows.forEach(row => {
+//       const rowData = [];
+//       const cells = row.querySelectorAll('td');
+//       cells.forEach(cell => {
+//         rowData.push(cell.innerText);
+//       });
+//       data.push(rowData);
+//     });
+
+//     // Add table to the PDF
+//     doc.autoTable({
+//       head: [headers],
+//       body: data,
+//       margin: {
+//         top: 10
+//       },
+//       theme: 'grid', // Adds borders
+//       headStyles: {
+//         fillColor: [22, 160, 133]
+//       }, // Customizing header color
+//       didDrawPage: function(data) {
+//         doc.text('Sales Report', data.settings.margin.left, 10); // Add a title to the top of each page
+//       },
+//       startY: 20, // Position of the table on the page
+//     });
+
+//     // Save the PDF
+//     doc.save('sales-report.pdf');
+//   }
+
+</script>
+
+<script>
+  async function downloadExcel() {
+    const queryString = new URLSearchParams(new FormData(document.getElementById('salesReportForm'))).toString();
+    window.open(`/admin/downloadExcelReport?${queryString}`, '_blank');
+  }
+  //Trigger PDF download when the report is ready
+  // document.getElementById('downloadPdfBtn').addEventListener('click', function () {
+  //     window.open('/admin/downloadPdfReport', '_blank');
+  // });
+</script>
 <%- include("../adminPartials/footer") %>
 <!-- <span class="badge badge-pill badge-soft-warning">Refund</span>
 <span class="badge badge-pill badge-soft-success">Paid</span>

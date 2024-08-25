@@ -102,6 +102,7 @@
                 <span class="account-product-price"><%= item.quantity * item.productId.discountPrice %></span>
                 <h5 class="account-product-title"><%= item.quantity %> &#215; <%= item.productId.productName %></h5>
                 <dl class="definitionList">
+                 <p> Unit Price:  <%= item.productId.discountPrice %></p>
                         <!-- <dt class="definitionList-key">Color:</dt>
                         <dd class="definitionList-value">White</dd>
                         <dt class="definitionList-key">Size:</dt>
@@ -155,7 +156,7 @@
                         </section>
 
                         <section class="account-sidebar-block">
-                            <h3 class="account-heading">Bill To</h3>
+                            <h3 class="account-heading">Billed To</h3>
                             <ul class="account-order-address">
                                 <li><%= user?.name%></li>
                                 <li><%= user?.email%></li>

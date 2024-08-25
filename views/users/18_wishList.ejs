@@ -25,7 +25,7 @@
         <a class="navPage-subMenu-action navPages-action" href="/wishlist"><span class="text">Wish Lists</span></a>
     </li>
     <li class="navPages-item">
-        <a class="navPage-subMenu-action navPages-action" href="/profileSettings"><span class="text">Account Settings</span></a>
+        <a class="navPage-subMenu-action navPages-action" href="/wallet"><span class="text">Wallet</span></a>
     </li>
     <li class="navPages-item">
         <a class="navPage-subMenu-action navPages-action" href="/signOut"><span class="text">Log out</span></a>
@@ -72,7 +72,7 @@
                          </li>
                          <li class="navBar-item is-active">Wish Lists</li>
                          <li class="navBar-item">
-                             <a class="navBar-action" href="/profileSettings">Account Settings</a>
+                             <a class="navBar-action" href="/wallet">Wallet</a>
                          </li>
                      </ul>
                 </nav>
@@ -90,12 +90,10 @@
                         <!-- <span class="text">Quick view</span> -->
                    </a>
             </div>
-                        <div class="product-badge new-badge">
-                            <span class="text">New</span>
-                        </div>
-                        <div class="product-badge sale-badge">
-                            <span class="text">Sale</span>
-                        </div>
+            <% if (item.productId.stock < 1) { %>
+                <div class="product-badge sale-badge">
+                    <span class="text">Out of Stock</span>
+                </div> <% } %>
              <a href="/product/<%= item.productId._id %>" >
                 <div class="card-img-container" data-product-id="161">
                     <img src="<%= item.productId.productImage[0] %>" alt="Item" 
@@ -121,27 +119,31 @@
             </h4>
             
             <div class="card-price" data-test-info-type="price">
-                    
-                <div class="price-section price-section--withoutTax rrp-price--withoutTax" >
-                    MRP:
-                    <span data-product-rrp-price-without-tax class="price price--rrp"> 
-                        <%= item.productId.price %>
-                    </span>
-                </div>
-            <div class="price-section price-section--withoutTax non-sale-price--withoutTax price-none no-retail-price" style="display: none;">
-                <span class="non-sale-price-label">Was:</span>
-                <span data-product-non-sale-price-without-tax class="price price--non-sale"></span>
+                <% if (item.productId.price === item.productId.discountPrice) { %>
+                    <!-- If price and discountPrice are the same, show only discountPrice -->
+                    <div class="price-section price-section--withoutTax rrp-price--withoutTax">
+                        Price:
+                        <span data-product-price-without-tax class="price price--withoutTax">
+                            <%= item.productId.discountPrice %>
+                        </span>
+                    </div>
+                <% } else { %>
+                    <!-- If price and discountPrice are different, show both original price and discounted price -->
+                    <div class="price-section price-section--withoutTax rrp-price--withoutTax">
+                        MRP:
+                        <span data-product-rrp-price-without-tax class="price price--rrp" style="text-decoration: line-through; color: gray;">
+                            <%= item.productId.price %>
+                        </span>
+                    </div>
+                    <div class="price-section price-section--withoutTax">
+                        <span class="price-now-label">Now:</span>
+                        <span data-product-price-without-tax class="price price--withoutTax">
+                            <%= item.productId.discountPrice %>
+                        </span>
+                    </div>
+                <% } %>
             </div>
-            <div class="price-section price-section--withoutTax" >
-                <span class="price-label" >
-                    
-                </span>
-                <span class="price-now-label" style="display: none;">
-                    Now:
-                </span>
-                <span data-product-price-without-tax class="price price--withoutTax"><%= item.productId.discountPrice %></span>
-            </div>
-            </div>
+            
                     <div class="card-figcaption2"></div>
                 <div class="card-option card_optionImage card-option-161">
                     <div class="form-field" data-product-attribute="swatch"></div>

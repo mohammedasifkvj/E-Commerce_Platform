@@ -806,47 +806,50 @@
                 <div class="price-wrapper">
                   <div class="sold-product"></div>
                   <div class="productView-price">
-
-                    <div class="price-section price-section--withoutTax rrp-price--withoutTax">
-                      MRP:
-                      <span data-product-rrp-price-without-tax class="price price--rrp">
-                        <%=product.price %>
-                      </span>
-                    </div>
-                    <div class="price-section price-section--withoutTax non-sale-price--withoutTax">
-                      <span class="non-sale-price-label">Was:</span>
-                      <span data-product-non-sale-price-without-tax class="price price--non-sale">
-                        <%=product.price %>
-                      </span>
-                    </div>
-                    <div class="price-section price-section--withoutTax" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                      <span class="price-label" style="display: none;">
-
-                      </span>
-                      <span class="price-now-label">
-                        Now:
-                      </span>
-                      <span data-product-price-without-tax class="price price--withoutTax"><%=product.discountPrice %></span>
-                      <meta itemprop="availability" itemtype="http://schema.org/ItemAvailability" content="http://schema.org/InStock">
-                      <meta itemprop="itemCondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/NewCondition">
-                      <meta itemprop="priceCurrency" content="USD">
-                      <meta itemprop="url" content="https://luxwatches-demo-02.mybigcommerce.com/orbit-terrarium-small/">
-                      <div itemprop="priceSpecification" itemscope itemtype="http://schema.org/PriceSpecification">
-                        <meta itemprop="price" content="699.99">
-                        <meta itemprop="priceCurrency" content="USD">
-                        <meta itemprop="valueAddedTaxIncluded" content="false">
-                      </div>
-                    </div>
-                    <% if(product.price - product.discountPrice != 0) { %>
-                    <div class="price-section price-section--saving price">
-                      <span class="price">(You save</span>
-                      <span data-product-price-saved class="price price--saving">
-                        <b> <%= product.price - product.discountPrice %></b>
-                      </span>
-                      <span class="price">)</span>
-                    </div>
+                    <% if (product.price === product.discountPrice) { %>
+                        <!-- If price and discountPrice are the same, show only discountPrice -->
+                        <div class="price-section price-section--withoutTax rrp-price--withoutTax">
+                            Price:
+                            <span data-product-price-without-tax class="price price--withoutTax">
+                                <%= product.discountPrice %>
+                            </span>
+                        </div>
+                    <% } else { %>
+                        <!-- If price and discountPrice are different, show both original price and discounted price -->
+                        <div class="price-section price-section--withoutTax rrp-price--withoutTax">
+                            MRP:
+                            <span data-product-rrp-price-without-tax class="price price--rrp" style="text-decoration: line-through; color: gray;">
+                                <%= product.price %>
+                            </span>
+                        </div>
+                        <div class="price-section price-section--withoutTax" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                            <span class="price-now-label">Now:</span>
+                            <span data-product-price-without-tax class="price price--withoutTax">
+                                <%= product.discountPrice %>
+                            </span>
+                            <meta itemprop="availability" itemtype="http://schema.org/ItemAvailability" content="http://schema.org/InStock">
+                            <meta itemprop="itemCondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/NewCondition">
+                            <meta itemprop="priceCurrency" content="USD">
+                            <meta itemprop="url" content="https://luxwatches-demo-02.mybigcommerce.com/orbit-terrarium-small/">
+                            <div itemprop="priceSpecification" itemscope itemtype="http://schema.org/PriceSpecification">
+                                <meta itemprop="price" content="699.99">
+                                <meta itemprop="priceCurrency" content="USD">
+                                <meta itemprop="valueAddedTaxIncluded" content="false">
+                            </div>
+                        </div>
+                        <!-- Show the savings section only if the product has a discount -->
+                        <% if (product.price - product.discountPrice != 0) { %>
+                            <div class="price-section price-section--saving price">
+                                <span class="price">(You save</span>
+                                <span data-product-price-saved class="price price--saving">
+                                    <b> <%= product.price - product.discountPrice %></b>
+                                </span>
+                                <span class="price">)</span>
+                            </div>
+                        <% } %>
                     <% } %>
-                  </div>
+                </div>
+                
 
                 </div>
 
@@ -1762,9 +1765,10 @@
               </a>
             </div>
 
-            <div class="product-badge sale-badge">
-              <span class="text">Sale</span>
-            </div>
+            <% if (relatedProducts[i].stock < 1) { %>
+              <div class="product-badge sale-badge">
+                  <span class="text">Out of Stock</span>
+              </div> <% } %>
 
             <a href="/product/<%= relatedProducts[i]._id %>">
               <div class="card-img-container   " data-product-id="155">
@@ -1792,29 +1796,31 @@
             </h4>
 
             <div class="card-price" data-test-info-type="price">
-
-              <div class="price-section price-section--withoutTax rrp-price--withoutTax">
-                MRP:
-                <span data-product-rrp-price-without-tax class="price price--rrp">
-                  <%= relatedProducts[i].price %>
-                </span>
-              </div>
-              <div class="price-section price-section--withoutTax non-sale-price--withoutTax">
-                <span class="non-sale-price-label">Was:</span>
-                <span data-product-non-sale-price-without-tax class="price price--non-sale">
-                  <%= relatedProducts[i].price %>
-                </span>
-              </div>
-              <div class="price-section price-section--withoutTax">
-                <span class="price-label" style="display: none;">
-
-                </span>
-                <span class="price-now-label">
-                  Now:
-                </span>
-                <span data-product-price-without-tax class="price price--withoutTax"><%= relatedProducts[i].discountPrice %></span>
-              </div>
-            </div>
+              <% if (relatedProducts[i].price === relatedProducts[i].discountPrice) { %>
+                  <!-- If price and discountPrice are the same, only show discountPrice -->
+                  <div class="price-section price-section--withoutTax rrp-price--withoutTax">
+                      Price:
+                      <span data-product-price-without-tax class="price price--withoutTax">
+                          <%= relatedProducts[i].discountPrice %>
+                      </span>
+                  </div>
+              <% } else { %>
+                  <!-- If price and discountPrice are different, show both original price and discounted price -->
+                  <div class="price-section price-section--withoutTax rrp-price--withoutTax">
+                      MRP:
+                      <span data-product-rrp-price-without-tax class="price price--rrp" style="text-decoration: line-through; color: gray;">
+                          <%= relatedProducts[i].price %>
+                      </span>
+                  </div>
+                  <div class="price-section price-section--withoutTax">
+                      <span class="price-now-label">Now:</span>
+                      <span data-product-price-without-tax class="price price--withoutTax">
+                          <%= relatedProducts[i].discountPrice %>
+                      </span>
+                  </div>
+              <% } %>
+          </div>
+          
 
             <div class="card-desc">
               <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos sollicitudin delos felis. Pellentesquae diam dolor an elementum et lobortis at mollis ut risus. Curabitur semper sagittis mino de...</p>

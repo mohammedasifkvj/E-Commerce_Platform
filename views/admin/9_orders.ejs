@@ -5,13 +5,13 @@
       <h2 class="content-title card-title">Order List</h2>
       <!-- <p>Lorem ipsum dolor sit amet.</p> -->
     </div>
-    <div>
+    <!-- <div>
       <input type="text" placeholder="Search order ID" class="form-control bg-white" />
-    </div>
+    </div> -->
   </div>
   <div class="card mb-4">
     <header class="card-header">
-      <div class="row gx-3">
+      <!-- <div class="row gx-3">
         <div class="col-lg-4 col-md-6 me-auto">
           <input type="text" placeholder="Search..." class="form-control" />
         </div>
@@ -30,7 +30,7 @@
             <option>Show 40</option>
           </select>
         </div>
-      </div>
+      </div> -->
     </header>
     <% if (message) { %>
     <div id="error-message" class=" text-center font-regular p-2 alert alert-danger " style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkred;"><%= message %></div>
@@ -63,12 +63,12 @@
               <td><%= order?.orderTotal %></td>
               <td><span class="badge rounded-pill alert-warning"><%= order?.status %></span></td>
               <td><%= new Date(order.createdAt).toDateString() %></td>
-              <td class="text-end">
+              <td>
                 <a href="/admin/OrderDetails/<%= order._id %>" class="btn btn-md rounded font-sm">Detail</a>
                 <button type="button" onclick="deleteOrder('<%= order?._id %>')" class="btn btn-md rounded text-danger">Delete</button>
                 <!-- Actions -->
-                <div class="dropdown">
-                  <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <!-- <div class="dropdown"> -->
+                  <button type="button" class="btn btn-md btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                     Actions
                   </button>
                   <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -79,7 +79,7 @@
                     <li><a class="dropdown-item approve-return" href="#" data-order-id="<%= order._id %>">Approve</a></li>
                     <% } %>
                   </ul>
-                </div>
+                <!-- </div> -->
               </td>
             </tr>
             <% }); %>

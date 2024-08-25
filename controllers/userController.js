@@ -15,20 +15,48 @@ const passport=require('passport')
 const mongoose = require('mongoose')
 
 const { OAuth2Client } = require('google-auth-library');
+
 // To load Home
 const loadHome = async (req, res) => {
   const {error,success} = req.query
-    try {
-      const product= await Product.find({isDeleted:false})
-        res.render('1_home',{
-          product,
-          error,
-          success
-        });
-    } catch (e) {
-        console.log(e.message);
-    }
-}
+  try {
+  
+    // Get the current date for checking offer expiry
+    const currentDate = new Date();
+
+    // Fetch products for Men's category that are not deleted, 
+    //and populate only offers that are active and not expired
+    const product = await Product.find({  
+      isDeleted: false 
+    })
+    .populate({
+      path: 'offer',  // Populate the offer field
+      match: { status: true, expDate: { $gte: currentDate } }  // Only match offers that are active and not expired
+    })
+
+    return res.render('1_home', { 
+      product,
+      error,success
+    });
+  } catch (e) {
+    console.log(e.message);
+    res.status(500).send('Server Error');
+  }
+};
+// To load Home
+// const loadHome = async (req, res) => {
+//   const {error,success} = req.query
+//     try {
+//       const product= await Product.find({isDeleted:false})
+//         res.render('1_home',{
+//           product,
+//           error,
+//           success
+//         });
+//     } catch (e) {
+//         console.log(e.message);
+//     }
+// }
 
 // To load SignUp
 const loadSignUp = async (req, res) => {
@@ -379,64 +407,181 @@ console.log('This is OTP',OTP);
 };
 // // To load New Release Page
 const newRel = async (req, res) => {
-  try { 
-     const page = parseInt(req.query.page) || 1;
-        const limit = 12; // Number of offers per page
-        const skip = (page - 1) * limit;
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = 12; // Number of products per page
+    const skip = (page - 1) * limit;
 
-      const product= await Product.find({isDeleted:false, 
-         newProductExpires :{$gt:Date.now()}
-        }).skip(skip).limit(limit);
-      return res.render('7_newRelease', { product});
+    // Get the current date for checking offer expiry
+    const currentDate = new Date();
+
+    // Fetch products for Men's category that are not deleted, 
+    // and populate only offers that are active and not expired
+    const product = await Product.find({  
+      isDeleted: false,
+      newProductExpires :{$gt:Date.now()}
+    })
+    .populate({
+      path: 'offer',  // Populate the offer field
+      match: { status: true, expDate: { $gte: currentDate } }  // Only match offers that are active and not expired
+    })
+    .skip(skip)
+    .limit(limit);
+
+    // Count total products for pagination
+    const totalProduct = await Product.countDocuments({isDeleted: false , newProductExpires :{$gt:Date.now()} });
+    const totalPages = Math.ceil(totalProduct / limit);
+
+    return res.render('7_newRelease', { 
+      product,
+      currentPage: page,
+      totalPages
+    });
   } catch (e) {
-      console.log(e.message);
+    console.log(e.message);
+    res.status(500).send('Server Error');
   }
 };
 
+// const newRel = async (req, res) => {
+//   try { 
+//      const page = parseInt(req.query.page) || 1;
+//         const limit = 12; // Number of offers per page
+//         const skip = (page - 1) * limit;
+
+//       const product= await Product.find({isDeleted:false, 
+//          newProductExpires :{$gt:Date.now()}
+//         }).skip(skip).limit(limit);
+//       return res.render('7_newRelease', { product});
+//   } catch (e) {
+//       console.log(e.message);
+//   }
+// };
+
 // To load Mens Page 
+// const mensPage = async (req, res) => {
+//   try {
+//     const page = parseInt(req.query.page) || 1;
+//         const limit = 12; // Number of Product per page
+//         const skip = (page - 1) * limit;
+
+    
+//    // const category=await Category.find({isDeleted:false})
+//       const product= await Product.find({category:"Mens" ,isDeleted:false }).skip(skip).limit(limit);
+//       const totalProduct = await Product.countDocuments()
+//       const totalPages = Math.ceil(totalProduct/limit);
+
+//       return res.render('8_mens', { 
+//         product,
+//         currentPage: page,
+//         totalPages
+//       });
+//   } catch (e) {
+//       console.log(e.message);
+//   }
+// };
+
 const mensPage = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-        const limit = 12; // Number of Product per page
-        const skip = (page - 1) * limit;
+    const limit = 12; // Number of products per page
+    const skip = (page - 1) * limit;
 
-    
-   // const category=await Category.find({isDeleted:false})
-      const product= await Product.find({category:"Mens" ,isDeleted:false }).skip(skip).limit(limit);
-      const totalProduct = await Product.countDocuments()
-      const totalPages = Math.ceil(totalProduct/limit);
+    // Get the current date for checking offer expiry
+    const currentDate = new Date();
 
-      return res.render('8_mens', { 
-        product,
-        currentPage: page,
-        totalPages
-      });
+    // Fetch products for Men's category that are not deleted, 
+    //and populate only offers that are active and not expired
+    const product = await Product.find({ 
+      category: "Mens", 
+      isDeleted: false 
+    })
+    .populate({
+      path: 'offer',  // Populate the offer field
+      match: { status: true, expDate: { $gte: currentDate } }  // Only match offers that are active and not expired
+    })
+    .skip(skip)
+    .limit(limit);
+
+    // Count total products for pagination
+    const totalProduct = await Product.countDocuments({ category: "Mens", isDeleted: false });
+    const totalPages = Math.ceil(totalProduct / limit);
+
+    return res.render('8_mens', { 
+      product,
+      currentPage: page,
+      totalPages
+    });
   } catch (e) {
-      console.log(e.message);
+    console.log(e.message);
+    res.status(500).send('Server Error');
   }
 };
 
-// To load Womens Page
+
 const womensPage = async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-        const limit = 12; // Number of offers per page
-        const skip = (page - 1) * limit;
-  
   try {
-      const product= await Product.find({ category:"Womens",isDeleted:false }).skip(skip).limit(limit);
-      const totalProduct = await Product.countDocuments()
-      const totalPages = Math.ceil(totalProduct/limit);
-      return res.render('9_womens', { 
-        product,
-        currentPage: page,
-        totalPages
-      });
+    const page = parseInt(req.query.page) || 1;
+    const limit = 12; // Number of products per page
+    const skip = (page - 1) * limit;
+
+    // Get the current date for checking offer expiry
+    const currentDate = new Date();
+
+    // Fetch products for Men's category that are not deleted, 
+    // and populate only offers that are active and not expired
+    const product = await Product.find({ 
+      category: "Womens", 
+      isDeleted: false 
+    })
+    .populate({
+      path: 'offer',  // Populate the offer field
+      match: { status: true, expDate: { $gte: currentDate } }  // Only match offers that are active and not expired
+    })
+    .skip(skip)
+    .limit(limit);
+
+    // Count total products for pagination
+    const totalProduct = await Product.countDocuments({ category: "Womens", isDeleted: false });
+    const totalPages = Math.ceil(totalProduct / limit);
+
+    return res.render('9_womens', { 
+      product,
+      currentPage: page,
+      totalPages
+    });
   } catch (e) {
-      console.log(e.message);
+    console.log(e.message);
+    res.status(500).send('Server Error');
   }
 };
+
+
+
+// // To load Womens Page
+// const womensPage = async (req, res) => {
+//   const page = parseInt(req.query.page) || 1;
+//         const limit = 12; // Number of offers per page
+//         const skip = (page - 1) * limit;
+  
+//   try {
+//       const product= await Product.find({ category:"Womens",isDeleted:false }).skip(skip).limit(limit);
+//       const totalProduct = await Product.countDocuments()
+//       const totalPages = Math.ceil(totalProduct/limit);
+//       return res.render('9_womens', { 
+//         product,
+//         currentPage: page,
+//         totalPages
+//       });
+//   } catch (e) {
+//       console.log(e.message);
+//   }
+// };
+
+
 
 // To load Product Page
+
 const productShow = async (req, res) => {
   try {
 const { productId } = req.params;

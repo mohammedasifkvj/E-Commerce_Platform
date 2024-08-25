@@ -292,7 +292,7 @@ const removeProduct = async (req, res) => {
 };
 
 module.exports = {
-    //CART
+//CART
     loadCart,
     addToCart,
     changeQuantity,
@@ -300,7 +300,7 @@ module.exports = {
     decreaseQuantity,
     deleteProduct,
     clearCart,
-    //Wish list
+//Wish list
     addToWishlist,
     removeProduct
 }

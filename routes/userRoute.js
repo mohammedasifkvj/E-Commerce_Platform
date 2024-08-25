@@ -50,7 +50,7 @@ user_route.get('/resetOTP', userController.loadresetOTP)
 user_route.post('/verifyResetOTP', userController.resetPassword)
 
 // Pages
-user_route.get('/newRelease', auth.authenticateToken, userController.newRel)
+user_route.get('/newRelease', userController.newRel)
 user_route.get('/mens', userController.mensPage)
 //user_route.get('/itemPerPage', userController.mensPage)
 user_route.get('/womens', userController.womensPage)
@@ -80,6 +80,7 @@ user_route.delete('/removeProduct', auth.authenticateToken, cartController.remov
 //Oredr
 user_route.get('/orders', auth.authenticateToken, accountController.orders)
 user_route.get('/orderDetails/:orderId', auth.authenticateToken, accountController.orderDetails)
+user_route.get('/wallet', auth.authenticateToken, accountController.wallet)
 //-------------------------------------------------------------------------------//
 
 // cart

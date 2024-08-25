@@ -13,7 +13,7 @@
     </div>
   </div>
   <div class="card mb-4">
-    <header class="card-header">
+    <!-- <header class="card-header">
       <div class="row align-items-center">
         <div class="col-md-2 col-6">
           <input type="date" value="02.05.2021" class="form-control" />
@@ -26,10 +26,16 @@
           </select>
         </div>
       </div>
-    </header>
+    </header> -->
     <!-- card-header end// -->
     <div class="card-body">
       <!-- heading -->
+      <% if (message) { %>
+        <div id="error-message" class=" text-center font-regular p-2 alert alert-danger " style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkred;"><%= message %></div>  
+      <% } %>
+      <% if (success) { %>
+        <div id="error-message" class=" text-center font-regular p-2 alert alert-danger " style=" border-radius: 10px; font-size: 18px; width: 100% ; background-color: rgb(248, 151, 151); color: darkgreen;" ><%= success %></div>  
+      <% } %>
       <article class="itemlist">
         <div class="row align-items-center text-center text-md-start">
           <div class="col-6 col-sm-4 col-md-2">
@@ -73,6 +79,8 @@
             <h6 class="mb-0"><b><%= (coupon[i].expiredDate).toDateString() %></b></h6>
           </div>
           <div class="col-12 col-sm-4 col-md-2 text-center text-md-end mt-2 mt-md-0">
+            <button type="button" onclick="deleteCoupon('<%= coupon[i]._id %>')" class="edit-btn btn-danger">Delete</button>
+            <br><br>
             <% if(coupon[i].status){ %>
             <button type="button" class="edit-btn btn-danger" onclick="couponStatusChange('<%= coupon[i]._id %>',true)">Deactivate</button>
             <% } else { %>
@@ -82,8 +90,7 @@
         </div>
         <!-- row .// -->
       </article>
-      <% } 
-            } else { %>
+      <% } } else { %>
       <article colspan="5" class="text-center">
         Coupons not Added Yet
       </article>
@@ -168,6 +175,46 @@
           });
       }
     });
+  }
+</script>
+<script>
+  async function deleteCoupon(couponId) {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Delete it!'
+    });
+
+    if (result.isConfirmed) {
+      const response = await fetch('/admin/deleteCoupon/', {
+        method: "DELETE",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({couponId})
+      });
+
+      const result = await response.json();
+      if (response.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Coupon Deleted Successfully',
+          showConfirmButton: false,
+          timer: 1000
+        }).then(() => {
+          location.reload();
+        })
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: result.error || "An error occurred While Deleting",
+          showConfirmButton: true
+        });
+      }
+    }
   }
 </script>
 <%- include("../adminPartials/footer") %>

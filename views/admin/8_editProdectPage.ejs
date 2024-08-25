@@ -177,22 +177,22 @@
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <div class="mb-4">
-                                            <label class="form-label">Regular price</label>
+                                            <label class="form-label">Price</label>
                                             <div class="error-message" id="priceError"></div>
                                             <div class="row gx-2">
                                                 <input id="price" name="price" value="<%=product?.price %>" placeholder="" type="number" class="form-control" />
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4">
+                                    <!-- <div class="col-lg-4">
                                         <div class="mb-4">
                                             <label class="form-label">Discount Price</label>
                                             <div class="error-message" id="discountPriceError"></div>
-                                            <div class="row gx-2">
-                                                <input id="discountPrice" name="discountPrice" value="<%=product?.discountPrice %>" placeholder="" type="number" class="form-control" />
-                                            </div>
+                                            <div class="row gx-2"> -->
+                                                 <input type="hidden" id="discountPrice" name="discountPrice" value="<%=product?.discountPrice %>"  class="form-control" />
+                                           <!-- </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <!-- <div class="col-lg-4">
                                         <div class="mb-4">
                                             <label class="form-label">Discount</label>
@@ -462,7 +462,7 @@ const  images= document.querySelectorAll('.image')
     // const strapColour = document.getElementById('strap').value.trim();
     const stock = document.getElementById('stock').value;
     const price = document.getElementById('price').value;
-const discountPrice = document.getElementById('discountPrice').value
+   const discountPrice = document.getElementById('discountPrice').value
     //const productId = window.location.pathname.split('/').pop();
 
 // let formElement = document.getElementById("editForm");
@@ -549,30 +549,29 @@ const discountPrice = document.getElementById('discountPrice').value
     // must be a positive number
     isValid = false;
   }
-  console.log('244444')
-  // Discount price validation
- // const discountPric = formData.get('discountPrice');
+ // console.log('244444')
+  //Discount price validation
+ //const discountPric = formData.get('discountPrice');
   if (!discountPrice ) {
-    console.log('255555')
     document.getElementById('discountPriceError').textContent = 'Discount price is required.';
     isValid = false;
   }
 
-  if (discountPrice <= 0  ) {
-    document.getElementById('discountPriceError').textContent = 'Discount price must be greater than zero';
-    isValid = false;
-  }
+//   if (discountPrice <= 0  ) {
+//     document.getElementById('discountPriceError').textContent = 'Discount price must be greater than zero';
+//     isValid = false;
+//   }
 
-  if ( discountPrice >= price ) {
-    console.log('2666')
-    document.getElementById('discountPriceError').textContent = 'Discount price must be less than the regular price';
-    isValid = false;
-  }
+//   if ( discountPrice >= price ) {
+//     console.log('2666')
+//     document.getElementById('discountPriceError').textContent = 'Discount price must be less than the regular price';
+//     isValid = false;
+//   }
 
-  if (discountPrice <= 0 || discountPrice >= price ) {
-    document.getElementById('discountPriceError').textContent = 'Discount price must be less than the regular price';
-    isValid = false;
-  }
+//   if (discountPrice <= 0 || discountPrice >= price ) {
+//     document.getElementById('discountPriceError').textContent = 'Discount price must be less than the regular price';
+//     isValid = false;
+//   }
 
 //   //Images validation
 //   const imag = formData.getAll('productImage');

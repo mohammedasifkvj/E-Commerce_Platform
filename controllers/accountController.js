@@ -4,6 +4,8 @@ const Category = require('../models/category')
 const Address = require('../models/address')
 const Wishlist = require("../models/wishList")
 const Order = require("../models/order")
+const Wallet = require("../models/wallet")
+
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose')
 
@@ -185,6 +187,35 @@ const wishlist = async (req, res) => {
     }
 }
 
+// wallet Page
+// Backend route to load the wishlist page with wallet details
+// Controller to render the wallet page
+const wallet = async (req, res) => {
+    try {
+      const userId = req.user.id; // Assuming you have user authentication middleware to get user ID
+  
+      // Fetch the wallet details for the user
+      const wallet = await Wallet.findOne({ userId: userId });
+  
+      if (!wallet) {
+        return res.render('19_ wallet', {
+          walletAmount: 0,
+          transactionHistory: [],
+        });
+      }
+  
+      // Render the wallet page and pass wallet details to the EJS template
+      return res.render('19_ wallet', {
+        walletAmount: wallet.walletAmount.toFixed(2),
+        transactionHistory: wallet.transactionHistory,
+      });
+    } catch (error) {
+      console.error('Error rendering wallet page:', error.message);
+      res.status(500).send('Server Error');
+    }
+  };
+  
+
 const profileSettings = async (req, res) => {
     try {
         return res.render('19_accountSetting');
@@ -204,5 +235,6 @@ module.exports = {
     orders,
     orderDetails,
     wishlist,
+    wallet,
     profileSettings
 }

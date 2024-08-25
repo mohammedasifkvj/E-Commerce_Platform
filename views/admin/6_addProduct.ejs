@@ -177,7 +177,7 @@
                                     <div class="row">
                                         <div class="col-lg-4">
                                             <div class="mb-4">
-                                                <label class="form-label">Regular price</label>
+                                                <label class="form-label"> price</label>
                                                 <div class="error-message" id="priceError"></div>
                                                 <div class="row gx-2">
                                                     <input name="price" placeholder="" type="number" class="form-control" />
@@ -185,11 +185,11 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
-                                            <div class="mb-4">
+                                            <!-- <div class="mb-4">
                                                 <label class="form-label">Discount price</label>
                                                 <div class="error-message" id="discountPriceError"></div>
                                                 <input name="discountPrice" placeholder="" type="text" class="form-control" />
-                                            </div>
+                                            </div> -->
                                         </div>
                                         <!-- <div class="col-lg-4">
                                             <div class="mb-4">
@@ -506,25 +506,25 @@ const  images= document.querySelectorAll('.image')
   }
 
   // Discount price validation
-  const discountPrice = form.get('discountPrice');
-  if (!discountPrice ) {
-    document.getElementById('discountPriceError').textContent = 'Discount price is required.';
-    isValid = false;
-  }
-  if (discountPrice <= 0  ) {
-    document.getElementById('discountPriceError').textContent = 'Discount price must be greater than zero';
-    isValid = false;
-  }
+ // const discountPrice = form.get('discountPrice');
+//   if (!discountPrice ) {
+//     document.getElementById('discountPriceError').textContent = 'Discount price is required.';
+//     isValid = false;
+//   }
+//   if (discountPrice <= 0  ) {
+//     document.getElementById('discountPriceError').textContent = 'Discount price must be greater than zero';
+//     isValid = false;
+//   }
 
-  if ( discountPrice >= price ) {
-    document.getElementById('discountPriceError').textContent = 'Discount price must be less than the regular price';
-    isValid = false;
-  }
+//   if ( discountPrice >= price ) {
+//     document.getElementById('discountPriceError').textContent = 'Discount price must be less than the regular price';
+//     isValid = false;
+//   }
 
-  if (discountPrice <= 0 || discountPrice >= price ) {
-    document.getElementById('discountPriceError').textContent = 'Discount price must be less than the regular price';
-    isValid = false;
-  }
+//   if (discountPrice <= 0 || discountPrice >= price ) {
+//     document.getElementById('discountPriceError').textContent = 'Discount price must be less than the regular price';
+//     isValid = false;
+//   }
 
   //Images validation
    const imag = form.getAll('productImage');

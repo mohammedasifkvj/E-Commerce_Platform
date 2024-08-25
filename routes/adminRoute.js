@@ -20,6 +20,9 @@ admin_route.post('/adminSignIn', logged.isAdminLoggedIn, adminController.adminSi
 
 admin_route.get('/logout', auth.authenticateToken, adminController.adminLogout)
 admin_route.get('/dash', auth.authenticateToken, adminController.loadDash)
+admin_route.get('/generateSalesReport', auth.authenticateToken, adminController.generateSalesReport)
+admin_route.get('/downloadExcelReport',auth.authenticateToken,adminController.generateExcelReport);
+admin_route.get('/downloadPdfReport',auth.authenticateToken,adminController.generatePDFReport);
 
 //-------------Categry
 admin_route.get('/ShowCategory', auth.authenticateToken, categoryController.showCategory)
@@ -53,12 +56,14 @@ admin_route.get('/offer', auth.authenticateToken, offerController.offers)
 admin_route.get('/offer/addOfferPage', auth.authenticateToken, offerController.addOfferPage)
 admin_route.post('/offer/addOffer', auth.authenticateToken, offerController.addOffer)
 admin_route.patch('/offer/offerStatusChange', auth.authenticateToken,offerController.offerStatusChange);
+admin_route.delete('/deleteCoupon', auth.authenticateToken, offerController.deleteCoupon)
 
 //--------Coupon
 admin_route.get('/coupon', auth.authenticateToken, offerController.coupon)
 admin_route.get('/coupon/addCouponPage', auth.authenticateToken, offerController.addCouponPage)
 admin_route.post('/coupon/addCoupon', auth.authenticateToken, offerController.addCoupon)
 admin_route.patch('/coupon/couponStatusChange', auth.authenticateToken,offerController.couponStatusChange);
+admin_route.delete('/deleteCoupon', auth.authenticateToken, offerController.deleteCoupon)
 
 //404
 admin_route.get('*', (req, res) => {

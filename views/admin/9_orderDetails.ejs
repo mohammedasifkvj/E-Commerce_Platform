@@ -131,7 +131,7 @@
                                             </dl> -->
                                             <dl class="dlist">
                                                 <dt>Grand total:</dt>
-                                                <dd><b class="h5"><%= order?.orderTotal %></b></dd>
+                                                <dd><b class="h5"><%= orderItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) - order?.discount  %></b></dd>
                                             </dl>
                                             <dl class="dlist">
                                                 <dt class="text-muted">Status:</dt>

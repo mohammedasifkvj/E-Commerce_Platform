@@ -52,7 +52,7 @@ const checkoutPage= async (req, res) => {
     // Find active coupons that have not expired
     const coupon = await Coupon.find({
       status: true,
-      expiredDate: { $gt: currentDate }  // Find coupons where the expiredDate is greater than  the current date
+      expiredDate: { $gte: currentDate }  // Find coupons where the expiredDate is greater than  the current date
     });
        return res.render('NewCheck',{
             address,
