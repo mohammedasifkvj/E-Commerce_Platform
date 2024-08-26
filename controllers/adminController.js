@@ -3,6 +3,7 @@ const Product = require("../models/product")
 const Cart = require("../models/cart")
 const Address = require("../models/address")
 const Order = require("../models/order")
+const Wallet = require("../models/wallet")
 
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
@@ -78,6 +79,18 @@ const adminSignIn = async (req, res) => {
     // send token in admin cookie
     res.cookie('JWTToken', accessToken, options)
     return res.redirect('/admin/dash')
+  } catch (e) {
+    console.log(e.message);
+  }
+}
+
+//Admin Logout
+const adminLogout = async (req, res) => {
+  try {
+    res.clearCookie('JWTToken')
+    //const message="LOG-OUT SUCCESS !"
+    return res.status(200).redirect(`/admin?success=${encodeURIComponent("LOG-OUT SUCCESS !")}`);
+
   } catch (e) {
     console.log(e.message);
   }
@@ -238,21 +251,82 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
-//Admin Logout
-const adminLogout = async (req, res) => {
-  try {
-    res.clearCookie('JWTToken')
-    //const message="LOG-OUT SUCCESS !"
-    return res.status(200).redirect(`/admin?success=${encodeURIComponent("LOG-OUT SUCCESS !")}`);
+// Approve return 
+const approveReturn = async (req, res) => {
+  const orderId = req.body.orderId; // Changed to req.body.orderId to match fetch request payload
+  console.log(orderId)
 
-  } catch (e) {
-    console.log(e.message);
-  }
+  if (!orderId || !mongoose.Types.ObjectId.isValid(orderId)) {
+    return res.status(400).json({ message: 'Invalid Order ID' });
 }
 
+const orderData = await Order.findById(orderId);
+if (!orderData) {
+    return res.status(404).json({ message: 'Order not found' });
+}
+
+  try {
+      const order = await Order.findByIdAndUpdate(orderId, { $set: { status: 'returned' } }, { new: true });
+
+      // Calculate refund amount by subtracting delivery charge
+      const refundAmount = order.orderTotal
+
+      if (refundAmount < 0) {
+          return res.status(400).json({ message: "Refund amount cannot be less than zero." });
+      }
+
+      // Add to wallet
+      const orderData = await Order.findById(orderId);
+      await Wallet.findOneAndUpdate(
+          { userId: orderData.userId },
+          {
+              $inc: { walletAmount: refundAmount },
+              $push: {
+                  transactionHistory: {
+                      amount: refundAmount,
+                      PaymentType: "credit",
+                      date: new Date()
+                  }
+              }
+          },
+          { new: true, upsert: true }
+      );
+
+      // Aggregate order data
+      const data = await Order.aggregate([
+        {
+            '$match': {
+                '_id': new mongoose.Types.ObjectId(orderId)
+            }
+        }
+    ]);
+
+    if (data.length === 0) {
+        throw new Error('Order data aggregation failed.');
+    }
+
+    // Update product stock
+    for (const product of data[0].orderItems) {
+        const update = Number(product.quantity);
+        await Product.findOneAndUpdate(
+            { _id: product.productId },
+            {
+                $inc: { stock: update },
+                $set: { popularProduct: true }
+            }
+        );
+    }
+
+      return res.status(200).json({ message: "Return approved successfully.", order: order });
+  } catch (error) {
+      console.error('Error approving return:', error.message);
+      return res.status(500).json({ message: 'An error occurred while approving return.' })
+  }
+};
+
+// Sales Report 
 const { startOfWeek, endOfWeek, addWeeks, isValid } = require('date-fns');
 
-// Sales (Original)
 const generateSalesReport = async (req, res) => {
   try {
     const { reportType, day, week, month, year, startDate, endDate, page = 1, limit = 10 } = req.query;
@@ -801,14 +875,6 @@ const generateExcelReport = async (req, res) => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Sales Report');
 
-    // // Add headers
-    // worksheet.columns = [
-    //     { header: 'Customer Name', key: 'customerName' },
-    //     { header: 'Order Total', key: 'orderTotal' },
-    //     { header: 'Discount', key: 'discount' },
-    //     { header: 'Status', key: 'status' },
-    //     // More columns as needed
-    // ];
 
     // Define the columns for the Excel sheet
     worksheet.columns = [
@@ -891,164 +957,23 @@ const generateExcelReport = async (req, res) => {
   }
 };
 
-const downloadExcel = async (req, res, next) => {
-  try {
-    const { data } = req.body;
-
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet('Sales Data');
-
-    // Define the columns for the Excel sheet
-    worksheet.columns = [
-      { header: 'Order Id', key: 'orderId', width: 20 },
-      { header: 'Order Date', key: 'orderDate', width: 20 },
-      { header: 'User Name', key: 'userName', width: 20 },
-      { header: 'Product Name', key: 'productName', width: 30 },
-      { header: 'Total Amount', key: 'totalAmount', width: 20 },
-      { header: 'Coupon Discount', key: 'couponDiscount', width: 20 },
-      { header: 'Offer Discount', key: 'offerDiscount', width: 20 },
-      { header: 'Final Price', key: 'finalPrice', width: 20 },
-      { header: 'Order Status', key: 'orderStatus', width: 20 },
-    ];
-
-    // Add rows to the worksheet
-    worksheet.addRows(data);
-
-    // Helper function to sanitize and convert values to numbers
-    const sanitizeValue = (value) => {
-      if (typeof value === 'string') {
-        // Remove non-numeric characters
-        value = value.replace(/[^0-9.-]+/g, '');
-      }
-      return parseFloat(value) || 0;
-    };
-
-    // Calculate the overall totals
-    const overallTotal = data.reduce((total, row) => {
-      const totalAmount = sanitizeValue(row.totalAmount);
-      const couponDiscount = sanitizeValue(row.couponDiscount);
-      const offerDiscount = sanitizeValue(row.offerDiscount);
-      const finalPrice = sanitizeValue(row.finalPrice);
-
-      total.totalAmount += totalAmount;
-      total.couponDiscount += couponDiscount;
-      total.offerDiscount += offerDiscount;
-      total.finalPrice += finalPrice;
-
-      return total;
-    }, { totalAmount: 0, couponDiscount: 0, offerDiscount: 0, finalPrice: 0 });
-
-    // Add the overall total row
-    worksheet.addRow({
-      orderId: '',
-      orderDate: '',
-      userName: '',
-      productName: 'Overall Total',
-      totalAmount: overallTotal.totalAmount.toFixed(2),
-      couponDiscount: overallTotal.couponDiscount.toFixed(2),
-      offerDiscount: overallTotal.offerDiscount.toFixed(2),
-      finalPrice: overallTotal.finalPrice.toFixed(2),
-      orderStatus: ''
-    });
-
-    // Set response headers and content type for the download
-    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    res.setHeader('Content-Disposition', 'attachment; filename=sales-report.xlsx');
-
-    // Write the workbook to the response
-    await workbook.xlsx.write(res);
-
-    // End the response
-    res.end();
-  } catch (error) {
-    console.error('Error generating Excel file:', error);
-    res.status(500).send('Error generating Excel file');
-    next(error)
-  }
-};
-
-const generatePDFReport2 = (reportData, res) => {
-  const doc = new PDFDocument({ margin: 30 });
-
-  // Set up the file stream
-  const filePath = path.join(__dirname, 'sales_report.pdf');
-  const stream = fs.createWriteStream(filePath);
-
-  doc.pipe(stream);
-
-  // Title
-  doc.fontSize(20).text('Sales Report', { align: 'center' });
-  doc.moveDown(1);
-
-  // Table Headers
-  doc.fontSize(12).text('Customer Name', { width: 120, continued: true, underline: true });
-  doc.text('Products', { width: 200, continued: true, underline: true });
-  doc.text('Order Total (₹)', { width: 100, align: 'right', underline: true });
-  doc.text('Discount (₹)', { width: 100, align: 'right', underline: true });
-  doc.text('Status', { width: 80, align: 'right', underline: true });
-
-  doc.moveDown(0.5);
-
-  // Table Rows
-  reportData.orders.forEach(order => {
-    // Customer Name
-    doc.fontSize(10).text(order.userId.name, { width: 120, continued: true });
-
-    // Products
-    const productDetails = order.orderItems.map(item => `${item.productId.name} (x${item.quantity})`).join(', ');
-    doc.text(productDetails, { width: 200, continued: true });
-
-    // Order Total
-    doc.text(`₹${order.orderTotal.toFixed(2)}`, { width: 100, align: 'right', continued: true });
-
-    // Discount
-    doc.text(`₹${order.discount.toFixed(2)}`, { width: 100, align: 'right', continued: true });
-
-    // Status
-    doc.text(order.status, { width: 80, align: 'right' });
-
-    doc.moveDown(0.5);
-  });
-
-  // Draw a line to separate the data from the summary
-  doc.moveDown(1).moveTo(30, doc.y).lineTo(570, doc.y).stroke();
-
-  // Summary Section
-  doc.moveDown(1);
-  doc.fontSize(14).text('Summary', { align: 'center', underline: true });
-  doc.moveDown(1);
-
-  doc.fontSize(12).text(`Total Sales: ${reportData.totalSales}`, { align: 'left' });
-  doc.text(`Total Order Amount (₹): ₹${reportData.totalOrderAmount.toFixed(2)}`, { align: 'left' });
-  doc.text(`Total Discount (₹): ₹${reportData.totalDiscount.toFixed(2)}`, { align: 'left' });
-
-  // End the document
-  doc.end();
-
-  // Send the PDF as a response
-  stream.on('finish', () => {
-    res.download(filePath, 'sales_report.pdf', () => {
-      // Delete the file after download
-      fs.unlinkSync(filePath);
-    });
-  });
-};
 
 module.exports = {
-  //Sign In
+//Sign In
   loadAdminSignIn,
   adminSignIn,
   adminLogout,
   loadDash,
-  //Customer Managemnet
+//Customer Managemnet
   customerTable,
   blockAndUnblockUser,
-  //Order Management
+//Order Management
   orderTable,
   orderDetails,
   deleteOrder,
   updateOrderStatus,
-  //sales report
+  approveReturn,
+//sales report
   generateSalesReport,
   generatePDFReport,
   generateExcelReport

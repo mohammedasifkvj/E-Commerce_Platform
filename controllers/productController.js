@@ -1,6 +1,7 @@
 const Product= require("../models/product")
 const Category=require("../models/category")
 const Cart=require("../models/cart")
+const Offer = require("../models/offer")
 const Reviews=require("../models/review")
 const mongoose = require('mongoose')
 const sharp =require('sharp')
@@ -47,7 +48,7 @@ const addProductPage =async (req,res)=>{
 
 // Create new Product
 const addProduct = async (req,res) =>{
-    const {productName,category,brand,description,dialColour,strapColour,stock,price,discountPrice} = req.body;
+    const {productName,category,brand,description,dialColour,strapColour,stock,price} = req.body;
     //console.log("01",req.files);
     const files=req.files ||{}
     //console.log(files)
@@ -118,20 +119,29 @@ const addProduct = async (req,res) =>{
                 .toFile(`public/${imagePaths}`);
         }
 
+        // Check if there's an active offer for this category
+    const activeCategoryOffer = await Offer.findOne({ category, status: true });
+    let discountPrice = price;  // Default discount price is the original price
+
+    if (activeCategoryOffer) {
+      // Calculate discount price based on the offer
+      const discountAmount = (price * activeCategoryOffer.discount) / 100;
+      const offerDiscount = Math.min(discountAmount, activeCategoryOffer.maxRedeemableAmount);
+      discountPrice = price - offerDiscount;
+    }
+
          await Product.create({
-            productName:productName,
-            category:category,
-            brand:brand,
-            description:description,
-            // dialColour:dialColour,
-            // strapColour:strapColour,
-            stock:stock,
-            price:price,
-            discountPrice:price,
-            //productImage:productImagePaths,
-            newProductExpires:newProductExpires
-            ,productImage:productImagePaths,
-            newProductExpires:newProductExpires})
+            productName,
+            category,
+            brand,
+            description,
+            // dialColour,
+            // strapColour,
+            stock,
+            price,
+            discountPrice,
+            productImage:productImagePaths,
+            newProductExpires})
         const message='New product  '+productName+ ' created successfully'
          return res.status(200).json({success:true,message:message})
        // return res.redirect(`/admin/product?success=${encodeURIComponent('New product  '+productName+' created successfully')}`); 
@@ -139,9 +149,9 @@ const addProduct = async (req,res) =>{
         console.log(e);
     }
   }
+
   //  Edit Product page Load
   const editProductPage =async (req,res)=>{
-
     const {  productId } = req.params;
     const {message, success} = req.query
 
@@ -175,8 +185,8 @@ const addProduct = async (req,res) =>{
 const editProduct = async (req, res) => {
     try {
         const {productName,category,brand,description,
-           // dialColour,strapColour,
-            stock,price,discountPrice} = req.body;
+           // dialColour,strapColour,discountPrice
+            stock,price} = req.body;
         console.log(req.body,'this is body')
         console.log(req.files,'thsi si files')
        // const files=req.files ||{}
@@ -269,18 +279,29 @@ const editProduct = async (req, res) => {
         //return res.redirect(`/admin/product?message=${encodeURIComponent(productName+' is already exists')}`);
       }
 
+      // Check if there's an active offer for this category
+    const activeCategoryOffer = await Offer.findOne({ category, status: true });
+    let discountPrice = price;  // Default discount price is the original price
+
+    if (activeCategoryOffer) {
+      // Calculate discount price based on the offer
+      const discountAmount = (price * activeCategoryOffer.discount) / 100;
+      const offerDiscount = Math.min(discountAmount, activeCategoryOffer.maxRedeemableAmount);
+      discountPrice = price - offerDiscount;
+    }
+
          await Product.updateOne({_id:productId},{$set:{
-            productName:productName,
-            category:category,
-            brand:brand,
-            description:description,
-            // dialColour:dialColour,
-            // strapColour:strapColour,
-            stock:stock,
-            price:price,
-            discountPrice:discountPrice,
+            productName,
+            category,
+            brand,
+            description,
+            // dialColour,
+            // strapColour,
+            stock,
+            price,
+            discountPrice,
             //productImage:productImagePaths,
-            newProductExpires:newProductExpires
+            newProductExpires
         }})
         console.log("Edit comple")
         const message=productName+ ' Updated successfully'

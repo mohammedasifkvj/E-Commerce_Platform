@@ -6,22 +6,7 @@ const addressSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    // name : {
-    //     type:String,
-    //     required:true
-    // },
-    // email :{
-    //     type:String,
-    //     required:true
-    // },
-    // alternatePhone : {
-    //     type:String,
-    //     required:false
-    // },
-    // locality : {
-    //     type:String,
-    //     required:true
-    // },
+    
     houseName: {
         type: String,
         required: true

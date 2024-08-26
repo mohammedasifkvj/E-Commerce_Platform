@@ -187,6 +187,105 @@ const wishlist = async (req, res) => {
     }
 }
 
+//requestForReturn
+const requestForReturn = async (req, res) => {
+    const { orderId, reason } = req.body;
+    //console.log(req.body)
+    if (!orderId || !mongoose.Types.ObjectId.isValid(orderId)) {
+        return res.status(400).json({ message: 'Invalid Order ID' });
+    }
+
+    const orderData = await Order.findById(orderId);
+    if (!orderData) {
+        return res.status(404).json({ message: 'Order not found' });
+    }
+
+    try {
+        
+        const order = await Order.findByIdAndUpdate(orderId,
+            { $set: { returnReason: reason, status: 'Requested for Return' } })
+
+       return res.status(200).json({
+            message: "Return processed successfully.",
+            order: order
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+// cancelOrder
+const cancellOrder = async (req, res) => {
+    try {
+        const orderId = req.query.orderId;
+        //console.log(orderId)
+        if (!orderId || !mongoose.Types.ObjectId.isValid(orderId)) {
+            return res.status(400).json({ message: 'Invalid Order ID' });
+        }
+
+        const orderData = await Order.findById(orderId);
+        if (!orderData) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+
+        // Update order status to 'cancelled'
+        await Order.findByIdAndUpdate(orderId, { $set: { status: "cancelled" } }, { new: true });
+
+        // Aggregate order data
+        const data = await Order.aggregate([
+            {
+                '$match': {
+                    '_id': new mongoose.Types.ObjectId(orderId)
+                }
+            }
+        ]);
+
+        if (data.length === 0) {
+            throw new Error('Order data aggregation failed.');
+        }
+
+        // Update product stock
+        for (const product of data[0].orderItems) {
+            const update = Number(product.quantity);
+            await Product.findOneAndUpdate(
+                { _id: product.productId },
+                {
+                    $inc: { stock: update },
+                    $set: { popularProduct: true }
+                }
+            );
+        }
+
+        // Refund amount to wallet if payment method is online or wallet
+        if (orderData.paymentMethod === 'Online' || orderData.paymentMethod === 'UserWallet') {
+            const userId = orderData.userId;
+            const orderAmount = orderData.orderTotal;
+
+            // Update user's wallet balance and log the transaction
+            await Wallet.findOneAndUpdate(
+                { userId: userId },
+                {
+                    $inc: { walletAmount: orderAmount },
+                    $push: {
+                        transactionHistory: {
+                            amount: orderAmount,
+                            PaymentType: 'credit',
+                            date: new Date()
+                        }
+                    }
+                },
+                { new: true, upsert: true }
+            );
+        }
+
+        return res.status(200).json({ message: 'Order Cancelled Successfully' });
+    } catch (error) {
+        console.error('Error occurred while cancelling order:', error.message);
+        res.status(500).json({ message: 'An error occurred while Cancelling Order' });
+    }
+};
+
 // wallet Page
 // Backend route to load the wishlist page with wallet details
 // Controller to render the wallet page
@@ -234,6 +333,8 @@ module.exports = {
     deleteAddress,
     orders,
     orderDetails,
+    requestForReturn,
+    cancellOrder,
     wishlist,
     wallet,
     profileSettings

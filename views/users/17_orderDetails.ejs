@@ -75,7 +75,7 @@
                         <a class="navBar-action" href="/wishlist">Wish Lists</a>
                      </li>
                      <li class="navBar-item">
-                         <a class="navBar-action" href="/profileSettings">Account Settings</a>
+                         <a class="navBar-action" href="/wallet">Wallet</a>
                      </li>
                  </ul>
             </nav>
@@ -133,6 +133,7 @@
                     <aside class="account-sidebar">
                         <section class="account-sidebar-block">
                             <h3 class="account-heading">Order Details</h3>
+                            <a href="/invoiceDownload/<%= order?._id %>" class="button button--tertiary optimizedCheckout-buttonSecondary">Invoice Download</a>
                             <dl class="definitionList">
                                 <dt class="definitionList-key">Ordered On:</dt>
                                     <dd class="definitionList-value">

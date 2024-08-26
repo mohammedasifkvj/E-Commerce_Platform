@@ -80,6 +80,8 @@ user_route.delete('/removeProduct', auth.authenticateToken, cartController.remov
 //Oredr
 user_route.get('/orders', auth.authenticateToken, accountController.orders)
 user_route.get('/orderDetails/:orderId', auth.authenticateToken, accountController.orderDetails)
+user_route.get('/cancelOrder',auth.authenticateToken,accountController.cancellOrder);
+user_route.post('/returnOrder',auth.authenticateToken,accountController.requestForReturn);
 user_route.get('/wallet', auth.authenticateToken, accountController.wallet)
 //-------------------------------------------------------------------------------//
 
@@ -103,6 +105,7 @@ user_route.post('/makeOrder', auth.authenticateToken, orderController.makeOrder)
 user_route.post('/createPaypalOrder', auth.authenticateToken, orderController.payPalPay);
 user_route.get('/captureOrder',auth.authenticateToken, orderController.captureOrder);
 user_route.get('/orderConfirmation/:orderId',auth.authenticateToken, orderController.oredrConfirmation)
+user_route.get('/invoiceDownload/:orderId',auth.authenticateToken,orderController.invoiceDownload);
 
 
 // //404

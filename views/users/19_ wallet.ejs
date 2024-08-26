@@ -84,7 +84,7 @@
       <p><strong>Amount:</strong> <%= walletAmount %></p>
     </div>
   
-    <!-- <div class="transaction-history">
+    <div class="transaction-history">
       <h3>Transaction History</h3>
   
       <% if (transactionHistory?.length === 0) { %>
@@ -103,13 +103,13 @@
               <tr>
                 <td><%= new Date(transaction.date).toLocaleDateString() %></td>
                 <td><%= transaction.PaymentType || 'N/A' %></td>
-                <td>$<%= transaction.amount.toFixed(2) %></td>
+                <td><%= transaction.amount.toFixed(2) %></td>
               </tr>
             <% }) %>
           </tbody>
         </table>
       <% } %>
-    </div> -->
+    </div>
 
   </div>
 <!--body ends  -->

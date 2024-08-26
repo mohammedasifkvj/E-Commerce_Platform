@@ -5,10 +5,12 @@ const Cart=require("../models/cart");
 const Address=require("../models/address")
 const Order=require ("../models/order")
 const Coupon=require ("../models/coupon")
+
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose')
 const axios = require('axios');
 const paypal = require('@paypal/checkout-server-sdk');
+const PDFDocument = require('pdfkit');
 
 //Stock check before move to  Checkout Page
 const stockCheck=async (req, res) => {
@@ -252,6 +254,279 @@ const oredrConfirmation= async (req, res) => {
         console.log(e.message);
     }
   }
+// Inovice
+const invoiceDownload = async (req, res) => {
+    const { orderId } = req.params;
+
+    if (!orderId || !mongoose.Types.ObjectId.isValid(orderId)) {
+        return res.status(400).json({ message: 'Invalid Order ID' });
+    }
+
+    try {
+        // Fetch the order and populate the user and address fields
+        const order = await Order.findById(orderId)
+            .populate('orderItems.productId')
+            .populate('userId', 'name email')
+            .populate('address')
+            .exec();
+
+        if (!order) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+
+        const doc = new PDFDocument({ margin: 50 });
+        const filename = `Invoice-${orderId}.pdf`;
+
+        res.setHeader('Content-disposition', `attachment; filename="${filename}"`);
+        res.setHeader('Content-type', 'application/pdf');
+
+        doc.pipe(res);
+
+        // Helper function for drawing lines
+        const drawLine = (x1, y1, x2, y2) => {
+            doc.moveTo(x1, y1).lineTo(x2, y2).stroke();
+        };
+
+        // Header
+        doc.fontSize(24).font('Helvetica-Bold').text('INVOICE', { align: 'center' });
+        doc.moveDown(0.5);
+        
+        // Company Info
+        doc.fontSize(10).font('Helvetica').text('Watch Store', { align: 'right' });
+        doc.text('Watch Store, Malappuram, India', { align: 'right' });
+        doc.text('Phone: +91 9633079518', { align: 'right' });
+        doc.text('Email: watchStore@gmail.com', { align: 'right' });
+        
+        doc.moveDown(1);
+        drawLine(50, doc.y, 550, doc.y);
+        doc.moveDown(1);
+
+        // Order Info
+        doc.fontSize(10).font('Helvetica').text(`Order Date: ${new Date(order.createdAt).toLocaleString()}`, { align: 'left' });
+        doc.text(`Order Status: ${order.status}`, { align: 'left' });
+        doc.moveDown(1);
+
+        // Billing Address
+        doc.fontSize(12).font('Helvetica-Bold').text('Billing Address', { align: 'left' });
+        doc.fontSize(10).font('Helvetica').text(`${order.userId.name}`, { align: 'left' });
+        doc.text(`${order.address?.city || ''}, ${order.address?.state || ''} ${order.address?.PIN || ''}`, { align: 'left' });
+        doc.text(`Email: ${order.userId.email}`, { align: 'left' });
+        doc.text(`Phone: ${order.address?.Mobile || ''}`, { align: 'left' });
+        doc.moveDown(1);
+
+        // Order Items Table
+        const tableTop = doc.y;
+        const itemCodeX = 50;
+        const descriptionX = 100;
+        const quantityX = 300;
+        const priceX = 380;
+        const amountX = 480;
+
+        doc.fontSize(10).font('Helvetica-Bold');
+        doc.text('Item', itemCodeX, tableTop);
+        doc.text('Description', descriptionX, tableTop);
+        doc.text('Qty', quantityX, tableTop);
+        doc.text('Price', priceX, tableTop);
+        doc.text('Amount', amountX, tableTop);
+
+        drawLine(50, doc.y + 5, 550, doc.y + 5);
+        doc.moveDown(0.5);
+
+        // Table rows
+        doc.font('Helvetica');
+        let subtotal = 0;
+        order.orderItems.forEach((item, index) => {
+            const y = doc.y;
+            doc.text(index + 1, itemCodeX, y);
+            doc.text(item.productId.productName, descriptionX, y);
+            doc.text(item.quantity, quantityX, y);
+            doc.text(`₹${item.productId.discountPrice}`, priceX, y);
+            const amount = item.quantity * item.productId.discountPrice;
+            subtotal += amount;
+            doc.text(`₹${amount}`, amountX, y);
+            doc.moveDown(0.5);
+        });
+
+        drawLine(50, doc.y, 550, doc.y);
+        doc.moveDown(0.5);
+
+        // Subtotal, Discount, and Total
+        doc.font('Helvetica-Bold');
+        const subtotalY = doc.y;
+        doc.text('Subtotal:', 350, subtotalY);
+        doc.text(`₹${subtotal}`, amountX, subtotalY);
+        doc.moveDown(0.5);
+
+        // Calculate and display the actual discount
+        const totalBeforeDiscount = subtotal;
+        const actualDiscount = totalBeforeDiscount - order.orderTotal;
+        const discountY = doc.y;
+        doc.text('Discount:', 350, discountY);
+        doc.text(`₹${actualDiscount}`, amountX, discountY);
+        doc.moveDown(0.5);
+
+        drawLine(350, doc.y, 550, doc.y);
+        doc.moveDown(0.5);
+
+        const totalY = doc.y;
+        doc.fontSize(12);
+        doc.text('Total Amount:', 350, totalY);
+        doc.text(`₹${order.orderTotal}`, amountX, totalY);
+
+        // Footer
+        doc.fontSize(10).font('Helvetica');
+        doc.text('Thank you for your purchase!', 50, 700, { align: 'center' });
+
+        doc.end();
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error fetching order details');
+    }
+};
+
+
+// const invoiceDownload = async (req, res) => {
+//   const { orderId } = req.params;
+
+//   if (!orderId || !mongoose.Types.ObjectId.isValid(orderId)) {
+//       return res.status(400).json({ message: 'Invalid Order ID' });
+//   }
+
+//   try {
+//       // Fetch the order data, including populated product details and address
+//       const order = await Order.findById(orderId)
+//           .populate('orderItems.productId')
+//           .populate('address')
+//           .exec();
+
+//       if (!order) {
+//           return res.status(404).json({ message: 'Order not found' });
+//       }
+
+//       const doc = new PDFDocument({ margin: 50 });
+//       const filename = `Invoice-${orderId}.pdf`;
+
+//       res.setHeader('Content-disposition', `attachment; filename="${filename}"`);
+//       res.setHeader('Content-type', 'application/pdf');
+
+//       doc.pipe(res);
+
+//       // Helper function to draw lines
+//       const drawLine = (x1, y1, x2, y2) => {
+//           doc.moveTo(x1, y1).lineTo(x2, y2).stroke();
+//       };
+
+//       // Header
+//       doc.fontSize(24).font('Helvetica-Bold').text('INVOICE', { align: 'center' });
+//       doc.moveDown(0.5);
+
+//       // Company Info
+//       doc.fontSize(10).font('Helvetica').text('Watch Store', { align: 'right' });
+//       doc.text('Watch Store, Malappuram, India', { align: 'right' });
+//       doc.text('Phone: +91 9633079518', { align: 'right' });
+//       doc.text('Email: watchStore@gmail.com', { align: 'right' });
+
+//       doc.moveDown(1);
+//       drawLine(50, doc.y, 550, doc.y);
+//       doc.moveDown(1);
+
+//       // Order Info
+//       doc.fontSize(10).font('Helvetica').text(`Order Date: ${new Date(order.createdAt).toLocaleString()}`, { align: 'left' });
+//       doc.text(`Order Status: ${order.status}`, { align: 'left' });
+//       doc.moveDown(1);
+
+//       // Billing Address
+//       doc.fontSize(12).font('Helvetica-Bold').text('Billing Address', { align: 'left' });
+//       const address = order.address;
+//       doc.fontSize(10).font('Helvetica').text(`${address.name}`, { align: 'left' });
+//       doc.text(`${address.address}`, { align: 'left' });
+//       doc.text(`${address.city}, ${address.state} ${address.PIN}`, { align: 'left' });
+//       doc.text(`Email: ${address.email}`, { align: 'left' });
+//       doc.text(`Phone: ${address.mobile}`, { align: 'left' });
+//       doc.moveDown(1);
+
+//       // Order Items Table Header
+//       const tableTop = doc.y;
+//       const itemCodeX = 50;
+//       const descriptionX = 100;
+//       const quantityX = 300;
+//       const priceX = 380;
+//       const amountX = 480;
+
+//       doc.fontSize(10).font('Helvetica-Bold');
+//       doc.text('Item', itemCodeX, tableTop);
+//       doc.text('Description', descriptionX, tableTop);
+//       doc.text('Qty', quantityX, tableTop);
+//       doc.text('Price', priceX, tableTop);
+//       doc.text('Amount', amountX, tableTop);
+
+//       drawLine(50, doc.y + 5, 550, doc.y + 5);
+//       doc.moveDown(0.5);
+
+//       // Table rows for each product in the order
+//       doc.font('Helvetica');
+//       let subtotal = 0;
+//       order.orderItems.forEach((item, index) => {
+//           const product = item.productId;
+//           const y = doc.y;
+
+//           // Display product details in the table
+//           doc.text(index + 1, itemCodeX, y);
+//           doc.text(product.productName, descriptionX, y);
+//           doc.text(item.quantity, quantityX, y);
+//           doc.text(`₹${product.discountPrice}`, priceX, y);
+//           const amount = item.quantity * product.discountPrice;
+//           subtotal += amount;
+//           doc.text(`₹${amount}`, amountX, y);
+//           doc.moveDown(0.5);
+//       });
+
+//       drawLine(50, doc.y, 550, doc.y);
+//       doc.moveDown(0.5);
+
+//       // Subtotal, Delivery Charge, Discount, and Total
+//       doc.font('Helvetica-Bold');
+//       const subtotalY = doc.y;
+//       doc.text('Subtotal:', 350, subtotalY);
+//       doc.text(`₹${subtotal}`, amountX, subtotalY);
+//       doc.moveDown(0.5);
+
+//       // Delivery Charge
+//       const deliveryCharge = 60; // Fixed delivery charge
+//       const deliveryChargeY = doc.y;
+//       doc.text('Delivery Charge:', 350, deliveryChargeY);
+//       doc.text(`₹${deliveryCharge}`, amountX, deliveryChargeY);
+//       doc.moveDown(0.5);
+
+//       // Discount
+//       const totalBeforeDiscount = subtotal + deliveryCharge;
+//       const actualDiscount = totalBeforeDiscount - order.orderTotal;
+//       const discountY = doc.y;
+//       doc.text('Discount:', 350, discountY);
+//       doc.text(`₹${actualDiscount}`, amountX, discountY);
+//       doc.moveDown(0.5);
+
+//       drawLine(350, doc.y, 550, doc.y);
+//       doc.moveDown(0.5);
+
+//       // Total Amount
+//       const totalY = doc.y;
+//       doc.fontSize(12);
+//       doc.text('Total Amount:', 350, totalY);
+//       doc.text(`₹${order.orderTotal}`, amountX, totalY);
+
+//       // Footer
+//       doc.fontSize(10).font('Helvetica');
+//       doc.text('Thank you for your business!', 50, 700, { align: 'center' });
+
+//       doc.end();
+
+//   } catch (error) {
+//       console.error('Error fetching order details:', error);
+//       res.status(500).send('Error fetching order details');
+//   }
+// };
+
 
 module.exports={
     stockCheck,
@@ -260,5 +535,6 @@ module.exports={
     payPalPay,
     captureOrder,
     //createPayment,
-    oredrConfirmation
+    oredrConfirmation,
+    invoiceDownload
 }

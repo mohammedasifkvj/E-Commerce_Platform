@@ -2,6 +2,7 @@ const Category = require('../models/category');
 const Product = require('../models/product');
 const Offer = require('../models/offer');
 const Coupon = require('../models/coupon');
+
 const mongoose = require('mongoose')
 const cron = require('node-cron');
 
@@ -46,69 +47,6 @@ const addOfferPage =async (req,res)=>{
 }
 
 // Add offer
-// const addOffer = async (req, res) => {
-//     //console.log(req.body)
-//     try {
-//         const { offerName, type,  category,productName, expDate, discount,maxRedeemableAmount } = req.body;
-
-//         // Validate input
-//         if (!offerName || offerName.trim() === '') {
-//             return res.status(403).json({ message: "Enter Proper Offer Details" });
-//         } else if (!type) {
-//             return res.status(403).json({ message: "Please select an offer Type" });
-//         } else if (!expDate || discount === undefined || maxRedeemableAmount === undefined) {
-//             return res.status(403).json({ message: "Must provide ExpiredDate, discount, and maximum Redeemable Amount" });
-//         }
-
-//         // Check for duplicate offer (case insensitive)
-//         const isOfferExist = await Offer.findOne({ offerName: { $regex: new RegExp(`^${offerName}$`, 'i') } });
-//         if (isOfferExist) {
-//             return res.status(403).json({ message: "This offer name already exists, please enter another name for Offer" });
-//         }
-
-//         const newOffer = new Offer({
-//             offerName,
-//             type,
-//             expDate,
-//             discount,
-//             maxRedeemableAmount,
-//             category: type === 'Category Offer' ? category : undefined,
-//             productName: type === 'Product Offer' ? productName: undefined
-//         });
-
-//         await newOffer.save();
-
-//         const offerId = newOffer._id;
-
-//         if (type === 'Product Offer') {
-
-//             // Update a specific product
-//             await Product.updateOne(
-//                 { productName: productName },
-//                 { 
-//                     $addToSet: { offer: offerId }
-//                 }
-//             );
-//         } else if (type === 'Category Offer') {
-//             const categoryDoc = await Category.findOne({ name: category });
-//             if (!categoryDoc) {
-//                 return res.status(404).json({ message: "Category not found" });
-//             }
-
-//             await Product.updateMany(
-//                 { category: categoryDoc.name },
-//                 { 
-//                     $addToSet: { offer: offerId }
-//                 }
-//             );
-//         }
-
-//         return res.status(201).json({ success: true });
-//     } catch (error) {
-//         console.log(error);
-//     }
-// };
-
 const addOffer = async (req, res) => {
     try {
         const { offerName, type, category, productName, expDate, discount, maxRedeemableAmount } = req.body;
@@ -185,241 +123,126 @@ const addOffer = async (req, res) => {
     }
 };
 
-// Offer status change 
-// const offerStatusChange = async (req,res) => {
-//     try {
-//         const { offerId, status } = req.query;
-//         const newStatus = status === 'true';
-
-//         const offer = await Offer.findById(offerId);
-//         if (offer) {
-//             offer.status = newStatus;
-//             await offer.save();
-
-//             if (offer.type === 'Product Offer') {
-//                 if (newStatus) {
-//                     // Activate: Add offer ID to the offers array in the product
-//                     await Product.updateOne(
-//                         { productName: offer.productName },
-//                         { $addToSet: { offers: offerId } } // Add offer ID if not already present
-//                     );
-//                 } else {
-//                     // Deactivate: Remove offer ID from the offers array in the product
-//                     await Product.updateOne(
-//                         { productName: offer.productName },
-//                         { $pull: { offers: offerId } } // Remove offer ID
-//                     );
-//                 }
-//             } else if (offer.type === 'Category Offer') {
-//                 // Find the category by name to get its ObjectId
-//                 const categoryDoc = await Category.findOne({ name: offer.category });
-//                 if (!categoryDoc) {
-//                     return res.status(404).json({ message: "Category not found" });
-//                 }
-
-//                 if (newStatus) {
-//                     // Activate: Add offer ID to the offers array in all products of the category
-//                     await Product.updateMany(
-//                         { category: categoryDoc.name },
-//                         { $addToSet: { offers: offerId } } // Add offer ID if not already present
-//                     );
-//                 } else {
-//                     // Deactivate: Remove offer ID from the offers array in all products of the category
-//                     await Product.updateMany(
-//                         { category: categoryDoc.name },
-//                         { $pull: { offers: offerId } } // Remove offer ID
-//                     );
-//                 }
-//             }
-
-//             return res.json({ success: true });
-//         } else {
-//             return res.json({ success: false, message: 'Offer not found' });
-//         }
-//     } catch (error) {
-//         console.log(error.message);
-//         return res.status(500).json({ success: false, message: 'Server Error' });
-//     }
-// };
-
-// const offerStatusChange = async (req, res) => {
-//     try {
-//         const { offerId, status } = req.query;
-//         const newStatus = status === 'true';
-
-//         const offer = await Offer.findById(offerId);
-//         if (!offer) {
-//             return res.json({ success: false, message: 'Offer not found' });
-//         }
-
-//         // Check if the offer is expired
-//         const now = new Date();
-//         if (newStatus && offer.expDate < now) {
-//             // If trying to activate an expired offer, send an error response
-//             return res.json({ success: false, message: 'This offer has expired and cannot be activated.' });
-//         }
-
-//         // Update offer status
-//         offer.status = newStatus;
-//         await offer.save();
-
-//         if (offer.type === 'Product Offer') {
-//             // Find the product related to this offer
-//             const product = await Product.findOne({ productName: offer.productName });
-//             if (!product) {
-//                 return res.status(404).json({ message: "Product not found" });
-//             }
-
-//             if (newStatus) {
-//                 // Activate: Calculate and apply the discount price
-//                 const discountAmount = (product.price * offer.discount) / 100;
-//                 const offerDiscount = Math.min(discountAmount, offer.maxRedeemableAmount);
-//                 //product.discountPrice = product.price - offerDiscount;
-
-//                 await Product.updateOne(
-//                     { productName: offer.productName },
-//                     { discountPrice : product.price - offerDiscount,
-//                         $push: { offer: offerId } } // Remove offer ID
-//                 );
-
-
-//             } else {
-//                 // Deactivate:Reset the discount price to original price and Remove offer ID from the offers
-//                 //product.discountPrice = product.price;
-//                     await Product.updateOne(
-//                         { productName: offer.productName },
-//                         { discountPrice : product.price,
-//                             $pull: { offer: offerId } } // Remove offer ID
-//                     );
-//             }
-
-//             await product.save();
-
-//         } else if (offer.type === 'Category Offer') {
-//             // Find all products in the offer's category
-//             const products = await Product.find({ category: offer.category });
-
-//             for (const product of products) {
-//                 if (newStatus) {
-//                     // Activate: Calculate and apply the discount price
-//                     const discountAmount = (product.price * offer.discount) / 100;
-//                     const offerDiscount = Math.min(discountAmount, offer.maxRedeemableAmount);
-//                     product.discountPrice = product.price - offerDiscount;
-//                     product.offer= offerId
-
-//                 } else {
-//                     // Deactivate: Reset the discount price to the original price
-//                     product.discountPrice = product.price;
-//                     //product.offer= []
-//                     // //new
-//                     // await Product.updateOne(
-//                     //     { productName: offer.productName },
-//                     //     { discountPrice : product.price,
-//                     //         $pull: { offer: offerId } } // Remove offer ID
-//                     // );
-//                 }
-
-//                 await product.save();
-//             }
-//         }
-
-//         return res.json({ success: true });
-//     } catch (error) {
-//         console.log(error.message);
-//         return res.status(500).json({ success: false, message: 'Server Error' });
-//     }
-// };
-
+//Offer status change
 const offerStatusChange = async (req, res) => {
     try {
-        const { offerId, status } = req.query;
-        const newStatus = status === 'true';
-
-        const offer = await Offer.findById(offerId);
-        if (!offer) {
-            return res.json({ success: false, message: 'Offer not found' });
+      const { offerId, status } = req.query;
+      const newStatus = status === 'true';
+  
+      const offer = await Offer.findById(offerId);
+      if (!offer) {
+        return res.json({ success: false, message: 'Offer not found' });
+      }
+  
+      // Check if the offer is expired
+      const now = new Date();
+      if (newStatus && offer.expDate < now) {
+        return res.json({ success: false, message: 'This offer has expired and cannot be activated.' });
+      }
+  
+      // Update offer status
+      offer.status = newStatus;
+      await offer.save();
+  
+      if (offer.type === 'Product Offer') {
+        // Find the product related to this offer
+        const product = await Product.findOne({ productName: offer.productName });
+        if (!product) {
+          return res.status(404).json({ message: "Product not found" });
         }
-
-        // Check if the offer is expired
-        const now = new Date();
-        if (newStatus && offer.expDate < now) {
-            return res.json({ success: false, message: 'This offer has expired and cannot be activated.' });
+  
+        if (newStatus) {
+          // Activate: Calculate and apply the discount price
+          const discountAmount = (product.price * offer.discount) / 100;
+          const offerDiscount = Math.min(discountAmount, offer.maxRedeemableAmount);
+  
+          // Update the product's discount price and add the offerId
+          await Product.updateOne(
+            { _id: product._id },
+            {
+              discountPrice: product.price - offerDiscount,
+              $push: { offer: offerId }
+            }
+          );
+        } else {
+          // Deactivate: Reset the discount price to original price and remove the offerId
+          await Product.updateOne(
+            { _id: product._id },
+            {
+              discountPrice: product.price,
+              $pull: { offer: offerId }
+            }
+          );
+  
+          // Check if there's any active category offer for this product
+          const activeCategoryOffer = await Offer.findOne({ category: product.category, status: true });
+          if (activeCategoryOffer) {
+            // Apply the category offer discount
+            const discountAmount = (product.price * activeCategoryOffer.discount) / 100;
+            const offerDiscount = Math.min(discountAmount, activeCategoryOffer.maxRedeemableAmount);
+  
+            await Product.updateOne(
+              { _id: product._id },
+              {
+                discountPrice: product.price - offerDiscount,
+                $push: { offer: activeCategoryOffer._id }
+              }
+            );
+          }
         }
-
-        // Update offer status
-        offer.status = newStatus;
-        await offer.save();
-
-        if (offer.type === 'Product Offer') {
-            // Find the product related to this offer
-            const product = await Product.findOne({ productName: offer.productName });
-            if (!product) {
-                return res.status(404).json({ message: "Product not found" });
-            }
-
-            if (newStatus) {
-                // Activate: Calculate and apply the discount price
-                const discountAmount = (product.price * offer.discount) / 100;
-                const offerDiscount = Math.min(discountAmount, offer.maxRedeemableAmount);
-
-                // Update the product's discount price and add the offerId
-                await Product.updateOne(
-                    { _id: product._id },
-                    {
-                        discountPrice: product.price - offerDiscount,
-                        $push: { offer: offerId }
-                    }
-                );
-            } else {
-                // Deactivate: Reset the discount price and remove the offerId
-                await Product.updateOne(
-                    { _id: product._id },
-                    {
-                        discountPrice: product.price,
-                        $pull: { offer: offerId }
-                    }
-                );
-            }
-
-        } else if (offer.type === 'Category Offer') {
-            // Find all products in the offer's category
-            const products = await Product.find({ category: offer.category });
-
-            for ( let product of products) {
-                if (newStatus) {
-                    // Activate: Calculate and apply the discount price
-                    const discountAmount = (product.price * offer.discount) / 100;
-                    const offerDiscount = Math.min(discountAmount, offer.maxRedeemableAmount);
-
-                    // Update each product   
-                    await Product.updateOne(
-                        { _id: product._id },
-                        {
-                            discountPrice: product.price - offerDiscount,
-                            $push: { offer: offerId }
-                        }
-                    );
-                } else {
-                    // Deactivate: Reset the discount price to original price and remove offerId
-                    await Product.updateOne(
-                        { _id: product._id },
-                        {
-                            discountPrice: product.price,
-                            $pull: { offer: offerId }
-                        }
-                    );
+      } else if (offer.type === 'Category Offer') {
+        // Find all products in the offer's category
+        const products = await Product.find({ category: offer.category });
+  
+        for (let product of products) {
+          if (newStatus) {
+            // Activate: Calculate and apply the discount price
+            const discountAmount = (product.price * offer.discount) / 100;
+            const offerDiscount = Math.min(discountAmount, offer.maxRedeemableAmount);
+  
+            await Product.updateOne(
+              { _id: product._id },
+              {
+                discountPrice: product.price - offerDiscount,
+                $push: { offer: offerId }
+              }
+            );
+          } else {
+            // Deactivate: Reset the discount price to original price and remove offerId
+            await Product.updateOne(
+              { _id: product._id },
+              {
+                discountPrice: product.price,
+                $pull: { offer: offerId }
+              }
+            );
+  
+            // Check if there's any active product-specific offer for this product
+            const activeProductOffer = await Offer.findOne({ _id: { $in: product.offer }, status: true });
+            if (activeProductOffer) {
+              // Apply the product-specific offer discount
+              const discountAmount = (product.price * activeProductOffer.discount) / 100;
+              const offerDiscount = Math.min(discountAmount, activeProductOffer.maxRedeemableAmount);
+  
+              await Product.updateOne(
+                { _id: product._id },
+                {
+                  discountPrice: product.price - offerDiscount,
+                  $push: { offer: activeProductOffer._id }
                 }
+              );
             }
+          }
         }
-
-        return res.json({ success: true });
+      }
+  
+      return res.json({ success: true });
     } catch (error) {
-        console.log(error.message);
-        return res.status(500).json({ success: false, message: 'Server Error' });
+      console.log(error.message);
+      return res.status(500).json({ success: false, message: 'Server Error' });
     }
-};
-
-
+  };
+  
 //  update expired offers
 const updateExpiredOffers = async () => {
     try {
@@ -534,7 +357,7 @@ const addCoupon = async (req, res) => {
 };
 
 
-//Activate and Deactivate
+//Activate and Deactivate Coupon
 const couponStatusChange = async (req, res, next) => {
     try {
         const id = req.query.couponId;
@@ -620,8 +443,6 @@ const applyCoupon = async (req, res) => {
         return res.status(500).json({ message: 'An error occurred while applying the coupon.' });
     }
 };
-
-
 
 const removeCoupon = async (req, res) => {
     try {
