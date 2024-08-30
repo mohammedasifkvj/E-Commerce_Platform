@@ -139,7 +139,7 @@ const client = new paypal.core.PayPalHttpClient(environment);
 
 const payPalPay = async (req, res) => {
   const { orderData } = req.body;
-  console.log("this",req.body)
+  //console.log("this",req.body)
   const request = new paypal.orders.OrdersCreateRequest();
   request.requestBody({
     intent: 'CAPTURE',

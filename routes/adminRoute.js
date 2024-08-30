@@ -39,6 +39,7 @@ admin_route.post('/addProduct', auth.authenticateToken, uploadImage.any(), produ
 admin_route.get('/editProduct/:productId', auth.authenticateToken, uploadImage.any(), productController.editProductPage)
 admin_route.put('/updateProduct/:productId', auth.authenticateToken, productController.editProduct)
 admin_route.patch('/productStatus', auth.authenticateToken, productController.listUnlistProduct)
+admin_route.get('/product/searchProduct',auth.authenticateToken, productController.searchProduct)
 admin_route.get('/product/reviews', auth.authenticateToken, productController.reviews)
 
 //----------customer 
@@ -57,7 +58,7 @@ admin_route.get('/offer', auth.authenticateToken, offerController.offers)
 admin_route.get('/offer/addOfferPage', auth.authenticateToken, offerController.addOfferPage)
 admin_route.post('/offer/addOffer', auth.authenticateToken, offerController.addOffer)
 admin_route.patch('/offer/offerStatusChange', auth.authenticateToken,offerController.offerStatusChange);
-admin_route.delete('/deleteCoupon', auth.authenticateToken, offerController.deleteCoupon)
+admin_route.delete('/offer/deleteOffer', auth.authenticateToken, offerController.deleteOffer)
 
 //--------Coupon
 admin_route.get('/coupon', auth.authenticateToken, offerController.coupon)

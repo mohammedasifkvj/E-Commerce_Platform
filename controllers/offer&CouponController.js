@@ -242,46 +242,90 @@ const offerStatusChange = async (req, res) => {
       return res.status(500).json({ success: false, message: 'Server Error' });
     }
   };
-  
-//  update expired offers
-const updateExpiredOffers = async () => {
-    try {
-        // Get current date
-        const now = new Date();
 
-        // Find offers that have expired
-        const expiredOffers = await Offer.find({ expDate: { $lt: now }, status: true });
+//Delete offer
+const deleteOffer= async (req, res) => {
+  const { offerId } = req.body
 
-        if (expiredOffers.length > 0) {
-            for (let offer of expiredOffers) {
-                // Deactivate the offer
-                offer.status = false;
-                await offer.save();
+  if (!offerId || !mongoose.Types.ObjectId.isValid(offerId)) {
+    return res.status(404).redirect(`/admin/offer?message=${encodeURIComponent('Invalid offer ID')}`);
+  }
+  const offer = await Offer.findById(offerId);
+      if (!offer) {
+        return res.json({ success: false, message: 'Offer not found' });
+      }
+  try {
+    if (offer.type === 'Product Offer') {
+      // Find the product related to this offer
+      const product = await Product.findOne({ productName: offer.productName });
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+        // Deactivate: Reset the discount price to original price and remove the offerId
+        await Product.updateOne(
+          { _id: product._id },
+          {
+            discountPrice: product.price,
+            $pull: { offer: offerId }
+          }
+        );
 
-                // Update products affected by the expired offer
-                if (offer.type === 'Product Offer') {
-                    await Product.updateOne(
-                        { productName: offer.productName },
-                        { $pull: { offer: offer._id }, $set: { discountPrice: '$price' } } // Reset discountPrice to price
-                    );
-                } else if (offer.type === 'Category Offer') {
-                    const categoryDoc = await Category.findOne({ name: offer.category });
-                    if (categoryDoc) {
-                        await Product.updateMany(
-                            { category: categoryDoc.name },
-                            { $pull: { offer: offer._id }, $set: { discountPrice: '$price' } } // Reset discountPrice to price
-                        );
-                    }
-                }
+        // Check if there's any active category offer for this product
+        const activeCategoryOffer = await Offer.findOne({ category: product.category, status: true });
+        if (activeCategoryOffer) {
+          // Apply the category offer discount
+          const discountAmount = (product.price * activeCategoryOffer.discount) / 100;
+          const offerDiscount = Math.min(discountAmount, activeCategoryOffer.maxRedeemableAmount);
+
+          await Product.updateOne(
+            { _id: product._id },
+            {
+              discountPrice: product.price - offerDiscount,
+              $push: { offer: activeCategoryOffer._id }
             }
+          );
         }
-    } catch (error) {
-        console.error('Error updating expired offers:', error.message);
-    }
-};
+        await Offer.deleteOne({ _id: offerId });
+    } else if (offer.type === 'Category Offer') {
+      // Find all products in the offer's category
+      const products = await Product.find({ category: offer.category });
 
-// Schedule the task to run daily at midnight
-cron.schedule('0 0 * * *', updateExpiredOffers);
+      await Offer.deleteOne({ _id: offerId });
+
+      for (let product of products) {
+          // Deactivate: Reset the discount price to original price and remove offerId
+          await Product.updateOne(
+            { _id: product._id },
+            {
+              discountPrice: product.price,
+              $pull: { offer: offerId }
+            }
+          );
+
+          // Check if there's any active product-specific offer for this product
+          const activeProductOffer = await Offer.findOne({ _id: { $in: product.offer }, status: true });
+          if (activeProductOffer) {
+            // Apply the product-specific offer discount
+            const discountAmount = (product.price * activeProductOffer.discount) / 100;
+            const offerDiscount = Math.min(discountAmount, activeProductOffer.maxRedeemableAmount);
+
+            await Product.updateOne(
+              { _id: product._id },
+              {
+                discountPrice: product.price - offerDiscount,
+                $push: { offer: activeProductOffer._id }
+              }
+            );
+          }
+      }
+    }
+    
+    return res.status(200).json({ message: "Offer deleted Successfully" })
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ message: `error in deleting offer ${e}` })
+  }
+}
 
 // Coupon Table
 const coupon = async (req, res) => {
@@ -382,7 +426,7 @@ const couponStatusChange = async (req, res, next) => {
     }
 };
 
-//
+//Delete Coupon
 const deleteCoupon = async (req, res) => {
     const { couponId } = req.body
   
@@ -432,7 +476,7 @@ const applyCoupon = async (req, res) => {
             return res.status(400).json({ message: `This coupon is only valid for Purchases Over ${coupon.minPurchaseAmt}` });
         }
 
-        //Calculate discount or apply coupon
+        //Calculate discount & apply coupon
         const discountAmount = (totalAmount * coupon.discountPercentage) / 100;
         const couponDiscount = Math.min(discountAmount, coupon.maxRedimabelAmount);
         const grandTotal= totalAmount - couponDiscount
@@ -462,6 +506,7 @@ module.exports={
     addOfferPage,
     addOffer,
     offerStatusChange,
+    deleteOffer,
 // Coupon
     coupon, 
     addCouponPage,

@@ -102,16 +102,14 @@
                                 <% orderItems.forEach(item => { %>
                                 <tr>
                                     <td>
-                                        <a class="itemside" href="#">
                                             <div class="left">
-                                                <img src="<%= item.productId?.productImage[0] %>" width="40" height="40" class="img-xs" alt="<%= item.productId.productName %>" />
+                                                <img src="<%= item.productId?.productImage[0] %>" width="40" height="40" class="img-xs" alt="" />
                                             </div>
-                                            <div class="info"><%= item.productId.productName %></div>
-                                        </a>
+                                            <div class="info"><%= item.productId?.productName %></div>
                                     </td>
-                                    <td><%= item.productId.discountPrice %></td>
+                                    <td><%= item.productId?.discountPrice %></td>
                                     <td><%= item.quantity %></td>
-                                    <td class="text-end"><%= item.quantity * item.productId.discountPrice %></td>
+                                    <td class="text-end"><%= item.quantity * item.productId?.discountPrice %></td>
                                 </tr>
                                 <% }) %> 
                                 <tr>
@@ -119,7 +117,7 @@
                                         <article class="float-end">
                                             <dl class="dlist">
                                                 <dt>Subtotal:</dt>
-                                                <dd><%= orderItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %></dd>
+                                                <dd><%= orderItems.reduce((total, item) => total + (item?.quantity * item.productId?.discountPrice), 0) %></dd>
                                             </dl>
                                             <dl class="dlist">
                                                 <dt>Discount:</dt>
@@ -131,7 +129,7 @@
                                             </dl> -->
                                             <dl class="dlist">
                                                 <dt>Grand total:</dt>
-                                                <dd><b class="h5"><%= orderItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) - order?.discount  %></b></dd>
+                                                <dd><b class="h5"><%= orderItems.reduce((total, item) => total + (item?.quantity * item?.productId?.discountPrice), 0) - order?.discount  %></b></dd>
                                             </dl>
                                             <dl class="dlist">
                                                 <dt class="text-muted">Status:</dt>

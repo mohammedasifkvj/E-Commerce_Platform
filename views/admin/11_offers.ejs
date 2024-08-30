@@ -102,6 +102,8 @@
             <% }else{ %>
             <button type="button" class="btn btn-success" onclick="offerStatusChange('<%= offer[i]._id %>', false)">Activate</button>
             <% } %>
+            <br><br>
+            <button type="button" onclick="deleteOffer('<%= offer[i]._id %>')" class="edit-btn btn-danger">Delete</button>
           </div>
         </div>
       </article>
@@ -195,6 +197,46 @@
           });
       }
     });
+  }
+</script>
+<script>
+  async function deleteOffer(offerId) {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Delete it!'
+    });
+
+    if (result.isConfirmed) {
+      const response = await fetch('/admin/offer/deleteOffer/', {
+        method: "DELETE",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({offerId})
+      });
+
+      const result = await response.json();
+      if (response.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Offer Deleted Successfully',
+          showConfirmButton: false,
+          timer: 1000
+        }).then(() => {
+          location.reload();
+        })
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: result.error || "An error occurred While Deleting",
+          showConfirmButton: true
+        });
+      }
+    }
   }
 </script>
 <%- include("../adminPartials/footer") %>

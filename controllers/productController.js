@@ -376,6 +376,50 @@ const listUnlistProduct = async (req, res) => {
     }
 };
 
+const searchProduct = async (req, res) => {
+    const {message, success} = req.query
+    try {
+        // pagination setting
+        const currentPage = parseInt(req.query.page) || 1;
+        const productPerPage = 10;
+        const skip = (currentPage - 1) * productPerPage;
+  
+        const totalProduct = await Product.countDocuments();
+        const totalPages = Math.ceil(totalProduct / productPerPage);
+        // pagination end
+  
+        let product = [];
+        const categoryData = await Category.find();
+        const brand = await Product.distinct('brand');
+        const allProduct = await Product.find();
+  
+        if (req.query.searchProduct) {
+            product = await Product.find({
+                        $or: [
+                            { productName: { $regex: req.query.searchProduct, $options: 'i' } },
+                            { category: { $regex: req.query.searchProduct } },
+                            { brand: { $regex: req.query.searchProduct, $options: 'i' } }
+                        ]
+            }).skip(skip).limit(productPerPage);
+        }
+  
+        return res.render("5_product", { 
+            //user: userData, 
+            product: product, 
+            category: categoryData, 
+            brand: brand, 
+            currentPage, 
+            totalPages, 
+            allProduct,
+            message, success
+        });
+  
+    } catch (e) {
+        console.log(e);
+        //return res.status(500).json({message:'Internal Server Error'});
+    }
+  };
+
 
   const reviews = async(req,res)=>{
     const {message, success} = req.query
@@ -410,5 +454,6 @@ module.exports={
     editProductPage,
     editProduct,
     listUnlistProduct,
+    searchProduct,
     reviews
 }

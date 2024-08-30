@@ -5,6 +5,7 @@ require('./drivers/passport');
 const cors = require('cors')
 const connectDB = require('./drivers/dataBase');
 const nocache = require('nocache')
+const scheduler = require('./drivers/sheduler');
 // env variables
 require('dotenv').config()
 

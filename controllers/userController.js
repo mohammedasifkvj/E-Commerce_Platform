@@ -585,7 +585,7 @@ const womensPage = async (req, res) => {
 const productShow = async (req, res) => {
   try {
 const { productId } = req.params;
- // console.log(productId);
+ console.log(productId);
   // Validate productId
   if (!productId || !mongoose.Types.ObjectId.isValid(productId)) { 
    // console.log('Invalid product ID');
@@ -805,7 +805,7 @@ const searchProduct = async (req, res) => {
               template = '1_home';
       }
 
-      res.render(template, { 
+     return res.render(template, { 
           //user: userData, 
           product: productData, 
           category: categoryData, 

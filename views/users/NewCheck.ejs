@@ -1,8 +1,8 @@
 <%- include("../user_partials/header") %>
 <style>
-  .error-message{
-     color: red;
-     font-size: 12px;
+  .error-message {
+    color: red;
+    font-size: 12px;
   }
 </style>
 <div class="body" data-currency-code="USD">
@@ -39,7 +39,7 @@
               </div>
 
               <form id="makeOrder" action="/makeOrder" method="post">
-                
+
                 <ul class="account-list">
                   <% cartItems?.forEach(item => { %>
                   <li class="account-listItem">
@@ -82,50 +82,51 @@
                     <%= cartItems?.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %>
                   </dd>
                 </dl>
-               </div>
+            </div>
 
             <aside class="account-sidebar">
               <section class="account-sidebar-block">
-                <% if(address?.length==0){ %> 
-                  <h3 class="account-heading">Add An Address To Place Order </h3>
-                  <div class="error-message" id="addressError1"></div>
-                  <a class="button button--primary button--small" href="/addAddress">
-                    Add Address
+                <% if(address?.length==0){ %>
+                <h3 class="account-heading">Add An Address To Place Order </h3>
+                <div class="error-message" id="addressError1"></div>
+                <a class="button button--primary button--small" href="/addAddress">
+                  Add Address
                 </a>
                 <% } else { %>
                 <h3 class="account-heading">Select An Address To Ship </h3>
                 <div class="error-message" id="addressError"></div>
                 <ul class="account-order-address">
                   <% address?.forEach((addr, index) => { %>
-                    <input id="address" type="radio" name="addressId" value="<%= addr._id %>" > <!--<%=index===0 ?'checked':'' %> -->
-                       <!-- <li><%= addr.name %></li> -->
-                       <li><%= addr?.houseName %></li>
-                       <li><%= addr?.landmark %></li>
-                       <li><%= addr?.city %></li>
-                       <li><%= addr?.state %></li>
-                       <li><%= addr?.country %></li>
-                       <li><%= addr?.pin %></li>
+                  <input id="address" type="radio" name="addressId" value="<%= addr._id %>">
+                  <!--<%=index===0 ?'checked':'' %> -->
+                  <!-- <li><%= addr.name %></li> -->
+                  <li><%= addr?.houseName %></li>
+                  <li><%= addr?.landmark %></li>
+                  <li><%= addr?.city %></li>
+                  <li><%= addr?.state %></li>
+                  <li><%= addr?.country %></li>
+                  <li><%= addr?.pin %></li>
                   <% }) %>
                 </ul>
                 <!-- <button type="button" onclick="addNewAddress()">Add New Address</button> -->
-                
-                    <a class="button button--primary button--small" href="/addAddress">
-                        Ship to New Address
-                    </a>
-               
+
+                <a class="button button--primary button--small" href="/addAddress">
+                  Ship to New Address
+                </a>
+
               </section>
 
 
               <section class="account-sidebar-block">
                 <h3 class="account-heading">Select Payment Method</h3>
                 <div class="error-message" id="paymentError"></div>
-                       <input type="radio" name="paymentMethod" value="COD" > <!-- checked   -->
-                      Cash on Delivery
-                               <br>
-                               <br>
-                      <input type="radio" name="paymentMethod" value="Online">
-                      Online Payment
-                  <!-- Add more payment methods as needed -->
+                <input type="radio" name="paymentMethod" value="COD"> <!-- checked   -->
+                Cash on Delivery
+                <br>
+                <br>
+                <input type="radio" name="paymentMethod" value="Online">
+                Online Payment
+                <!-- Add more payment methods as needed -->
               </section>
 
               <section class="account-sidebar-block">
@@ -134,44 +135,45 @@
                   <input type="hidden" name="orderTotal" id="orderTotal" value="<%= cartItems?.reduce((total, item) => total + (item?.quantity * item?.productId?.discountPrice), 0) %>">
                   <input type="hidden" name="discount" id="discount" value=0.00>
                   <input type="submit" class="button button--small" value="Place Order">
-              </form>
-              <% } %>
-            </div>
-            </section>
+                  </form>
+                  <% } %>
+                </div>
+              </section>
             </aside>
             <!-- Coupon -->
             <div class="account-content account-content--fixedSmall">
               <div class="cart-total">
-                  <div class="cart-total-header">
-                      <div class="cart-total-label">
-                          Coupon Code:
-                      </div>
-      <div class="cart-total-value add">
-                          <button class="coupon-code-add">Add Coupon</button>
-                          <button class="coupon-code-cancel" style="display: none;">Cancel</button>
-                      </div>
+                <div class="cart-total-header">
+                  <div class="cart-total-label">
+                    Coupon Code:
                   </div>
-    <div class="cart-form coupon-code">
-    <label class="form-label" for="couponcode">Enter your coupon code if you have one.</label>
-        <form id="couponForm" class="form form--hiddenLabels coupon-form" >
-          <div class="error-message" id="couponError"></div>
-          <!-- <input class="form-input" data-error="Please enter your coupon code."  id="couponCodeInput" type="text" name="couponcode" value="" placeholder="Add Coupon"> -->
-          <select class="form-input" name="couponCode" type="text" placeholder="Select Coupon"  id="couponCodeInput">
-              <option value="" selected disabled >Choose Coupon...</option>
-                        <% if(coupon?.length > 0) {
+                  <div class="cart-total-value add">
+                    <button class="coupon-code-add">Add Coupon</button>
+                    <button class="coupon-code-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </div>
+                <div class="cart-form coupon-code">
+                  <label class="form-label" for="couponcode">Enter your coupon code if you have one.</label>
+                  <form id="couponForm" class="form form--hiddenLabels coupon-form">
+                    <div class="error-message" id="couponError"></div>
+                    <!-- <input class="form-input" data-error="Please enter your coupon code."  id="couponCodeInput" type="text" name="couponcode" value="" placeholder="Add Coupon"> -->
+                    <select class="form-input" name="couponCode" type="text" placeholder="Select Coupon" id="couponCodeInput">
+                      <option value="" selected disabled>Choose Coupon...</option>
+                      <% if(coupon?.length > 0) {
                   for(let i=0; i < coupon.length; i++) { %>
-               <option value="<%= coupon[i].couponCode %>"><%= coupon[i]?.couponCode %> <%=coupon[i]?.discountPercentage
+                      <option value="<%= coupon[i].couponCode %>"><%= coupon[i]?.couponCode %> <%=coupon[i]?.discountPercentage
                   %></option>
-                  <%  } } 
+                      <%  } } 
                   else { %> <p>No Coupons To Select</p> <% } %>
-          </select>
-          <input id="totalAmount" name="totalAmount" type="hidden"  value="<%= cartItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %>"> 
-          <br>
-          <br>
-          <button type="submit" class="button button--primary button--small" id="applyCouponBtn">Apply</button>
-       </form>
-    </div>
-              </div></div>
+                    </select>
+                    <input id="totalAmount" name="totalAmount" type="hidden" value="<%= cartItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %>">
+                    <br>
+                    <br>
+                    <button type="submit" class="button button--primary button--small" id="applyCouponBtn">Apply</button>
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -186,108 +188,107 @@
 
 <!-- Coupon -->
 <script>
-  document.getElementById('couponForm').addEventListener('submit', async function (e) {
-      e.preventDefault()
+  document.getElementById('couponForm').addEventListener('submit', async function(e) {
+    e.preventDefault()
 
-      // document.getElementById('couponError').innerText = '';
-      // Clear previous errors
-const errorElements = document.querySelectorAll('.error-message');
-errorElements.forEach(el => el.textContent = '');
+    // document.getElementById('couponError').innerText = '';
+    // Clear previous errors
+    const errorElements = document.querySelectorAll('.error-message');
+    errorElements.forEach(el => el.textContent = '');
 
-//   const form = new FormData(this);
+    //   const form = new FormData(this);
 
-//   const couponCode = form.get('couponCode')
-//   if (!couponCode) {
-//     document.getElementById('couponError').textContent = 'Coupon must be selected.';
-//     return ;
-//   }
+    //   const couponCode = form.get('couponCode')
+    //   if (!couponCode) {
+    //     document.getElementById('couponError').textContent = 'Coupon must be selected.';
+    //     return ;
+    //   }
 
-      //validate input
-      const couponCode = document.getElementById("couponCodeInput").value;
+    //validate input
+    const couponCode = document.getElementById("couponCodeInput").value;
 
-      const totalAmount = document.getElementById('totalAmount').value;
+    const totalAmount = document.getElementById('totalAmount').value;
 
-      if(!couponCode){
-          document.getElementById('couponError').innerText = 'Please Select a Coupon Code';
-          return
-      }
-      
-      try {
-    const response = await axios.post('/applyCoupon', { 
+    if (!couponCode) {
+      document.getElementById('couponError').innerText = 'Please Select a Coupon Code';
+      return
+    }
+
+    try {
+      const response = await axios.post('/applyCoupon', {
         couponCode,
         totalAmount
-    });
+      });
 
-    if (response.status === 200) {
+      if (response.status === 200) {
         Swal.fire({
-            icon: "success",
-            title: "Coupon Added Successfully",
-            showConfirmButton: false,
-            timer: 1000
+          icon: "success",
+          title: "Coupon Added Successfully",
+          showConfirmButton: false,
+          timer: 1000
         });
         document.getElementById('discount-value').innerText = response.data.discount;
 
-      // document.getElementById('subtotal-value').innerText = response.data.newTotal + response.data.discount;
-      document.getElementById('grand-total-value').innerText = response.data.grandTotal;
-      
-      document.getElementById('orderTotal').value = response.data.grandTotal;
-      document.getElementById('discount').value = response.data.discount;
-    } 
-} catch (error) {
-    if (error.response) {
-        const { status, data } = error.response;
+        // document.getElementById('subtotal-value').innerText = response.data.newTotal + response.data.discount;
+        document.getElementById('grand-total-value').innerText = response.data.grandTotal;
+
+        document.getElementById('orderTotal').value = response.data.grandTotal;
+        document.getElementById('discount').value = response.data.discount;
+      }
+    } catch (error) {
+      if (error.response) {
+        const {
+          status,
+          data
+        } = error.response;
 
         if (status === 400 || status === 404 || status === 408 || status === 401) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: data.message,
-                showConfirmButton: true
-            });
-        }
-    } else {
-        Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "An unexpected error occurred",
-            showConfirmButton: false,
-            timer: 1000
+            title: "Error",
+            text: data.message,
+            showConfirmButton: true
+          });
+        }
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "An unexpected error occurred",
+          showConfirmButton: false,
+          timer: 1000
         });
+      }
     }
-}
-});
+  });
 </script>
 
 <script>
-  document.getElementById('makeOrder').addEventListener('submit', async function (event) {
+  document.getElementById('makeOrder').addEventListener('submit', async function(event) {
     event.preventDefault();
     // Gather form data
     const productIds = Array.from(document.getElementsByName('productId[]')).map(input => input.value);
     const quantities = Array.from(document.getElementsByName('quantity[]')).map(input => input.value);
     const addressId = document.querySelector('input[name="addressId"]:checked');
-    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')
     const orderTotal = document.getElementById('orderTotal').value;
-    const discount= document.getElementById('discount').value;
-
+    const discount = document.getElementById('discount').value;
+    //cleae previous errors
     document.getElementById('addressError').innerText = '';
     document.getElementById('paymentError').innerText = '';
-  let isValid=true
+
+    let isValid = true
     // Validate form data
     if (!addressId) {
       document.getElementById('addressError').innerText = 'Please select an address.';
-      isValid=false
-    } 
-    // else {
-    //   document.getElementById('addressError').innerText = '';
-    // }
+      isValid = false
+    }
 
     if (!paymentMethod) {
       document.getElementById('paymentError').innerText = 'Please select a payment method.';
-      isValid=false
-    } 
-    // else {
-    //   document.getElementById('paymentError').innerText = '';
-    // }
-    if(! isValid){
+      isValid = false
+    }
+
+    if (!isValid) {
       return
     }
 
@@ -299,9 +300,26 @@ errorElements.forEach(el => el.textContent = '');
       })),
       addressId: addressId.value,
       orderTotal: orderTotal,
-      discount:discount,
+      discount: discount,
       paymentMethod: paymentMethod.value
     };
+
+    if (orderTotal > 1000 && orderData.paymentMethod == "COD") {
+
+      isValid = false
+
+      Swal.fire({
+        icon: 'warning',
+        title: "Payment Needed",
+        text: "Your Purchase amount is above 1000,you can't choose cash on delivery",
+        showConfirmButton: true
+      });
+
+    }
+
+    if (!isValid) {
+      return
+    }
 
     try {
       const response = await fetch('/makeOrder', {
@@ -317,54 +335,58 @@ errorElements.forEach(el => el.textContent = '');
         const data = await response.json();
 
         Swal.fire({
-                    icon: "success",
-                    title: "Order placed successfully!",
-                    showConfirmButton: false,
-                    timer:1000
-                 })
-                 window.location.href = `/orderConfirmation/${data.orderId}`;
-      }else if(response.status === 402){ // Online Payment
-                    Swal.fire({
-                      title: 'Payment Required',
-                      text: 'Please complete your payment via PayPal.',
-                      icon: 'warning',
-                      showCancelButton: true,
-                      confirmButtonText: 'Pay with PayPal',
-                      cancelButtonText: 'Cancel'
-                    }).then(async (result) => {
-                      if (result.isConfirmed) {
-                        // Send order data to the server to create a PayPal order
-                        const paypalResponse = await fetch('/createPaypalOrder', {
-                          method: 'POST',
-                          headers: {
-                            'Content-Type': 'application/json',
-                          },
-                          body: JSON.stringify({ orderData }),
-                        });
-            
-                        if (paypalResponse.ok) {
-                          const { approval_url } = await paypalResponse.json();
-                          // Redirect to PayPal link
-                          window.location.href = approval_url;
-                        } else {
-                          Swal.fire({
-                            icon: 'error',
-                            title: 'Failed to initiate PayPal payment.',
-                            showConfirmButton: true
-                          });
-                        }
-                      }
-                    });
-                  } else {
+          icon: "success",
+          title: "Order placed successfully!",
+          showConfirmButton: false,
+          timer: 1000
+        })
+        window.location.href = `/orderConfirmation/${data.orderId}`;
+      } else if (response.status === 402) { // Online Payment
+        Swal.fire({
+          icon: 'warning',
+          title: 'Payment Required',
+          text: 'Please complete your payment via PayPal.',
+          showCancelButton: true,
+          confirmButtonText: 'Pay with PayPal',
+          cancelButtonText: 'Cancel'
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            // Send order data to the server to create a PayPal order
+            const paypalResponse = await fetch('/createPaypalOrder', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                orderData
+              }),
+            });
+
+            if (paypalResponse.ok) {
+              const {
+                approval_url
+              } = await paypalResponse.json();
+              // Redirect to PayPal link
+              window.location.href = approval_url;
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Failed to initiate PayPal payment.',
+                showConfirmButton: true
+              });
+            }
+          }
+        });
+      } else {
         // Handle server errors
         const errorData = await response.json();
-       // alert('Error placing order: ' + errorData.message);
-            Swal.fire({
-                icon:  'error',
-                title: "Error placing order:  ",
-                text:  errorData.message,
-                showConfirmButton: true
-            });
+        // alert('Error placing order: ' + errorData.message);
+        Swal.fire({
+          icon: 'error',
+          title: "Error placing order:  ",
+          text: errorData.message,
+          showConfirmButton: true
+        });
       }
     } catch (error) {
       // Handle network errors
@@ -375,4 +397,5 @@ errorElements.forEach(el => el.textContent = '');
 </script>
 
 </body>
+
 </html>

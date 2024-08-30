@@ -96,13 +96,13 @@
                     </label>
             </div> -->
             <figure class="account-product-figure">
-                <img src="<%= item.productId?.productImage[0] %>" alt="<%= item.productId.productName %>" title="<%= item.productId.productname %>" data-sizes="auto"/>
+                <img src="<%= item.productId?.productImage[0] %>" alt="" title="" data-sizes="auto"/>
             </figure>
             <div class="account-product-body">
-                <span class="account-product-price"><%= item.quantity * item.productId.discountPrice %></span>
-                <h5 class="account-product-title"><%= item.quantity %> &#215; <%= item.productId.productName %></h5>
+                <span class="account-product-price"><%= item?.quantity * item?.productId?.discountPrice %></span>
+                <h5 class="account-product-title"><%= item?.quantity %> &#215; <%= item?.productId?.productName %></h5>
                 <dl class="definitionList">
-                 <p> Unit Price:  <%= item.productId.discountPrice %></p>
+                 <p> Unit Price:  <%= item?.productId?.discountPrice %></p>
                         <!-- <dt class="definitionList-key">Color:</dt>
                         <dd class="definitionList-value">White</dd>
                         <dt class="definitionList-key">Size:</dt>
@@ -117,7 +117,7 @@
 <dl class="account-orderTotal">
     <dt class="account-orderTotal-key">Subtotal:</dt>
     <dd class="account-orderTotal-value">
-        <%= orderItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %>
+        <%= orderItems.reduce((total, item) => total + (item?.quantity * item?.productId?.discountPrice), 0) %>
     </dd>
     <dt class="account-orderTotal-key">Discount:</dt>
     <dd id="discount-value" class="account-orderTotal-value">
@@ -125,7 +125,7 @@
     </dd>
     <dt class="account-orderTotal-key">Grand total:</dt>
     <dd id="grand-total-value" class="account-orderTotal-value">
-        <%= orderItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) - order?.discount  %>
+        <%= orderItems.reduce((total, item) => total + (item?.quantity * item?.productId?.discountPrice), 0) - order?.discount  %>
     </dd>
   </dl>
                     </div>
@@ -137,17 +137,17 @@
                             <dl class="definitionList">
                                 <dt class="definitionList-key">Ordered On:</dt>
                                     <dd class="definitionList-value">
-                                        <%= (order.createdAt).toDateString() %>
+                                        <%= (order?.createdAt).toDateString() %>
                                     </dd>
                                 <dt class="definitionList-key">Order total:</dt>
-                                <dd class="definitionList-value"><%= orderItems.reduce((total, item) => total + (item.quantity * item.productId.discountPrice), 0) %></dd>
+                                <dd class="definitionList-value"><%= orderItems.reduce((total, item) => total + (item?.quantity * item?.productId?.discountPrice), 0) %></dd>
                                     <dt class="definitionList-key">Payment method:</dt>
                                     <dd class="definitionList-value">
                                         Cash on Delivery
                                     </dd>
                                     <dt class="definitionList-key">Order Status:</dt>
                                     <dd class="definitionList-value">
-                                        <%= order.status %>
+                                        <%= order?.status %>
                                     </dd>
                                    <!-- <dt class="order-payments-description">Here&#x27;s how to pay for your order:</dt>
                                      <dd class="order-payments-value order-payments-value--long">Type your cash on delivery instructions in here.</dd> -->
