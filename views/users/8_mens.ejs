@@ -115,23 +115,26 @@ function getUrlVars() {
 </script>
 </form> -->
                 
-                <form class="actionBar" method="get" data-sort-by>
+<form class="actionBar" id="filterForm" action="/sortBasedOn" method="get">
     <fieldset class="form-fieldset actionBar-section">
-    <div class="form-field">
-        <label class="form-label" for="sort">Sort By</label>
-        <select class="form-select form-select--small" name="sort" id="sort">
-            <option value="featured" >Featured Items</option>
-            <option value="newest" >Newest Items</option>
-            <option value="bestselling" >Best Selling</option>
-            <option value="alphaasc" >A to Z</option>
-            <option value="alphadesc" >Z to A</option>
-            <!-- <option value="avgcustomerreview" >By Review</option> -->
-            <option value="priceasc" >Price: Ascending</option>
-            <option value="pricedesc" >Price: Descending</option>
-        </select>
-    </div>
-</fieldset>
+        <div class="form-field">
+            <label class="form-label" id="sort" for="sort">Sort By</label>
+            <select class="form-select form-select--small" name="sort" id="sort">
+                <option value="" selected disabled>Choose...</option>
+                <option value="alphaasc">A to Z</option>
+                <option value="alphadesc">Z to A</option>
+                <option value="priceasc">Price: Ascending</option>
+                <option value="pricedesc">Price: Descending</option>
+            </select>
+        </div>
+    </fieldset>
 </form>
+
+<!-- This is where the products will be displayed -->
+<div id="productList">
+    <!-- Product items will be dynamically inserted here -->
+</div>
+
             </div>
         </div>
 <!-- <aside class="page-sidebar sidebar-left" id="faceted-search-container">
@@ -559,7 +562,7 @@ snippet location product_rating
 
         <main class="page-content" id="product-listing-container">
                 <form action="https://luxwatches-demo-02.mybigcommerce.com/compare" method='POST'  data-product-compare>
-<ul class="productListing productGrid">
+<ul id="productList" class="productListing productGrid">
     <% if(product.length > 0) {
         for(let i=0; i < product.length; i++) { %>
     <li class="product">
@@ -867,4 +870,39 @@ snippet location product_rating
         }
     }
 </script>
+
+
+
+<!-- <script>
+    document.getElementById('sort').addEventListener('change', function() {
+    const form = document.getElementById('filterForm');
+    const formData = new FormData(form);
+    const queryString = new URLSearchParams(formData).toString();
+
+    fetch(`/sorBasedOn?${queryString}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Update the product list
+        const productList = document.getElementById('productList');
+        productList.innerHTML = ''; // Clear the existing products
+
+        data.products.forEach(product => {
+            const productItem = document.createElement('div');
+            productItem.classList.add('product-item');
+            productItem.innerHTML = `
+                <h3>${product.name}</h3>
+                <p>Price: ${product.price}</p>
+            `;
+            productList.appendChild(productItem);
+        });
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+</script> -->
 <%- include("../user_partials/footer") %>

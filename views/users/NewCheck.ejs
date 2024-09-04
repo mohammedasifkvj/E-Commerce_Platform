@@ -191,18 +191,11 @@
   document.getElementById('couponForm').addEventListener('submit', async function(e) {
     e.preventDefault()
 
-    // document.getElementById('couponError').innerText = '';
     // Clear previous errors
     const errorElements = document.querySelectorAll('.error-message');
     errorElements.forEach(el => el.textContent = '');
 
-    //   const form = new FormData(this);
-
-    //   const couponCode = form.get('couponCode')
-    //   if (!couponCode) {
-    //     document.getElementById('couponError').textContent = 'Coupon must be selected.';
-    //     return ;
-    //   }
+    
 
     //validate input
     const couponCode = document.getElementById("couponCodeInput").value;
@@ -396,6 +389,77 @@
   });
 </script>
 
-</body>
+<!-- succesd faolure in paypal pay  -->
+<script>
+  // Example function to trigger after PayPal approval
+  async function handlePayPalPayment(orderData) {
+    // Simulate a payment result using SweetAlert
+    Swal.fire({
+      title: 'Simulate Payment Result',
+      text: 'Choose an option to simulate the payment outcome.',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Success',
+      cancelButtonText: 'Fail'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        // If user selects success, proceed to capture the payment
+        const response = await fetch(`/captureOrder?token=${orderData.token}&PayerID=${orderData.PayerID}`, {
+          method: 'GET',
+        });
 
+        if (response.ok) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Payment Successful!',
+            showConfirmButton: false,
+            timer: 1500
+          }).then(() => {
+            window.location.href = `/orderConfirmation/${orderData.orderId}`;
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Payment Failed!',
+            text: 'There was an issue with capturing the payment.',
+            showConfirmButton: true
+          });
+        }
+      } else {
+        // If user selects fail, update order status to payment failed
+        const response = await fetch('/updateOrderStatus', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            orderId: orderData.orderId,
+            status: 'Payment Failed'
+          }),
+        });
+
+        if (response.ok) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Payment Failed!',
+            text: 'Your payment was not successful.',
+            showConfirmButton: true
+          }).then(() => {
+            window.location.href = '/order';
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to update order status.',
+            showConfirmButton: true
+          });
+        }
+      }
+    });
+  }
+</script>
+
+
+</body>
 </html>

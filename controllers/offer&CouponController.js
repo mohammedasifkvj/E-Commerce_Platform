@@ -4,7 +4,6 @@ const Offer = require('../models/offer');
 const Coupon = require('../models/coupon');
 
 const mongoose = require('mongoose')
-const cron = require('node-cron');
 
 //Admin Offer Page Load
 const offers = async(req,res)=>{
@@ -137,7 +136,7 @@ const offerStatusChange = async (req, res) => {
       // Check if the offer is expired
       const now = new Date();
       if (newStatus && offer.expDate < now) {
-        return res.json({ success: false, message: 'This offer has expired and cannot be activated.' });
+        return res.json({ success: false, message: 'This offer has expired and it cannot be activated.' });
       }
   
       // Update offer status
@@ -319,7 +318,7 @@ const deleteOffer= async (req, res) => {
           }
       }
     }
-    
+
     return res.status(200).json({ message: "Offer deleted Successfully" })
   } catch (e) {
     console.log(e);

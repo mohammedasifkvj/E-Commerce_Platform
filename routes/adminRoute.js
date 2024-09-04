@@ -17,12 +17,17 @@ admin_route.set('views', './views/admin');
 admin_route.get('/', logged.isAdminLoggedIn, adminController.loadAdminSignIn)
 admin_route.get('/login', logged.isAdminLoggedIn, adminController.loadAdminSignIn)
 admin_route.post('/adminSignIn', logged.isAdminLoggedIn, adminController.adminSignIn);
-
 admin_route.get('/logout', auth.authenticateToken, adminController.adminLogout)
 admin_route.get('/dash', auth.authenticateToken, adminController.loadDash)
+//-------Graphs
+admin_route.post('/sellingChart', auth.authenticateToken, adminController.lineChartData)
+admin_route.post('/topCategory', auth.authenticateToken, adminController.topCategory)
+admin_route.post('/topProducts', auth.authenticateToken, adminController.topProducts)
+admin_route.post('/topBrands', auth.authenticateToken, adminController.topBrands)
+//-------Sales Report
 admin_route.get('/generateSalesReport', auth.authenticateToken, adminController.generateSalesReport)
-admin_route.get('/downloadExcelReport',auth.authenticateToken,adminController.generateExcelReport);
-admin_route.get('/downloadPdfReport',auth.authenticateToken,adminController.generatePDFReport);
+admin_route.get('/downloadExcelReport', auth.authenticateToken, adminController.generateExcelReport);
+admin_route.get('/downloadPdfReport', auth.authenticateToken, adminController.generatePDFReport);
 
 //-------------Categry
 admin_route.get('/ShowCategory', auth.authenticateToken, categoryController.showCategory)
@@ -39,7 +44,7 @@ admin_route.post('/addProduct', auth.authenticateToken, uploadImage.any(), produ
 admin_route.get('/editProduct/:productId', auth.authenticateToken, uploadImage.any(), productController.editProductPage)
 admin_route.put('/updateProduct/:productId', auth.authenticateToken, productController.editProduct)
 admin_route.patch('/productStatus', auth.authenticateToken, productController.listUnlistProduct)
-admin_route.get('/product/searchProduct',auth.authenticateToken, productController.searchProduct)
+admin_route.get('/product/searchProduct', auth.authenticateToken, productController.searchProduct)
 admin_route.get('/product/reviews', auth.authenticateToken, productController.reviews)
 
 //----------customer 
@@ -51,20 +56,20 @@ admin_route.get('/orderTable', auth.authenticateToken, adminController.orderTabl
 admin_route.get('/OrderDetails/:orderId', auth.authenticateToken, adminController.orderDetails)
 admin_route.delete('/deleteOrder', auth.authenticateToken, adminController.deleteOrder)
 admin_route.post('/updateOrderStatus', auth.authenticateToken, adminController.updateOrderStatus)
-admin_route.post('/approveReturn',auth.authenticateToken,adminController.approveReturn);
+admin_route.post('/approveReturn', auth.authenticateToken, adminController.approveReturn);
 
 //--------Offer
 admin_route.get('/offer', auth.authenticateToken, offerController.offers)
 admin_route.get('/offer/addOfferPage', auth.authenticateToken, offerController.addOfferPage)
 admin_route.post('/offer/addOffer', auth.authenticateToken, offerController.addOffer)
-admin_route.patch('/offer/offerStatusChange', auth.authenticateToken,offerController.offerStatusChange);
+admin_route.patch('/offer/offerStatusChange', auth.authenticateToken, offerController.offerStatusChange);
 admin_route.delete('/offer/deleteOffer', auth.authenticateToken, offerController.deleteOffer)
 
 //--------Coupon
 admin_route.get('/coupon', auth.authenticateToken, offerController.coupon)
 admin_route.get('/coupon/addCouponPage', auth.authenticateToken, offerController.addCouponPage)
 admin_route.post('/coupon/addCoupon', auth.authenticateToken, offerController.addCoupon)
-admin_route.patch('/coupon/couponStatusChange', auth.authenticateToken,offerController.couponStatusChange);
+admin_route.patch('/coupon/couponStatusChange', auth.authenticateToken, offerController.couponStatusChange);
 admin_route.delete('/deleteCoupon', auth.authenticateToken, offerController.deleteCoupon)
 
 //404

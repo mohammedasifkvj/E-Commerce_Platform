@@ -52,7 +52,7 @@ user_route.post('/verifyResetOTP', userController.resetPassword)
 // Pages
 user_route.get('/newRelease', userController.newRel)
 user_route.get('/mens', userController.mensPage)
-//user_route.get('/itemPerPage', userController.mensPage)
+//user_route.get('/sortBasedOn', userController.sortBasedOn)
 user_route.get('/womens', userController.womensPage)
 user_route.get('/product/:productId', userController.productShow)
 user_route.post('/product/review/:productId', userController.postReview)
@@ -104,6 +104,7 @@ user_route.post('/makeOrder', auth.authenticateToken, orderController.makeOrder)
 //user_route.post('/create', auth.authenticateToken, orderController.createPayment);
 user_route.post('/createPaypalOrder', auth.authenticateToken, orderController.payPalPay);
 user_route.get('/captureOrder',auth.authenticateToken, orderController.captureOrder);
+//user_route.post('/updateOrderStatus',auth.authenticateToken, orderController.updateOrderStatus);
 user_route.get('/orderConfirmation/:orderId',auth.authenticateToken, orderController.oredrConfirmation)
 user_route.get('/invoiceDownload/:orderId',auth.authenticateToken,orderController.invoiceDownload);
 

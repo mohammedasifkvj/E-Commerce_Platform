@@ -11,20 +11,20 @@
       <h2 class="content-title card-title">Dashboard</h2>
       <p>Whole data about your business here</p>
     </div>
-    <div>
+    <!-- <div>
       <a href="#" class="btn btn-primary"><i class="text-muted material-icons md-post_add"></i>Create report</a>
-    </div>
+    </div> -->
   </div>
   <div class="row">
     <div class="col-lg-3">
       <div class="card card-body mb-4">
         <article class="icontext">
           <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
-          <!-- <div class="text">
+          <div class="text">
                         <h6 class="mb-1 card-title">Revenue</h6>
-                        <span>$13,456.5</span>
-                        <span class="text-sm"> Shipping fees are not included </span>
-                    </div> -->
+                        <span><%= totalOrderAmount %></span>
+                        <!-- <span class="text-sm"> Shipping fees are not excluded </span> -->
+                    </div>
         </article>
       </div>
     </div>
@@ -34,7 +34,7 @@
           <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-success material-icons md-local_shipping"></i></span>
           <div class="text">
             <h6 class="mb-1 card-title">Orders</h6>
-            <span>53.668</span>
+            <span><%= orders.length %></span>
             <span class="text-sm"> Excluding orders in transit </span>
           </div>
         </article>
@@ -46,8 +46,8 @@
           <span class="icon icon-sm rounded-circle bg-warning-light"><i class="text-warning material-icons md-qr_code"></i></span>
           <div class="text">
             <h6 class="mb-1 card-title">Products</h6>
-            <span>9.856</span>
-            <span class="text-sm"> In 19 Categories </span>
+            <span><%= products.length %></span>
+            <span class="text-sm"><b> In <%= category.length %> Categories</b></span>
           </div>
         </article>
       </div>
@@ -77,38 +77,21 @@
         <div class="col-lg-5">
           <div class="card mb-4">
             <article class="card-body">
-              <h5 class="card-title">New Members</h5>
+              <h5 class="card-title"><u>New Customers</u></h5>
               <div class="new-member-list">
+                <% if(users.length >0 ){ 
+                  for(let i=0 ;i < users.length ;i++){%>
                 <div class="d-flex align-items-center justify-content-between mb-4">
                   <div class="d-flex align-items-center">
-                    <img src="assets/imgs/people/avatar-4.png" alt="" class="avatar" />
+                    <!-- <img src="assets/imgs/people/avatar-4.png" alt="" class="avatar" /> -->
                     <div>
-                      <h6>Patric Adams</h6>
-                      <p class="text-muted font-xs">Sanfrancisco</p>
+                      <h6><%= users[i].name %></h6>
+                      <p class="text-muted font-xs"><%= users[i].email %></p>
                     </div>
                   </div>
-                  <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
+                  <!-- <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a> -->
                 </div>
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                  <div class="d-flex align-items-center">
-                    <img src="assets/imgs/people/avatar-2.png" alt="" class="avatar" />
-                    <div>
-                      <h6>Dilan Specter</h6>
-                      <p class="text-muted font-xs">Sanfrancisco</p>
-                    </div>
-                  </div>
-                  <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
-                </div>
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                  <div class="d-flex align-items-center">
-                    <img src="assets/imgs/people/avatar-3.png" alt="" class="avatar" />
-                    <div>
-                      <h6>Tomas Baker</h6>
-                      <p class="text-muted font-xs">Sanfrancisco</p>
-                    </div>
-                  </div>
-                  <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
-                </div>
+                <% }}%>
               </div>
             </article>
           </div>
@@ -116,80 +99,34 @@
         <div class="col-lg-7">
           <div class="card mb-4">
             <article class="card-body">
-              <h5 class="card-title">Recent activities</h5>
+              <h5 class="card-title"><u>Recent Orders</u></h5>
+              <% if(order.length >0 ){ %>
               <ul class="verti-timeline list-unstyled font-sm">
-                <li class="event-list">
-                  <div class="event-timeline-dot">
-                    <i class="material-icons md-play_circle_outline font-xxl"></i>
-                  </div>
-                  <div class="media">
-                    <div class="me-3">
-                      <h6><span>Today</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                    </div>
-                    <div class="media-body">
-                      <div>Lorem ipsum dolor sit amet consectetur</div>
-                    </div>
-                  </div>
-                </li>
+                <% order.forEach(order => { %>
                 <li class="event-list active">
                   <div class="event-timeline-dot">
                     <i class="material-icons md-play_circle_outline font-xxl animation-fade-right"></i>
                   </div>
                   <div class="media">
                     <div class="me-3">
-                      <h6><span>17 May</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
+                      <h6><span><%= new Date(order.createdAt).toDateString() %></span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
+                      
                     </div>
                     <div class="media-body">
-                      <div>Debitis nesciunt voluptatum dicta reprehenderit</div>
+                      <div><%= order?.userId?.name %></div>
+                      <div><%= order?.orderTotal %> <a href="/admin/OrderDetails/<%= order._id %>" class="btn btn-md rounded font-sm">Detail</a></div>
                     </div>
                   </div>
                 </li>
-                <li class="event-list">
-                  <div class="event-timeline-dot">
-                    <i class="material-icons md-play_circle_outline font-xxl"></i>
-                  </div>
-                  <div class="media">
-                    <div class="me-3">
-                      <h6><span>13 May</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                    </div>
-                    <div class="media-body">
-                      <div>Accusamus voluptatibus voluptas.</div>
-                    </div>
-                  </div>
-                </li>
-                <li class="event-list">
-                  <div class="event-timeline-dot">
-                    <i class="material-icons md-play_circle_outline font-xxl"></i>
-                  </div>
-                  <div class="media">
-                    <div class="me-3">
-                      <h6><span>05 April</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                    </div>
-                    <div class="media-body">
-                      <div>At vero eos et accusamus et iusto odio dignissi</div>
-                    </div>
-                  </div>
-                </li>
-                <li class="event-list">
-                  <div class="event-timeline-dot">
-                    <i class="material-icons md-play_circle_outline font-xxl"></i>
-                  </div>
-                  <div class="media">
-                    <div class="me-3">
-                      <h6><span>26 Mar</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                    </div>
-                    <div class="media-body">
-                      <div>Responded to need “Volunteer Activities</div>
-                    </div>
-                  </div>
-                </li>
+                <% }) %>
               </ul>
+              <% }%>
             </article>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-xl-4 col-lg-12">
+    <!-- <div class="col-xl-4 col-lg-12">
       <div class="card mb-4">
         <article class="card-body">
           <h5 class="card-title">Revenue Base on Area</h5>
@@ -221,8 +158,139 @@
           </div>
         </article>
       </div>
+    </div> -->
+  </div>
+  <!-- sales graph start -->
+  <div class="container">
+    <div class="row justify-content-center" style="margin-top: 3em;">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4>Sales-Chart</h4>
+            <div class="card-header-action">
+              <div class="col-12 d-flex">
+                <div>
+                  <ul class="nav nav-tabs" id="myTab2" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="home-tab2" data-toggle="tab" href="#home2" role="tab"
+                        aria-controls="home" aria-selected="true">Sales</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="profile-tab2" data-toggle="tab" href="#profile2" role="tab"
+                        aria-controls="profile" aria-selected="false">Earnings</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row pb-3">
+            <div class="col-12">
+              <div class="tab-content" id="myTab3Content">
+                <div class="tab-pane fade active show" id="home2" role="tabpanel" aria-labelledby="home-tab2">
+                  <div class="row col-12 pl-5 pb-3">
+                    <canvas id="salesGraph"></canvas>
+                  </div>
+                </div>
+
+                <div class="tab-pane fade" id="profile2" role="tabpanel" aria-labelledby="profile-tab2">
+                  <canvas id="salesAvgGraph"></canvas>
+                </div>
+              </div>
+
+              <div class="row mb-0">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                  <a href="javascript:void(0)" onclick="event.preventDefault(); salesChart('daily')">
+                    <div class="list-inline text-center">
+                      <div class="list-inline-item p-r-30">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                          class="feather feather-arrow-up-circle col-green" style="margin: .5em;">
+                          <circle cx="12" cy="12" r="10"></circle>
+                          <polyline points="16 12 12 8 8 12"></polyline>
+                          <line x1="12" y1="16" x2="12" y2="8"></line>
+                        </svg>
+                        <h5 class="m-b-0">₹ <%=salesAvgEarnings[0].daily%>
+                        </h5>
+                        <p class="text-muted font-14 m-b-0">Daily Earnings</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                  <a href="javascript:void(0)" onclick="event.preventDefault(); salesChart('weekly')">
+                    <div class="list-inline text-center">
+                      <div class="list-inline-item p-r-30">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                          class="feather feather-arrow-down-circle col-orange" style="margin: .5em;">
+                          <circle cx="12" cy="12" r="10"></circle>
+                          <polyline points="8 12 12 16 16 12"></polyline>
+                          <line x1="12" y1="8" x2="12" y2="16"></line>
+                        </svg>
+                        <h5 class="m-b-0">₹ <%=salesAvgEarnings[1].weekly%>
+                        </h5>
+                        <p class="text-muted font-14 m-b-0">Weekly Earnings</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                  <a href="javascript:void(0)" onclick="event.preventDefault(); salesChart('monthly')">
+                    <div class="list-inline text-center">
+                      <div class="list-inline-item p-r-30">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                          class="feather feather-arrow-up-circle col-green" style="margin: .5em;">
+                          <circle cx="12" cy="12" r="10"></circle>
+                          <polyline points="16 12 12 8 8 12"></polyline>
+                          <line x1="12" y1="16" x2="12" y2="8"></line>
+                        </svg>
+                        <h5 class="mb-0 m-b-0">₹ <%=salesAvgEarnings[2].monthly%>
+                        </h5>
+                        <p class="text-muted font-14 m-b-0">Monthly Earnings</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row col-12 justify-content-around">
+        <div class="col-5 card">
+          <div class="card-header">
+            <h4>Top-Categories</h4>
+          </div>
+          <div>
+            <canvas id="top-category"></canvas>
+          </div>
+        </div>
+        <div class="col-6 card">
+          <div class="card-header">
+            <h4>Top-Products</h4>
+          </div>
+          <div>
+            <canvas id="top-product"></canvas>
+          </div>
+        </div>
+        <div class="col-6 card">
+          <div class="card-header">
+            <h4>Top-Brands</h4>
+          </div>
+          <div>
+            <canvas id="top-brands"></canvas>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
+   <!-- sales graph end -->
   <div class="card mb-4">
     <header class="card-header">
       <h4 id="reportHeading" class="card-title text-center">Sales Report</h4>
@@ -341,32 +409,482 @@
   </div>
 
   <!-- Paginstion-->
-  <!-- <div class="row ">
-            <div class="col-12 ">
-                <nav aria-label="Page navigation example ">
-                    <ul class="pagination justify-content-center">
-                        <% if (currentPage > 1) { %>
-                        <li class="page-item">
-                            <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
-                        </li>
-                        <% } %>
-                        <% for (let i = 1; i <= totalPages; i++) { %>
-                        <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-                            <a class="page-link" href="?page=<%= i %>"><%= i %></a>
-                        </li>
-                        <% } %>
-                        <% if (currentPage < totalPages) { %>
-                        <li class="page-item">
-                            <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
-                        </li>
-                        <% } %>
-                    </ul>
-                </nav>
-            </div>
-        </div> -->
 
 </section>
 
+<!-- chart script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+  
+    let salesGraph;
+    let salesAvgGraph;
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchDataAndRenderChart('daily');
+      topCategory();
+      topProducts();
+      topBrands()
+    });
+
+    function fetchDataAndRenderChart(sortBy) {
+      fetch('/admin/sellingChart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ sortBy })
+      })
+        .then(response => response.json())
+        .then(data => {
+          const lastDates = data.lastDates;
+          const lastSales = data.lastSales;
+          const barData = data.barData
+          const barLabel = data.barLabel;
+          if (salesGraph) {
+            salesGraph.destroy();
+          }
+          if (salesAvgGraph) {
+            salesAvgGraph.destroy();
+          }
+
+
+          const ctx = document.getElementById('salesGraph').getContext('2d');
+          salesGraph = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: lastDates,
+              datasets: [{
+                label: 'Sales',
+                data: lastSales,
+                borderColor: '#cd853f3d',
+                backgroundColor: '#cd853f3d',
+                borderWidth: 2,
+                fill: true
+              }]
+            },
+            options: {
+              scales: {
+                x: {
+        ticks: {
+          font: {
+            size: 10
+          }
+        }
+      },
+                y: {
+                  beginAtZero: true
+                }
+              },
+              responsive: true,
+              plugins: {
+                legend: {
+                  display: true,
+                  position: 'top'
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function (context) {
+                      let label = context.dataset.label || '';
+                      if (label) {
+                        label += ': ';
+                      }
+                      if (context.parsed.y !== null) {
+                        label += context.parsed.y;
+                      }
+                      return label;
+                    }
+                  }
+                }
+              }
+            }
+          });
+
+          const avg = document.getElementById('salesAvgGraph').getContext('2d');
+          salesAvgGraph = new Chart(avg, {
+            type: 'bar',
+            data: {
+              labels: barLabel,
+              datasets: [{
+                label: 'Earnings',
+                data: barData,
+                borderColor: '#cd853f3d',
+                backgroundColor: '#cd853f3d',
+                borderWidth: 2,
+                fill: true
+              }]
+            },
+            options: {
+              scales: {
+                x: {
+        ticks: {
+          font: {
+            size: 10 
+          }
+        }
+      },
+                y: {
+                  beginAtZero: true
+                }
+              },
+              responsive: true,
+              plugins: {
+                legend: {
+                  display: false,
+                  position: 'top'
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function (context) {
+                      let label = context.dataset.label || '';
+                      if (label) {
+                        label += ': ';
+                      }
+                      if (context.parsed.y !== null) {
+                        label += context.parsed.y;
+                      }
+                      return label;
+                    }
+                  }
+                }
+              }
+            }
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    }
+
+    function salesChart(sortBy) {
+      fetchDataAndRenderChart(sortBy);
+    }
+
+    // function topCategory() {
+    //   fetch('/admin/topCategory', {
+    //     method: 'post',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     }
+    //   }).then(response => response.json())
+    //     .then(data => {
+    //       let catname=[]
+    //       let catvalue=[]
+    //       data.topCategory.forEach(item=>{
+    //         catname.push(item._id)
+    //         catvalue.push(item.sales)
+    //       })
+    //       const ctx = document.getElementById('top-category');
+
+    //       new Chart(ctx, {
+    //         type: 'pie',
+    //         data: {
+    //           labels: catname,
+    //           datasets: [{
+    //             label: 'category',
+    //             data: catvalue,
+    //             borderWidth: 1
+    //           }]
+    //         },
+    //         options: {
+    //           scales: {
+    //             y: {
+    //               beginAtZero: true
+    //             }
+    //           }
+    //         }
+    //       });
+    //     })
+    // }
+    // function topProducts(){
+    //   fetch('/admin/topProducts',{
+    //     method: 'post',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     }
+    //   }).then(response => response.json())
+    //     .then(data => {
+    //       console.log(data);
+    //       let catname=[]
+    //       let catvalue=[]
+    //       data.topProducts.forEach(item=>{
+    //         catname.push(item._id.split('–')[0])
+    //         catvalue.push(item.sales)
+    //       })
+    //       const ctx = document.getElementById('top-product');
+
+    //       new Chart(ctx, {
+    //         type: 'polarArea',
+    //         data: {
+    //           labels: catname,
+    //           datasets: [{
+    //             label: 'product',
+    //             data: catvalue,
+    //             borderWidth: 1
+    //           }]
+    //         },
+    //         options: {
+    //           scales: {
+    //             y: {
+    //               beginAtZero: true
+    //             }
+    //           }
+    //         }
+    //       });
+    //     })
+    // }
+</script>
+
+<!-- Top Category -->
+<script>
+  function topCategory() {
+    fetch('/admin/topCategory', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      let catname = [];
+      let catvalue = [];
+      let backgroundColors = [];
+  
+      data.topCategory.forEach((item, index) => {
+        catname.push(item._id);              // Category name
+        catvalue.push(item.totalSales);      // Total sales
+  
+        // Generate a random color for each segment
+        const color = `hsl(${index * 360 / data.topCategory.length}, 70%, 60%)`;
+        backgroundColors.push(color);
+      });
+  
+      const ctx = document.getElementById('top-category');
+  
+      new Chart(ctx, {
+        type: 'pie',  // change to bar for bar chart 
+        data: {
+          labels: catname,
+          datasets: [{
+            label: 'Category Sales',
+            data: catvalue,
+            backgroundColor: backgroundColors, // Different color for each segment
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching top categories:', error);
+    });
+  }
+  </script>
+ <!-- Top Product --> 
+<script>
+function topProducts() {
+  fetch('/admin/topProducts', {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    let productNames = [];
+    let productSales = [];
+    let backgroundColors = [];
+
+    data.topProducts.forEach((item, index) => {
+      productNames.push(item._id);           // Product name
+      productSales.push(item.totalSales);    // Total sales
+
+      // Generate a random color for each segment
+      const color = `hsl(${index * 360 / data.topProducts.length}, 70%, 60%)`;
+      backgroundColors.push(color);
+    });
+
+    const ctx = document.getElementById('top-product');
+
+    new Chart(ctx, {
+      type: 'polarArea',  // change to bar for bar chart or to pie
+      data: {
+        labels: productNames,
+        datasets: [{
+          label: 'Product Sales',
+          data: productSales,
+          backgroundColor: backgroundColors, // Different color for each segment
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  })
+  .catch(error => {
+    console.error('Error fetching top products:', error);
+  });
+}
+</script>
+
+<!-- Top Brand -->
+<script>
+function topBrands() {
+  fetch('/admin/topBrands', {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    let brandNames = [];
+    let brandSales = [];
+    let backgroundColors = [];
+
+    data.topBrands.forEach((item, index) => {
+      brandNames.push(item._id);           // Brand name
+      brandSales.push(item.totalSales);    // Total sales
+
+      // Generate a random color for each bar
+      const color = `hsl(${index * 360 / data.topBrands.length}, 70%, 60%)`;
+      backgroundColors.push(color);
+    });
+
+    const ctx = document.getElementById('top-brands');
+
+    new Chart(ctx, {
+      type: 'pie', // Bar chart for top brands
+      data: {
+        labels: brandNames,
+        datasets: [{
+          label: 'Brand Sales',
+          data: brandSales,
+          backgroundColor: backgroundColors, // Different color for each bar
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  })
+  .catch(error => {
+    console.error('Error fetching top brands:', error);
+  });
+}
+</script>
+
+
+<!-- <script>
+  function topCategory() {
+    fetch('/admin/topCategory', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      let catname = [];
+      let catvalue = [];
+
+      data.topCategory.forEach(item => {
+        catname.push(item._id);         // Category name
+        catvalue.push(item.totalSales); // Total sales
+      });
+
+      const ctx = document.getElementById('top-category');
+
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: catname,
+          datasets: [{
+            label: 'Category Sales',
+            data: catvalue,
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    })
+    .catch(error => {
+      console.log('Error fetching top categories:', error);
+    });
+  }
+</script> -->
+
+<!-- <script>
+    // all part in same colour
+    function topProducts() {
+      fetch('/admin/topProducts', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        let productNames = [];
+        let productSales = [];
+    
+        data.topProducts.forEach(item => {
+          productNames.push(item._id);           // Product name
+          productSales.push(item.totalSales);    // Total sales
+        });
+    
+        const ctx = document.getElementById('top-product');
+    
+        new Chart(ctx, {
+          type: 'polarArea',
+          data: {
+            labels: productNames,
+            datasets: [{
+              label: 'Product Sales',
+              data: productSales,
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching top products:', error);
+      });
+    }
+    </script> -->
+    
+
+<!-- Sales Report script -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const salesReportForm = document.getElementById('salesReportForm');

@@ -108,7 +108,6 @@ const makeOrder = async (req, res) => {
         if (!product) {
             return res.status(404).json({ message: `Product with ID ${item.productId} not found` });
         }
-
         if (product.stock < item.quantity) {
             return res.status(400).json({ message: `Insufficient stock for product ${product.productName}` });
         }
@@ -130,7 +129,7 @@ const makeOrder = async (req, res) => {
     }
   };
 //if payment is online
- // PayPal client setup
+// PayPal client setup
 const clientId = process.env.PAYPAL_CLIENT_ID;
 const clientSecret = process.env.PAYPAL_SECRET;
 
@@ -159,21 +158,14 @@ const payPalPay = async (req, res) => {
     return res.json({ id: order.result.id, approval_url: order.result.links.find(link => link.rel === 'approve').href });
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({message:'Error creating PayPal order'});
+    return res.status(500).json({message:'Error creating PayPal order'});
   }
 }
 
-// Route to capture PayPal order
 const captureOrder = async (req, res) => {
-  //const { } = req.query; // Token from PayPal URL
-  // Extracted order data
-  // const { addressId, products, orderTotal, paymentMethod,token} = req.query;
-  // 
   const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
-  const { orderItems, token, PayerID } = req.query;
-   //console.log(req.query);
-
-   const request = new paypal.orders.OrdersCaptureRequest(token);
+  const { orderItems,token, PayerID, orderId } = req.query;
+     const request = new paypal.orders.OrdersCaptureRequest(token);
 // Parse the orderItems JSON string to extract its properties
    const parsedOrderItems = JSON.parse(orderItems);
 
@@ -197,10 +189,9 @@ const captureOrder = async (req, res) => {
       address: addressId,
       paymentMethod,
       status:"Order confirmed"
-    });
+    });    
 
-    
-     // Update stock for each product
+         // Update stock for each product
      for (const item of orderItems) {
       const product = await Product.findById(item.productId);
       if (!product) {
@@ -216,16 +207,97 @@ const captureOrder = async (req, res) => {
   }
   // Save the order to the database
     await newOrder.save();
+    // Update the order status based on the simulation result (success or failure)
+    const newOrd = await Order.findByIdAndUpdate(orderId, {
+      status: 'Order confirmed'
+    }, { new: true });
 
-    await Cart.deleteOne({userId });
-
-    // Redirect to the order confirmation page with orderId as a URL parameter
+    // Redirect to the order confirmation page
     return res.redirect(`/orderConfirmation/${newOrder._id}`);
   } catch (error) {
-    console.error(error.message);
-    //return res.status(500).json({message:'Error capturing PayPal order'});
+    console.error(error);
+    return res.status(500).json({ message: 'Error capturing PayPal order' });
   }
 }
+
+// Route to update order status if payment failed
+const updateOrderStatus = async (req, res) => {
+  const { orderId, status } = req.body;
+
+  try {
+    const order = await Order.findByIdAndUpdate(orderId, { status }, { new: true });
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+    return res.status(200).json({ message: 'Order status updated successfully' });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ message: 'Error updating order status' });
+  }
+};
+
+
+
+
+// Route to capture PayPal order
+// const captureOrder = async (req, res) => {
+//   const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
+//   // Extracted order data
+//   const { orderItems, token, PayerID } = req.query;
+//    //console.log(req.query);
+
+//    const request = new paypal.orders.OrdersCaptureRequest(token);
+// // Parse the orderItems JSON string to extract its properties
+//    const parsedOrderItems = JSON.parse(orderItems);
+
+//     const { products, addressId, orderTotal,discount, paymentMethod } = parsedOrderItems;
+//    // console.log(parsedOrderItems);
+  
+//   try {
+//     const capture = await client.execute(request);
+//     // Order captured, redirect to order confirmation
+//     const orderItems = products.map(item => ({
+//       productId: item.productId,
+//       quantity: item.quantity
+//     }));
+
+//     // Create new order document
+//     const newOrder = new Order({
+//       userId,
+//       orderItems,
+//       orderTotal,
+//       discount,
+//       address: addressId,
+//       paymentMethod,
+//       status:"Order confirmed"
+//     });
+
+//      // Update stock for each product
+//      for (const item of orderItems) {
+//       const product = await Product.findById(item.productId);
+//       if (!product) {
+//           return res.status(404).json({ message: `Product with ID ${item.productId} not found` });
+//       }
+
+//       if (product.stock < item.quantity) {
+//           return res.status(400).json({ message: `Insufficient stock for product ${product.productName}` });
+//       }
+
+//       product.stock -= item.quantity;
+//       await product.save();
+//   }
+//   // Save the order to the database
+//     await newOrder.save();
+
+//     await Cart.deleteOne({userId });
+
+//     // Redirect to the order confirmation page with orderId as a URL parameter
+//     return res.redirect(`/orderConfirmation/${newOrder._id}`);
+//   } catch (error) {
+//     console.error(error.message);
+//     //return res.status(500).json({message:'Error capturing PayPal order'});
+//   }
+// }
 
 
 const oredrConfirmation= async (req, res) => {
@@ -534,6 +606,7 @@ module.exports={
     makeOrder,
     payPalPay,
     captureOrder,
+    updateOrderStatus,
     //createPayment,
     oredrConfirmation,
     invoiceDownload
