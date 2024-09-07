@@ -5,31 +5,54 @@ const Offer = require("../models/offer")
 const Reviews=require("../models/review")
 const mongoose = require('mongoose')
 const sharp =require('sharp')
+const paginate = require('../drivers/paginate');
        
 //Admin Product Page Load
-const product = async(req,res)=>{
+// const product = async(req,res)=>{
+//     const {message, success} = req.query
+//     try {
+//         const page = parseInt(req.query.page) || 1;
+//         const limit =10; // Number of product per page
+//         const skip = (page - 1) * limit;
+
+//          const totalProduct = await Product.countDocuments();
+//         const product= await Product.find().skip(skip).limit(limit);
+//         const totalPages = Math.ceil(totalProduct / limit);
+//        const category=await Category.find()
+//         return res.render('5_product',{
+//         product,
+//         category, 
+//         currentPage: page,
+//         totalPages,  
+//         message,
+//         success
+//     });
+//     } catch (e) {
+//         console.log(e);
+//     }  
+// }
+
+const product = async (req, res) => {
     const {message, success} = req.query
     try {
         const page = parseInt(req.query.page) || 1;
-        const limit =10; // Number of product per page
-        const skip = (page - 1) * limit;
+        const limit = 10; // Number of products per page
+        // Use the pagination utility function
+        const { items: product, totalPages, currentPage } = await paginate(Product, page, limit);
+        const category = await Category.find();
 
-         const totalProduct = await Product.countDocuments();
-        const product= await Product.find().skip(skip).limit(limit);
-        const totalPages = Math.ceil(totalProduct / limit);
-       const category=await Category.find()
-        return res.render('5_product',{
-        product,
-        category, 
-        currentPage: page,
-        totalPages,  
-        message,
-        success
-    });
+        return res.render('5_product', {
+            product,
+            category,
+            currentPage,
+            totalPages,
+            message, success
+        });
     } catch (e) {
         console.log(e);
-    }  
-}
+        return res.status(500).json({message:"Internal Server error"})
+    }
+};
 
 // add product page
 const addProductPage =async (req,res)=>{
@@ -49,9 +72,8 @@ const addProductPage =async (req,res)=>{
 // Create new Product
 const addProduct = async (req,res) =>{
     const {productName,category,brand,description,dialColour,strapColour,stock,price} = req.body;
-    //console.log("01",req.files);
     const files=req.files ||{}
-    //console.log(files)
+
     try{
 
         if(!productName){
@@ -85,20 +107,16 @@ const addProduct = async (req,res) =>{
             return res.status(400).json({message: message})
            // return res.redirect(`/admin/addproduct?message=${encodeURIComponent('Price is required')}`);
         }
-        // if(!discountPrice){
-        //     const message='Discount Price is required'
-        //     return res.status(400).json({message: message})
-        //    // return res.redirect(`/admin/addproduct?message=${encodeURIComponent('Discount Price is required')}`);
-        // }
         if(!stock){
             const message='Stock is required'
             return res.status(400).json({message: message})
             //return res.redirect(`/admin/addproduct?message=${encodeURIComponent('Stock is required')}`);
-        //  }if(!productImage){
+          }
+        //   if(!productImage){
         //     const meassage='4 images must be added'
         //     return res.status(400).json({message: message})
         //  // return res.redirect(`/admin/addproduct?message=${encodeURIComponent('images are required')}`);
-        }
+        // }
   
         const isExist = await Product.findOne({ productName: { $regex: new RegExp(`^${productName}$`, 'i') } });
         if(isExist){
@@ -156,15 +174,12 @@ const addProduct = async (req,res) =>{
     const {message, success} = req.query
 
     if (!productId || !mongoose.Types.ObjectId.isValid(productId)) { 
-        // console.log('Invalid product ID');
-        //return res.status(404).render('404Admin')
         return res.redirect(`/admin/product?message=${encodeURIComponent('Product not found')}`);
        }
          const prodId= await Product.findById(productId)
        if(prodId== undefined){
          console.log('Invalid or missing product ID');
          return res.redirect(`/admin/product?message=${encodeURIComponent('Product not found')}`);
-        //return res.status(404).render('404Admin')
        }
 
     try {
@@ -300,8 +315,9 @@ const editProduct = async (req, res) => {
             stock,
             price,
             discountPrice,
+            newProductExpires,
             //productImage:productImagePaths,
-            newProductExpires
+            
         }})
         console.log("Edit comple")
         const message=productName+ ' Updated successfully'
@@ -339,13 +355,10 @@ const editProduct = async (req, res) => {
 //      }
 //   };
 
-  //Review Page Load
 //List and Unlist Product
-
 const listUnlistProduct = async (req, res) => {
     try {
         const { productId } = req.body;
-       // console.log(productId, 'this is productId');
         
         // Find the product by its ID
         const productData = await Product.findById(productId);
@@ -367,7 +380,6 @@ const listUnlistProduct = async (req, res) => {
                 { "cartItems.productId": productId },
                 { $pull: { cartItems: { productId: productId } } }
             );
-
             return res.json({ success: true, message: 'Product Hided successfully and removed from all carts' });
         }
     } catch (e) {
@@ -404,7 +416,6 @@ const searchProduct = async (req, res) => {
         }
   
         return res.render("5_product", { 
-            //user: userData, 
             product: product, 
             category: categoryData, 
             brand: brand, 
@@ -415,37 +426,30 @@ const searchProduct = async (req, res) => {
         });
   
     } catch (e) {
-        console.log(e);
-        //return res.status(500).json({message:'Internal Server Error'});
+        return res.status(500).json({message:`${e.message}`});
     }
   };
 
-
-  const reviews = async(req,res)=>{
+//Review Page
+const reviews = async(req,res)=>{
     const {message, success} = req.query
     try {
         const page = parseInt(req.query.page) || 1;
-        const limit =10; // Number of offers per page
-        const skip = (page - 1) * limit;
-
-        const reviews= await Reviews.find().skip(skip).limit(limit);
-        const totalReviews = await Reviews.countDocuments();
-        const totalPages = Math.ceil(totalReviews / limit);
-       // console.log()
+        const limit =10; 
+        const { items:reviews , totalPages, currentPage } = await paginate(Reviews, page, limit);
+        
         const product=await Product.find()
         return res.render('10_reviews',{
         product,
         reviews,
-        currentPage: page,
+        currentPage,
         totalPages,
-        message,
-        success
+        message,success
     });
     } catch (e) {
-        console.log(e);
+        return res.status(500).json({message:"Internal Server error"})
     }  
 }
-
 //Exporting modules
 module.exports={
     product,

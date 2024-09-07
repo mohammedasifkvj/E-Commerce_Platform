@@ -1625,9 +1625,6 @@ const topBrands = async (req, res) => {
 //   }
 // }
 
-
-
-
 module.exports = {
 //Sign In
   loadAdminSignIn,

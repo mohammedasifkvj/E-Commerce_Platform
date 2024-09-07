@@ -73,7 +73,7 @@
         </ul>
     </nav>
 
-<div class="account ">
+<div class="account">
     <div class="account-body ">
                     
        <ul class="addressList ">
@@ -81,22 +81,21 @@
             <div class="panel panel--address text-center">
                 <div class="panel-body ">
                     <h4 class="address-title ">Account Details</h4>
-                    <h3 class="address-title "><%=userData.name %></h3>
+                    <h3 class="address-title "><%=userData?.name %></h3>
                     <ul class="address-details address-details--postal">
-                        <li><%=userData.email %></li>
-                        <li><%=userData.mobile %></li>
+                        <li><%=userData?.email %></li>
+                        <li><%=userData?.mobile %></li>
                         <li></li>
                         <li></li>
                         <li></li>
                     </ul>
-                        <!-- <dl class="address-details">
-                            <dt class="address-label">Phone:</dt>
-                            <dd class="address-description">7012886459</dd>
-                        </dl> -->
+                    <a class="button button--primary change-password-btn" href="/account/profileSettings" style="display:none;">Change Password</a>
                 </div>
             </div>
          </li>
+         
      </ul>
+     
     </div>
 </div>
         </div>
@@ -118,4 +117,18 @@
     <div class="button-container"><button type="button" class="confirm button" data-reveal-close>OK</button></div>
 </div>
 </div>
+
+<script>
+    // Access user data from the server-side rendering
+    const userData = {
+        password: "<%= userData?.password %>",  // Password from the server
+        googleId: "<%= userData?.googleId %>"   // Google ID from the server
+    };
+
+    // Check if the user has a password and does not have a Google ID
+    if (userData.password && !userData.googleId) {
+        // Show the Change Password button if the user has a password
+        document.querySelector('.change-password-btn').style.display = 'inline-block';
+    }
+</script>
 <%- include("../user_partials/footer") %>

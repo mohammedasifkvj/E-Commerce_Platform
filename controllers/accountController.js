@@ -8,6 +8,7 @@ const Wallet = require("../models/wallet")
 
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs');
 
 //const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id; 
 
@@ -16,12 +17,57 @@ const profile = async (req, res) => {
     const userId = req.user.id;
     try {
         const userData = await User.findById({ _id: userId })
-        res.render('15_account', { userData });
+        return res.render('15_account', { userData });
+    } catch (e) {
+        console.log(e.message);
+        res.status(500).send('An error occurred');
+    }
+}
+
+const profileSettings = async (req, res) => {
+    try {
+        return res.render('19_accountSetting');
     } catch (e) {
         console.log(e.message);
         //res.status(500).send('An error occurred');
     }
 }
+
+const changePassword = async (req, res) => {
+    // const userId = req.user.id;
+    const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
+    const { newPassword, confirmPassword } = req.body;
+
+    try {
+        // Check if both passwords match
+        if (newPassword !== confirmPassword) {
+            return res.status(400).json({message:'Passwords do not match'});
+        }
+
+        // Validate password criteria (8 characters, uppercase, lowercase, number, special character)
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.*\s).{8,}$/;
+        if (!passwordRegex.test(newPassword)) {
+            return res.status(400).json({message:'Password must be at least 8 characters long, contain uppercase and lowercase letters, a number, a special character, and no spaces.'});
+        }
+
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // Update the user's password in the database
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({message:'User not found'});
+        }
+        user.password = hashedPassword;
+        await user.save();
+
+        return res.status(200).json({success:true, message: 'Password updated successfully' });
+    } catch (error) {
+        console.error('Error changing password:', error);
+        return res.status(500).json({message:'An error occurred while changing the password'});
+    }
+};
+
 // Address Page
 const address = async (req, res) => {
     const userId = req.user.id;
@@ -41,7 +87,7 @@ const addAddressPage = async (req, res) => {
         return res.render('16_addAddress');
     } catch (e) {
         console.log(e.message);
-        //res.status(500).send('An error occurred');
+        res.status(500).send('An error occurred');
     }
 }
 
@@ -147,10 +193,9 @@ const orderDetails = async (req, res) => {
     if (!orderId || !mongoose.Types.ObjectId.isValid(orderId)) {
         return res.status(404).redirect('/orders')
     }
-    const ordId = await Order.findById(orderId)
-    if (ordId == undefined) {
+    const orders = await Order.findById(orderId)
+    if (orders == undefined) {
         return res.status(404).redirect('/orders')
-        //return res.status(404).render('404User')
     }
 
     try {
@@ -183,7 +228,7 @@ const wishlist = async (req, res) => {
             product
         });
     } catch (e) {
-        //res.status(500).send('An error occurred');
+        return res.status(500).send('An error occurred');
     }
 }
 
@@ -201,7 +246,6 @@ const requestForReturn = async (req, res) => {
     }
 
     try {
-        
         const order = await Order.findByIdAndUpdate(orderId,
             { $set: { returnReason: reason, status: 'Requested for Return' } })
 
@@ -213,7 +257,6 @@ const requestForReturn = async (req, res) => {
         console.log(error);
     }
 }
-
 
 // cancelOrder
 const cancellOrder = async (req, res) => {
@@ -302,8 +345,7 @@ const wallet = async (req, res) => {
           transactionHistory: [],
         });
       }
-  
-      // Render the wallet page and pass wallet details to the EJS template
+
       return res.render('19_ wallet', {
         walletAmount: wallet.walletAmount.toFixed(2),
         transactionHistory: wallet.transactionHistory,
@@ -313,18 +355,11 @@ const wallet = async (req, res) => {
       res.status(500).send('Server Error');
     }
   };
-  
 
-const profileSettings = async (req, res) => {
-    try {
-        return res.render('19_accountSetting');
-    } catch (e) {
-        console.log(e.message);
-        //res.status(500).send('An error occurred');
-    }
-}
 module.exports = {
     profile,
+    profileSettings,
+    changePassword,
     address,
     addAddressPage,
     addAddress,
@@ -336,6 +371,5 @@ module.exports = {
     requestForReturn,
     cancellOrder,
     wishlist,
-    wallet,
-    profileSettings
+    wallet
 }

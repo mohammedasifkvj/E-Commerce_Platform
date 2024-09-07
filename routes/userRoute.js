@@ -4,6 +4,7 @@ const passport = require('passport')
 const auth = require('../middlewares/userTokenAuth')
 const logged = require('../middlewares/hasToken')
 const userController = require("../controllers/userController");
+const pageController = require("../controllers/pageController");
 const authMiddleware = require('../middlewares/authMiddleware')
 const cartController = require('../controllers/cart&WishController')
 const orderController = require('../controllers/orderController')
@@ -12,7 +13,7 @@ const offerController = require('../controllers/offer&CouponController')
 //const {signUpValidation,signInValidation}=require("../validators/signUpValidation")
 const cookieParser = require('cookie-parser');
 const methodOverride = require('method-override');
-const { User } = require("../models/signup");
+
 
 user_route.use(methodOverride('_method'));
 
@@ -47,24 +48,26 @@ user_route.get('/signOut', auth.authenticateToken, userController.logout)
 user_route.get('/forgetPW', logged.isLoggedIn, userController.forgetPW)
 user_route.post('/reset', userController.resetPWOTP)
 user_route.get('/resetOTP', userController.loadresetOTP)
-user_route.post('/verifyResetOTP', userController.resetPassword)
+user_route.post('/verifyResetOTP', userController.resetPasswordPage)
+user_route.post('/resetPassword', userController.resetPassword)
 
 // Pages
-user_route.get('/newRelease', userController.newRel)
-user_route.get('/mens', userController.mensPage)
-//user_route.get('/sortBasedOn', userController.sortBasedOn)
-user_route.get('/womens', userController.womensPage)
-user_route.get('/product/:productId', userController.productShow)
-user_route.post('/product/review/:productId', userController.postReview)
+user_route.get('/newRelease', pageController.newRel)
+user_route.get('/mens', pageController.mensPage)
+//user_route.get('/sortBasedOn', pageController.sortBasedOn)
+user_route.get('/womens', pageController.womensPage)
+user_route.get('/product/:productId', pageController.productShow)
+user_route.post('/product/review/:productId', pageController.postReview)
 
-user_route.get('/searchProduct', userController.searchProduct)
-user_route.get('/return', userController.retAndShip)
-user_route.get('/contact', userController.contactUs)
-user_route.get('/brands', userController.brands)
+user_route.get('/searchProduct', pageController.searchProduct)
+user_route.get('/return', pageController.retAndShip)
+user_route.get('/contact', pageController.contactUs)
+user_route.get('/brands', pageController.brands)
 
 //-----------------------------User Account-------------------------------------//
 user_route.get('/account', auth.authenticateToken, accountController.profile)
-user_route.get('/profileSettings', auth.authenticateToken, accountController.profileSettings)
+user_route.get('/account/profileSettings', auth.authenticateToken, accountController.profileSettings)
+user_route.post('/account/changePassword', auth.authenticateToken, accountController.changePassword)
 //Address
 user_route.get('/address', auth.authenticateToken, accountController.address)
 user_route.get('/addAddress', auth.authenticateToken, accountController.addAddressPage)

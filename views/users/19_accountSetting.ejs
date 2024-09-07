@@ -38,18 +38,18 @@
         <div class="body" data-currency-code="USD">
      
     <main class="page account-settings account">
-        <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
-            <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+        <ul class="breadcrumbs">
+            <li class="breadcrumb " itemprop="itemListElement" >
                     <a href="/home" class="breadcrumb-label" itemprop="item"><span itemprop="name">Home</span></a>
                 <meta itemprop="position" content="1" />
             </li>
-            <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+            <li class="breadcrumb " itemprop="itemListElement" itemtype="">
                     <a href="/account" class="breadcrumb-label" itemprop="item"><span itemprop="name">Your Account</span></a>
                 <meta itemprop="position" content="2" />
             </li>
             <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
                     <meta itemprop="item" content="https://luxwatches-demo-02.mybigcommerce.com/account.php?action=account_details">
-                    <span class="breadcrumb-label" itemprop="name">Account Details</span>
+                    <span class="breadcrumb-label" itemprop="name">Change Password </span>
                 <meta itemprop="position" content="3" />
             </li>
 </ul>
@@ -73,69 +73,118 @@
                          <li class="navBar-item">
                                  <a class="navBar-action" href="/wishlist">Wish Lists</a>
                           </li>
-                          <li class="navBar-item is-active">Account Settings</li>
+                          <li class="navBar-item">
+                            <a class="navBar-action" href="/wallet">Wallet</a>
+                     </li>
                      </ul>
                  </nav>
-<form action="/account.php?action=update_account" data-edit-account-form class="form" method="post">
-    <fieldset class="form-fieldset">
-        <div class="form-row form-row--half">
-            <div class="form-field">
-                <label class="form-label" for="account_firstname">Name</label>
-                <input type="text" class="form-input" name="account_firstname" id="account_firstname" value="asif">
-            </div>
-            <div class="form-field">
-                <label class="form-label" for="login_pass">Mobile Number<small>*</small></label>
-                <div id="errorMobile" style="color: red;"></div>
-                <input class="form-input" id="mobile" type="tel" name="mobile" maxlength="10"   autocomplete="off">
-            </div>
-            <div class="form-field" id="FormField_1" data-validation="{&quot;type&quot;:&quot;singleline&quot;,&quot;label&quot;:&quot;Email Address&quot;,&quot;required&quot;:true,&quot;maxlength&quot;:0}" data-type="EmailAddress">
-    <label class="form-label" for="FormField_1_input">Email Address</label>
-    <input type="text" id="FormField_1_input" data-label="Email Address" name="FormField[1][1]"  value="mohammedasifkv@gmail.com"  class="form-input" aria-required="true" data-field-type="EmailAddress" >
-      </div>
-
-                <div class="form-field" id="FormField_2" data-validation="{&quot;type&quot;:&quot;password&quot;,&quot;label&quot;:&quot;Password&quot;,&quot;required&quot;:false,&quot;maxlength&quot;:0}" data-type="Password">
-    <label class="form-label" for="FormField_2_input">Password
-    </label>
-    <input type="password"  class="form-input" id="FormField_2_input" data-label="Password" name="FormField[1][2]" value="" autocomplete="off" aria-required="false" data-field-type="Password">
-</div>
-
-                <div class="form-field" id="FormField_3" data-validation="{&quot;type&quot;:&quot;password&quot;,&quot;label&quot;:&quot;Confirm Password&quot;,&quot;required&quot;:false,&quot;maxlength&quot;:0}" data-type="ConfirmPassword">
-    <label class="form-label" for="FormField_3_input">Confirm Password
-    </label>
-    <input type="password"  class="form-input" id="FormField_3_input" data-label="Confirm Password" name="FormField[1][3]" value="" autocomplete="off" aria-required="false" data-field-type="ConfirmPassword">
-</div>
-
-                <div class="form-field" id="FormField_24" data-validation="{&quot;type&quot;:&quot;password&quot;,&quot;label&quot;:&quot;Current Password&quot;,&quot;required&quot;:false,&quot;maxlength&quot;:0}" data-type="CurrentPassword">
-    <label class="form-label" for="FormField_24_input">Current Password
-    </label>
-    <input type="password"  class="form-input" id="FormField_24_input" data-label="Current Password" name="FormField[1][24]" value="" autocomplete="off" aria-required="false" data-field-type="CurrentPassword">
-</div>
-
-        </div>
-    </fieldset>
-    <div class="form-actions">
-        <button class="button button--primary">Update Details</button>
-    </div>
-</form>
+                 <form id="change-password-form" class="form" method="post">
+                    <fieldset class="form-fieldset">
+                        <div class="form-row form-row--half">
+                
+                            <div class="form-field">
+                                <label class="form-label" for="new-password">New Password</label>
+                                <input type="password" id="new-password" class="form-input" name="newPassword" autocomplete="off" required>
+                                <span class="error-message" id="new-password-error" style="color:red; display:none;"></span>
+                            </div>
+                
+                            <div class="form-field">
+                                <label class="form-label" for="confirm-password">Confirm Password</label>
+                                <input type="password" id="confirm-password" class="form-input" name="confirmPassword" autocomplete="off" required>
+                                <span class="error-message" id="confirm-password-error" style="color:red; display:none;"></span>
+                            </div>
+                
+                        </div>
+                    </fieldset>
+                    <div class="form-actions">
+                        <button type="submit" class="button button--primary">Update Password</button>
+                    </div>
+                </form>
+                
             </div>
 
         </div>
     </div>
 </main>
-
-    <div id="modal" class="modal" data-reveal data-prevent-quick-search-close>
-    <a href="#" class="modal-close" aria-label="Close" role="button">
-        <span aria-hidden="true">&#215;</span>
-    </a>
-    <div class="modal-content"></div>
-    <div class="loadingOverlay"></div>
 </div>
-    <div id="alert-modal" class="modal modal--alert modal--small" data-reveal data-prevent-quick-search-close>
-    <div class="swal2-icon swal2-error swal2-animate-error-icon"><span class="swal2-x-mark swal2-animate-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span></div>
 
-    <div class="modal-content"></div>
+<script>
+    // Password validation
+    function validatePassword(password) {
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.*\s).{8,}$/;
+        return passwordRegex.test(password);
+    }
 
-    <div class="button-container"><button type="button" class="confirm button" data-reveal-close>OK</button></div>
-</div>
-</div>
+    document.getElementById('change-password-form').addEventListener('submit', function(event) {
+        event.preventDefault(); 
+        
+        // Get the password fields
+        const newPassword = document.getElementById('new-password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+
+        // Error message elements
+        const newPasswordError = document.getElementById('new-password-error');
+        const confirmPasswordError = document.getElementById('confirm-password-error');
+
+        // Clear previous error messages
+        newPasswordError.style.display = 'none';
+        confirmPasswordError.style.display = 'none';
+
+        // Validate the new password
+        if (!validatePassword(newPassword)) {
+            newPasswordError.textContent = 'Password must be at least 8 characters,contain upper and lowercase letters,at least s number,special character,and no spaces.';
+            newPasswordError.style.display = 'block';
+            return; // Stop if password is invalid
+        }
+
+        // Check if passwords match
+        if (newPassword !== confirmPassword) {
+            confirmPasswordError.textContent = 'Passwords do not match.';
+            confirmPasswordError.style.display = 'block';
+            return; // Stop if passwords don't match
+        }
+
+        // If validation passes, send data to the backend using fetch
+        fetch('/account/changePassword', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                newPassword: newPassword,
+                confirmPassword: confirmPassword
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                //alert('Password updated successfully');
+                Swal.fire({
+                icon: "success",
+                title: "Password Changed",
+                text:data.message,
+                showConfirmButton: false,
+                timer:1500
+            }).then(window.location.href="/account")
+            } else {
+                Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Error updating password",
+                showConfirmButton: true
+            });
+            }
+        })
+        .catch(error => {
+            console.log('Error:', error);
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: error || "An error occurred",
+                showConfirmButton: true
+            });
+        });
+    });
+</script>
+
 <%- include("../user_partials/footer") %>

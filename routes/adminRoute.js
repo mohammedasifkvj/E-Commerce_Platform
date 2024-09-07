@@ -30,8 +30,8 @@ admin_route.get('/downloadExcelReport', auth.authenticateToken, adminController.
 admin_route.get('/downloadPdfReport', auth.authenticateToken, adminController.generatePDFReport);
 
 //-------------Categry
-admin_route.get('/ShowCategory', auth.authenticateToken, categoryController.showCategory)
-admin_route.get('/createCat', auth.authenticateToken, categoryController.createCat)
+admin_route.get('/ShowCategory', auth.authenticateToken, categoryController.category)
+admin_route.get('/createCat', auth.authenticateToken, categoryController.createCategoryPage)
 admin_route.post('/addCategory', auth.authenticateToken, categoryController.createCategory)
 admin_route.get('/editCategory/:categoryId', auth.authenticateToken, categoryController.editCategoryPage)
 admin_route.put('/updateCategory/:categoryId', auth.authenticateToken, categoryController.editCategory)

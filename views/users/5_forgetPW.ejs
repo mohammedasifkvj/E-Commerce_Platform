@@ -6,7 +6,7 @@
                     <meta itemprop="position" content="1" />
                 </li>
                 <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                    <a href="/signIp" class="breadcrumb-label" itemprop="item"><span itemprop="name">Login</span></a>
+                    <a href="/signIn" class="breadcrumb-label" itemprop="item"><span itemprop="name">Login</span></a>
                 <meta itemprop="position" content="2" />
             </li>
                 <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
@@ -28,9 +28,9 @@
 
                     <label class="form-label">Email Address:</label>
                       <div class="form-prefixPostfix wrap">
-                        <div id="error" style="color: red;"></div>
                         <input class="form-input" name="email" id="email" type="email" formnovalidate>
                         <input type="submit" class="button button--small button--primary form-prefixPostfix-button--postfix" value="Request OTP">
+                        <div id="error" style="color: red;"></div>
                     </div>
                 </form>
             </div>
@@ -88,11 +88,8 @@
                 },
                 body: JSON.stringify(userData)
             });
-           // console.log(response, 'this is data');
             if (response.ok) {
         // Handle successful response
-         console.log('Login successful:');
-        // Redirect to another page or update the UI accordingly
         window.location.href = '/resetOTP';
     }else if(response.status == 400){
         const data = await response.json()
@@ -108,7 +105,6 @@
         errorDiv.textContent = errorData.message || 'Reset password failed';
     }
 } catch (e) {
-        console.error('Error:', e.message);
         errorDiv.textContent = 'An error occurred. Please try again later.';
     }
 });

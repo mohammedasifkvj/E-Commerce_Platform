@@ -90,13 +90,13 @@
                         <!-- <span class="text">Quick view</span> -->
                    </a>
             </div>
-            <% if (item.productId.stock < 1) { %>
+            <% if (item.productId?.stock < 1) { %>
                 <div class="product-badge sale-badge">
                     <span class="text">Out of Stock</span>
                 </div> <% } %>
-             <a href="/product/<%= item.productId._id %>" >
+             <a href="/product/<%= item.productId?._id %>" >
                 <div class="card-img-container" data-product-id="161">
-                    <img src="<%= item.productId.productImage[0] %>" alt="Item" 
+                    <img src="<%= item.productId?.productImage[0] %>" alt="Item" 
            class="lazyload card-image replace-2x img-responsive"/>
                 </div></a> 
     
@@ -113,18 +113,18 @@
             
         </figure>
         <div class="card-body">
-                <p class="card-brand" data-test-info-type="brandName"><b><%= item.productId.brand %></b></p>
+                <p class="card-brand" data-test-info-type="brandName"><b><%= item.productId?.brand %></b></p>
             <h4 class="card-title">
-                <a href="/product/<%= item.productId._id %>"><%= item.productId.productName %></a>
+                <a href="/product/<%= item.productId?._id %>"><%= item.productId?.productName %></a>
             </h4>
             
             <div class="card-price" data-test-info-type="price">
-                <% if (item.productId.price === item.productId.discountPrice) { %>
+                <% if (item.productId?.price === item.productId?.discountPrice) { %>
                     <!-- If price and discountPrice are the same, show only discountPrice -->
                     <div class="price-section price-section--withoutTax rrp-price--withoutTax">
                         Price:
                         <span data-product-price-without-tax class="price price--withoutTax">
-                            <%= item.productId.discountPrice %>
+                            <%= item.productId?.discountPrice %>
                         </span>
                     </div>
                 <% } else { %>
@@ -132,13 +132,13 @@
                     <div class="price-section price-section--withoutTax rrp-price--withoutTax">
                         MRP:
                         <span data-product-rrp-price-without-tax class="price price--rrp" style="text-decoration: line-through; color: gray;">
-                            <%= item.productId.price %>
+                            <%= item.productId?.price %>
                         </span>
                     </div>
                     <div class="price-section price-section--withoutTax">
                         <span class="price-now-label">Now:</span>
                         <span data-product-price-without-tax class="price price--withoutTax">
-                            <%= item.productId.discountPrice %>
+                            <%= item.productId?.discountPrice %>
                         </span>
                     </div>
                 <% } %>
@@ -150,12 +150,12 @@
                 </div>
                 <!-- /<%= product._id %> -->
             <div class="card-action-bottom  card-show">
-                <a href="/product/<%= item.productId._id %>" data-event-type="product-click" class="button card-figcaption-button themevale_Option" data-product-id="161">Choose Options</a>
+                <a href="/product/<%= item?.productId?._id %>" data-event-type="product-click" class="button card-figcaption-button themevale_Option" data-product-id="161">Choose Options</a>
             </div>
         </div>
     </article>
     <form action="" class="form">
-        <input type="button" onclick=" removeProduct('<%= item.productId._id %>')" class="button button--default button--small" value="Remove Item" />
+        <input type="button" onclick=" removeProduct('<%= item.productId?._id %>')" class="button button--default button--small" value="Remove Item" />
     </form>
         </li>
     <%  } ) %>
@@ -202,11 +202,11 @@
 
         const result = await response.json();
         if (response.status === 200) {
-            // window.location.reload();
-            //updateCartUI(result.cartItems);
-           (() => {
-            location.reload(); // Reload the page to update the cart -Given as IIFE
-                })();
+            window.location.reload();
+        
+        //    (() => {
+        //     location.reload(); // Reload the page to update the cart -Given as IIFE
+        //         })();
         } else {
             Swal.fire({
                 icon: "error",
