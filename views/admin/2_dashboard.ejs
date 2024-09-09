@@ -927,38 +927,32 @@ function topBrands() {
       // Validation
       if (!reportType) {
         document.getElementById('typeError').textContent = 'Please select a report period';
-        //alert('Please select a report type.');
         return;
       }
 
       if (reportType === 'daily' && !day) {
         document.getElementById('dayError').textContent = "Please select a day."
-        //alert('Please select a day.');
         return;
       }
 
       if (reportType === 'weekly' && !week) {
         document.getElementById('weekError').textContent = "Please select a week."
-        // alert('Please select a week.');
         return;
       }
 
       if (reportType === 'monthly' && !month) {
         document.getElementById('monthError').textContent = "Please select a month."
-        //alert('Please select a month.');
         return;
       }
 
       if (reportType === 'yearly' && !year) {
-        document.getElementById('yearError').textContent = "Please select an Year."
-        //alert('Please select a year.');
+        document.getElementById('yearError').textContent = "Please enter an Year."
         return;
       }
 
       if (reportType === 'custom' && (!startDate && !endDate)) {
         document.getElementById('startError').textContent = "Please select start date."
         document.getElementById('endError').textContent = "Please select end date."
-        //alert('Please select a start and end date.');
         return;
       }
 
@@ -1003,6 +997,16 @@ function topBrands() {
         } else {
           // Hide download buttons if no sales data
           downloadButtons.style.display = 'none';
+          document.getElementById('reportHeading').innerText = "Sales Report";
+      // Select table body
+      const tableBody = document.getElementById('reportTableBody');
+      tableBody.innerHTML = ''; // Clear existing rows
+
+      // Display total sales, total order amount, and total discount
+      document.getElementById('totalSales').innerText = `Total Sales: 0`;
+      document.getElementById('totalOrderAmount').innerText = `Total Order Amount: 0`;
+      document.getElementById('totalDiscount').innerText = `Total Discount: 0`;
+
           Swal.fire({
             icon: "error",
             title: "NO DATA AVAILABLE",
@@ -1019,11 +1023,30 @@ function topBrands() {
     // Hide download buttons when the report type is changed
     reportTypeSelect.addEventListener('change', function() {
       downloadButtons.style.display = 'none';
-    });
 
+      document.getElementById('reportHeading').innerText = "Sales Report";
+      // Select table body
+      const tableBody = document.getElementById('reportTableBody');
+      tableBody.innerHTML = ''; // Clear existing rows
+
+      // Display total sales, total order amount, and total discount
+      document.getElementById('totalSales').innerText = `Total Sales:`;
+      document.getElementById('totalOrderAmount').innerText = `Total Order Amount:`;
+      document.getElementById('totalDiscount').innerText = `Total Discount:`;
+    });
     // Hide download buttons when any input field is changed
     function hideDownloadButtonsOnInputChange() {
       downloadButtons.style.display = 'none';
+
+      document.getElementById('reportHeading').innerText = "Sales Report";
+      // Select table body
+      const tableBody = document.getElementById('reportTableBody');
+      tableBody.innerHTML = ''; // Clear existing rows
+
+      // Display total sales, total order amount, and total discount
+      document.getElementById('totalSales').innerText = `Total Sales:`;
+      document.getElementById('totalOrderAmount').innerText = `Total Order Amount:`;
+      document.getElementById('totalDiscount').innerText = `Total Discount:`;
     }
 
     // Add event listeners to all inputs based on the report type

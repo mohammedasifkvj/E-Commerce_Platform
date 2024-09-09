@@ -126,6 +126,11 @@
                 <br>
                 <input type="radio" name="paymentMethod" value="Online">
                 Online Payment
+                <br>
+                <br>
+                <input type="hidden" name="wallet" id="wallet" value="<%= wallet?.walletAmount || 0 %>">
+                <input type="radio" name="paymentMethod" value="wallet">
+                Wallet ( Availabel Balace: <%= wallet?.walletAmount || 0 %> )
                 <!-- Add more payment methods as needed -->
               </section>
 
@@ -195,7 +200,7 @@
     const errorElements = document.querySelectorAll('.error-message');
     errorElements.forEach(el => el.textContent = '');
 
-    
+
 
     //validate input
     const couponCode = document.getElementById("couponCodeInput").value;
@@ -218,7 +223,7 @@
           icon: "success",
           title: "Coupon Added Successfully",
           showConfirmButton: false,
-          timer: 1000
+          timer: 1500
         });
         document.getElementById('discount-value').innerText = response.data.discount;
 
@@ -263,8 +268,10 @@
     const quantities = Array.from(document.getElementsByName('quantity[]')).map(input => input.value);
     const addressId = document.querySelector('input[name="addressId"]:checked');
     const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')
-    const orderTotal = document.getElementById('orderTotal').value;
+    const orderTotal = parseFloat(document.getElementById('orderTotal').value); //Convert to number from string
     const discount = document.getElementById('discount').value;
+
+    const walletAmount = parseFloat(document.getElementById('wallet').value); 
     //cleae previous errors
     document.getElementById('addressError').innerText = '';
     document.getElementById('paymentError').innerText = '';
@@ -297,14 +304,27 @@
       paymentMethod: paymentMethod.value
     };
 
-    if (orderTotal > 1000 && orderData.paymentMethod == "COD") {
+    if (orderTotal > walletAmount && orderData.paymentMethod == "wallet") {
+   
+      console.log("wallet ",walletAmount)
+      console.log("type ",typeof walletAmount)
+      isValid = false
+      Swal.fire({
+        icon: 'warning',
+        title: "Change Payment Method",
+        text: "Your Purchase amount is above wallet Amount, please choose another method",
+        showConfirmButton: true
+      });
+
+    }
+
+    if (orderTotal > 2500 && orderData.paymentMethod == "COD") {
 
       isValid = false
-
       Swal.fire({
         icon: 'warning',
         title: "Payment Needed",
-        text: "Your Purchase amount is above 1000,you can't choose cash on delivery",
+        text: "Your Purchase amount is above 2500 ,you can't choose cash on delivery",
         showConfirmButton: true
       });
 
@@ -371,7 +391,6 @@
           }
         });
       } else {
-        // Handle server errors
         const errorData = await response.json();
         // alert('Error placing order: ' + errorData.message);
         Swal.fire({
@@ -382,9 +401,8 @@
         });
       }
     } catch (error) {
-      // Handle network errors
       console.log('Error:', error);
-      //('An error occurred. Please try again.');
+      // alert('Error placing order: ' + errorData.message);
     }
   });
 </script>
@@ -462,4 +480,5 @@
 
 
 </body>
+
 </html>

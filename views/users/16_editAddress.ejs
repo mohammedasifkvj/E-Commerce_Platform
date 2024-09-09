@@ -88,38 +88,38 @@
 
                 <div class="account-body">
 
-                    <form action="/editAddress<%= address._id %>?_method=PUT" id="addressForm" data-address-form class="form" method="post">
+                    <form action="/editAddress<%= address?._id %>?_method=PUT" id="addressForm" data-address-form class="form" method="post">
                         <fieldset class="form-fieldset">
                             <div class="form-row form-row--half">
                                     <!-- <div class="form-field" id="FormField_4" data-validation="{&quot;type&quot;:&quot;singleline&quot;,&quot;label&quot;:&quot;First Name&quot;,&quot;required&quot;:true,&quot;maxlength&quot;:0}" data-type="FirstName">
     <label class="form-label" for="FormField_4_input">Full Name</label>
     <div id="errorName" style="color: red;"></div>
-    <input type="text" id="name" value="<%= address.name %>" data-label="First Name" name="Name"   class="form-input" aria-required="true" data-field-type="FirstName" >
+    <input type="text" id="name" value="<%= address?.name %>" data-label="First Name" name="Name"   class="form-input" aria-required="true" data-field-type="FirstName" >
 </div> 
 
 <div class="form-field">
     <label class="form-label" for="login_pass">Mobile Number</label>
     <div id="errorMobile" style="color: red;"></div>
-    <input class="form-input" id="mobile" value="<%= address.alternatePhone %>" type="tel" name="alternatePhone" maxlength="10"   autocomplete="off">
+    <input class="form-input" id="mobile" value="<%= address?.alternatePhone %>" type="tel" name="alternatePhone" maxlength="10"   autocomplete="off">
 </div>-->
 
         <div class="form-field" id="FormField_8" data-validation="{&quot;type&quot;:&quot;singleline&quot;,&quot;label&quot;:&quot;Address Line 1&quot;,&quot;required&quot;:true,&quot;maxlength&quot;:0}" data-type="AddressLine1">
     <label class="form-label" for="FormField_8_input">House Name
     </label>
     <div id="errorHouse" style="color: red;"></div>
-    <input type="text" id="house" value="<%= address.houseName %>" data-label="Address Line 1" name="houseName"   class="form-input" aria-required="true" data-field-type="AddressLine1" >
+    <input type="text" id="house" value="<%= address?.houseName %>" data-label="Address Line 1" name="houseName"   class="form-input" aria-required="true" data-field-type="AddressLine1" >
 </div>
 
                                     <div class="form-field" id="FormField_9" data-validation="{&quot;type&quot;:&quot;singleline&quot;,&quot;label&quot;:&quot;Address Line 2&quot;,&quot;required&quot;:false,&quot;maxlength&quot;:0}" data-type="AddressLine2">
     <label class="form-label" for="FormField_9_input">Landmark</label>
     <div id="errorLand" style="color: red;"></div>
-    <input type="text" id="landmark" value="<%= address.landmark %>" data-label="Address Line 2" name="landmark"   class="form-input" aria-required="false" data-field-type="AddressLine2" >
+    <input type="text" id="landmark" value="<%= address?.landmark %>" data-label="Address Line 2" name="landmark"   class="form-input" aria-required="false" data-field-type="AddressLine2" >
 </div>
 
                                     <div class="form-field" id="FormField_10" data-validation="{&quot;type&quot;:&quot;singleline&quot;,&quot;label&quot;:&quot;Suburb\/City&quot;,&quot;required&quot;:true,&quot;maxlength&quot;:0}" data-type="City">
     <label class="form-label" for="FormField_10_input">Suburb/City</label>
     <div id="errorCity" style="color: red;"></div>
-    <input type="text" id="city" value="<%= address.city %>" data-label="Suburb/City" name="city"   class="form-input" aria-required="true" data-field-type="City" >
+    <input type="text" id="city" value="<%= address?.city %>" data-label="Suburb/City" name="city"   class="form-input" aria-required="true" data-field-type="City" >
 </div>
 
                                     <div class="form-field" id="FormField_11" data-validation="{&quot;type&quot;:&quot;singleselect&quot;,&quot;label&quot;:&quot;Country&quot;,&quot;required&quot;:true,&quot;prefix&quot;:&quot;Choose a Country&quot;}"  data-type="Country">
@@ -127,8 +127,8 @@
     <div id="errorCountry" style="color: red;"></div>
     <select class=" form-select" id="country" data-label="Country" aria-required="true" name="country"
          data-field-type="Country" >
-        <option selected  ><%=address.country %></option>
-        <option disabled value="">Choose a Country</option>
+         <option disabled value="">Choose a Country</option>
+        <option selected  ><%=address?.country %></option>
         <option  value="Afghanistan">Afghanistan</option>
         <option  value="Åland Islands">Åland Islands</option>
         <option  value="Albania">Albania</option>
@@ -381,15 +381,14 @@
                                     <div class="form-field" id="FormField_12" data-validation="{&quot;type&quot;:&quot;singleline&quot;,&quot;label&quot;:&quot;State\/Province&quot;,&quot;required&quot;:false,&quot;maxlength&quot;:0}" data-type="State">
     <label class="form-label" for="FormField_12_input">State/Province</label>
     <div id="errorState" style="color: red;"></div>
-    <input type="text" id="state" value="<%= address.state %>" data-label="State/Province" name="state"   class="form-input" aria-required="false" data-field-type="State" >
+    <input type="text" id="state" value="<%= address?.state %>" data-label="State/Province" name="state"   class="form-input" aria-required="false" data-field-type="State" >
 </div>
 
                                     <div class="form-field" id="FormField_13" data-validation="{&quot;type&quot;:&quot;singleline&quot;,&quot;label&quot;:&quot;Zip\/Postcode&quot;,&quot;required&quot;:true,&quot;maxlength&quot;:0}" data-type="Zip">
     <label class="form-label" for="FormField_13_input">Zip/Postcode</label>
     <div id="errorZip" style="color: red;"></div>
-    <input type="number" value="<%= address.pin %>" data-label="Zip/Postcode" name="pin" id="pin"  maxlength="6" class="form-input" aria-required="true" data-field-type="Zip" >
+    <input type="number" value="<%= address?.pin %>" data-label="Zip/Postcode" name="pin" id="pin"  maxlength="6" class="form-input" aria-required="true" data-field-type="Zip" >
 </div>
-
                             </div>
                         </fieldset>
                         <div class="form-actions">
@@ -494,7 +493,7 @@
 
     // If form is valid, submit it using Fetch API
     try {
-        const response = await fetch('/editAddress/<%= address._id %>', {
+        const response = await fetch('/editAddress/<%= address?._id %>', {
             method: 'PUT',
             headers: {
                     'Content-Type': 'application/json'

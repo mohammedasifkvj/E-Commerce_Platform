@@ -127,7 +127,7 @@
     <div id="errorCountry" style="color: red;"></div>
     <select class=" form-select" id="country" data-label="Country" aria-required="true" name="country"
          data-field-type="Country" >
-        <option disabled value="">Choose a Country</option>
+        <option disabled selected value="">Choose a Country</option>
         <option  value="Afghanistan">Afghanistan</option>
         <option  value="Åland Islands">Åland Islands</option>
         <option  value="Albania">Albania</option>
@@ -422,8 +422,8 @@
     document.getElementById('addressForm').addEventListener('submit', async function(event) {
     event.preventDefault(); // Prevent the form from submitting the traditional way
 
-        // const name = document.getElementById('name').value;
-        // const mobile = document.getElementById('mobile').value;
+        // const name = document.getElementById('name').value.trim();
+        // const mobile = document.getElementById('mobile').value.trim();
         const house = document.getElementById('house').value.trim()
         const landmark= document.getElementById('landmark').value.trim();
         const city = document.getElementById('city').value.trim();

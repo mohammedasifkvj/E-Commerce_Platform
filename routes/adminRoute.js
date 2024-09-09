@@ -6,6 +6,7 @@ const uploadImage = require('../drivers/multer')
 const methodOverride = require('method-override');
 
 const adminController = require("../controllers/adminController");
+const reportController = require("../controllers/reportController");
 const categoryController = require('../controllers/categoryController');
 const productController = require('../controllers/productController');
 const offerController = require('../controllers/offer&CouponController');
@@ -20,14 +21,14 @@ admin_route.post('/adminSignIn', logged.isAdminLoggedIn, adminController.adminSi
 admin_route.get('/logout', auth.authenticateToken, adminController.adminLogout)
 admin_route.get('/dash', auth.authenticateToken, adminController.loadDash)
 //-------Graphs
-admin_route.post('/sellingChart', auth.authenticateToken, adminController.lineChartData)
+admin_route.post('/sellingChart', auth.authenticateToken, reportController.lineChartData)
 admin_route.post('/topCategory', auth.authenticateToken, adminController.topCategory)
 admin_route.post('/topProducts', auth.authenticateToken, adminController.topProducts)
 admin_route.post('/topBrands', auth.authenticateToken, adminController.topBrands)
 //-------Sales Report
-admin_route.get('/generateSalesReport', auth.authenticateToken, adminController.generateSalesReport)
-admin_route.get('/downloadExcelReport', auth.authenticateToken, adminController.generateExcelReport);
-admin_route.get('/downloadPdfReport', auth.authenticateToken, adminController.generatePDFReport);
+admin_route.get('/generateSalesReport', auth.authenticateToken, reportController.generateSalesReport)
+admin_route.get('/downloadExcelReport', auth.authenticateToken, reportController.generateExcelReport);
+admin_route.get('/downloadPdfReport', auth.authenticateToken, reportController.generatePDFReport);
 
 //-------------Categry
 admin_route.get('/ShowCategory', auth.authenticateToken, categoryController.category)

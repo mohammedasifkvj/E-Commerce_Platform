@@ -143,17 +143,13 @@
                                 <dd class="definitionList-value"><%= orderItems.reduce((total, item) => total + (item?.quantity * item?.productId?.discountPrice), 0) %></dd>
                                     <dt class="definitionList-key">Payment method:</dt>
                                     <dd class="definitionList-value">
-                                        Cash on Delivery
+                                        <%= (order?.paymentMethod)%>
                                     </dd>
                                     <dt class="definitionList-key">Order Status:</dt>
                                     <dd class="definitionList-value">
                                         <%= order?.status %>
                                     </dd>
-                                   <!-- <dt class="order-payments-description">Here&#x27;s how to pay for your order:</dt>
-                                     <dd class="order-payments-value order-payments-value--long">Type your cash on delivery instructions in here.</dd> -->
                             </dl>
-                           
-                            <!-- <button data-print-invoice="/account.php?action=print_invoice&amp;order_id=107" class="button button--small">Print Invoice</button>-->
                         </section>
 
                         <section class="account-sidebar-block">
@@ -177,12 +173,7 @@
                                 <li><%= address?.pin %></li>
                             </ul>
                         </section>
-                     <!--   <section class="account-sidebar-block">
-                            <h3 class="account-heading">Order Comments</h3>
-                            <p>second order</p>
-                        </section>
-
-                        <section class="account-sidebar-block">
+                        <!-- <section class="account-sidebar-block">
                             <h3 class="account-heading">Actions</h3>
                             <div class="order-details-info">
                                  <form class="account-reorder-form" action="/account.php?action=reorder&amp;order_id=107" method="post" data-account-reorder-form>
@@ -190,9 +181,9 @@
                                             <input type="hidden" name="reorderitem[15]">
                                             <input type="hidden" name="reorderitem[14]">
                                     <input type="submit" class="button button--small" value="Reorder">
-                                </form> -->
+                                </form>
                             </div>
-                        </section>
+                        </section> -->
                     </aside>
 
                 </div>

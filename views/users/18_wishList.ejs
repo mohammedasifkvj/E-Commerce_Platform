@@ -1,4 +1,39 @@
 <%- include("../user_partials/header") %>
+<style>
+    /* Pagination Styles */
+.pagination {
+    display: flex;
+    justify-content: center; /* Center the pagination links */
+    align-items: center;     /* Vertically align the pagination items */
+    list-style-type: none;   /* Remove bullet points */
+    padding: 0;
+}
+
+.pagination .page-item {
+    margin: 0 5px;  /* Space between pagination items */
+}
+
+.pagination .page-link {
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin: 0;
+    border: 1px solid #ddd;
+    color: #007bff;
+    text-align: center;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination .page-link:hover {
+    background-color: #e9ecef;
+    border-color: #007bff;
+}
+
+</style>
 <!-- account-mobile -->
 <div class="themevale_Mobile themevale_MobileAccount" id="account-mobile">
     <div class="themevale_close2">
@@ -164,6 +199,30 @@
             </div>
         </div>
     </div>
+    <!-- Pagination -->
+<div class="row">
+    <div class="col-12">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <% if (currentPage > 1) { %>
+                <li class="page-item">
+                    <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                </li>
+                <% } %>
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                    <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                </li>
+                <% } %>
+                <% if (currentPage < totalPages) { %>
+                <li class="page-item">
+                    <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+                </li>
+                <% } %>
+            </ul>
+        </nav>
+    </div>
+</div>
 </main>    
 
     <div id="modal" class="modal" data-reveal data-prevent-quick-search-close>

@@ -5,6 +5,7 @@ const Cart=require("../models/cart");
 const Address=require("../models/address")
 const Order=require ("../models/order")
 const Coupon=require ("../models/coupon")
+const Wallet=require ("../models/wallet")
 
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose')
@@ -51,29 +52,27 @@ const checkoutPage= async (req, res) => {
         const address=await Address.find({ userId: userId })
         const currentDate = new Date();
 
-    // Find active coupons that have not expired
     const coupon = await Coupon.find({
       status: true,
       expiredDate: { $gte: currentDate }  // Find coupons where the expiredDate is greater than  the current date
     });
+    const wallet=await Wallet.findOne({ userId: userId })
        return res.render('NewCheck',{
             address,
             cartItems: cart?.cartItems,
-            coupon
+            coupon,
+            wallet
         });
     } catch (e) {
         console.log(e.message);
     }
   }
 
-
-const makeOrder = async (req, res) => {
+  const makeOrder = async (req, res) => {
     try {
-      // Verify user from JWT token
       const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
   
-      // Destructure request body to get necessary fields
-      const { addressId, products, orderTotal,discount, paymentMethod } = req.body;
+      const { addressId, products, orderTotal, discount, paymentMethod } = req.body;
       //console.log(req.body)
   
       // Validate input data
@@ -86,40 +85,73 @@ const makeOrder = async (req, res) => {
         productId: item.productId,
         quantity: item.quantity
       }));
-      
-      if(paymentMethod=='Online'){
-        return res.status(402).json({ addressId, products, orderTotal,discount, paymentMethod}); 
+  
+      // Declare newOrder outside the block
+      let newOrder;
+  
+      if (paymentMethod === 'Online') {
+        return res.status(402).json({ addressId, products, orderTotal, discount, paymentMethod });
       }
   
-      // Create new order document
-      const newOrder = new Order({
-        userId,
-        orderItems,
-        orderTotal,
-        discount,
-        address: addressId,
-        paymentMethod:paymentMethod,
-        status:"pending"
-      });
+      if (paymentMethod === 'wallet') {
+        // Create new order document for wallet payment
+        newOrder = new Order({
+          userId,
+          orderItems,
+          orderTotal,
+          discount,
+          address: addressId,
+          paymentMethod: paymentMethod,
+          status: "Order confirmed"
+        });
   
-       // Update stock for each product
-       for (const item of orderItems) {
+        // Update user's wallet balance and log the transaction
+        await Wallet.findOneAndUpdate(
+          { userId: userId },
+          {
+            $inc: { walletAmount: -orderTotal },
+            $push: {
+              transactionHistory: {
+                amount: orderTotal,
+                PaymentType: 'Debit',
+                date: new Date()
+              }
+            }
+          },
+          { new: true, upsert: true }
+        );
+      } else {
+        // Create new order document for other payment methods
+        newOrder = new Order({
+          userId,
+          orderItems,
+          orderTotal,
+          discount,
+          address: addressId,
+          paymentMethod: paymentMethod,
+          status: "pending"
+        });
+      }
+  
+      // Update stock for each product
+      for (const item of orderItems) {
         const product = await Product.findById(item.productId);
         if (!product) {
-            return res.status(404).json({ message: `Product with ID ${item.productId} not found` });
+          return res.status(404).json({ message: `Product with ID ${item.productId} not found` });
         }
         if (product.stock < item.quantity) {
-            return res.status(400).json({ message: `Insufficient stock for product ${product.productName}` });
+          return res.status(400).json({ message: `Insufficient stock for product ${product.productName}` });
         }
-
+  
         product.stock -= item.quantity;
         await product.save();
-    }
-    
-    // Save the order to the database
-    await newOrder.save();
-
-    await Cart.deleteOne({userId });
+      }
+  
+      // Save the order to the database
+      await newOrder.save();
+  
+      // Clear the user's cart
+      await Cart.deleteOne({ userId });
   
       // Redirect to home or send a success message
       return res.status(201).json({ message: "Order placed successfully", orderId: newOrder._id });
@@ -128,6 +160,100 @@ const makeOrder = async (req, res) => {
       return res.status(500).json({ message: "Internal server error" });
     }
   };
+  
+
+// const makeOrder = async (req, res) => {
+//     try {
+//       const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
+  
+//       const { addressId, products, orderTotal,discount, paymentMethod } = req.body;
+//       //console.log(req.body)
+  
+//       // Validate input data
+//       if (!addressId || !products || !products.length) {
+//         return res.status(400).json({ message: 'Missing address or product details' });
+//       }
+  
+//       // Create order items from products
+//       const orderItems = products.map(item => ({
+//         productId: item.productId,
+//         quantity: item.quantity
+//       }));
+      
+//       if(paymentMethod=='Online'){
+//         return res.status(402).json({ addressId, products, orderTotal,discount, paymentMethod}); 
+//       }
+
+//       if(paymentMethod=='wallet'){
+
+//         // Create new order document
+//       const newOrder = new Order({
+//         userId,
+//         orderItems,
+//         orderTotal,
+//         discount,
+//         address: addressId,
+//         paymentMethod:paymentMethod,
+//         status:"Order Confirmed"
+//       });
+
+//       // Update user's wallet balance and log the transaction
+//       await Wallet.findOneAndUpdate(
+//         { userId: userId },
+//         {
+//             $inc: { walletAmount: - orderTotal },
+//             $push: {
+//                 transactionHistory: {
+//                     amount: orderTotal,
+//                     PaymentType: 'Debit',
+//                     date: new Date()
+//                 }
+//             }
+//         },
+//         { new: true, upsert: true }
+//     );
+
+//       }else{
+  
+//       // Create new order document
+//       const newOrder = new Order({
+//         userId,
+//         orderItems,
+//         orderTotal,
+//         discount,
+//         address: addressId,
+//         paymentMethod:paymentMethod,
+//         status:"pending"
+//       });
+//     }
+  
+//        // Update stock for each product
+//        for (const item of orderItems) {
+//         const product = await Product.findById(item.productId);
+//         if (!product) {
+//             return res.status(404).json({ message: `Product with ID ${item.productId} not found` });
+//         }
+//         if (product.stock < item.quantity) {
+//             return res.status(400).json({ message: `Insufficient stock for product ${product.productName}` });
+//         }
+
+//         product.stock -= item.quantity;
+//         await product.save();
+//     }
+    
+//     // Save the order to the database
+//     await newOrder.save();
+
+//     await Cart.deleteOne({userId});
+  
+//       // Redirect to home or send a success message
+//       return res.status(201).json({ message: "Order placed successfully", orderId: newOrder._id });
+//     } catch (e) {
+//       console.error("Error placing order:", e.message);
+//       return res.status(500).json({ message: "Internal server error" });
+//     }
+//   };
+
 //if payment is online
 // PayPal client setup
 const clientId = process.env.PAYPAL_CLIENT_ID;
