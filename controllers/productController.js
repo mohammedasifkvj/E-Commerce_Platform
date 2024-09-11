@@ -204,8 +204,8 @@ const editProduct = async (req, res) => {
             stock,price} = req.body;
         console.log(req.body,'this is body')
         console.log(req.files,'thsi si files')
-       // const files=req.files ||{}
-       
+        const files=req.files ||{}
+       console.log("files", files)
          const {productId} = req.params;
         console.log(productId,'this is productId')
 
@@ -329,6 +329,76 @@ const editProduct = async (req, res) => {
         console.log(e.message);
        }
   }
+
+  exports.editVariant = async(req,res)=> {
+
+    const {color,prices,stocks} = req.body
+    const varinatId = req.query.variantId
+    let productId = await productsVariantsCLTN.findOne({_id:varinatId},{productId:1})
+    productId = productId.productId
+   
+ 
+    if(color){
+      const regexPattern = new RegExp(`^${color}$`,'i')
+      const checkDuplicate = await productsVariantsCLTN.findOne({productId:productId,color:regexPattern})
+   
+     
+      if(checkDuplicate){
+          
+           return res.status(CONFLICT).json({success:false,message:"Product variant with the same color already exists. Please choose a different color or update the existing variant."})
+      }
+ 
+    }
+ 
+    const updateFields = {}
+ 
+    if(color){
+      updateFields.color = color
+    }
+ 
+    const allprices = [...prices.split(',').map(x => parseFloat(x))]
+    const allstocks = [...stocks.split(',').map(x => parseFloat(x))]
+ 
+    updateFields.prices = allprices 
+    updateFields.stocks = allstocks
+ 
+ //    const productImagePaths = []
+ 
+ 
+    if(req.files.length>0){
+      
+      let variantImages = await productsVariantsCLTN.findOne({_id:varinatId})
+      
+ 
+ 
+ 
+      for (const [index, file] of req.files.entries()) {
+           const imagePath = `/admin/uploads/products/${file.originalname.toLowerCase().replace(/\s+/g, '-')}_thumbnail${index}_${Date.now()}.png`;
+           // productImagePaths.push(imagePath);
+       
+               await sharp(file.buffer)
+               .png({ quality: 90 })
+               .toFile(`public/${imagePath}`);
+ 
+            
+           variantImages.images[parseInt(file.fieldname)] = imagePath
+ 
+       }
+ 
+       await variantImages.save()
+       
+    }
+ 
+ 
+    const editedVariant = await productsVariantsCLTN.findByIdAndUpdate(varinatId,
+      {$set:updateFields},
+      {new:true}
+    )
+ 
+ 
+    res.status(OK).json({success:true})
+ 
+ }
 
 //List and Unlist Product
 // const listUnlistProduct = async (req, res) => {

@@ -214,15 +214,22 @@
                     <div class="image-upload-container">
                         <input class="image" type="file" id="imageUpload" name="productImage" multiple accept="image/*">
                         <div id="imagesError" class="error-message"></div>
-                        <label for="imageUpload">Add Images</label>
+                        <!-- <label for="imageUpload">Add Images</label> -->
                         <div   class="image-preview" id="imagePreview">
-                        <%   for(let j=0; j < product.productImage.length; j++) { %>
+                            <% if (product && product.productImage) { %>
+                            <% product.productImage.forEach((imageSrc, index) => { %>
                             <div class="image-box">
-                                <img src="<%-product.productImage[j]%>" alt>
-                                 <!-- <button class="remove-image">×</button> -->
+                                <img src="<%= imageSrc %>" id="variantImage<%= index %>" alt="Variant Image <%= index + 1 %>">
+                                <button type="button" class="btn btn-sm btn-primary mt-1 position-absolute bottom-0 start-50 translate-middle-x" onclick="editImage('<%= index %>')">Change</button>
                               </div>
-                              <%  } %>
+                              <%  }) %>
+                              <% } else { %>
+                                <p>No images available.</p>
+                                <% } %>
                         </div>
+                        <!--  -->
+                        
+                        <!--  -->
                     </div>
                 </div>
             </div>
@@ -233,25 +240,154 @@
         </div>
         </div>
             <!-- End Form for Product Images -->
-            
-            
         </div>
    
             <!-- Cropper Modal -->
 <div id="cropperModal" class="modal">
     <div   style="width: 41%; margin: 0 auto;">
-        <span class="close">&times;</span>
+        <span class="close" onclick="closeCropperModal()">&times;</span>
         <h2>Crop Image</h2>
         <img id="cropperImage" src="" alt="Image to crop" style="max-width: 60%; max-height:50%">
-        <button id="cropButton"
-         class="btn btn-primary mt-3">OK</button>
+        <button id="cropButton" class="btn btn-primary mt-3" onclick="saveCroppedImage()">Crop</button>
     </div>
   </div>
+  <!-- Hidden input for file selection -->
+  <input type="file" id="imageFileInput" accept="image/*" style="display: none;" onchange="showCropper()">
+
+  <!-- Cropper Modal -->
+  <!-- <div id="cropperModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeCropperModal()">&times;</span>
+        <h2>Crop Image</h2>
+        <div class="img-container">
+            <img id="cropperImage" src="" alt="Image to crop" style="max-width: 100%;">
+        </div>
+        <button id="cropButton" class="btn btn-primary mt-3" onclick="saveCroppedImage()">Crop</button>
+    </div>
+  </div> -->
      </section>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+<!-- new Image  -->
+ <!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<!-- Cropper.js JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
 
 <script>
-    let cropper;
+  let cropper
+  let currentImageIndex;
+  let imageDetails = {}
+
+
+  // Function to initialize image data
+   function initializeImageData() {
+    const variantImages = document.querySelectorAll('#variantImages .variant-image');
+    variantImages.forEach((img,index)=> {
+      
+      imageDetails[index] = {
+         src : img.src,
+         edited: false
+      }
+
+    })
+
+   }
+
+   window.onload = function() {
+     initializeImageData()
+   }
+
+
+  // Function to handle the edit image button click
+  function editImage(index) {
+      currentImageIndex = index;
+      document.getElementById('imageFileInput').click();
+  }
+
+  
+
+  // Function to show the cropper modal
+function showCropper() {
+
+const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+const fileInput = document.getElementById('imageFileInput');
+const file = fileInput.files[0];
+
+if(!allowedExtensions.exec(file.name)){
+    // Display error modal with appropriate message
+    document.getElementById('imageErrorText').textContent = 'Please upload an image file.';
+    const errorModal = new bootstrap.Modal(document.getElementById('imageErrorModal'));
+    errorModal.show();
+    return;
+}
+
+if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const imageElement = document.getElementById('cropperImage');
+        imageElement.src = e.target.result;
+        // Show the modal
+        const modal = document.getElementById('cropperModal');
+        modal.style.display = "block";
+
+        if (cropper) {
+            cropper.destroy();
+        }
+        cropper = new Cropper(imageElement, {
+            viewMode: 1,
+            autoCropArea: 1,
+            responsive: true,
+            cropBoxResizable: false, // Ensure the crop box is not resizable
+            ready: function() {
+                this.cropper.setCropBoxData({
+                    width: 580,
+                    height: 640
+                });
+            }
+        });
+    };
+    reader.readAsDataURL(file);
+}
+}
+
+// Function to save the cropped image
+function saveCroppedImage() {
+cropper.getCroppedCanvas({
+    width: 580,
+    height: 640
+}).toBlob((blob) => {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const base64data = e.target.result;
+        document.getElementById('variantImage' + currentImageIndex).src = base64data;
+        imageDetails[currentImageIndex].edited = true; // Mark the image as edited
+        imageDetails[currentImageIndex].src = base64data; // Update the src in imageDetails
+        closeCropperModal();
+    };
+    reader.readAsDataURL(blob);
+});
+}
+
+
+
+  // Function to close the cropper modal
+  function closeCropperModal() {
+      const modal = document.getElementById('cropperModal');
+      modal.style.display = "none";
+  }
+
+  // Close modal on clicking outside
+  window.onclick = function(event) {
+      const modal = document.getElementById('cropperModal');
+      if (event.target == modal) {
+          closeCropperModal();
+      }
+  }
+</script>
+<!--  -->
+<script>
+    let cropper1;
     const imageUpload = document.getElementById('imageUpload');
     const imagePreview = document.getElementById('imagePreview');
     const cropperModal = document.getElementById('cropperModal');
@@ -488,6 +624,7 @@ const  images= document.querySelectorAll('.image')
   console.log('555')
   // Validate inputs
   let isValid = true;
+  let hasChanges = false;
  console.log('666')
   // Product name validation
 //   const productNam = formData.get('productName');
@@ -582,6 +719,16 @@ const  images= document.querySelectorAll('.image')
 //   }
 //  const image = getProcessedFiles()
    if (!isValid) return;
+    // Check for edited images
+    Object.keys(imageDetails).forEach((index) => {
+            if (imageDetails[index].edited) {
+                hasChanges = true; 
+            }
+        });
+
+        //if(isValid && hasChanges){
+    
+      if(hasChanges){
       
 //addded blob
 //   images.forEach((file, index) => {
@@ -605,6 +752,13 @@ let formData={
         price:price,
         discountPrice:discountPrice
     }
+    Object.keys(imageDetails).forEach((index) => {
+            if (imageDetails[index].edited) {
+                const blob = dataURLToBlob(imageDetails[index].src);
+                formData.append(`${index}`, blob, `image${index}.png`);
+            }
+        });
+    
    // console.log(formData)
   try {
     const response = await fetch('/admin/updateProduct/<%=product._id %>', {
@@ -634,6 +788,207 @@ let formData={
   } catch (e) {
     console.error('There was a problem with the fetch operation:', e.message);
   }
+}
 });
+
+ function dataURLToBlob(dataURL) {
+          const parts = dataURL.split(',');
+          const byteString = atob(parts[1]);
+          const mimeString = parts[0].split(':')[1].split(';')[0];
+          const ab = new ArrayBuffer(byteString.length);
+          const ia = new Uint8Array(ab);
+          for (let i = 0; i < byteString.length; i++) {
+              ia[i] = byteString.charCodeAt(i);
+          }
+          return new Blob([ab], { type: mimeString });
+      }
 </script>
+
+<!--  -->
+<script>
+
+
+    // function showError(errorId, message) {
+    //       let errorElement = document.getElementById(errorId);
+    //       errorElement.textContent = message;
+    //   }
+    
+    // function hideError(errorId) {
+    //     let errorElement = document.getElementById(errorId);
+    //     errorElement.textContent = '';
+    // }
+    
+    // async function saveEdit(variantId){
+    
+    // let colorRegex = /^[a-zA-Z][a-zA-Z]*[a-zA-Z]$/
+    // let priceRegex = /^(?!\s)[0-9]+(?:\.[0-9]{1,2})?$/;
+    // let stockRegex = /^(?!\s)(?!0\d)\d+$/;
+    
+    
+    
+    // let  ColorName = document.getElementById('productColor')
+    // const priceInputs = document.querySelectorAll('.priceInput')
+    // const stockInputs = document.querySelectorAll('.stockInput')
+    
+    
+    // let isValid = true
+     let hasChanges = false;
+    
+    // if(ColorName.value && ColorName.placeholder === ColorName.value){
+    //   showError('variant-color-error','Please Change the color')
+    //   isValid = false
+    // }
+    // else if(ColorName.value && !colorRegex.test(ColorName.value) ){
+    //   showError('variant-color-error','Please Enter a valid Color')
+    //   isValid = false
+    // }
+    // else{
+    //   hideError('variant-color-error')
+    //   if (ColorName.value) {
+    //       hasChanges = true; // Mark change if color is provided
+    //   }
+    // }
+    
+    //  priceInputs.forEach((input,index)=>{
+    //   console.log('this is input',input.value,'this is placeholder',input.placeholder)
+      
+    //   if(input.value && input.value==input.placeholder ){
+       
+        
+    //     showError(`price${index}`,'please Change the price')
+    //     isValid = false
+    
+    //   }   
+    //   else if(input.value && !priceRegex.test(input.value)){
+    //     showError(`price${index}`,'Please Enter a valid number')
+    //     isValid = false
+    //   }
+    //   else{
+    //     hideError(`price${index}`)
+    //     if (input.value) {
+    //                 hasChanges = true; 
+    //             }
+    //   }
+     
+    //  })
+    
+    //   stockInputs.forEach((input,index)=> {
+        
+    //     if(input.value && input.value === input.placeholder){
+    //       showError(`stock${index}`,'Plese change the stock')
+    //       isValid = false
+    //     }
+    //     else if(input.value && !stockRegex.test(input.value)){
+    //       showError(`stock${index}`,'Please Enter a valid number')
+    //       isValid = false
+    //     }
+    //     else{
+    //     hideError(`stock${index}`)
+    //     if (input.value) {
+    //                 hasChanges = true; 
+    //             }
+    //     }
+    
+    //   })
+    
+       // Check for edited images
+       Object.keys(imageDetails).forEach((index) => {
+            if (imageDetails[index].edited) {
+                hasChanges = true; 
+            }
+        });
+
+        //if(isValid && hasChanges){
+    
+      if(hasChanges){
+    
+        // const formData = new FormData()
+        
+        // const prices = []
+        // const stocks = []
+    
+        // priceInputs.forEach((input)=> {
+        //    if(input.value){
+        //     prices.push(input.value)
+        //    }else{
+        //     prices.push(input.placeholder)
+        //    }
+        // })
+    
+        // stockInputs.forEach(input => {
+        //   if(input.value){
+        //     stocks.push(input.value)
+        //   }else{
+        //     stocks.push(input.placeholder)
+        //   }
+        // })
+       
+        //  if(ColorName.value){
+        //   formData.append('color',ColorName.value)
+        //  }
+        //  formData.append('prices',prices)
+        //  formData.append('stocks',stocks)
+    
+    
+         Object.keys(imageDetails).forEach((index) => {
+            if (imageDetails[index].edited) {
+                const blob = dataURLToBlob(imageDetails[index].src);
+                formData.append(`${index}`, blob, `image${index}.png`);
+            }
+        });
+    
+    
+         try {
+    
+          const response = await fetch(`/admin/admin_panel/products_management/edit_variant?variantId=${variantId}`,{
+            method:'POST',
+            body: formData
+           })
+    
+           const data = await response.json()
+    
+           if(data.success){
+           // Display success alert
+                Swal.fire({
+                    icon: 'success',   // Icon type: success, error, warning, info, question
+                    title: 'Success!', // Title text
+                    text: 'The product variant has been successfully updated.', // Body text
+                    confirmButtonText: 'OK' // Button text
+                })
+                 .then((result)=>{
+    
+                  if(result.isConfirmed){
+                    window.location.reload()
+                  }
+                  
+                })
+           }else{
+            // Display failure/warning alert
+            Swal.fire({
+                icon: 'warning', // or 'error' for a more severe failure indication
+                title: 'Action Failed', // Title text
+                text: data.message, // Body text
+                confirmButtonText: 'Retry' // Button text
+            });
+           }
+         } catch (error) {
+          
+         }
+      }
+    //}
+          // Helper function to convert base64 to Blob
+      function dataURLToBlob(dataURL) {
+          const parts = dataURL.split(',');
+          const byteString = atob(parts[1]);
+          const mimeString = parts[0].split(':')[1].split(';')[0];
+          const ab = new ArrayBuffer(byteString.length);
+          const ia = new Uint8Array(ab);
+          for (let i = 0; i < byteString.length; i++) {
+              ia[i] = byteString.charCodeAt(i);
+          }
+          return new Blob([ab], { type: mimeString });
+      }
+    
+    
+    </script>
 <%- include("../adminPartials/footer") %>

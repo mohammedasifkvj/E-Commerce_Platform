@@ -63,6 +63,7 @@ admin_route.post('/approveReturn', auth.authenticateToken, adminController.appro
 admin_route.get('/offer', auth.authenticateToken, offerController.offers)
 admin_route.get('/offer/addOfferPage', auth.authenticateToken, offerController.addOfferPage)
 admin_route.post('/offer/addOffer', auth.authenticateToken, offerController.addOffer)
+admin_route.get('/offer/offerDetails/:offerId', auth.authenticateToken, offerController.offerDatails)
 admin_route.patch('/offer/offerStatusChange', auth.authenticateToken, offerController.offerStatusChange);
 admin_route.delete('/offer/deleteOffer', auth.authenticateToken, offerController.deleteOffer)
 

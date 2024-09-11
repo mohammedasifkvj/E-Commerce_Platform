@@ -81,26 +81,33 @@
       <article class="itemlist">
         <div class="row align-items-center text-center text-md-start">
           <div class="col-6 col-sm-4 col-md-2">
-            <h6 class="mb-0"><b><%= offer[i].offerName %></b></h6>
+            <h6 class="mb-0">
+              <b onclick="showOfferDetails('<%= offer[i]?._id %>')">
+                <%= offer[i]?.offerName %>
+              </b>
+            </h6>
           </div>
           <div class="col-6 col-sm-4 col-md-2">
-            <span class="badge rounded-pill alert-success"><%= offer[i].type %></span>
+            <span class="badge rounded-pill alert-success"><%= offer[i]?.type %></span>
+            <b class="btn btn-md rounded font-sm" onclick="showOfferDetails('<%= offer[i]?._id %>')">
+              Products
+            </b>
           </div>
           <div class="col-6 col-sm-4 col-md-2">
-            <h6 class="mb-0"><b><%= (offer[i].expDate).toDateString() %></b></h6>
+            <h6 class="mb-0"><b><%= (offer[i]?.expDate).toDateString() %></b></h6>
           </div>
           <div class="col-6 col-sm-4 col-md-2 text-center">
             <span><%= offer[i].discount %></span>
           </div>
           <div class="col-6 col-sm-4 col-md-2 text-center">
-            <span><%= offer[i].maxRedeemableAmount %></span>
+            <span><%= offer[i]?.maxRedeemableAmount %></span>
           </div>
           <div class="col-12 col-sm-4 col-md-2 text-center text-md-end mt-2 mt-md-0">
             <!-- <a href="/admin/editOffer/<%= offer[i]._id %>"><i class="bi bi-pencil-square"></i>Edit</a> -->
-            <% if(offer[i].status){ %>
-            <button type="button" class="btn btn-danger" onclick="offerStatusChange('<%= offer[i]._id %>', true)">Deactivate</button>
+            <% if(offer[i]?.status){ %>
+            <button type="button" class="btn btn-danger" onclick="offerStatusChange('<%= offer[i]?._id %>', true)">Deactivate</button>
             <% }else{ %>
-            <button type="button" class="btn btn-success" onclick="offerStatusChange('<%= offer[i]._id %>', false)">Activate</button>
+            <button type="button" class="btn btn-success" onclick="offerStatusChange('<%= offer[i]?._id %>', false)">Activate</button>
             <% } %>
             <br><br>
             <button type="button" onclick="deleteOffer('<%= offer[i]._id %>')" class="edit-btn btn-danger">Delete</button>
@@ -146,6 +153,62 @@
     </div>
   </div>
 </section>
+<!-- offer details modal -->
+ <!-- Modal Structure -->
+<div class="modal fade" id="offerDetailsModal" tabindex="-1" aria-labelledby="offerDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center" id="offerDetailsModalLabel">Offer Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="offerContent">
+          <!-- Offer details will be injected here -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal script -->
+ <script>
+  // Fetch and show offer details
+function showOfferDetails(offerId) {
+  fetch(`/admin/offer/offerDetails/${offerId}`)
+    .then(response => response.json())
+    .then(data => {
+      const { offer, products } = data;
+      let content = `<h2>Offer Name: ${offer.offerName}</h2>`;
+      // content += `<p>Type: ${offer.type}</p>`;
+      // content += `<p>Expiry Date: ${new Date(offer.expDate).toDateString()}</p>`;
+      // content += `<p>Discount: ${offer.discount}%</p>`;
+      // content += `<p>Max Decreasing  Amount: ${offer.maxRedeemableAmount}</p>`;
+
+      if (offer.type === 'Product Offer') {
+        content += `<h4>Product:</h4><ul>`;
+        products.forEach(product => {
+          content += `<h4><li>${product.productName}</li></h4>`;
+        });
+        content += `</ul>`;
+      } else if (offer.type === 'Category Offer') {
+        content += `<h4>Products in Category ${offer.category}:</h6><ul>`;
+        products.forEach(product => {
+          content += `<h4><li>${product.productName}</li></h4>`;
+        });
+        content += `</ul>`;
+      }
+      // Inject content into the modal
+      document.getElementById('offerContent').innerHTML = content;
+
+      // Show the modal
+      const modal = new bootstrap.Modal(document.getElementById('offerDetailsModal'));
+      modal.show();
+    });
+}
+ </script>
 <!-- --Activate and Deactivate Offer---- -->
 <script>
   function offerStatusChange(offerId, currentStatus) {

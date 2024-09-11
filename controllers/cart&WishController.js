@@ -4,10 +4,11 @@ const Cart = require("../models/cart");
 const Wishlist = require("../models/wishList")
 const jwt = require('jsonwebtoken');
 
+ //const userId = req.user.id;
+
 //Add to cart 
 const addToCart = async (req, res) => {
-    const userId = req.user.id;
-    // const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
+    const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
     const { productId } = req.body;
     try {
         // Fetch the product details
@@ -284,8 +285,8 @@ const decreaseQuantity = async (req, res) => {
 
 const addToWishlist = async (req, res) => {
     const { productId } = req.body;
-    const userId = req.user.id;
-    // const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
+    //const userId = req.user.id;
+    const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
     try {
         // Check if a cart exists for the user
         let wishlist = await Wishlist.findOne({ userId: userId });
@@ -295,9 +296,7 @@ const addToWishlist = async (req, res) => {
             const itemIndex = wishlist.wishlistItems.findIndex(item => item.productId.toString() === productId);
 
             if (itemIndex > -1) {
-                // Product exists in the cart, update the quantity
-                // cart.cartItems[itemIndex].quantity += 1;
-                // await cart.save();
+                // Product exists in the wishlist, update the quantity
                 return res.status(200).json({ message: 'Product already exists in Wishlist' });
             } else {
                 // Product does not exist in the wishlist, add as a new item

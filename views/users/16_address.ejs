@@ -112,27 +112,27 @@
 
             <div class="account">
                 <div class="account-body">
-                    <% if(address.length > 0) {
-                        for(let i=0; i < address.length; i++) { %>    
+                    <% if(address?.length > 0) {
+                        for(let i=0; i < address?.length; i++) { %>    
 <ul class="addressList">
         <li class="address">
             <div class="panel panel--address">
                 <div class="panel-body">
                     <!-- <h5 class="address-title"><%= address[i].name %></h5> -->
                     <ul class="address-details address-details--postal">
-                        <li><%= address[i].houseName %></li>
-                        <li><%= address[i].landmark %></li>
-                        <li><%= address[i].city %></li>
-                        <li><%= address[i].state %></li>
-                        <li><%= address[i].country %></li>
-                        <li><%= address[i].pin %></li>
+                        <li><%= address[i]?.houseName %></li>
+                        <li><%= address[i]?.landmark %></li>
+                        <li><%= address[i]?.city %></li>
+                        <li><%= address[i]?.state %></li>
+                        <li><%= address[i]?.country %></li>
+                        <li><%= address[i]?.pin %></li>
                     </ul>
                         
          <!-- <form action="" method="get" data-delete-address="Are you sure you want to delete this address?">
                         <div class="form-actions"> -->
-                        <a class="button button--primary button--small" href="/editAddress?id=<%=address[i]._id %>">Edit</a>
+                        <a class="button button--primary button--small" href="/editAddress?id=<%=address[i]?._id %>">Edit</a>
                             <!-- <a href="/deleteAddress?id=<%=address[i]._id %>"></a> -->
-                        <button onclick=" deleteAddress('<%=address[i]._id %>')" class="button secondary button--small">Delete</button>
+                        <button onclick=" deleteAddress('<%=address[i]?._id %>')" class="button secondary button--small">Delete</button>
                       <!--  </div>
                      </form> -->
                 </div>

@@ -122,6 +122,22 @@ const addOffer = async (req, res) => {
     }
 };
 
+const offerDatails=async (req, res) => {
+  const offer = await Offer.findById(req.params.offerId);
+  //console.log("qwe",offer)
+  try {
+    let products = [];
+  if (offer.type === 'Product Offer') {
+      products = await Product.find({ productName: { $in:[offer.productName ] } });
+  } else if (offer.type === 'Category Offer') {
+      products = await Product.find({ category: offer.category });
+  }
+  return res.json({ offer, products });
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 //Offer status change
 const offerStatusChange = async (req, res) => {
     try {
@@ -504,6 +520,7 @@ module.exports={
     offers,
     addOfferPage,
     addOffer,
+    offerDatails,
     offerStatusChange,
     deleteOffer,
 // Coupon

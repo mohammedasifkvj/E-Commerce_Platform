@@ -114,7 +114,7 @@
             // Calculate the remaining time
             function getRemainingTime() {
                 const now = Date.now();
-                const remainingTime = otpExpires - now;
+                const remainingTime = 1*60*1000;
                 const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
                 return { minutes, seconds, remainingTime };

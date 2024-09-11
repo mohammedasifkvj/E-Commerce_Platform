@@ -500,7 +500,7 @@ const  images= document.querySelectorAll('.image')
   // Regular price validation
   const price = form.get('price');
   if (!price || price <= 0) {
-    document.getElementById('priceError').textContent = 'Regular price is required.';
+    document.getElementById('priceError').textContent = 'Regular price is required and greater than 0.';
     // must be a positive number
     isValid = false;
   }

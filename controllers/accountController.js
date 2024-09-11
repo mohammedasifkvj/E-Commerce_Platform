@@ -41,13 +41,13 @@ const changePassword = async (req, res) => {
     try {
         // Check if both passwords match
         if (newPassword !== confirmPassword) {
-            return res.status(400).json({message:'Passwords do not match'});
+            return res.status(400).json({ message: 'Passwords do not match' });
         }
 
         // Validate password criteria (8 characters, uppercase, lowercase, number, special character)
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.*\s).{8,}$/;
         if (!passwordRegex.test(newPassword)) {
-            return res.status(400).json({message:'Password must be at least 8 characters long, contain uppercase and lowercase letters, a number, a special character, and no spaces.'});
+            return res.status(400).json({ message: 'Password must be at least 8 characters long, contain uppercase and lowercase letters, a number, a special character, and no spaces.' });
         }
 
         // Hash the new password
@@ -56,15 +56,15 @@ const changePassword = async (req, res) => {
         // Update the user's password in the database
         const user = await User.findById(userId);
         if (!user) {
-            return res.status(404).json({message:'User not found'});
+            return res.status(404).json({ message: 'User not found' });
         }
         user.password = hashedPassword;
         await user.save();
 
-        return res.status(200).json({success:true, message: 'Password updated successfully' });
+        return res.status(200).json({ success: true, message: 'Password updated successfully' });
     } catch (error) {
         console.error('Error changing password:', error);
-        return res.status(500).json({message:'An error occurred while changing the password'});
+        return res.status(500).json({ message: 'An error occurred while changing the password' });
     }
 };
 
@@ -73,26 +73,22 @@ const address = async (req, res) => {
     const userId = req.user.id;
 
     try {
-        const page = parseInt(req.query.page) || 1; // Current page, default to 1
-        const limit = 5; // Number of addresses per page
+        const page = parseInt(req.query.page) || 1;
+        const limit = 6; // Number of addresses per page
         const skip = (page - 1) * limit;
 
         // Fetch the total number of addresses for this user
         const totalAddresses = await Address.countDocuments({ userId: userId });
 
-        // Calculate total number of pages
         const totalPages = Math.ceil(totalAddresses / limit);
 
-        // Fetch addresses with pagination
         const address = await Address.find({ userId: userId })
-            .skip(skip) // Skip previous pages' addresses
-            .limit(limit) // Limit the number of addresses per page
-            .sort({ createdAt: -1 }); // Sort by newest first
+            .skip(skip)
+            .limit(limit)
+            .sort({ createdAt: -1 });
 
-        // Fetch user data
         const userData = await User.findById({ _id: userId });
 
-        // Render the address page with pagination info
         return res.render('16_address', {
             userData,
             address,
@@ -113,7 +109,7 @@ const addAddressPage = async (req, res) => {
         return res.render('16_addAddress');
     } catch (e) {
         console.log(e.message);
-        res.status(500).send('An error occurred');
+        return res.status(500).json({message:'An error occurred'});
     }
 }
 
@@ -124,9 +120,6 @@ const addAddress = async (req, res) => {
         const user = await User.findById(userId)
         const email = user.email
 
-        // if (!req.body.is_Home && !req.body.is_Work) {
-        //     return res.status(403).json({ message: "please select address type" })
-        // }
         const userAddress = new Address(req.body)
         userAddress.userId = userId
         userAddress.email = email
@@ -145,12 +138,11 @@ const editAddressPage = async (req, res) => {
     if (!addressId || !mongoose.Types.ObjectId.isValid(addressId)) {
         return res.status(404).render('404User')
     }
-    const addId = await Address.findById(addressId)
-    if (addId == undefined) {
+    const address = await Address.findById(addressId)
+    if (address == undefined) {
         return res.status(404).render('404User')
     }
     try {
-        const address = await Address.findById(addressId)
         return res.render('16_editAddress', { address });
     } catch (e) {
         console.log(e.message);
@@ -253,7 +245,7 @@ const orderDetails = async (req, res) => {
     try {
         const order = await Order.findById({ _id: orderId }).populate('orderItems.productId');
         const user = await User.findById(userId)
-        const addressId=order.address;
+        const addressId = order.address;
         const address = await Address.findById(addressId)
         return res.render('17_orderDetails', {
             orderItems: order?.orderItems,
@@ -276,7 +268,7 @@ const wishlist = async (req, res) => {
 
         // Get the total number of wishlist items for this user
         const totalWishlistItems = await Wishlist.aggregate([
-            { $match: { userId:new mongoose.Types.ObjectId(userId) } },
+            { $match: { userId: new mongoose.Types.ObjectId(userId) } },
             { $project: { totalItems: { $size: "$wishlistItems" } } }
         ]);
 
@@ -331,7 +323,7 @@ const requestForReturn = async (req, res) => {
         const order = await Order.findByIdAndUpdate(orderId,
             { $set: { returnReason: reason, status: 'Requested for Return' } })
 
-       return res.status(200).json({
+        return res.status(200).json({
             message: "Return processed successfully.",
             order: order
         });
@@ -414,81 +406,45 @@ const cancellOrder = async (req, res) => {
 // wallet Page
 const wallet = async (req, res) => {
     try {
-      const userId = req.user.id;
-      const currentPage = parseInt(req.query.page) || 1;
-      const dataPerPage = 8;
-      const skip = (currentPage - 1) * dataPerPage;
-  
-      // Fetch the wallet details for the user
-      const wallet = await Wallet.findOne({ userId: userId });
-  
-      if (!wallet) {
+        const userId = req.user.id;
+        const currentPage = parseInt(req.query.page) || 1;
+        const dataPerPage = 8;
+        const skip = (currentPage - 1) * dataPerPage;
+
+        // Fetch the wallet details for the user
+        const wallet = await Wallet.findOne({ userId: userId });
+
+        if (!wallet) {
+            return res.render('19_ wallet', {
+                wallet,
+                walletAmount: 0,
+                transactionHistory: [],
+                currentPage,
+                totalPages: 0
+            });
+        }
+
+        // Get the total number of transactions
+        const totalTransactions = wallet.transactionHistory.length;
+        const totalPages = Math.ceil(totalTransactions / dataPerPage);
+
+        // Paginate the transactionHistory
+        const paginatedTransactions = wallet.transactionHistory
+            .sort((a, b) => b.date - a.date) // Sort by date, most recent first
+            .slice(skip, skip + dataPerPage); // Apply pagination (skip and limit)
+
         return res.render('19_ wallet', {
-         wallet,
-          walletAmount: 0,
-          transactionHistory: [],
-          currentPage,
-          totalPages: 0
+            wallet,
+            walletAmount: wallet.walletAmount.toFixed(2),
+            transactionHistory: paginatedTransactions,
+            currentPage,
+            totalPages,
         });
-      }
-  
-      // Get the total number of transactions
-      const totalTransactions = wallet.transactionHistory.length;
-      const totalPages = Math.ceil(totalTransactions / dataPerPage);
-  
-      // Paginate the transactionHistory
-      const paginatedTransactions = wallet.transactionHistory
-        .sort((a, b) => b.date - a.date) // Sort by date, most recent first
-        .slice(skip, skip + dataPerPage); // Apply pagination (skip and limit)
-  
-      return res.render('19_ wallet', {
-        wallet,
-        walletAmount: wallet.walletAmount.toFixed(2),
-        transactionHistory: paginatedTransactions,
-        currentPage,
-        totalPages,
-      });
     } catch (error) {
-      console.error('Error rendering wallet page:', error.message);
-      res.status(500).send('Server Error');
+        console.error('Error rendering wallet page:', error.message);
+        res.status(500).send('Server Error');
     }
-  };
-  
-// const wallet = async (req, res) => {
-//     try {
-//       const userId = req.user.id;
-//       const currentPage = parseInt(req.query.page) || 1 ;
-//         const dataPerPage = 2;
-//         const skip = (currentPage - 1) * dataPerPage;
-
-//         const totaldata = await Wallet.countDocuments()
-//         const totalPages = Math.ceil(totaldata / dataPerPage)
-    
-//       // Fetch the wallet details for the user
-//       const wallet = await Wallet.findOne({ userId: userId }).skip(skip).limit(dataPerPage).sort({createdDate:-1});
-  
-//       if (!wallet) {
-//         return res.render('19_ wallet', {
-//             wallet,
-//             currentPage,
-//         totalPages,
-//           walletAmount: 0,
-//           transactionHistory: [],
-//         });
-//       }
-
-//       return res.render('19_ wallet', {
-//         wallet,
-//         currentPage,
-//         totalPages,
-//         walletAmount: wallet.walletAmount.toFixed(2),
-//         transactionHistory: wallet.transactionHistory,
-//       });
-//     } catch (error) {
-//       console.error('Error rendering wallet page:', error.message);
-//       res.status(500).send('Server Error');
-//     }
-//   };
+};
 
 module.exports = {
     profile,
