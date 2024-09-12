@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const passport = require('passport')
-require('./drivers/passport');
+require('./drivers/passport');z
 const cors = require('cors')
 const connectDB = require('./drivers/dataBase');
 const nocache = require('nocache')
