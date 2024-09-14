@@ -1,5 +1,10 @@
 <%- include("../user_partials/header") %>
-<div class="body" data-currency-code="USD">
+<style>
+  body {
+    overflow-x: hidden;
+  }
+</style>
+<div class="body container-fluid" data-currency-code="USD">
   <!-- breadcrumbs -->
   <ul class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
     <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
@@ -7,12 +12,12 @@
       <meta itemprop="position" content="1" />
     </li>
     <li class="breadcrumb " itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-      <a href="/<%=product?.category %>" class="breadcrumb-label" itemprop="item"><span itemprop="name"><%=product.category %></span></a>
+      <a href="/<%=product?.category %>" class="breadcrumb-label" itemprop="item"><span itemprop="name"><%=product?.category %></span></a>
       <meta itemprop="position" content="2" />
     </li>
     <li class="breadcrumb is-active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-      <meta itemprop="item" content="<%=product.productName %>">
-      <span class="breadcrumb-label" itemprop="name"><%=product.productName %></span>
+      <meta itemprop="item" content="<%=product?.productName %>">
+      <span class="breadcrumb-label" itemprop="name"><%=product?.productName %></span>
       <meta itemprop="position" content="3" />
     </li>
   </ul>
@@ -69,13 +74,13 @@
               <li class="navList-item">
                 <a class="navList-action" href="#">RADO</a>
               </li>
-              <li class="navList-item view_all">
+              <!-- <li class="navList-item view_all">
                 <a class="navList-action" href="#">View All</a>
-              </li>
+              </li> -->
             </ul>
           </div>
           <!-- slider featured product -->
-          <div id="sideFeatured" class="sidebarBlock sidebarBorder">
+          <!-- <div id="sideFeatured" class="sidebarBlock sidebarBorder">
             <h5 class="sidebarBlock-heading"><span>Featured Products</span></h5>
             <div class="productCarousel">
               <div class="productCarousel-slide product">
@@ -181,7 +186,6 @@
                             <use xlink:href="#icon-star" />
                           </svg>
                         </span>
-                        <!-- snippet location product_rating -->
                       </span>
                     </p>
                     <div class="card-figcaption2"></div>
@@ -302,7 +306,7 @@
                             <use xlink:href="#icon-star" />
                           </svg>
                         </span>
-                        <!-- snippet location product_rating -->
+                        
                       </span>
                     </p>
                     <div class="card-figcaption2"></div>
@@ -426,7 +430,7 @@
                             <use xlink:href="#icon-star" />
                           </svg>
                         </span>
-                        <!-- snippet location product_rating -->
+                        
                       </span>
                     </p>
                     <div class="card-figcaption2"></div>
@@ -442,7 +446,7 @@
                 </article>
               </div>
             </div>
-          </div>
+          </div> -->
           <!-- Custom CMS Block image -->
           <!-- <div class="sidebarBlock" id="sideBannerImage">
 	<div class="side-cms-content">
@@ -460,13 +464,13 @@
 	</div>
 </div> -->
           <!-- Custom CMS Block -->
-          <div id="sideCustomCMS" class="sidebarBlock sidebarBorder">
+          <!-- <div id="sideCustomCMS" class="sidebarBlock sidebarBorder">
             <h5 class="sidebarBlock-heading"><span>Custom CMS Block</span></h5>
             <div class="side-cms-content">
               <p>Custom CMS block displayed at the left sidebar on the Catalog Page. Put your own content here: text, html, images... whatever you like.</p>
               <p>There are many similar sample content placeholders across the store. All editable from Theme Editor.</p>
             </div>
-          </div>
+          </div> -->
         </nav>
       </aside>
 
@@ -490,23 +494,23 @@
 
                       <figure class="productView-image" data-image-gallery-main>
                         <div id="img-contain" class="productView-img-container">
-                          <img id="photos" src="<%-product.productImage[0]%>" alt="<%=product.productName %>" title="<%=product.productName %>" data-sizes="auto" class="lazyload productView-image--default" data-main-image />
+                          <img id="photos" src="<%-product?.productImage[0]%>" alt="<%=product?.productName %>" title="<%=product?.productName %>" data-sizes="auto" class="lazyload productView-image--default" data-main-image />
                         </div>
                       </figure>
 
                       <figure class="productView-image" data-image-gallery-main>
                         <div id="img-contain1" class="productView-img-container">
-                          <img id="photos1" src="<%-product.productImage[1]%>" alt="<%=product.productName %>" title="<%=product.productName %>" data-sizes="auto" class="lazyload productView-image--default" data-main-image />
+                          <img id="photos1" src="<%-product?.productImage[1]%>" alt="<%=product?.productName %>" title="<%=product?.productName %>" data-sizes="auto" class="lazyload productView-image--default" data-main-image />
                         </div>
                       </figure>
                       <figure class="productView-image" data-image-gallery-main>
                         <div id="img-contain2" class="productView-img-container">
-                          <img id="photos2" src="<%-product.productImage[2]%>" alt="<%=product.productName %>" title="<%=product.productName %>" data-sizes="auto" class="lazyload productView-image--default" data-main-image />
+                          <img id="photos2" src="<%-product?.productImage[2]%>" alt="<%=product?.productName %>" title="<%=product?.productName %>" data-sizes="auto" class="lazyload productView-image--default" data-main-image />
                         </div>
                       </figure>
                       <figure class="productView-image" data-image-gallery-main>
                         <div id="img-contain3" class="productView-img-container">
-                          <img id="photos3" src="<%-product.productImage[3]%>" alt="<%=product.productName %>" title="<%=product.productName %>" data-sizes="auto" class="lazyload productView-image--default" data-main-image />
+                          <img id="photos3" src="<%-product?.productImage[3]%>" alt="<%=product?.productName %>" title="<%=product?.productName %>" data-sizes="auto" class="lazyload productView-image--default" data-main-image />
                         </div>
                       </figure>
                     </div>
@@ -523,23 +527,23 @@
 
                       <figure class="productView-image" data-fancybox="images" data-image-gallery-main>
                         <div id="img-contain-mobile" class="productView-img-container">
-                          <img id="photos-mobile" src="<%-product.productImage[0]%>" alt="<%=product.productName %>" title="<%=product.productName %>" data-sizes="auto" class="lazyload productView-image--default" data-main-image />
+                          <img id="photos-mobile" src="<%-product?.productImage[0]%>" alt="<%=product?.productName %>" title="<%=product?.productName %>" data-sizes="auto" class="lazyload productView-image--default" data-main-image />
                         </div>
                       </figure>
 
                       <figure class="productView-image" data-fancybox="images" data-image-gallery-main>
                         <div id="img-contain1-mobile" class="productView-img-container">
-                          <img id="photos1-mobile" src="<%-product.productImage[1]%>" alt="<%=product.productName %>" title="<%=product.productName %>" data-sizes="auto" class="lazyload productView-image--default" data-main-image />
+                          <img id="photos1-mobile" src="<%-product?.productImage[1]%>" alt="<%=product?.productName %>" title="<%=product?.productName %>" data-sizes="auto" class="lazyload productView-image--default" data-main-image />
                         </div>
                       </figure>
                       <figure class="productView-image" data-fancybox="images" data-image-gallery-main>
                         <div id="img-contain2-mobile" class="productView-img-container">
-                          <img id="photos2-mobile" src="<%-product.productImage[2]%>" alt="<%=product.productName %>" title="<%=product.productName %>" data-sizes="auto" class="lazyload productView-image--default" data-main-image />
+                          <img id="photos2-mobile" src="<%-product?.productImage[2]%>" alt="<%=product?.productName %>" title="<%=product?.productName %>" data-sizes="auto" class="lazyload productView-image--default" data-main-image />
                         </div>
                       </figure>
                       <figure class="productView-image" data-fancybox="images" data-image-gallery-main>
                         <div id="img-contain3-mobile" class="productView-img-container">
-                          <img id="photos3-mobile" src="<%-product.productImage[3]%>" alt="<%=product.productName %>" title="<%=product.productName %>" data-sizes="auto" class="lazyload productView-image--default" data-main-image />
+                          <img id="photos3-mobile" src="<%-product?.productImage[3]%>" alt="<%=product?.productName %>" title="<%=product?.productName %>" data-sizes="auto" class="lazyload productView-image--default" data-main-image />
                         </div>
                       </figure>
                     </div>
@@ -622,16 +626,16 @@
                         ]
                     }'>
                     <li class="productView-thumbnail">
-                      <img src="<%-product.productImage[0]%>" alt="<%=product.productName %>" title="<%=product.productName %>" data-sizes="auto" class="lazyload" />
+                      <img src="<%-product?.productImage[0]%>" alt="<%=product?.productName %>" title="<%=product?.productName %>" data-sizes="auto" class="lazyload" />
                     </li>
                     <li class="productView-thumbnail">
-                      <img src="<%-product.productImage[1]%>" alt="<%=product.productName %>" title="<%=product.productName %>" data-sizes="auto" class="lazyload" />
+                      <img src="<%-product?.productImage[1]%>" alt="<%=product?.productName %>" title="<%=product?.productName %>" data-sizes="auto" class="lazyload" />
                     </li>
                     <li class="productView-thumbnail">
-                      <img src="<%-product.productImage[2]%>" alt="<%=product.productName %>" title="<%=product.productName %>" data-sizes="auto" class="lazyload" />
+                      <img src="<%-product?.productImage[2]%>" alt="<%=product?.productName %>" title="<%=product?.productName %>" data-sizes="auto" class="lazyload" />
                     </li>
                     <li class="productView-thumbnail">
-                      <img src="<%-product.productImage[3]%>" alt="<%=product.productName %>" title="<%=product.productName %>" data-sizes="auto" class="lazyload" />
+                      <img src="<%-product?.productImage[3]%>" alt="<%=product?.productName %>" title="<%=product?.productName %>" data-sizes="auto" class="lazyload" />
                     </li>
                   </ul>
                 </div>
@@ -671,9 +675,9 @@
             <section class="productView-details">
               <div class="productView-product">
                 <h2 class="productView-brand" itemprop="brand" itemscope itemtype="http://schema.org/Brand">
-                  <a href="#" itemprop="url"><span itemprop="name"><%=product.brand %></span></a>
+                  <a href="#" itemprop="url"><span itemprop="name"><%=product?.brand %></span></a>
                 </h2>
-                <h1 class="productView-title" data-url="#" data-product-id="152" itemprop="name"><%=product.productName %></h1>
+                <h1 class="productView-title" data-url="#" data-product-id="152" itemprop="name"><%=product?.productName %></h1>
 
 
                 <div data-content-region="product_below_price"></div>
@@ -703,12 +707,12 @@
                       <use xlink:href="#icon-star" />
                     </svg>
                   </span>
-                  <!-- snippet location product_rating -->
+                  
                   <!-- <span class="productView-reviewLink">
                     No reviews yet
                   </span> -->
                   <span class="productView-reviewLink">
-                    <a href="#" data-reveal-id="modal-review-form">
+                    <a class="btn btn-info" href="#" data-reveal-id="modal-review-form">
                       Write a Review
                     </a>
                   </span>
@@ -718,15 +722,15 @@
                       <span aria-hidden="true">&#215;</span>
                     </a>
                     <div class="modal-header">
-                      <h2 class="modal-header-title">Write a Review of <%=product.productName %></h2>
+                      <h2 class="modal-header-title">Write a Review of <%=product?.productName %></h2>
                     </div>
                     <div class="modal-body">
                       <div class="writeReview-productDetails">
                         <div class="writeReview-productImage-container">
-                          <img src="<%-product.productImage[0]%>" title="<%=product.productName %>" data-sizes="auto" srcset="<%-product.productImage[0]%>" data-srcset="<%-product.productImage[0]%>" class="lazyload" />
+                          <img src="<%-product?.productImage[0]%>" title="<%=product?.productName %>" data-sizes="auto" srcset="<%-product?.productImage[0]%>" data-srcset="<%-product?.productImage[0]%>" class="lazyload" />
                         </div>
-                        <h6 class="product-brand text-center"><%=product.brand %></h6>
-                        <h5 class="product-title text-center"><%=product.productName %></h5>
+                        <h6 class="product-brand text-center"><%=product?.brand %></h6>
+                        <h5 class="product-title text-center"><%=product?.productName %></h5>
                       </div> <!--  https://luxwatches-demo-02.mybigcommerce.com/postreview.php  -->
                       <form id="reviewForm" class="form writeReview-form" action="" method="post">
                         <fieldset class="form-fieldset">
@@ -770,7 +774,7 @@
                           </div>
 
                           <div class="g-recaptcha" data-sitekey="6LcjX0sbAAAAACp92-MNpx66FT4pbIWh-FTDmkkz"></div><br />
-                          <input type="hidden" id="productName" name="productName" value="<%=product.productName %>">
+                          <input type="hidden" id="productName" name="productName" value="<%=product?.productName %>">
                           <div class="form-field">
                             <input type="submit" class="button button--primary" value="Submit Review">
                           </div>
@@ -806,12 +810,12 @@
                 <div class="price-wrapper">
                   <div class="sold-product"></div>
                   <div class="productView-price">
-                    <% if (product.price === product.discountPrice) { %>
+                    <% if (product?.price === product?.discountPrice) { %>
                         <!-- If price and discountPrice are the same, show only discountPrice -->
                         <div class="price-section price-section--withoutTax rrp-price--withoutTax">
                             Price:
                             <span data-product-price-without-tax class="price price--withoutTax">
-                                <%= product.discountPrice %>
+                                <%= product?.discountPrice %>
                             </span>
                         </div>
                     <% } else { %>
@@ -819,13 +823,13 @@
                         <div class="price-section price-section--withoutTax rrp-price--withoutTax">
                             MRP:
                             <span data-product-rrp-price-without-tax class="price price--rrp" style="text-decoration: line-through; color: gray;">
-                                <%= product.price %>
+                                <%= product?.price %>
                             </span>
                         </div>
                         <div class="price-section price-section--withoutTax" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                             <span class="price-now-label">Now:</span>
                             <span data-product-price-without-tax class="price price--withoutTax">
-                                <%= product.discountPrice %>
+                                <%= product?.discountPrice %>
                             </span>
                             <meta itemprop="availability" itemtype="http://schema.org/ItemAvailability" content="http://schema.org/InStock">
                             <meta itemprop="itemCondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/NewCondition">
@@ -838,11 +842,11 @@
                             </div>
                         </div>
                         <!-- Show the savings section only if the product has a discount -->
-                        <% if (product.price - product.discountPrice != 0) { %>
+                        <% if (product?.price - product?.discountPrice != 0) { %>
                             <div class="price-section price-section--saving price">
                                 <span class="price">(You save</span>
                                 <span data-product-price-saved class="price price--saving">
-                                    <b> <%= product.price - product.discountPrice %></b>
+                                    <b> <%= product?.price - product?.discountPrice %></b>
                                 </span>
                                 <span class="price">)</span>
                             </div>
@@ -1005,7 +1009,7 @@
                     <p class="alertBox-column alertBox-message"></p>
                   </div>
                   <div class="form-action addToCart">
-                    <button id="form-action-addToCart" data-wait-message="Adding to cart…" class="button button--primary button--large" onclick=" addProductToCart('<%= product._id %>')">Add to Cart</button>
+                    <button id="form-action-addToCart" data-wait-message="Adding to cart…" class="button button--primary button--large" onclick=" addProductToCart('<%= product?._id %>')">Add to Cart</button>
                   </div>
                 </div>
                 <!-- </form> -->
@@ -1021,7 +1025,7 @@
 </div> -->
                 <!-- https://luxwatches-demo-02.mybigcommerce.com/wishlist.php?action=add&amp;product_id=152 -->
                 <form action="" class="form form-wishlist form-action" data-wishlist-add method="post">
-                  <a aria-controls="wishlist-dropdown" aria-expanded="false" class="button dropdown-menu-button button--large" data-dropdown="wishlist-dropdown" onclick="addProductToWishlist('<%= product._id %>')">
+                  <a aria-controls="wishlist-dropdown" aria-expanded="false" class="button dropdown-menu-button button--large" data-dropdown="wishlist-dropdown" onclick="addProductToWishlist('<%= product?._id %>')">
                     <span>Add to Wish List</span>
                     <!-- <svg><use xlink:href="#icon-chevron-down" /></svg> -->
                   </a>
@@ -1104,131 +1108,6 @@
                       <span class="price">)</span>
                     </div>
                   </div>
-                  <form class="form form-popup product-main" method="post" action="https://luxwatches-demo-02.mybigcommerce.com/cart.php" enctype="multipart/form-data" data-cart-item-add-2>
-                    <input type="hidden" name="action" value="add">
-                    <input type="hidden" name="product_id" value="152" />
-                    <div class="form-action">
-                      <input id="form-action-addToCart" data-wait-message="Adding to cart…" class="button button--primary button--large themevale" type="submit" value="Add to Cart">
-
-                      <a href="javascript:void(0)" class="button choose_options_add">
-                        <span>Choose Option</span>
-                      </a>
-                    </div>
-                    <!-- snippet location product_addtocart -->
-                    <div class="pop-up-option">
-                      <div class="container">
-                        <div class="data-product-name">
-                          <h1 class="productView-title" itemprop="name">Maliduar Loremous A Delerisque</h1>
-                          <div class="productView-price">
-
-                            <div class="price-section price-section--withoutTax rrp-price--withoutTax" style="display: none;">
-                              MSRP:
-                              <span data-product-rrp-price-without-tax class="price price--rrp">
-
-                              </span>
-                            </div>
-                            <div class="price-section price-section--withoutTax non-sale-price--withoutTax price-none no-retail-price" style="display: none;">
-                              <span class="non-sale-price-label">Was:</span>
-                              <span data-product-non-sale-price-without-tax class="price price--non-sale">
-
-                              </span>
-                            </div>
-                            <div class="price-section price-section--withoutTax" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                              <span class="price-label">
-
-                              </span>
-                              <span class="price-now-label" style="display: none;">
-                                Now:
-                              </span>
-                              <span data-product-price-without-tax class="price price--withoutTax">$989.00</span>
-                              <meta itemprop="availability" itemtype="http://schema.org/ItemAvailability" content="http://schema.org/InStock">
-                              <meta itemprop="itemCondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/NewCondition">
-                              <meta itemprop="priceCurrency" content="USD">
-                              <meta itemprop="url" content="index.html">
-                              <div itemprop="priceSpecification" itemscope itemtype="http://schema.org/PriceSpecification">
-                                <meta itemprop="price" content="989">
-                                <meta itemprop="priceCurrency" content="USD">
-                                <meta itemprop="valueAddedTaxIncluded" content="false">
-                              </div>
-                            </div>
-                            <div class="price-section price-section--saving price" style="display: none;">
-                              <span class="price">(You save</span>
-                              <span data-product-price-saved class="price price--saving">
-
-                              </span>
-                              <span class="price">)</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="data-product-option" data-product-option-change-2>
-                          <div class="form-field" data-product-attribute="swatch">
-                            <label class="form-label form-label--alternate form-label--inlineSmall">
-                              Color
-                              <span data-option-value></span>
-
-                              <small>*</small>
-                            </label>
-
-                            <input class="form-radio" type="radio" name="attribute[179]" value="325" id="ft_attribute_swatch_179_325" checked data-default required>
-                            <label class="form-option form-option-swatch" for="ft_attribute_swatch_179_325" data-product-attribute-value="325">
-                              <span class='form-option-variant form-option-variant--pattern' title="Blue" style="background-image: url('../../cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/38x38/attribute_value_images/325.previewf976.jpg?t=1583465812');" img-src='../../cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/500x641/attribute_value_images/325.previewf976.jpg?t=1583465812'></span>
-                              <span class="form-option-expanded">
-                                <span class="form-option-image" style="background-image: url('../../cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/original/attribute_value_images/325.previewf976.jpg?t=1583465812');"></span>
-                              </span>
-                            </label>
-                            <input class="form-radio" type="radio" name="attribute[179]" value="330" id="ft_attribute_swatch_179_330" required>
-                            <label class="form-option form-option-swatch" for="ft_attribute_swatch_179_330" data-product-attribute-value="330">
-                              <span class='form-option-variant form-option-variant--pattern' title="Orange" style="background-image: url('../../cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/38x38/attribute_value_images/330.previewd920.jpg?t=1583465813');" img-src='../../cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/500x641/attribute_value_images/330.previewd920.jpg?t=1583465813'></span>
-                              <span class="form-option-expanded">
-                                <span class="form-option-image" style="background-image: url('../../cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/original/attribute_value_images/330.previewd920.jpg?t=1583465813');"></span>
-                              </span>
-                            </label>
-                            <input class="form-radio" type="radio" name="attribute[179]" value="331" id="ft_attribute_swatch_179_331" required>
-                            <label class="form-option form-option-swatch" for="ft_attribute_swatch_179_331" data-product-attribute-value="331">
-                              <span class='form-option-variant form-option-variant--pattern' title="Brown" style="background-image: url('../../cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/38x38/attribute_value_images/331.previewd920.jpg?t=1583465813');" img-src='../../cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/500x641/attribute_value_images/331.previewd920.jpg?t=1583465813'></span>
-                              <span class="form-option-expanded">
-                                <span class="form-option-image" style="background-image: url('../../cdn11.bigcommerce.com/s-2nfdiyehvz/images/stencil/original/attribute_value_images/331.previewd920.jpg?t=1583465813');"></span>
-                              </span>
-                            </label>
-                          </div>
-
-                          <div class="form-field Size" data-product-attribute="set-rectangle">
-                            <label class="form-label form-label--alternate form-label--inlineSmall">
-                              Size
-                              <span data-option-value></span>
-                              <small>*</small>
-                            </label>
-                            <input class="form-radio S" type="radio" id="ft_attribute_rectangle__180_326" name="attribute[180]" value="326" checked data-default required>
-                            <label class="form-option" for="ft_attribute_rectangle__180_326" data-product-attribute-value="326">
-                              <span class="form-option-variant">S</span>
-                            </label>
-                            <input class="form-radio M" type="radio" id="ft_attribute_rectangle__180_327" name="attribute[180]" value="327" required>
-                            <label class="form-option" for="ft_attribute_rectangle__180_327" data-product-attribute-value="327">
-                              <span class="form-option-variant">M</span>
-                            </label>
-                            <input class="form-radio L" type="radio" id="ft_attribute_rectangle__180_328" name="attribute[180]" value="328" required>
-                            <label class="form-option" for="ft_attribute_rectangle__180_328" data-product-attribute-value="328">
-                              <span class="form-option-variant">L</span>
-                            </label>
-                            <input class="form-radio XL" type="radio" id="ft_attribute_rectangle__180_329" name="attribute[180]" value="329" required>
-                            <label class="form-option" for="ft_attribute_rectangle__180_329" data-product-attribute-value="329">
-                              <span class="form-option-variant">XL</span>
-                            </label>
-                          </div>
-
-                          <a href="javascript:void(0)" class="close">✕</a>
-                        </div>
-                        <div class="alertBox productAttributes-message" style="display:none">
-                          <div class="alertBox-column alertBox-icon">
-                            <icon glyph="ic-success" class="icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
-                              </svg></icon>
-                          </div>
-                          <p class="alertBox-column alertBox-message"></p>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
                 </div>
               </div>
             </div>
@@ -1335,103 +1214,15 @@
               <li class="tab is-active">
                 <a class="tab-title" href="#tab-description">Description</a>
               </li>
-              <li class="tab">
+              <!-- <li class="tab">
                 <a class="tab-title" href="#tab-review">Customer Reviews</a>
-              </li>
+              </li> -->
             </ul>
             <div class="tabs-contents">
               <div class="tab-content is-active" id="tab-description">
                 <div class="description">
                   <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos sollicitudin delos felis. Pellentesquae diam dolor an elementum et lobortis at mollis ut risus. Curabitur semper sagittis mino de condimentum. Donec an mullamcorper mauris. Lorem ipsum dolor sit amet consectetur curabitur porttitor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed efficitur vulputate turpis, a fermentum diam condimentum eget. Donec egestas ante vitae risus dignissim nec efficitur enim vulputate.</p>
-                  <div class="custom-tab">
-                    <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos sollicitudin delos felis. Pellentesque diam dolor an elementum et lobortis at mollis ut risus. Curabitur semper sagittis mino de condimentum. Donec an de cosmopolis mullamcorper mauris. Lorem ipsum dolor sit amet consectetur curabitur porttitor.</p>
-                    <h4>Sample Unordered List</h4>
-                    <ul>
-                      <li>Comodous in tempor ullamcorper miaculis</li>
-                      <li>Pellentesque vitae neque mollis urna mattis laoreet.</li>
-                      <li>Divamus sit amet purus justo.</li>
-                      <li>Proin molestie egestas orci ac suscipit risus posuere loremous</li>
-                    </ul>
-                    <h4>Sample Ordered Lista</h4>
-                    <ol>
-                      <li>Comodous in tempor ullamcorper miaculis.</li>
-                      <li>Pellentesque vitae neque mollis urna mattis laoreet.</li>
-                      <li>Divamus sit amet purus justo.</li>
-                      <li>Proin molestie egestas orci ac suscipit risus posuere loremous.</li>
-                    </ol>
-                    <h4>Sample Block Quote</h4>
-                    <blockquote>Praesent vestibulum congue tellus at fringilla. Curabitur vitae semper sem, eu convallis est. Cras felis nunc commodo eu convallis vitae interdum non nisl. Maecenas ac est sit amet augue pharetra convallis nec danos dui. Cras suscipit quam et turpis eleifend vitae malesuada magna congue.</blockquote>
-                    <h4>Sample Paragraph Text</h4>
-                    <p>Praesent vestibulum congue tellus at fringilla. Curabitur vitae semper sem, eu convallis est. Cras felis nunc commodo eu convallis vitae interdum non nisl. Maecenas ac est sit amet augue pharetra convallis nec danos dui. Cras suscipit quam et turpis eleifend vitae malesuada magna congue. Damus id ullamcorper neque. Sed vitae mi a mi pretium aliquet ac sed elit. Pellentesque nulla eros accumsan quis justo at tincidunt lobortis denimes loremous.</p>
-                  </div>
-                  <div class="spec-tab">
-                    <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos delos solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis de risus. Nullam accumsan tincidunt volutpat. Fusce a orci sit amet est scelerisque consequat.</p>
-                    <table class="table paragraphTable">
-                      <tbody>
-                        <tr>
-                          <td><strong>Defficitur</strong></td>
-                          <td>Comodous de milance</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Selementum</strong></td>
-                          <td>Pellentesque de neque mollis</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Montes</strong></td>
-                          <td>Divamus</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Fermentum</strong></td>
-                          <td>Risus posuere loremous</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Pellenatesque</strong></td>
-                          <td>Comodous in tempor dullamcorper</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Diaculis</strong></td>
-                          <td>Pellentesque de neque mattis</td>
-                        </tr>
-                        <tr>
-                          <td><strong>Sollicitudino</strong></td>
-                          <td>Divamus purus justo</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <div class="custom-product-description">
-                  <div class="container">
-                    <div class="product-description-content">
-                      <div class="product-img col">
-                        <figure class="productView-image">
-                          <div class="productView-img-container">
-                            <img src="<%-product.productImage[0]%>" alt="<%=product.productName %>" title="<%=product.productName %>" data-sizes="auto" class="lazyload productView-image--default" data-main-image />
-                          </div>
-                        </figure>
-                      </div>
-                      <div class="product-tab col">
-                        <h4>Description</h4>
-                        <ul class="tabs" data-tab>
-                          <li class="tab is-active">
-                            <a class="tab-title" href="#tab-spec">The Specs</a>
-                          </li>
-                          <li class="tab custom-field-tab ">
-                            <a class="tab-title" href="#tab-size">Size</a>
-                          </li>
-                        </ul>
-                        <div class="tabs-contents">
-                          <div class="tab-content is-active" id="tab-spec">
-                          </div>
-                          <div class="tab-content" id="tab-size" aria-hidden="true">
-                            <dl class="productView-info">
-                            </dl>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  
                 <!-- <div class="banner-product-custom">
 	<div class="banner-list">
 		<div class="banner-item banner-large">
@@ -1498,27 +1289,7 @@
 	</div>
 </div>  -->
               </div>
-              <div class="tab-content" id="tab-review">
-                <section class="productReviews module-wrapper" id="product-reviews" data-product-reviews>
-                  <div class="customer-review-header">
-                    <div class="container container-smaller">
-                      <h2 class="page-heading">Customer Reviews</h2>
-                      <p class="desc text-center">Nam tempus turpis at metus scelerisque placerat nulla deumantos.</p>
-                    </div>
-                  </div>
 
-                  <div class="customer-review-content" id="productReviews-content">
-                    <div class="container container-smaller">
-                      <div class="alert alert-warning">
-                        This product hasn't received any reviews yet. Be the first to review this product!
-                      </div>
-                      <div class="btn-createReview">
-                        <a class="button button--primary button--small" href="#" data-reveal-id="modal-review-form">Write a Review</a>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              </div>
               <div class="tab-content" id="tab-shipping"></div>
               <div class="tab-content" id="tab-custom"></div>
             </div>
@@ -1531,82 +1302,6 @@
           </a>
           <div class="modal-content"></div>
           <div class="loadingOverlay"></div>
-        </div>
-
-        <div id="video-gallery-pc-popup" class="modal modal--large" data-reveal="">
-          <div class="modal-content">
-            <a href="#" class="modal-close" aria-label="Close">
-              <svg class="icon">
-                <use xlink:href="#icon-close"></use>
-              </svg>
-            </a>
-            <div class="modal-header">
-              <h2 class="modal-header-title">Video Gallery</h2>
-            </div>
-            <div class="modal-body">
-              <div id="gallery"></div>
-            </div>
-          </div>
-          <div class="loadingOverlay"></div>
-        </div>
-
-        <div id="ask-an-expert" class="modal" data-reveal data-title="Maliduar Loremous A Delerisque" data-url="index.html">
-          <a href="#" class="modal-close" aria-label="Close" role="button">
-            <span aria-hidden="true">&#215;</span>
-          </a>
-          <div class="modal-content">
-            <div class="modal-header">
-              <h2 class="modal-header-title">Have Questions?</h2>
-            </div>
-            <div class="modal-body">
-              <div id="contact_results"></div>
-              <div class="form-inner">
-                <div class="title-wrapper">
-                  <h4 class="title">Ask the Expert anything on LuxWatches</h4>
-                  <div class="description">We will follow up with you via email within 24-36 hours</div>
-                </div>
-                <div class="questions">Please answer the following questionnaire</div>
-                <form class="form" id="contact_form">
-                  <fieldset class="form-fieldset">
-                    <div class="form-field">
-                      <input required="true" type="text" class="form-input" name="customer_name" placeholder="Your Name" value="">
-                    </div>
-                    <div class="form-field">
-                      <input required="true" type="text" class="form-input" name="customer_email" placeholder="Email Address" value="">
-                    </div>
-                    <div class="form-field">
-                      <input required="true" type="text" class="form-input" name="customer_phone" placeholder="Phone Number" value="">
-                    </div>
-                    <div class="form-field form-field-1 form-field-radio">
-                      <label class="form-label">Do you need:</label>
-                      <input class="form-radio" id="pricing-radio" type="radio" name="type_package" checked value="Pricing">
-                      <label class="form-label" for="pricing-radio">Pricing</label>
-                      <input class="form-radio" id="answers-radio" type="radio" name="type_package" value="Answers">
-                      <label class="form-label" for="answers-radio">Answers</label>
-                      <input class="form-radio" id="both-radio" type="radio" name="type_package" value="Pricing & Answers">
-                      <label class="form-label" for="both-radio">Both</label>
-                    </div>
-                    <div class="form-field">
-                      <label class="form-label" for="comment-area">What can i help you with today ?</label>
-                      <textarea name="message" cols="30" rows="6" class="form-input" id="comment-area" required="true"></textarea>
-                    </div>
-                    <div class="form-field">
-                      <label class="form-label label-last">How would you like me to contact you ?</label>
-                      <input class="form-radio" id="phone-radio" type="radio" name="type_contact" checked value="Phone">
-                      <label class="form-label" for="phone-radio">Phone</label>
-                      <input class="form-radio" id="email-radio" type="radio" name="type_contact" value="Email">
-                      <label class="form-label" for="email-radio">Email</label>
-                      <input class="form-radio" id="both-radio-2" type="radio" name="type_contact" value="Phone & Email">
-                      <label class="form-label" for="both-radio-2">Both</label>
-                    </div>
-                    <div class="form-actions">
-                      <button type="button" class="button button--primary" id="ask-an-expert-button">Send Question</button>
-                    </div>
-                  </fieldset>
-                </form>
-              </div>
-            </div>
-          </div>
         </div>
 
         <script type="text/javascript" src="/embedded/jquery.min.js"></script>
@@ -1691,6 +1386,9 @@
             });
           });
         </script>
+        </main>
+      </div>
+    
 
         <div data-content-region="product_below_content"></div>
         <% if(relatedProducts !=="undefined") { %>
@@ -1765,14 +1463,14 @@
               </a>
             </div>
 
-            <% if (relatedProducts[i].stock < 1) { %>
+            <% if (relatedProducts[i]?.stock < 1) { %>
               <div class="product-badge sale-badge">
                   <span class="text">Out of Stock</span>
               </div> <% } %>
 
             <a href="/product/<%= relatedProducts[i]._id %>">
               <div class="card-img-container   " data-product-id="155">
-                <img src="<%-relatedProducts[i].productImage[0] %>" alt="<%= relatedProducts[i].productName %>" title="<%= relatedProducts[i].productName %>" data-sizes="auto" srcset="<%-relatedProducts[i].productImage[0] %>" class="lazyload card-image replace-2x img-responsive" />
+                <img src="<%-relatedProducts[i]?.productImage[0] %>" alt="<%= relatedProducts[i]?.productName %>" title="<%= relatedProducts[i].productName %>" data-sizes="auto" srcset="<%-relatedProducts[i]?.productImage[0] %>" class="lazyload card-image replace-2x img-responsive" />
                 
               </div>
             </a>
@@ -1790,18 +1488,18 @@
 
           </figure>
           <div class="card-body">
-            <p class="card-brand" data-test-info-type="brandName"><%= relatedProducts[i].brand %></p>
+            <p class="card-brand" data-test-info-type="brandName"><%= relatedProducts[i]?.brand %></p>
             <h4 class="card-title">
-              <a href="/product/<%= relatedProducts[i]._id %>"><%= relatedProducts[i].productName %></a>
+              <a href="/product/<%= relatedProducts[i]._id %>"><%= relatedProducts[i]?.productName %></a>
             </h4>
 
             <div class="card-price" data-test-info-type="price">
-              <% if (relatedProducts[i].price === relatedProducts[i].discountPrice) { %>
+              <% if (relatedProducts[i]?.price === relatedProducts[i]?.discountPrice) { %>
                   <!-- If price and discountPrice are the same, only show discountPrice -->
                   <div class="price-section price-section--withoutTax rrp-price--withoutTax">
                       Price:
                       <span data-product-price-without-tax class="price price--withoutTax">
-                          <%= relatedProducts[i].discountPrice %>
+                          <%= relatedProducts[i]?.discountPrice %>
                       </span>
                   </div>
               <% } else { %>
@@ -1809,13 +1507,13 @@
                   <div class="price-section price-section--withoutTax rrp-price--withoutTax">
                       MRP:
                       <span data-product-rrp-price-without-tax class="price price--rrp" style="text-decoration: line-through; color: gray;">
-                          <%= relatedProducts[i].price %>
+                          <%= relatedProducts[i]?.price %>
                       </span>
                   </div>
                   <div class="price-section price-section--withoutTax">
                       <span class="price-now-label">Now:</span>
                       <span data-product-price-without-tax class="price price--withoutTax">
-                          <%= relatedProducts[i].discountPrice %>
+                          <%= relatedProducts[i]?.discountPrice %>
                       </span>
                   </div>
               <% } %>
@@ -1853,7 +1551,7 @@
                     <use xlink:href="#icon-star" />
                   </svg>
                 </span>
-                <!-- snippet location product_rating -->
+                
               </span>
             </p>
             <div class="card-figcaption2"></div>
@@ -1870,29 +1568,12 @@
       </div>
               <% } %>
             </section>
+            <% } %>
           </div>
+
         </div>
-        <% } %>
-      </main>
+      </div>
     </div>
-  </div>
-
-
-  <div id="modal" class="modal" data-reveal data-prevent-quick-search-close>
-    <a href="#" class="modal-close" aria-label="Close" role="button">
-      <span aria-hidden="true">&#215;</span>
-    </a>
-    <div class="modal-content"></div>
-    <div class="loadingOverlay"></div>
-  </div>
-  <div id="alert-modal" class="modal modal--alert modal--small" data-reveal data-prevent-quick-search-close>
-    <div class="swal2-icon swal2-error swal2-animate-error-icon"><span class="swal2-x-mark swal2-animate-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span></div>
-
-    <div class="modal-content"></div>
-
-    <div class="button-container"><button type="button" class="confirm button" data-reveal-close>OK</button></div>
-  </div>
-</div>
 
 <script>
   const containers = [
@@ -2161,9 +1842,9 @@
     errorElements.forEach(el => el.textContent = '');
 
     const rating = document.getElementById('rating').value;
-    const name = document.getElementById('name').value;
+    const name = document.getElementById('name').value.trim()
     const productName = document.getElementById('productName').value;
-    const comments = document.getElementById('comments').value;
+    const comments = document.getElementById('comments').value.trim();
 
     let isValid = true;
 
@@ -2192,7 +1873,7 @@
     }
     // If validation passes, submit the form
     try {
-      const response = await fetch('/product/review/<%=product._id %>', {
+      const response = await fetch('/product/review/<%=product?._id %>', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -2209,7 +1890,7 @@
           showConfirmButton: false,
           timer: 2000
         });
-        window.location.href = `/product/<%=product._id %>`
+        window.location.href = `/product/<%=product?._id %>`
       } else {
         // Handle errors from the server
         const errorData = await response.json();

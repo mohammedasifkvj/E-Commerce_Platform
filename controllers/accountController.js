@@ -10,17 +10,14 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs');
 
-//const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id; 
-
 // Account Home Page
 const profile = async (req, res) => {
-    const userId = req.user.id;
+    const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
     try {
         const userData = await User.findById({ _id: userId })
         return res.render('15_account', { userData });
     } catch (e) {
-        console.log(e.message);
-        res.status(500).send('An error occurred');
+        return res.status(500).json({message:e.message});
     }
 }
 
@@ -28,8 +25,7 @@ const profileSettings = async (req, res) => {
     try {
         return res.render('19_accountSetting');
     } catch (e) {
-        console.log(e.message);
-        //res.status(500).send('An error occurred');
+        return res.status(500).json({message:e.message});
     }
 }
 
@@ -49,7 +45,6 @@ const changePassword = async (req, res) => {
         if (!passwordRegex.test(newPassword)) {
             return res.status(400).json({ message: 'Password must be at least 8 characters long, contain uppercase and lowercase letters, a number, a special character, and no spaces.' });
         }
-
         // Hash the new password
         const hashedPassword = await bcrypt.hash(newPassword, 10);
 
@@ -97,19 +92,16 @@ const address = async (req, res) => {
             limit
         });
     } catch (e) {
-        console.log(e.message);
-        return res.status(500).send('An error occurred');
+        return res.status(500).json({message:e.message});
     }
 };
-
 
 //Add address Page
 const addAddressPage = async (req, res) => {
     try {
         return res.render('16_addAddress');
     } catch (e) {
-        console.log(e.message);
-        return res.status(500).json({message:'An error occurred'});
+        return res.status(500).json({message:e.message});
     }
 }
 
@@ -127,7 +119,7 @@ const addAddress = async (req, res) => {
         await userAddress.save()
         return res.status(200).json({ success: true });
     } catch (e) {
-        console.log(e.message);
+        return res.status(500).json({message:e.message});
     }
 }
 
@@ -145,7 +137,7 @@ const editAddressPage = async (req, res) => {
     try {
         return res.render('16_editAddress', { address });
     } catch (e) {
-        console.log(e.message);
+        return res.status(500).json({message:e.message});
     }
 }
 
@@ -156,8 +148,8 @@ const editAddress = async (req, res) => {
     if (!addressId || !mongoose.Types.ObjectId.isValid(addressId)) {
         return res.status(404).render('404User')
     }
-    const addId = await Address.findById(addressId)
-    if (addId == undefined) {
+    const address = await Address.findById(addressId)
+    if (address === undefined) {
         return res.status(404).render('404User')
     }
     try {
@@ -165,7 +157,7 @@ const editAddress = async (req, res) => {
         const message = "Address updated successfully!";
         return res.status(200).json({ success: true, message: message })
     } catch (e) {
-        console.error(e.message);
+        return res.status(500).json({message:e.message});
     }
 }
 
@@ -176,18 +168,16 @@ const deleteAddress = async (req, res) => {
     if (!addressId || !mongoose.Types.ObjectId.isValid(addressId)) {
         return res.status(404).render('404User');
     }
-    const addId = await Address.findById(addressId)
-    if (addId == undefined) {
+    const address = await Address.findById(addressId)
+    if (address === undefined) {
         return res.status(404).render('404User')
     }
-
     try {
         await Address.deleteOne({ _id: addressId });
         const message = 'Address deleted Successfully';
         return res.status(200).json({ message: message });
     } catch (e) {
-        console.log(e.message);
-        //res.status(500).json({ error: 'Server error' });
+        return res.status(500).json({message:e.message});
     }
 };
 
@@ -196,35 +186,29 @@ const orders = async (req, res) => {
     const userId = req.user.id;
 
     try {
-        const page = parseInt(req.query.page) || 1; // Current page, default to 1
-        const limit = 5; // Number of orders per page
+        const page = parseInt(req.query.page) || 1;
+        const limit = 5;
         const skip = (page - 1) * limit;
 
-        // Get the total number of orders for this user
         const totalOrders = await Order.countDocuments({ userId: userId });
 
-        // Calculate the total number of pages
         const totalPages = Math.ceil(totalOrders / limit);
 
-        // Fetch orders for this user with pagination, sorting by creation date
         const order = await Order.find({ userId: userId })
             .sort({ createdAt: -1 }) // Sort by newest first
             .skip(skip) // Skip the orders of previous pages
-            .limit(limit) // Limit the number of orders to display
-            .populate('orderItems.productId') // Populate the product details
-            .populate('address'); // Populate the address details
+            .limit(limit)
+            .populate('orderItems.productId')
+            .populate('address');
 
-        // Render the orders page with pagination info
         return res.render('17_orders', {
             order,
             currentPage: page,
             totalPages,
             limit
         });
-
     } catch (e) {
-        console.log(e.message);
-        return res.status(500).send('An error occurred');
+        return res.status(500).json({message:e.message});
     }
 };
 
@@ -254,8 +238,7 @@ const orderDetails = async (req, res) => {
             address
         });
     } catch (e) {
-        console.log(e.message);
-        //res.status(500).send('An error occurred');
+        return res.status(500).json({message:e.message});
     }
 }
 // Show Wish List 
@@ -301,7 +284,6 @@ const wishlist = async (req, res) => {
             product: products
         });
     } catch (e) {
-        console.log(e);
         return res.status(500).json({ message: 'An error occurred' });
     }
 };
@@ -327,8 +309,8 @@ const requestForReturn = async (req, res) => {
             message: "Return processed successfully.",
             order: order
         });
-    } catch (error) {
-        console.log(error);
+    } catch (e) {
+        return res.status(500).json({message:e.message});
     }
 }
 
@@ -398,8 +380,7 @@ const cancellOrder = async (req, res) => {
 
         return res.status(200).json({ message: 'Order Cancelled Successfully' });
     } catch (error) {
-        console.error('Error occurred while cancelling order:', error.message);
-        res.status(500).json({ message: 'An error occurred while Cancelling Order' });
+        return res.status(500).json({ message: 'An error occurred while Cancelling Order' });
     }
 };
 
@@ -440,9 +421,8 @@ const wallet = async (req, res) => {
             currentPage,
             totalPages,
         });
-    } catch (error) {
-        console.error('Error rendering wallet page:', error.message);
-        res.status(500).send('Server Error');
+    } catch (e) {
+        return res.status(500).json({message:e.message});
     }
 };
 

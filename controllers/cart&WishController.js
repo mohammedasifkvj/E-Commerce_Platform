@@ -97,29 +97,32 @@ const changeQuantity = async (req, res) => {
       if (cartItem) {
         // Allow decreasing the quantity even if the cart quantity is higher than stock
         if (quantity <= cartItem.quantity) {
-          // User is trying to decrease the quantity, so allow it
           cartItem.quantity = quantity;
         } else {
-          // User is trying to increase the quantity
+          // Ensure stock is not exceeded when increasing the quantity
           if (quantity > product.stock) {
             return res.status(400).json({ message: `Only ${product.stock} units available for ${product.productName}.` });
           }
-  
           cartItem.quantity = quantity;
         }
       }
   
       await cart.save();
   
-      // Recalculate cart total
       const updatedCart = await Cart.findOne({ userId: userId }).populate('cartItems.productId');
-      let newTotal = updatedCart.cartItems.reduce((total, item) => total + item.quantity * item.productId.discountPrice, 0);
   
-      // Calculate the total for the specific product
-      const productTotal = cartItem.quantity * cartItem.productId.discountPrice;
+      // Recalculate cart total
+      let newTotal = updatedCart.cartItems.reduce((total, item) => {
+        const itemTotal = item.quantity * item.productId.discountPrice;
+        return total + itemTotal;
+      }, 0);
+  
+      // Recalculate product-specific total
+      const updatedCartItem = updatedCart.cartItems.find(item => item.productId._id.toString() === productId);
+      const productTotal = updatedCartItem.quantity * updatedCartItem.productId.discountPrice;
   
       return res.json({
-        newQuantity: cartItem?.quantity,
+        newQuantity: updatedCartItem.quantity,
         newTotal: newTotal,
         productTotal: productTotal
       });
@@ -128,56 +131,8 @@ const changeQuantity = async (req, res) => {
       res.status(500).json({ message: 'Internal server error.' });
     }
   };
-  
 
-// const changeQuantity = async (req, res) => {
-//     const { productId, quantity } = req.body;
-//     const userId = req.user.id;
-//     // const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
 
-//     if (quantity < 1 || quantity > 5) {
-//         return res.status(400).json({ message: 'Quantity must be between 1 and 5.' });
-//     }
-
-//     try {
-//         const product = await Product.findById(productId);
-//         if (!product) {
-//             return res.status(404).json({ message: 'Product not found.' });
-//         }
-
-//         if (product.stock < quantity) {
-//             return res.status(400).json({ message: `Only ${product.stock} units available for ${product.productName}.` });
-//         }
-
-//         const cart = await Cart.findOne({ userId: userId });
-//         const cartItem = cart.cartItems.find(item => item.productId.toString() === productId);
-//         //console.log(cartItem)
-//         if (cartItem) {
-//             cartItem.quantity = quantity;
-//         }
-//         await cart.save();
-
-//         // Calculate new total and send response
-//         const car = await Cart.findOne({ userId: userId }).populate('cartItems.productId');
-
-//         let newTotal = car.cartItems.reduce((total, item) => total + item.quantity * item.productId.discountPrice, 0);
-
-//         // Calculate total for the specific product
-//         const productTotal = cartItem.quantity * cartItem.productId.discountPrice;
-
-//         return res.json({
-//             newQuantity: cartItem?.quantity,
-//             newTotal: newTotal,
-//             productTotal: productTotal
-//             //discount: discount
-//         });
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({ message: 'Internal server error.' });
-//     }
-// };
-
-// Delete single product from cart
 const deleteProduct = async (req, res) => {
     const { productId } = req.body;
     const userId = req.user.id;
@@ -201,8 +156,7 @@ const deleteProduct = async (req, res) => {
 
 // Clear the Cart
 const clearCart = async (req, res) => {
-    const userId = req.user.id;
-    // const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
+     const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
     try {
         const cart = await Cart.findOne({ userId });
         if (!cart) return res.status(404).json({ message: 'Cart not found' });
@@ -212,7 +166,7 @@ const clearCart = async (req, res) => {
         await Cart.deleteOne({ userId });
         return res.status(200).json({ success: true });
     } catch (err) {
-        res.status(500).json({ error: 'Server error' });
+        return res.status(500).json({ error: 'Server error' });
     }
 };
 

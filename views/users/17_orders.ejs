@@ -156,16 +156,13 @@
                             <td class="text-center" ><%= order.orderTotal %></td>
                             <td class="text-center" ><span class="badge rounded-pill alert-warning"><%= order?.status %></td>
                             <td class="actions">
-                                <a class="btn-btn primary" href="/orderDetails/<%= order._id %>">Details</a>
+                                <a class="btn btn-secondary" href="/orderDetails/<%= order._id %>">Details</a>
                                 
                                     <% if (order.status === 'Order confirmed') { %>
                                       <button type="button" class="btn btn-sm btn-outline-danger" onclick="cancelOrder('<%= order._id %>')">Cancel</button>
                                     <% } else if (order.status === 'Delivered') { %>
                                       <button type="button" class="btn btn-sm btn-outline-warning" onclick="returnOrder('<%= order._id %>')">Return</button>
-                                    <% } else if (order.status === 'pending') { %>
-                                      <button type="button" class="btn btn-sm btn-outline-primary payAgainButton" data-order-id="<%= order._id %>">Pending</button>
-                                    <% } %>
-                                  
+                                   <% } %>
                             </td>
                         </tr>
                         <%  }) %>

@@ -49,7 +49,7 @@ const checkoutPage= async (req, res) => {
   const userId = req.user.id;
     try {
         const cart = await Cart.findOne({ userId: userId }).populate('cartItems.productId');
-        const address=await Address.find({ userId: userId })
+        const address=await Address.find({ userId: userId }).sort({ createdAt: -1 });
         const currentDate = new Date();
 
     const coupon = await Coupon.find({
@@ -64,18 +64,18 @@ const checkoutPage= async (req, res) => {
             wallet
         });
     } catch (e) {
-        console.log(e.message);
+      return res.status(500).json({message:e.message});
     }
   }
 
-  const makeOrder = async (req, res) => {
+const makeOrder = async (req, res) => {
     try {
       const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
   
       const { addressId, products, orderTotal, discount, paymentMethod } = req.body;
       //console.log(req.body)
   
-      // Validate input data
+      // Validation
       if (!addressId || !products || !products.length) {
         return res.status(400).json({ message: 'Missing address or product details' });
       }
@@ -86,7 +86,6 @@ const checkoutPage= async (req, res) => {
         quantity: item.quantity
       }));
   
-      // Declare newOrder outside the block
       let newOrder;
   
       if (paymentMethod === 'Online') {
@@ -94,7 +93,6 @@ const checkoutPage= async (req, res) => {
       }
   
       if (paymentMethod === 'wallet') {
-        // Create new order document for wallet payment
         newOrder = new Order({
           userId,
           orderItems,
@@ -121,7 +119,6 @@ const checkoutPage= async (req, res) => {
           { new: true, upsert: true }
         );
       } else {
-        // Create new order document for other payment methods
         newOrder = new Order({
           userId,
           orderItems,
@@ -156,8 +153,7 @@ const checkoutPage= async (req, res) => {
       // Redirect to home or send a success message
       return res.status(201).json({ message: "Order placed successfully", orderId: newOrder._id });
     } catch (e) {
-      console.error("Error placing order:", e.message);
-      return res.status(500).json({ message: "Internal server error" });
+      return res.status(500).json({message:e.message});
     }
   };
   
@@ -362,9 +358,6 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
-
-
-
 // Route to capture PayPal order
 // const captureOrder = async (req, res) => {
 //   const userId = jwt.verify(req.cookies.jwtToken, process.env.JWT_ACCESS_SECRET).id;
@@ -452,6 +445,7 @@ const oredrConfirmation= async (req, res) => {
         console.log(e.message);
     }
   }
+
 // Inovice
 const invoiceDownload = async (req, res) => {
     const { orderId } = req.params;
@@ -576,9 +570,8 @@ const invoiceDownload = async (req, res) => {
         doc.text('Thank you for your purchase!', 50, 700, { align: 'center' });
 
         doc.end();
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('Error fetching order details');
+    } catch (e) {
+      return res.status(500).json({message:e.message});
     }
 };
 
@@ -733,7 +726,6 @@ module.exports={
     payPalPay,
     captureOrder,
     updateOrderStatus,
-    //createPayment,
     oredrConfirmation,
     invoiceDownload
 }

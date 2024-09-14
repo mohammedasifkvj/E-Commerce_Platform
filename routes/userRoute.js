@@ -104,10 +104,8 @@ user_route.post('/applyCoupon', auth.authenticateToken, offerController.applyCou
 user_route.post('/stockCheck', auth.authenticateToken, orderController.stockCheck)
 user_route.get('/checkout', auth.authenticateToken, orderController.checkoutPage)
 user_route.post('/makeOrder', auth.authenticateToken, orderController.makeOrder)
-//user_route.post('/create', auth.authenticateToken, orderController.createPayment);
 user_route.post('/createPaypalOrder', auth.authenticateToken, orderController.payPalPay);
 user_route.get('/captureOrder',auth.authenticateToken, orderController.captureOrder);
-//user_route.post('/updateOrderStatus',auth.authenticateToken, orderController.updateOrderStatus);
 user_route.get('/orderConfirmation/:orderId',auth.authenticateToken, orderController.oredrConfirmation)
 user_route.get('/invoiceDownload/:orderId',auth.authenticateToken,orderController.invoiceDownload);
 

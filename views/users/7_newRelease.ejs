@@ -32,7 +32,6 @@
     background-color: #e9ecef;
     border-color: #007bff;
 }
-
 </style>
 <div class="body" data-currency-code="USD">
   <!-- breadcrumbs -->
@@ -824,29 +823,29 @@ snippet location product_rating
         </div>
       </div>
       <!-- breadcrumbs -->
-      <div class="row text-center">
-        <div class="pagination-area mt-30 mb-50 ">
-          <nav aria-label="Page navigation example ">
-            <ul class="pagination justify-content-center">
-              <% if (currentPage > 1) { %>
-              <li class="page-item">
-                <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
-              </li>
-              <% } %>
-              <% for (let i = 1; i <= totalPages; i++) { %>
-              <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-                <a class="page-link" href="?page=<%= i %>"><%= i %></a>
-              </li>
-              <% } %>
-              <% if (currentPage < totalPages) { %>
-              <li class="page-item">
-                <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
-              </li>
-              <% } %>
-            </ul>
-          </nav>
+      <div class="row">
+        <div class="col-12">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <% if (currentPage > 1) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+                    </li>
+                    <% } %>
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                    <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                        <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                    </li>
+                    <% } %>
+                    <% if (currentPage < totalPages) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+                    </li>
+                    <% } %>
+                </ul>
+            </nav>
         </div>
-      </div>
+    </div>
 
     </div>
 

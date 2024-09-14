@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const passport = require('passport')
-require('./drivers/passport');z
+require('./drivers/passport');
 const cors = require('cors')
 const connectDB = require('./drivers/dataBase');
 const nocache = require('nocache')
@@ -21,7 +21,6 @@ app.set('view engine', 'ejs');
 app.use(passport.initialize());
 app.use(cors())
 
-//app.set('views',path.join(__dirname,"views"))
 // Load static assets
 app.use(express.static('public'));
 app.set('views', './views/users');
