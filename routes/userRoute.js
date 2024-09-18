@@ -112,7 +112,5 @@ user_route.get('/invoiceDownload/:orderId',auth.authenticateToken,orderControlle
 
 // //404
 // user_route.get('*', (req, res) => {
-//   return res.status(404).render('404User', { status: 404, error: '' });
-//  });
 
 module.exports = user_route;
