@@ -98,6 +98,37 @@
             document.getElementById('resend-otp').disabled = false;
             document.getElementById('timer').innerText = 'You can resend the OTP now';
         }, 60000); // 60,000 milliseconds = 1 minute
+
+        // Resend OTP function
+        document.getElementById('resend-otp').addEventListener('click', async function() {
+            try {
+                const response = await fetch('/resendOTP', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert(result.message || 'OTP has been resent to your email!');
+                    
+                    // Disable the resend button again for 1 minute after resending
+                    document.getElementById('resend-otp').disabled = true;
+                    document.getElementById('timer').innerText = 'Resend OTP after 1 minute';
+
+                    setTimeout(() => {
+                        document.getElementById('resend-otp').disabled = false;
+                        document.getElementById('timer').innerText = 'You can resend the OTP now';
+                    }, 60000); // Disable again for 1 minute
+                } else {
+                    alert('Failed to resend OTP. Please try again later.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while resending the OTP.');
+            }
+        });
     </script>
 </body>
 </html>

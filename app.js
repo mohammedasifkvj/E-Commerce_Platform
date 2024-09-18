@@ -6,7 +6,6 @@ const cors = require('cors')
 const connectDB = require('./drivers/dataBase');
 const nocache = require('nocache')
 const scheduler = require('./drivers/sheduler');
-// env variables
 require('dotenv').config()
 
 //middleware to parse JSON and url-encoded form data

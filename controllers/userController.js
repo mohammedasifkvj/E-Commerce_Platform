@@ -27,20 +27,6 @@ const loadHome = async (req, res) => {
     return res.status(500).send('Server Error');
   }
 };
-// To load Home
-// const loadHome = async (req, res) => {
-//   const {error,success} = req.query
-//     try {
-//       const product= await Product.find({isDeleted:false})
-//         res.render('1_home',{
-//           product,
-//           error,
-//           success
-//         });
-//     } catch (e) {
-//         console.log(e.message);
-//     }
-// }
 
 // To load SignUp
 const loadSignUp = async (req, res) => {
@@ -111,6 +97,7 @@ const requestOtp = async (req, res) => {
   const OTPmsg = '<p>Hai ' + name + ', this is the OTP: ' + otp + ' for account creation ';
 
   mailer.sendMail(email, 'Email verification', OTPmsg);
+  res.cookie('email',email);
   res.cookie('Timer', otp, hashedOTP, otpExpires, { httpOnly: true })
   return res.redirect(`/otp?success=${encodeURIComponent('OTP is send to your email')}`);
 };
@@ -177,10 +164,14 @@ const verifyOtp = async (req, res) => {
 //Resend OTP
 const resendOTP = async (req, res) => {
   try {
-    const tempUser = await TempUser.findOne({});
+    const email = req.cookies.email;
     // Generate OTP
   const otp = otpGenerator.generate(6, { digits: true, lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false });
   console.log(otp);
+  const OTPmsg = '<p>Hai , this is the OTP: ' + otp + ' for account creation ';
+
+  mailer.sendMail(email, 'Email verification', OTPmsg);
+  return res.redirect(`/otp?success=${encodeURIComponent('OTP is resend to your email')}`);
   } catch (e) {
     console.log(e.message);
   }

@@ -10,7 +10,6 @@ const cartController = require('../controllers/cart&WishController')
 const orderController = require('../controllers/orderController')
 const accountController = require('../controllers/accountController')
 const offerController = require('../controllers/offer&CouponController')
-//const {signUpValidation,signInValidation}=require("../validators/signUpValidation")
 const cookieParser = require('cookie-parser');
 const methodOverride = require('method-override');
 
@@ -30,7 +29,7 @@ user_route.get('/home', userController.loadHome)
 user_route.get('/signUp', logged.isLoggedIn, userController.loadSignUp)
 user_route.post('/send-otp', userController.requestOtp)
 user_route.get('/otp', logged.isLoggedIn, userController.loadOTP)
-//user_route.post('/resendOTP',userController.resendOTP)
+user_route.post('/resendOTP',userController.resendOTP)
 user_route.post('/verifyOTP', userController.verifyOtp)
 
 // Sign In
@@ -54,7 +53,6 @@ user_route.post('/resetPassword', userController.resetPassword)
 // Pages
 user_route.get('/newRelease', pageController.newRel)
 user_route.get('/mens', pageController.mensPage)
-//user_route.get('/sortBasedOn', pageController.sortBasedOn)
 user_route.get('/womens', pageController.womensPage)
 user_route.get('/product/:productId', pageController.productShow)
 user_route.post('/product/review/:productId', pageController.postReview)
@@ -64,7 +62,7 @@ user_route.get('/return', pageController.retAndShip)
 user_route.get('/contact', pageController.contactUs)
 user_route.get('/brands', pageController.brands)
 
-//-----------------------------User Account-------------------------------------//
+//-----------------------------User Account---------------------------------//
 user_route.get('/account', auth.authenticateToken, accountController.profile)
 user_route.get('/account/profileSettings', auth.authenticateToken, accountController.profileSettings)
 user_route.post('/account/changePassword', auth.authenticateToken, accountController.changePassword)
@@ -74,12 +72,12 @@ user_route.get('/addAddress', auth.authenticateToken, accountController.addAddre
 user_route.post('/addAddress', auth.authenticateToken, accountController.addAddress)
 user_route.get('/editAddress', auth.authenticateToken, accountController.editAddressPage) //address id passed as query
 user_route.put('/editAddress/:addressId', auth.authenticateToken, accountController.editAddress)//addressId passed as params
-user_route.delete('/deleteAddress', auth.authenticateToken, accountController.deleteAddress) //address id passed as query
+user_route.delete('/deleteAddress', auth.authenticateToken, accountController.deleteAddress)
 //WishList
 user_route.get('/wishlist', auth.authenticateToken, accountController.wishlist)
 user_route.post('/addProductToWishlist', auth.authenticateToken, cartController.addToWishlist)
 user_route.delete('/removeProduct', auth.authenticateToken, cartController.removeProduct)
-//user_route.delete('/clearWishlist',auth.authenticateToken,cartController.clearWishlist)
+
 //Oredr
 user_route.get('/orders', auth.authenticateToken, accountController.orders)
 user_route.get('/orderDetails/:orderId', auth.authenticateToken, accountController.orderDetails)
@@ -109,8 +107,5 @@ user_route.get('/captureOrder',auth.authenticateToken, orderController.captureOr
 user_route.get('/orderConfirmation/:orderId',auth.authenticateToken, orderController.oredrConfirmation)
 user_route.get('/invoiceDownload/:orderId',auth.authenticateToken,orderController.invoiceDownload);
 
-
-// //404
-// user_route.get('*', (req, res) => {
 
 module.exports = user_route;
