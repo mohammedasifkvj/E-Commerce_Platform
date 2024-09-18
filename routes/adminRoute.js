@@ -58,6 +58,7 @@ admin_route.get('/OrderDetails/:orderId', auth.authenticateToken, adminControlle
 admin_route.delete('/deleteOrder', auth.authenticateToken, adminController.deleteOrder)
 admin_route.post('/updateOrderStatus', auth.authenticateToken, adminController.updateOrderStatus)
 admin_route.post('/approveReturn', auth.authenticateToken, adminController.approveReturn);
+admin_route.post('/denyReturn', auth.authenticateToken, adminController.denyReturn);
 
 //--------Offer
 admin_route.get('/offer', auth.authenticateToken, offerController.offers)

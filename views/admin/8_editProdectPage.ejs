@@ -514,7 +514,6 @@ function previewThumbnail(input, previewContainerId) {
 
     if (input.files && input.files[0]) {
         const reader = new FileReader();
-        console.log('000')
         reader.onload = function(e) {
             const img = document.createElement('img');
             img.src = e.target.result;
@@ -527,8 +526,7 @@ function previewThumbnail(input, previewContainerId) {
             // removeButton.classList.add('btn', 'btn-outline-danger', 'mt-2', 'removeThumbnailBtn');
             // removeButton.textContent = 'Remove Thumbnail';
             // thumbnailPreview.appendChild(removeButton);
-        };
-        console.log('111')
+        }
         reader.readAsDataURL(input.files[0]);
     } else {
         // If no file is selected, clear the thumbnail preview
@@ -563,7 +561,6 @@ document.querySelectorAll('.thumbnailInput').forEach(function(input) {
 
 
 function showError(errorId, message) {
-    console.log('222')
         let errorElement = document.getElementById(errorId);
         errorElement.textContent = message;
     }
@@ -576,7 +573,6 @@ function showError(errorId, message) {
 
 <script>
     function getProcessedFiles() {
-        console.log('444')
         return processedFiles.map(file => file.blob);
     }
     document.getElementById('editForm').addEventListener('submit', async function(event) {
@@ -620,12 +616,9 @@ const  images= document.querySelectorAll('.image')
    // console.log(formData)
   
 //   const form = new FormData(this);
-
-  console.log('555')
   // Validate inputs
   let isValid = true;
   let hasChanges = false;
- console.log('666')
   // Product name validation
 //   const productNam = formData.get('productName');
   if (!productName || productName.length < 6) {
@@ -640,37 +633,31 @@ const  images= document.querySelectorAll('.image')
     document.getElementById('brandError').textContent = 'Brand is required.';
     isValid = false;
   }
-  console.log('7777')
   // Category validation
   //const categor = formData.get('category');
   if (!category) {
     document.getElementById('categoryError').textContent = 'Category must be selected.';
     isValid = false;
   }
-  console.log('888')
+ 
   // description validation
  // const descriptio = formData.get('description');
   if (!description) {
     document.getElementById('descriptionError').textContent = 'Description is required.';
     isValid = false;
   }
-  console.log('999')
-
 //   // Dial Colour validation
 // //   const dialColou = formData.get('dialColour');
 // //   if (!dialColour) {
 // //     document.getElementById('dialColourError').textContent = 'Dial Colour is required.';
 // //     isValid = false;
 // //   }
-// //   console.log('10101')
-
 // //   // Strap Colour validation
 // //   const strapColou = formData.get('strapColour');
 // //   if (!dialColour) {
 // //     document.getElementById('strapColourError').textContent = 'Strap Colour is required.';
 // //     isValid = false;
 // // }
-//   console.log('211111')
 
   // Stock validation
  // const stoc = formData.get('stock');
@@ -678,7 +665,6 @@ const  images= document.querySelectorAll('.image')
     document.getElementById('stockError').textContent = 'Stock is required.';
     isValid = false;
   }
-  console.log('233333')
   // Regular price validation
   //const pric = formData.get('price');
   if (!price || price <= 0) {
@@ -686,7 +672,6 @@ const  images= document.querySelectorAll('.image')
     // must be a positive number
     isValid = false;
   }
- // console.log('244444')
   //Discount price validation
  //const discountPric = formData.get('discountPrice');
   if (!discountPrice ) {
@@ -700,7 +685,6 @@ const  images= document.querySelectorAll('.image')
 //   }
 
 //   if ( discountPrice >= price ) {
-//     console.log('2666')
 //     document.getElementById('discountPriceError').textContent = 'Discount price must be less than the regular price';
 //     isValid = false;
 //   }
@@ -713,7 +697,6 @@ const  images= document.querySelectorAll('.image')
 //   //Images validation
 //   const imag = formData.getAll('productImage');
 //   if (imag.length==0 ||imag.length < 4) {
-//     console.log('2888')
 //     document.getElementById('imagesError').textContent = 'You must upload at least 4 images.';
 //     isValid = false;
 //   }
@@ -728,7 +711,7 @@ const  images= document.querySelectorAll('.image')
 
         //if(isValid && hasChanges){
     
-      if(hasChanges){
+      //if(hasChanges){
       
 //addded blob
 //   images.forEach((file, index) => {
@@ -788,7 +771,6 @@ let formData={
   } catch (e) {
     console.error('There was a problem with the fetch operation:', e.message);
   }
-}
 });
 
  function dataURLToBlob(dataURL) {

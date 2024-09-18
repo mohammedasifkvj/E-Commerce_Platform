@@ -56,8 +56,8 @@
           <% let SNo = 1; %>
           <tbody>
             <% orders.forEach(order => { %>
-            <tr>
-              <td><b></b><%= SNo ++ %></td>
+            <tr data-order-id="<%= order._id %>" data-order-status="<%= order.status.toLowerCase() %>">
+              <td><b><%= SNo++ %></b></td>
               <td><b><%= order?.userId?.name %></b></td>
               <td><%= order?.userId?.email %></td>
               <td><%= order?.orderTotal %></td>
@@ -67,24 +67,24 @@
                 <a href="/admin/OrderDetails/<%= order._id %>" class="btn btn-md rounded font-sm">Detail</a>
                 <button type="button" onclick="deleteOrder('<%= order?._id %>')" class="btn btn-md rounded text-danger">Delete</button>
                 <!-- Actions -->
-                <!-- <div class="dropdown"> -->
-                  <button type="button" class="btn btn-md btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    Actions
-                  </button>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item change-status" href="#" data-order-id="<%= order._id %>" data-status="Order confirmed">Ordered</a></li>
-                    <li><a class="dropdown-item change-status" href="#" data-order-id="<%= order._id %>" data-status="Delivered">Delivered</a></li>
-                    <li><a class="dropdown-item change-status" href="#" data-order-id="<%= order._id %>" data-status="Completed">Completed</a></li>
-                    <% if (order.status === 'Requested for Return') { %>
-                    <li><a class="dropdown-item approve-return" href="#" data-order-id="<%= order._id %>">Approve Return</a></li>
-                    <% } %>
-                  </ul>
-                <!-- </div> -->
+                <button type="button" id="dropdownMenuButton-<%= order._id %>" class="btn btn-md btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                  Actions
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-<%= order._id %>">
+                  <li><a id="orderConfirmedOption-<%= order._id %>" class="dropdown-item change-status" href="#" data-order-id="<%= order._id %>" data-status="Order confirmed">Order Confirmed</a></li>
+                  <li><a id="deliveredOption-<%= order._id %>" class="dropdown-item change-status" href="#" data-order-id="<%= order._id %>" data-status="Delivered">Delivered</a></li>
+                  <li><a id="completedOption-<%= order._id %>" class="dropdown-item change-status" href="#" data-order-id="<%= order._id %>" data-status="Completed">Completed</a></li>
+                  <% if (order.status === 'Requested for Return') { %>
+                  <li><a id="approveReturnOption-<%= order._id %>" class="dropdown-item approve-return" href="#" data-order-id="<%= order._id %>">Approve Return</a></li>
+                  <li><a id="denyReturnOption-<%= order._id %>" class="dropdown-item deny-return" href="#" data-order-id="<%= order._id %>">Deny Return</a></li>
+                  <% } %>
+                </ul>
               </td>
             </tr>
-            <% })%>
+            <% }) %>
           </tbody>
         </table>
+        
 
       </div>
       <!-- table-responsive //end -->
@@ -158,6 +158,74 @@
     }
   }
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Select all the rows that have an order
+  const rows = document.querySelectorAll('tr[data-order-id]');
+
+  // Iterate over each row and handle dropdown options
+  rows.forEach(row => {
+    const orderId = row.getAttribute('data-order-id');
+    const status = row.getAttribute('data-order-status');
+
+    const orderConfirmedOption = document.getElementById(`orderConfirmedOption-${orderId}`);
+    const deliveredOption = document.getElementById(`deliveredOption-${orderId}`);
+    const completedOption = document.getElementById(`completedOption-${orderId}`);
+    const approveReturnOption = document.getElementById(`approveReturnOption-${orderId}`);
+    const denyReturnOption = document.getElementById(`denyReturnOption-${orderId}`);
+    const dropdownMenuButton = document.getElementById(`dropdownMenuButton-${orderId}`);
+
+    // Hide options initially
+    if (orderConfirmedOption) orderConfirmedOption.style.display = 'none';
+    if (deliveredOption) deliveredOption.style.display = 'none';
+    if (completedOption) completedOption.style.display = 'none';
+    if (approveReturnOption) approveReturnOption.style.display = 'none';
+    if (denyReturnOption) denyReturnOption.style.display = 'none';
+
+    // Adjust button style for 'Requested for Return'
+    const highlightReturnRequest = () => {
+      dropdownMenuButton.classList.add('btn-warning');
+      dropdownMenuButton.classList.add('text-danger');
+      dropdownMenuButton.classList.remove('btn-outline-primary');
+    };
+
+    // Disable action button for completed or cancelled orders
+    if (status === 'completed' || status === 'cancelled' || status === 'returned') {
+      dropdownMenuButton.setAttribute('disabled', true); // Disable the button
+      dropdownMenuButton.classList.add('disabled', 'btn-secondary'); // Add disabled class for styling
+      dropdownMenuButton.classList.remove('btn-outline-primary'); // Remove the primary styling
+    } else {
+      // Show/Hide options based on status for other cases
+      switch (status) {
+        case 'pending':
+          if (orderConfirmedOption) orderConfirmedOption.style.display = 'block';
+          if (deliveredOption) deliveredOption.style.display = 'block';
+          break;
+        case 'order confirmed':
+          if (deliveredOption) deliveredOption.style.display = 'block';
+          if (completedOption) completedOption.style.display = 'block';
+          break;
+        case 'delivered':
+          if (completedOption) completedOption.style.display = 'block';
+          break;
+        case 'requested for return':
+          highlightReturnRequest();
+          if (approveReturnOption) approveReturnOption.style.display = 'block';
+          if (denyReturnOption) denyReturnOption.style.display = 'block';
+          break;
+          case 'return denied':
+          if (completedOption) completedOption.style.display = 'block';
+          break;
+        default:
+          break;
+      }
+    }
+  });
+});
+
+  </script>
+
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const orderStatusHeaders = document.querySelectorAll('.status');
@@ -253,7 +321,42 @@
     });
   });
 
+  // Handle the deny return action
+$('.deny-return').on('click', function(e) {
+  e.preventDefault();
+  const orderId = $(this).data('order-id');
 
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'Do you want to deny this return?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, deny it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch('/admin/denyReturn', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId }) // Sending orderId in the request body
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.message) {
+          Swal.fire('Denied!', 'Return request has been denied.', 'success').then(() => {
+            location.reload();
+          });
+        } else {
+          Swal.fire('Error!', 'There was a problem denying the return.', 'error');
+        }
+      })
+      .catch(error => {
+        Swal.fire('Error!', 'There was a problem denying the return.', 'error');
+      });
+    }
+  });
+});
 
   // dropdown
   document.addEventListener('DOMContentLoaded', function() {

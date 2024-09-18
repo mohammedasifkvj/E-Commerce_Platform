@@ -8,30 +8,6 @@ const sharp =require('sharp')
 const paginate = require('../drivers/paginate');
        
 //Admin Product Page Load
-// const product = async(req,res)=>{
-//     const {message, success} = req.query
-//     try {
-//         const page = parseInt(req.query.page) || 1;
-//         const limit =10; // Number of product per page
-//         const skip = (page - 1) * limit;
-
-//          const totalProduct = await Product.countDocuments();
-//         const product= await Product.find().skip(skip).limit(limit);
-//         const totalPages = Math.ceil(totalProduct / limit);
-//        const category=await Category.find()
-//         return res.render('5_product',{
-//         product,
-//         category, 
-//         currentPage: page,
-//         totalPages,  
-//         message,
-//         success
-//     });
-//     } catch (e) {
-//         console.log(e);
-//     }  
-// }
-
 const product = async (req, res) => {
     const {message, success} = req.query
     try {
@@ -112,11 +88,6 @@ const addProduct = async (req,res) =>{
             return res.status(400).json({message: message})
             //return res.redirect(`/admin/addproduct?message=${encodeURIComponent('Stock is required')}`);
           }
-        //   if(!productImage){
-        //     const meassage='4 images must be added'
-        //     return res.status(400).json({message: message})
-        //  // return res.redirect(`/admin/addproduct?message=${encodeURIComponent('images are required')}`);
-        // }
   
         const isExist = await Product.findOne({ productName: { $regex: new RegExp(`^${productName}$`, 'i') } });
         if(isExist){
@@ -176,9 +147,8 @@ const addProduct = async (req,res) =>{
     if (!productId || !mongoose.Types.ObjectId.isValid(productId)) { 
         return res.redirect(`/admin/product?message=${encodeURIComponent('Product not found')}`);
        }
-         const prodId= await Product.findById(productId)
-       if(prodId== undefined){
-         console.log('Invalid or missing product ID');
+         const product= await Product.findById(productId)
+       if(product=== undefined){
          return res.redirect(`/admin/product?message=${encodeURIComponent('Product not found')}`);
        }
 
@@ -202,21 +172,16 @@ const editProduct = async (req, res) => {
         const {productName,category,brand,description,
            // dialColour,strapColour,discountPrice
             stock,price} = req.body;
-        console.log(req.body,'this is body')
-        console.log(req.files,'thsi si files')
         const files=req.files ||{}
-       console.log("files", files)
+       
          const {productId} = req.params;
-        console.log(productId,'this is productId')
 
         if (!productId || !mongoose.Types.ObjectId.isValid(productId)) { 
-            // console.log('Invalid product ID');
-            //return res.status(404).render('404Admin')
+            
             return res.redirect(`/admin/product?message=${encodeURIComponent('Product not found')}`);
            }
-             const prodId= await Product.findById(productId)
-           if(prodId== undefined){
-             console.log('Invalid or missing product ID');
+             const product= await Product.findById(productId)
+           if(product== undefined){
              return res.redirect(`/admin/product?message=${encodeURIComponent('Product not found')}`);
             //return res.status(404).render('404Admin')
            }
@@ -265,26 +230,8 @@ const editProduct = async (req, res) => {
             return res.status(400).json({message: message})
            // return res.redirect(`/admin/addproduct?message=${encodeURIComponent('Stock is required')}`);
          }
-    // if(!productImage){
-    //         const meassage='4 images must be added'
-    //         return res.status(400).json({message: message})
-    //      // return res.redirect(`/admin/addproduct?message=${encodeURIComponent('images are required')}`);
-    //    }
-      
         const newProductExpires = Date.now() + 10*24*60*60*1000; 
 
-        // const productImagePaths = [];
-        // console.log('11')
-        // for (let i = 0; i < 4 ; i++) {
-        //     console.log("Edit image")
-        //     const imagePaths = `/productImages/${req.files[i].originalname.toLowerCase().replace(/\s+/g, '-')}_thumbnail${i}_${Date.now()}.png`;
-        //     console.log('22')
-        //     productImagePaths.push(imagePaths);
-        //     await sharp(req.files[i].buffer)
-        //         .png({ quality: 90 })
-        //         .toFile(`public/${imagePaths}`);  
-        // }
-       console.log("Edit work")
 
        //Perform case-insensitive search for existing category
     const isExist =await Product.findOne({ _id:{ $ne: productId },productName:{$regex:new RegExp(`^${productName}$`,'i')}});
@@ -317,14 +264,11 @@ const editProduct = async (req, res) => {
             discountPrice,
             newProductExpires,
             //productImage:productImagePaths,
-            
         }})
-        console.log("Edit comple")
+
         const message=productName+ ' Updated successfully'
          return res.status(200).json({success:true,message:message})
-        
         //return res.redirect(`/admin/product?success=${encodeURIComponent(productName+' updated successfully')}`); 
-
         }catch(e){
         console.log(e.message);
        }
@@ -399,31 +343,6 @@ const editProduct = async (req, res) => {
     res.status(OK).json({success:true})
  
  }
-
-//List and Unlist Product
-// const listUnlistProduct = async (req, res) => {
-//     //console.log("work")
-//     try {
-//         const { productId } = req.body;
-//         console.log(productId, 'this is productId');
-//         const productData = await Product.findById(productId);
-         
-//         if (!productData) {
-//           return res.json({ success: false, message: 'Product not found' });
-//         }
-  
-//        if (productData.isDeleted) {
-//         await Product.findByIdAndUpdate(productId, { $set: { isDeleted: false } }, { new: true });
-//         return res.json({ success: true, message: 'Product Listed successfully' });
-//        } else {
-//         await Product.findByIdAndUpdate(productId, { $set: { isDeleted: true } }, { new: true });
-//         return res.json({ success: true, message: 'Product Hided successfully' });
-//        }
-//     } catch (e) {
-//         console.log(e.message);
-//         res.json({ success: false, message: 'An message occurred' });
-//      }
-//   };
 
 //List and Unlist Product
 const listUnlistProduct = async (req, res) => {

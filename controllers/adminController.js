@@ -63,10 +63,6 @@ const adminSignIn = async (req, res) => {
       process.env.JWT_REFRESH_SECRET,
       { expiresIn: "7d" }
     );
-
-    admin.token = accessToken;
-    admin.password = undefined
-
     const options = {
       //expires:new Date(Date.now()+7*24*60*60*1000)   // 7day expiry
       httpOnly: true, // cookies can manipulate by browser only
@@ -174,96 +170,6 @@ const loadDash = async (req, res) => {
     })
   } catch (e) {
     // console.log(e);
-  }
-}
-
-const adminDashboard = async (req, res) => {
-  try {
-      const data = await User.find({})
-      const order = await Order.aggregate([
-          { $unwind: "$product" },
-          { $match: { $nor: [{ "product.productDetails.status": 'cancelled' }, { "product.productDetails.status": 'returned' }] } },
-          { $count: "count" }
-      ])
-      const orderCount = order.length > 0 ? order[0].count : 0;
-      const sale = await Order.aggregate([
-          { $match: { status: 'delivered' } },
-          { $count: 'count' }
-      ])
-      const salesCount = sale.length > 0 ? sale[0].count : 0;
-      const totalProductSales = await Product.aggregate([
-          { $match: {} },
-          { $group: { _id: null, count: { $sum: "$productSales" } } }
-      ])
-      const products = await Product.find({})
-      const sales = await Order.aggregate([
-          { $unwind: '$product' },
-          { $match: { "product.productDetails.status": 'delivered' } }])
-      const orders = await Order.find({ status: 'delivered' }).sort({ createdAt: -1 })
-      const salesEarnings = await Order.aggregate([
-          { $match: { status: { $ne: 'cancelled' } } },
-          {
-              $facet: {
-                  daily: [
-                      {
-                          $group: {
-                              _id: {
-                                  year: { $year: "$createdAt" },
-                                  month: { $month: "$createdAt" },
-                                  day: { $dayOfMonth: "$createdAt" }
-                              },
-                              earnings: { $avg: '$orderTotal' }
-                          }
-                      },
-                      { $sort: { "_id.year": 1, "_id.month": 1, "_id.day": 1 } }
-                  ],
-                  weekly: [
-                      {
-                          $group: {
-                              _id: {
-                                  year: { $year: "$createdAt" },
-                                  week: { $week: "$createdAt" }
-                              },
-                              earnings: { $avg: '$orderTotal' }
-                          }
-                      },
-                      { $sort: { "_id.year": 1, "_id.week": 1 } }
-                  ],
-                  monthly: [
-                      {
-                          $group: {
-                              _id: {
-                                  year: { $year: "$createdAt" },
-                                  month: { $month: "$createdAt" }
-                              },
-                              earnings: { $avg: '$orderTotal' }
-                          }
-                      },
-                      { $sort: { "_id.year": 1, "_id.month": 1 } }
-                  ]
-              }
-          }
-      ]);
-      const salesAvgEarnings = []
-      const earningsData = salesEarnings[0];
-      for (let key in earningsData) {
-          if (earningsData.hasOwnProperty(key)) {
-              const earningsArray = earningsData[key];
-              const totalEarnings = earningsArray.reduce((acc, item) => {
-                  return acc += item.earnings;
-              }, 0);
-              const averageEarnings = totalEarnings / earningsArray.length;
-              salesAvgEarnings.push({ [key]: averageEarnings.toFixed(1) });
-          }
-      }
-      const totalIncome = await Order.aggregate([
-          { $unwind: "$product" },
-          { $match: { $nor: [{ "product.productDetails.status": 'cancelled' }, { "product.productDetails.status": 'returned' }] } },
-          { $group:{_id:null,income:{$sum:'$orderTotal'}}}
-      ])
-      res.render('dashboard', { data, orderCount, salesCount, sales, orders, totalProductSales, products, salesAvgEarnings,totalIncome })
-  } catch (err) {
-      // console.log(err);
   }
 }
 
@@ -382,7 +288,7 @@ const deleteOrder = async (req, res) => {
     // console.log(e.message);
   }
 }
-
+ 
 const updateOrderStatus = async (req, res) => {
   const { orderId, status } = req.body;
   // // console.log(req.body)
@@ -475,6 +381,30 @@ if (!orderData) {
   }
 };
 
+//denyReturn 
+const denyReturn = async (req, res) => {
+  const orderId = req.body.orderId;
+
+  if (!orderId || !mongoose.Types.ObjectId.isValid(orderId)) {
+    return res.status(400).json({ message: 'Invalid Order ID' });
+  }
+
+  const orderData = await Order.findById(orderId);
+  if (!orderData) {
+    return res.status(404).json({ message: 'Order not found' });
+  }
+
+  try {
+    // Update the status to "return denied"
+    const order = await Order.findByIdAndUpdate(orderId, { $set: { status: 'Return denied' } }, { new: true });
+
+    return res.status(200).json({ message: "Return denied successfully.", order: order });
+  } catch (error) {
+    console.error('Error denying return:', error);
+    return res.status(500).json({ message: 'An error occurred while denying return.' });
+  }
+};
+
 const topCategory = async (req, res) => {
   try {
     const topCategory = await Order.aggregate([
@@ -483,7 +413,7 @@ const topCategory = async (req, res) => {
       },
       {
         $lookup: {
-          from: "products", // The name of the products collection
+          from: "products",
           localField: "orderItems.productId", // Field from Order schema
           foreignField: "_id", // Field from Product schema
           as: "productDetails" // Name for the resulting array
@@ -513,29 +443,6 @@ const topCategory = async (req, res) => {
   }
 };
 
-
-// const topCategory = async(req,res)=>{
-//   try{
-//       const topCategory = await Product.aggregate([
-//           {
-//             $group: {
-//               _id: "$category",
-//               sales: { $sum: "$productSales" } 
-//             }
-//           },
-//           {
-//             $sort: { sales: -1 } 
-//           },
-//           {
-//             $limit: 10 
-//           }
-//         ]);
-//      return res.status(200).json({topCategory})
-//   }catch(error){
-//       res.status(500).json({error:'Error occured while fetching topCategory'})
-//   }
-// }.
-
 const topProducts = async (req, res) => {
   try {
     const topProducts = await Order.aggregate([
@@ -544,7 +451,7 @@ const topProducts = async (req, res) => {
       },
       {
         $lookup: {
-          from: "products", // The name of the products collection
+          from: "products", 
           localField: "orderItems.productId", // Field from Order schema
           foreignField: "_id", // Field from Product schema
           as: "productDetails" // Name for the resulting array
@@ -630,6 +537,7 @@ module.exports = {
   deleteOrder,
   updateOrderStatus,
   approveReturn,
+  denyReturn,
   topCategory,
   topProducts,
   topBrands

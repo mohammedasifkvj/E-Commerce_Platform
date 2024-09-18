@@ -177,7 +177,10 @@ const verifyOtp = async (req, res) => {
 //Resend OTP
 const resendOTP = async (req, res) => {
   try {
-    const tempUser = await TempUser.findOne({ otp });
+    const tempUser = await TempUser.findOne({});
+    // Generate OTP
+  const otp = otpGenerator.generate(6, { digits: true, lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false });
+  console.log(otp);
   } catch (e) {
     console.log(e.message);
   }
