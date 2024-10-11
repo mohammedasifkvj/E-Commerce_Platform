@@ -241,6 +241,9 @@ const captureOrder = async (req, res) => {
       status: 'Order confirmed'
     }, { new: true });
 
+    // Clear the user's cart
+    await Cart.deleteOne({ userId });
+
     // Redirect to the order confirmation page
     return res.redirect(`/orderConfirmation/${newOrder._id}`);
   } catch (error) {
