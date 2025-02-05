@@ -32,7 +32,6 @@ Welcome to the **E-Commerce Web App - Watch Store**, a fully functional e-commer
   - Optimized for all devices (desktop, tablet, and mobile).
 
 
-
 ### Admin Side
 
 - **Sales Reports**:  
@@ -59,8 +58,6 @@ Welcome to the **E-Commerce Web App - Watch Store**, a fully functional e-commer
 
 
 ## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
