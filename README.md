@@ -56,9 +56,6 @@ Welcome to the **E-Commerce Web App - Watch Store**, a fully functional e-commer
   - **JWT (JSON Web Tokens)**: Securely manages user authentication and role-based access.
 - **Payment Integration**: PayPal API
 
-
-## License
-
 ## Acknowledgments
 
 - [Node.js Documentation](https://nodejs.org/en/docs/)
