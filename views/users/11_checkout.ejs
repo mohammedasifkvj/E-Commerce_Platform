@@ -1,110 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Table</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse; /* Collapse borders into a single border */
-            margin-top: 20px; /* Add some space above the table */
-        }
-        th, td {
-            border: 1px solid #ddd; /* Add a border to table cells */
-            padding: 12px; /* Add some padding inside cells */
-            text-align: left; /* Align text to the left */
-        }
-        th {
-            background-color: #f4f4f4; /* Add a light background color to the header */
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9; /* Add a light background color to even rows */
-        }
-        .actions {
-            text-align: center; /* Center align the actions column */
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Table</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      /* Collapse borders into a single border */
+      margin-top: 20px;
+      /* Add some space above the table */
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      /* Add a border to table cells */
+      padding: 12px;
+      /* Add some padding inside cells */
+      text-align: left;
+      /* Align text to the left */
+    }
+
+    th {
+      background-color: #f4f4f4;
+      /* Add a light background color to the header */
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+      /* Add a light background color to even rows */
+    }
+
+    .actions {
+      text-align: center;
+      /* Center align the actions column */
+    }
+  </style>
 </head>
+
 <body>
-    <h2>Order Details</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Payment Method</th>
-                <th>Total</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>2024-08-10</td>
-                <td>Credit Card</td>
-                <td>$100.00</td>
-                <td>Completed</td>
-                <td class="actions">
-                    <button>Edit</button>
-                    <button>Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2024-08-09</td>
-                <td>PayPal</td>
-                <td>$150.00</td>
-                <td>Pending</td>
-                <td class="actions">
-                    <button>Edit</button>
-                    <button>Delete</button>
-                </td>
-            </tr>
-            <!-- Add more rows as needed -->
-        </tbody>
-    </table>
-    <div class="row isotope-grid">
-      <% products.forEach(product => { 
+  <h2>Order Details</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Payment Method</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>2024-08-10</td>
+        <td>Credit Card</td>
+        <td>$100.00</td>
+        <td>Completed</td>
+        <td class="actions">
+          <button>Edit</button>
+          <button>Delete</button>
+        </td>
+      </tr>
+      <tr>
+        <td>2024-08-09</td>
+        <td>PayPal</td>
+        <td>$150.00</td>
+        <td>Pending</td>
+        <td class="actions">
+          <button>Edit</button>
+          <button>Delete</button>
+        </td>
+      </tr>
+      <!-- Add more rows as needed -->
+    </tbody>
+  </table>
+  <div class="row isotope-grid">
+    <% products.forEach(product => { 
         const categoryName = product.category && product.category.name ? product.category.name.toLowerCase() : 'unknown';
       %>
-        <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <%= categoryName  %>">
-          <div class="block2">
-            <div class="block2-pic hov-img0">
-              <a href="/product-detail.html/<%= product._id %>"><img src="<%= product.image[0] %>" alt="Product Image"></a>
-              
-            </div>
-            <div class="block2-txt flex-w flex-t p-t-14">
-      <div class="block2-txt-child1 flex-col-l">
-        <a href="/product-detail.html/<%= product._id %>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-          <%= product.productName %>
-        </a> 
-        <span class="stext-105 cl3">
-          <% if (product.inStock < 1) { %>
-            <span class="out-of-stock text-danger">Out of Stock</span>
-          <% } else if (product.specialOffer) { %>
-          <span class="original-price" style="text-decoration: line-through; color: #888;">₹<%= product.price %></span>
-            ₹<%= product.discountPrice %>
-            <p class="text-success">
-              <i class="fa-solid fa-tag" style="color: #308a00;"></i> Special Offer Available
-            </p>
-          <% } else { %>
-            ₹<%= product.price %>
-          <% } %>
-        </span>
-      </div>
-      <!-- Add to wishlist or other actions -->
-      <div class="block2-txt-child2 flex-r p-t-3">
-          <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2" onclick="addToWishlist('<%= product._id %>')">
-            <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-            <img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-          </a>
+    <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <%= categoryName  %>">
+      <div class="block2">
+        <div class="block2-pic hov-img0">
+          <a href="/product-detail.html/<%= product._id %>"><img src="<%= product.image[0] %>" alt="Product Image"></a>
+
+        </div>
+        <div class="block2-txt flex-w flex-t p-t-14">
+          <div class="block2-txt-child1 flex-col-l">
+            <a href="/product-detail.html/<%= product._id %>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+              <%= product.productName %>
+            </a>
+            <span class="stext-105 cl3">
+              <% if (product.inStock < 1) { %>
+              <span class="out-of-stock text-danger">Out of Stock</span>
+              <% } else if (product.specialOffer) { %>
+              <span class="original-price" style="text-decoration: line-through; color: #888;">₹<%= product.price %></span>
+              ₹<%= product.discountPrice %>
+              <p class="text-success">
+                <i class="fa-solid fa-tag" style="color: #308a00;"></i> Special Offer Available
+              </p>
+              <% } else { %>
+              ₹<%= product.price %>
+              <% } %>
+            </span>
+          </div>
+          <!-- Add to wishlist or other actions -->
+          <div class="block2-txt-child2 flex-r p-t-3">
+            <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2" onclick="addToWishlist('<%= product._id %>')">
+              <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
+              <img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
+            </a>
+          </div>
+        </div>
       </div>
     </div>
-          </div>
-      </div>
-  <% }); %>
-</div>
+    <% }); %>
+  </div>
 
 </body>
+
 </html>
 
 
@@ -140,31 +156,31 @@
         </div>
 
         <!-- Iterate over each order -->
-        <% orders.forEach(order => { %> 
-          <% order.orderItems.forEach(item => { %>
-            <div class="row gx-1 mx-0 align-items-center border-bottom border-200">
-              <div class="col-4 py-3 px-1">
-                <div class="d-flex align-items-center">
-                  <a href=""><img class="img-fluid rounded-1 me-3 d-none d-md-block" src="<%= item.image[0] %>" alt="" width="60" /></a>
-                  <div class="flex-1 pt-3 pb-3">
-                    <h5 class="fs-9"><a class="text-900" href="/orderDetails?orderId=<%= order._id %>"><%= item.productName %></a></h5>
-                  </div>
-                </div>
-              </div>
-              <div class="col-2 py-3 px-1"><%= new Date(order.orderDate).toDateString() %></div>
-              <div class="col-2 py-3 px-1"><%= order.paymentMethod %></div>
-              <div class="col-2 py-3 px-1"><%= order.orderStatus %></div>
-              <div class="col-1 py-3 px-1 text-end">
-                <% if (order.orderStatus === 'Order confirmed') { %>
-                  <button type="button" class="btn btn-sm btn-outline-danger" onclick="cancelOrder('<%= order._id %>')">Cancel</button>
-                <% } else if (order.orderStatus === 'Delivered') { %>
-                  <button type="button" class="btn btn-sm btn-outline-warning" onclick="returnOrder('<%= order._id %>')">Return</button>
-                <% } else if (order.orderStatus === 'pending') { %>
-                  <button type="button" class="btn btn-sm btn-outline-primary payAgainButton" data-order-id="<%= order._id %>">Pay Again</button>
-                <% } %>
+        <% orders.forEach(order => { %>
+        <% order.orderItems.forEach(item => { %>
+        <div class="row gx-1 mx-0 align-items-center border-bottom border-200">
+          <div class="col-4 py-3 px-1">
+            <div class="d-flex align-items-center">
+              <a href=""><img class="img-fluid rounded-1 me-3 d-none d-md-block" src="<%= item.image[0] %>" alt="" width="60" /></a>
+              <div class="flex-1 pt-3 pb-3">
+                <h5 class="fs-9"><a class="text-900" href="/orderDetails?orderId=<%= order._id %>"><%= item.productName %></a></h5>
               </div>
             </div>
-          <% }); %>
+          </div>
+          <div class="col-2 py-3 px-1"><%= new Date(order.orderDate).toDateString() %></div>
+          <div class="col-2 py-3 px-1"><%= order.paymentMethod %></div>
+          <div class="col-2 py-3 px-1"><%= order.orderStatus %></div>
+          <div class="col-1 py-3 px-1 text-end">
+            <% if (order.orderStatus === 'Order confirmed') { %>
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="cancelOrder('<%= order._id %>')">Cancel</button>
+            <% } else if (order.orderStatus === 'Delivered') { %>
+            <button type="button" class="btn btn-sm btn-outline-warning" onclick="returnOrder('<%= order._id %>')">Return</button>
+            <% } else if (order.orderStatus === 'pending') { %>
+            <button type="button" class="btn btn-sm btn-outline-primary payAgainButton" data-order-id="<%= order._id %>">Pay Again</button>
+            <% } %>
+          </div>
+        </div>
+        <% }); %>
         <% }); %>
       </div>
     </div>
@@ -176,21 +192,21 @@
   <nav aria-label="Page navigation example">
     <ul class="pagination" style="justify-content: center;">
       <% if (currentPage > 1) { %>
-        <li class="page-item">
-          <a class="page-link" href="?page=<%= currentPage - 1 %>" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
+      <li class="page-item">
+        <a class="page-link" href="?page=<%= currentPage - 1 %>" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
       <% } %>
       <% for (let i = 1; i <= totalPages; i++) { %>
-        <li class="page-item <%= i === currentPage ? 'active' : '' %>"><a class="page-link" href="?page=<%= i %>"><%= i %></a></li>
+      <li class="page-item <%= i === currentPage ? 'active' : '' %>"><a class="page-link" href="?page=<%= i %>"><%= i %></a></li>
       <% } %>
       <% if (currentPage < totalPages) { %>
-        <li class="page-item">
-          <a class="page-link" href="?page=<%= currentPage + 1 %>" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
+      <li class="page-item">
+        <a class="page-link" href="?page=<%= currentPage + 1 %>" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
       <% } %>
     </ul>
   </nav>
@@ -206,7 +222,6 @@
 
 
 <script>
-  
   // Script to update the order status display
   document.addEventListener("DOMContentLoaded", function() {
     const statuses = document.querySelectorAll('.status');
@@ -215,7 +230,7 @@
       const status = statusElement.getAttribute('data-status');
       let iconHTML = '<i class="fa-solid fa-circle-dot"></i> ';
 
-      switch(status) {
+      switch (status) {
         case 'order confirmed':
           statusElement.innerHTML = iconHTML + 'On Delivery';
           statusElement.style.color = 'blue';
@@ -258,33 +273,33 @@
     }).then((result) => {
       if (result.isConfirmed) {
         fetch(`/cancelOrder?orderId=${orderId}`, {
-          method: 'GET'
-        })
-        .then(response => {
-          if (response.ok) {
-            Swal.fire({
-              title: "Order Cancelled",
-              text: "The Order has been Cancelled.",
-              icon: "success"
-            }).then(() => {
-              window.location.reload();
-            });
-          } else {
+            method: 'GET'
+          })
+          .then(response => {
+            if (response.ok) {
+              Swal.fire({
+                title: "Order Cancelled",
+                text: "The Order has been Cancelled.",
+                icon: "success"
+              }).then(() => {
+                window.location.reload();
+              });
+            } else {
+              Swal.fire({
+                title: "Error",
+                text: "An error occurred while Cancelling Order.",
+                icon: "error"
+              });
+            }
+          })
+          .catch(error => {
+            console.error("Error:", error);
             Swal.fire({
               title: "Error",
               text: "An error occurred while Cancelling Order.",
               icon: "error"
             });
-          }
-        })
-        .catch(error => {
-          console.error("Error:", error);
-          Swal.fire({
-            title: "Error",
-            text: "An error occurred while Cancelling Order.",
-            icon: "error"
           });
-        });
       }
     });
   }
@@ -309,128 +324,129 @@
     }).then((result) => {
       if (result.isConfirmed && result.value) {
         fetch('/returnOrder', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            orderId: orderId,
-            reason: result.value
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              orderId: orderId,
+              reason: result.value
+            })
           })
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then(data => {
-          Swal.fire('Submitted!', 'Your return request has been submitted.', 'success').then(() => {
-            window.location.reload();
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            Swal.fire('Submitted!', 'Your return request has been submitted.', 'success').then(() => {
+              window.location.reload();
+            });
+          })
+          .catch(error => {
+            console.error('Error returning the order:', error);
+            Swal.fire('Failed!', 'Your return request could not be processed.', 'error');
           });
-        })
-        .catch(error => {
-          console.error('Error returning the order:', error);
-          Swal.fire('Failed!', 'Your return request could not be processed.', 'error');
-        });
       }
     });
   }
 
   // Continue order function
   document.addEventListener("DOMContentLoaded", function() {
-  var payAgainButtons = document.querySelectorAll('.payAgainButton');
-  payAgainButtons.forEach(function(button) {
-    button.addEventListener('click', function() {
-      var orderId = this.getAttribute('data-order-id');
-      initiatePayment(orderId);
+    var payAgainButtons = document.querySelectorAll('.payAgainButton');
+    payAgainButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        var orderId = this.getAttribute('data-order-id');
+        initiatePayment(orderId);
+      });
     });
   });
-});
 
-function initiatePayment(orderId) {
-  fetch('/getPaymentDetails', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ orderId: orderId })
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      openRazorpay(data);
-    } else {
-      Swal.fire('Error', 'Failed to fetch payment details', 'error');
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    Swal.fire('Error', 'Network Error. Try again.', 'error');
-  });
-}
-
-function openRazorpay(data) {
-  var options = {
-    "key": data.key_id,
-    "amount": data.amount,
-    "currency": data.currency,
-    "name": "Coza Store",
-    "description": "Test Transaction",
-    "image": "https://example.com/your_logo",
-    "order_id": data.razorpayOrderId,
-    "handler": function (response) {
-      verifyPayment(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature, data.orderId);
-    },
-    "prefill": {
-      "name": "Coza Srore",
-      "email": "youremail@example.com",
-      "contact": "9999999999"
-    },
-    "notes": {
-      "address": "Your Address"
-    },
-    "theme": {
-      "color": "#3399cc"
-    }
-  };
-  var rzp1 = new Razorpay(options);
-  rzp1.open();
-}
-
-function verifyPayment(paymentId, orderId, signature, orderDbId) {
-  fetch('/verifyPayment', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      paymentId: paymentId,
-      razorpayOrderId: orderId,
-      razorpaySignature: signature,
-      orderId: orderDbId
-    })
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      Swal.fire({
-        title: "Payment Successful",
-        text: "Your payment has been successfully processed.",
-        icon: "success"
-      }).then(() => {
-        window.location.href = `/orderDetails?orderId=${orderDbId}`;
+  function initiatePayment(orderId) {
+    fetch('/getPaymentDetails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          orderId: orderId
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          openRazorpay(data);
+        } else {
+          Swal.fire('Error', 'Failed to fetch payment details', 'error');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        Swal.fire('Error', 'Network Error. Try again.', 'error');
       });
-    } else {
-      Swal.fire('Error', 'Payment verification failed. Please try again.', 'error');
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    Swal.fire('Error', 'Network Error. Try again.', 'error');
-  });
-}
+  }
 
+  function openRazorpay(data) {
+    var options = {
+      "key": data.key_id,
+      "amount": data.amount,
+      "currency": data.currency,
+      "name": "Coza Store",
+      "description": "Test Transaction",
+      "image": "https://example.com/your_logo",
+      "order_id": data.razorpayOrderId,
+      "handler": function(response) {
+        verifyPayment(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature, data.orderId);
+      },
+      "prefill": {
+        "name": "Coza Srore",
+        "email": "youremail@example.com",
+        "contact": "9999999999"
+      },
+      "notes": {
+        "address": "Your Address"
+      },
+      "theme": {
+        "color": "#3399cc"
+      }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+  }
+
+  function verifyPayment(paymentId, orderId, signature, orderDbId) {
+    fetch('/verifyPayment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          paymentId: paymentId,
+          razorpayOrderId: orderId,
+          razorpaySignature: signature,
+          orderId: orderDbId
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          Swal.fire({
+            title: "Payment Successful",
+            text: "Your payment has been successfully processed.",
+            icon: "success"
+          }).then(() => {
+            window.location.href = `/orderDetails?orderId=${orderDbId}`;
+          });
+        } else {
+          Swal.fire('Error', 'Payment verification failed. Please try again.', 'error');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        Swal.fire('Error', 'Network Error. Try again.', 'error');
+      });
+  }
 </script>
 
 <%- include('../layouts/userLayout/footerCart.ejs') %>
